@@ -64,7 +64,7 @@ REST_FRAMEWORK = {
         'rest_framework.filters.SearchFilter',
         'rest_framework.filters.OrderingFilter',
     ),
-    'DEFAULT_PAGINATION_CLASS': 'ubang.middleware.rest_framework.CustomPagination'
+    'DEFAULT_PAGINATION_CLASS': 'middleware.rest_framework.CustomPagination'
 }
 
 ROOT_URLCONF = 'backend.urls'
@@ -117,6 +117,17 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+CACHEOPS_DEFAULTS = {
+    'timeout': 60*60
+}
+
+CACHEOPS = {
+    'auth.user': {'ops': 'get', 'timeout': 60*15},
+    'auth.*': {'ops': ('fetch', 'get')},
+    'auth.permission': {'ops': 'all'},
+    '*.*': {},
+}
 
 # 跨域
 CORS_ALLOW_CREDENTIALS = True
