@@ -18,8 +18,6 @@ import datetime
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(os.path.join(__file__, os.pardir))))
 
-FRONTEND_ROOT = 'frontend/dist'
-
 SECRET_KEY = '$to#b+iqo3@0yk$6%7c9pf$b=$jnmz93fbtktmyxa(nbso^o2m'
 
 ALLOWED_HOSTS = ['ugonew.com']
