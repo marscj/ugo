@@ -1,0 +1,14 @@
+Dockerfile*
+docker-compose*
+.dockerignore
+.git
+.env
+*/bin
+*/obj
+README.md
+LICENSE
+.vscode
+logfile
+.db.sqlite3
+
+ugo/backend/backend/db.sqlite3
