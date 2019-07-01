@@ -19,6 +19,13 @@ class CustomUser(AbstractBaseUser):
     phone = models.CharField(blank=True, null=True, default='', max_length=16)
     date_joined = models.DateTimeField(default=timezone.now)
 
+    name = models.CharField(blank=True, null=True, max_length=32)
+    avatar = models.ImageField(blank=True, null=True, upload_to='avatars')
+    deleted = models.BooleanField(default=False)
+    status = models.IntegerField(default=0)
+    
+    role = models.ForeignKey('Role', blank=True, null=True, related_name='user', on_delete=models.SET_NULL)
+
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email']
@@ -38,3 +45,29 @@ class UserProfile(models.Model):
 
     class Meta:
         db_table = 'user_profile'
+
+class Role(models.Model):
+    name = models.CharField(blank=True, null=True, max_length=32)
+    describe = models.CharField(blank=True, null=True, max_length=128)
+    status = models.IntegerField(default=0)
+    createTime = models.DateTimeField(default=timezone.now)
+    deleted = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = 'role'
+
+class Permission(models.Model):
+    permissionId = models.CharField(blank=True, null=True, max_length=32)
+    permissionName = models.CharField(blank=True, null=True, max_length=32)
+    actionEntitySet = models.ManyToManyField('ActionEntity', blank=True, null=True, related_name='permission')
+
+    class Meta:
+        db_table = 'permission'
+
+class ActionEntity(models.Model):
+    action = models.CharField(blank=True, null=True, max_length=32)
+    describe = models.CharField(blank=True, null=True, max_length=32)
+    defaultCheck = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = 'action'
