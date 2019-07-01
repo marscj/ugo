@@ -1,0 +1,10 @@
+django
+djangorestframework
+djangorestframework-jwt
+django-cacheops
+django-filter
+psycopg2
+pyyaml
+uwsgi
+pyyaml
+django-cors-headers
