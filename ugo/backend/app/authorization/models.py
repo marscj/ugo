@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, UserManager
+from django.utils import timezone
+from django.contrib.auth.models import AbstractBaseUser, UserManager, AbstractUser
 from django.contrib.auth.validators import UnicodeUsernameValidator
 
 class CustomUser(AbstractBaseUser):
@@ -15,6 +16,7 @@ class CustomUser(AbstractBaseUser):
     active = models.BooleanField(default=True)
     staff = models.BooleanField(default=False)
     phone = models.CharField(blank=True, null=True, default='', max_length=16)
+    date_joined = models.DateTimeField(default=timezone.now)
 
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'username'
