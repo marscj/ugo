@@ -11,10 +11,10 @@
         <a-input
           size="large"
           type="text"
-          placeholder="账户: admin"
+          placeholder="Username:"
           v-decorator="[
             'username',
-            {rules: [{ required: true, message: '请输入帐户名或邮箱地址' }, { validator: handleUsernameOrEmail }], validateTrigger: 'change'}
+            {rules: [{ required: true, message: 'This field is require.' }, { validator: handleUsernameOrEmail }], validateTrigger: 'change'}
           ]"
         >
           <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }"/>
@@ -26,10 +26,10 @@
           size="large"
           type="password"
           autocomplete="false"
-          placeholder="密码: admin or ant.design"
+          placeholder="Password:"
           v-decorator="[
             'password',
-            {rules: [{ required: true, message: '请输入密码' }], validateTrigger: 'blur'}
+            {rules: [{ required: true, message: 'This field is require.' }], validateTrigger: 'blur'}
           ]"
         >
           <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }"/>
@@ -43,7 +43,7 @@
           htmlType="submit"
           class="login-button"
           :loading="state.loginBtn"
-          :disabled="state.loginBtn">确定</a-button>
+          :disabled="state.loginBtn">Login</a-button>
       </a-form-item>
     </a-form>
   </div>
@@ -124,15 +124,15 @@ export default {
       // 延迟 1 秒显示欢迎信息
       setTimeout(() => {
         this.$notification.success({
-          message: '欢迎',
-          description: `${timeFix()}，欢迎回来`
+          message: 'Welcome',
+          description: `${timeFix()}, Welcome back`
         })
       }, 1000)
     },
     requestFailed (err) {
       this.$notification['error']({
-        message: '错误',
-        description: ((err.response || {}).data || {}).message || '请求出现错误，请稍后再试',
+        message: 'error',
+        description: ((err.response || {}).data || {}).message || 'Unable to log in with provided credentials.',
         duration: 4
       })
     }

@@ -5,11 +5,11 @@
         <div class="header">
           <a href="/">
             <img src="~@/assets/logo.svg" class="logo" alt="logo">
-            <span class="title">UgoDubai</span>
+            <span class="title">Ugo Dubai</span>
           </a>
         </div>
         <div class="desc">
-          迪拜自由行
+          后台管理系统
         </div>
       </div>
 
