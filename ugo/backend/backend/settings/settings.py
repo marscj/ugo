@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     'django_filters',
     'rest_framework',
 
-    'app.auth'
+    'app.authorization'
 ]
 
 MIDDLEWARE = [
@@ -70,6 +70,7 @@ REST_FRAMEWORK = {
 }
 
 ROOT_URLCONF = 'backend.urls'
+AUTH_USER_MODEL = 'authorization.CustomUser'
 
 TEMPLATES = [
     {
