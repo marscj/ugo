@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, UserManager
 from django.contrib.auth.validators import UnicodeUsernameValidator
 
-# Create your models here.
 class CustomUser(AbstractBaseUser):
     username_validator = UnicodeUsernameValidator()
 
@@ -20,7 +19,7 @@ class CustomUser(AbstractBaseUser):
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email']
-    
+
     objects = UserManager()
 
     class Meta:
