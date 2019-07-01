@@ -13,10 +13,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 import datetime
 
-# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(os.path.join(__file__, os.pardir))))
 
 SECRET_KEY = '$to#b+iqo3@0yk$6%7c9pf$b=$jnmz93fbtktmyxa(nbso^o2m'
 
@@ -35,7 +32,7 @@ INSTALLED_APPS = [
     'django_filters',
     'rest_framework',
 
-    'app.authorization'
+    'app.authorization' 
 ]
 
 MIDDLEWARE = [
@@ -71,6 +68,7 @@ REST_FRAMEWORK = {
 
 ROOT_URLCONF = 'backend.urls'
 AUTH_USER_MODEL = 'authorization.CustomUser'
+WSGI_APPLICATION = 'backend.wsgi.application'
 
 TEMPLATES = [
     {
@@ -87,8 +85,6 @@ TEMPLATES = [
         },
     },
 ]
-
-WSGI_APPLICATION = 'backend.wsgi.application'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
