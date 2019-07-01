@@ -102,7 +102,6 @@ export default {
       })
     },
     loginSuccess (res) {
-      console.log(res)
       this.$router.push({ name: 'dashboard' })
       // 延迟 1 秒显示欢迎信息
       setTimeout(() => {
@@ -113,7 +112,6 @@ export default {
       }, 1000)
     },
     requestFailed (err) {
-      console.log(err)
       this.$notification['error']({
         message: 'error',
         description: ((err.response || {}).data || {}).message || 'Unable to log in with provided credentials.',

@@ -42,8 +42,8 @@ router.beforeEach((to, from, next) => {
           })
           .catch(() => {
             notification.error({
-              message: '错误',
-              description: '请求用户信息失败，请重试'
+              message: 'error',
+              description: 'Unable to get user information, please try again.'
             })
             store.dispatch('Logout').then(() => {
               next({ path: '/user/login', query: { redirect: to.fullPath } })
