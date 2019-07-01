@@ -25,7 +25,6 @@ class LogoutJwtTokenView(APIView):
         return Response({'ok'})
 
 class UserView(ModelViewSet):
-    # permission_classes = [IsAuthenticated]
     serializer_class = UserSerializer
     queryset = CustomUser.objects.all().cache()
 

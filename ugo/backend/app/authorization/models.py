@@ -59,7 +59,7 @@ class Role(models.Model):
 class Permission(models.Model):
     permissionId = models.CharField(blank=True, null=True, max_length=32)
     permissionName = models.CharField(blank=True, null=True, max_length=32)
-    actionEntitySet = models.ManyToManyField('ActionEntity', blank=True, null=True, related_name='permission')
+    actionEntitySet = models.ManyToManyField('ActionEntity', blank=True, related_name='permission')
 
     class Meta:
         db_table = 'permission'
