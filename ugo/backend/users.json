@@ -1,0 +1,22 @@
+[
+{
+    "model": "authorization.customuser",
+    "pk": 1,
+    "fields": {
+        "password": "admin123",
+        "last_login": null,
+        "username": "admin",
+        "email": null,
+        "is_active": true,
+        "is_staff": false,
+        "is_superuser": false,
+        "phone": "",
+        "date_joined": "2019-07-01T15:41:00.424Z",
+        "name": null,
+        "avatar": "",
+        "deleted": false,
+        "status": 0,
+        "role": 1
+    }
+}
+]

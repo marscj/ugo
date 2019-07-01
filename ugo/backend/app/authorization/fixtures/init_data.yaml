@@ -42,7 +42,7 @@
     permissionName: user management
     actionEntitySet: [1, 2, 3, 4]
 
-###################################### permission ############################################
+###################################### role ############################################
 - model: authorization.role
   pk: 1
   fields:
