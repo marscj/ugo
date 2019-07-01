@@ -14,7 +14,7 @@
           placeholder="Username:"
           v-decorator="[
             'username',
-            {rules: [{ required: true, message: 'This field is require.' }, { validator: handleUsernameOrEmail }], validateTrigger: 'change'}
+            {rules: [{ required: true, message: 'This field is require.' }], validateTrigger: 'change'}
           ]"
         >
           <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }"/>
@@ -61,31 +61,15 @@ export default {
   data () {
     return {
       loginBtn: false,
-      // login type: 0 email, 1 username, 2 telephone
-      loginType: 0,
       form: this.$form.createForm(this),
       state: {
         time: 60,
         loginBtn: false,
-        // login type: 0 email, 1 username, 2 telephone
-        loginType: 0,
-        smsSendBtn: false
       }
     }
   },
   methods: {
     ...mapActions(['Login', 'Logout']),
-    // handler
-    handleUsernameOrEmail (rule, value, callback) {
-      const { state } = this
-      const regex = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/
-      if (regex.test(value)) {
-        state.loginType = 0
-      } else {
-        state.loginType = 1
-      }
-      callback()
-    },
     handleSubmit (e) {
       e.preventDefault()
       const {
@@ -100,11 +84,10 @@ export default {
 
       validateFields(validateFieldsKey, { force: true }, (err, values) => {
         if (!err) {
-          console.log('login form', values)
           const loginParams = { ...values }
           delete loginParams.username
-          loginParams[!state.loginType ? 'email' : 'username'] = values.username
-          loginParams.password = md5(values.password)
+          loginParams.username = values.username
+          loginParams.password = values.password
           Login(loginParams)
             .then((res) => this.loginSuccess(res))
             .catch(err => this.requestFailed(err))
@@ -130,6 +113,7 @@ export default {
       }, 1000)
     },
     requestFailed (err) {
+      console.log(err)
       this.$notification['error']({
         message: 'error',
         description: ((err.response || {}).data || {}).message || 'Unable to log in with provided credentials.',

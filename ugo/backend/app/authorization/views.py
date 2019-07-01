@@ -4,6 +4,7 @@ from rest_framework_jwt.views import ObtainJSONWebToken
 
 class LoginJwtTokenView(ObtainJSONWebToken):
     def post(self, request, *args, **kwargs):
+        print(request.data)
         response = super().post(request, *args, **kwargs)
 
         if response.status_code == 200:
