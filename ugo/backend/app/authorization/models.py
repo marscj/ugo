@@ -52,6 +52,7 @@ class Role(models.Model):
     status = models.IntegerField(default=0)
     createTime = models.DateTimeField(default=timezone.now)
     deleted = models.BooleanField(default=False)
+    permissions = models.ManyToManyField('Permission', blank=True, related_name='role')
 
     class Meta:
         db_table = 'role'

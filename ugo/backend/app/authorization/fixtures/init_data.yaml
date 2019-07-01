@@ -1,0 +1,36 @@
+###################################### actionentity ############################################
+- model: authorization.actionentity
+  pk: 1
+  fields:
+    action: view
+    describe: can view
+    defaultCheck: false
+
+- model: authorization.actionentity
+  pk: 2
+  fields:
+    action: add
+    describe: can add
+    defaultCheck: false
+
+- model: authorization.actionentity
+  pk: 3
+  fields:
+    action: change
+    describe: can change
+    defaultCheck: false
+
+- model: authorization.actionentity
+  pk: 4
+  fields:
+    action: delete
+    describe: can delete
+    defaultCheck: false
+
+###################################### permission ############################################
+- model: authorization.permission
+  pk: 1
+  fields:
+    permissionId: role
+    permissionName: user management
+    actionEntitySet: [1, 2, 3, 4]
