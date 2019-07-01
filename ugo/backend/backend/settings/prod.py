@@ -2,9 +2,9 @@ from .settings import *
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['ubangservice.com', '*']
+ALLOWED_HOSTS = ['ugonew.com', '*']
 
-SESSION_COOKIE_DOMAIN = 'ubangservice.com'
+SESSION_COOKIE_DOMAIN = 'ugonew.com'
 
 CORS_ORIGIN_ALLOW_ALL = False
 
