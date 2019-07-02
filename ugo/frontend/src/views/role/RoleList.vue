@@ -14,6 +14,9 @@
       <a-col :md="20">
         <div style="max-width: 800px">
           <a-divider v-if="isMobile()" />
+          <div v-if="mdl.id">
+            <h3>Role：{{ mdl.name }}</h3>
+          </div>
           <a-form :form="form" :layout="isMobile() ? 'vertical' : 'horizontal'">
             <a-form-item label="Key">
               <a-input v-decorator="[ 'id', {rules: [{ required: true, message: 'Please input unique key!' }]} ]" />
@@ -84,14 +87,13 @@ export default {
         id: '-1',
         name: 'Add Role',
         describe: 'Add a role'
-      })
-      console.log('this.roles', this.roles)
+      })  
+      this.edit(this.roles[0])
     })
     this.loadPermissions()
   },
   methods: {
     callback (val) {
-      console.log(val)
     },
 
     add () {
@@ -100,29 +102,24 @@ export default {
 
     edit (record) {
       this.mdl = Object.assign({}, record)
-      // 有权限表，处理勾选
       if (this.mdl.permissions && this.permissions) {
-        // 先处理要勾选的权限结构
         const permissionsAction = {}
         this.mdl.permissions.forEach(permission => {
-          permissionsAction[permission.permissionId] = permission.actionEntitySet.map(entity => entity.action)
+          permissionsAction[permission.permissionId] = permission.actionEntitySet.map(entity => {
+            return entity
+          })
         })
 
-        console.log('permissionsAction', permissionsAction)
-        // 把权限表遍历一遍，设定要勾选的权限 action
         this.permissions.forEach(permission => {
           const selected = permissionsAction[permission.id]
           permission.selected = selected || []
           this.onChangeCheck(permission)
         })
-
-        console.log('this.permissions', this.permissions)
       }
 
       this.$nextTick(() => {
         this.form.setFieldsValue(pick(this.mdl, 'id', 'name', 'status', 'describe'))
       })
-      console.log('this.mdl', this.mdl)
     },
 
     onChangeCheck (permission) {
@@ -130,8 +127,6 @@ export default {
       permission.checkedAll = permission.selected.length === permission.actionsOptions.length
     },
     onChangeCheckAll (e, permission) {
-      console.log('permission:', permission)
-
       Object.assign(permission, {
         selected: e.target.checked ? permission.actionsOptions.map(obj => obj.value) : [],
         indeterminate: false,

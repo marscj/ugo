@@ -69,9 +69,7 @@ export default {
       const { form: { validateFields } } = this
       this.visible = true
       validateFields((errors, values) => {
-        if (!errors) {
-          console.log('values', values)
-        }
+        if (!errors) {}
       })
     }
   }

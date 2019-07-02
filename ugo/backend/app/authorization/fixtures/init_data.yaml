@@ -4,131 +4,63 @@
   fields:
     action: view
     describe: can view
-    defaultCheck: false
+    defaultCheck: true
 
 - model: authorization.actionentity
   pk: 2
   fields:
     action: add
     describe: can add
-    defaultCheck: false
+    defaultCheck: true
 
 - model: authorization.actionentity
   pk: 3
   fields:
     action: change
     describe: can change
-    defaultCheck: false
+    defaultCheck: true
 
 - model: authorization.actionentity
   pk: 4
   fields:
     action: delete
     describe: can delete
-    defaultCheck: false
+    defaultCheck: true
 
 - model: authorization.actionentity
   pk: 4
   fields:
     action: detail
     describe: detail
-    defaultCheck: false
+    defaultCheck: true
 
 ###################################### permission ############################################
 - model: authorization.permission
   pk: 1
   fields:
-    permissionId: user
-    permissionName: user management
-    actionData: '[{"action":"query","defaultCheck":false,"describe":"查询"},{"action":"get","defaultCheck":false,"describe":"详情"},{"action":"add","defaultCheck":false,"describe":"新增"},{"action":"update","defaultCheck":false,"describe":"修改"},{"action":"delete","defaultCheck":false,"describe":"删除"}]'
-    actionEntitySet: [1, 2, 3, 4]
+    permissionId: dashboard
+    permissionName: dashboard
+    actionEntitySet: [1]
 
 - model: authorization.permission
   pk: 2
   fields:
-    permissionId: dashboard
-    permissionName: dashboard
-    actionData: '[{"action":"query","defaultCheck":false,"describe":"查询"},{"action":"get","defaultCheck":false,"describe":"详情"},{"action":"add","defaultCheck":false,"describe":"新增"},{"action":"update","defaultCheck":false,"describe":"修改"},{"action":"delete","defaultCheck":false,"describe":"删除"}]'
+    permissionId: user
+    permissionName: user
     actionEntitySet: [1, 2, 3, 4]
 
 - model: authorization.permission
   pk: 3
   fields:
-    permissionId: exception
-    permissionName: exception
-    actionData: '[{"action":"query","defaultCheck":false,"describe":"查询"},{"action":"get","defaultCheck":false,"describe":"详情"},{"action":"add","defaultCheck":false,"describe":"新增"},{"action":"update","defaultCheck":false,"describe":"修改"},{"action":"delete","defaultCheck":false,"describe":"删除"}]'
+    permissionId: role
+    permissionName: role
     actionEntitySet: [1, 2, 3, 4]
 
 - model: authorization.permission
   pk: 4
   fields:
-    permissionId: result
-    permissionName: result
-    actionData: '[{"action":"query","defaultCheck":false,"describe":"查询"},{"action":"get","defaultCheck":false,"describe":"详情"},{"action":"add","defaultCheck":false,"describe":"新增"},{"action":"update","defaultCheck":false,"describe":"修改"},{"action":"delete","defaultCheck":false,"describe":"删除"}]'
-    actionEntitySet: [1, 2, 3, 4]
-
-- model: authorization.permission
-  pk: 5
-  fields:
-    permissionId: profile
-    permissionName: profile
-    actionData: '[{"action":"query","defaultCheck":false,"describe":"查询"},{"action":"get","defaultCheck":false,"describe":"详情"},{"action":"add","defaultCheck":false,"describe":"新增"},{"action":"update","defaultCheck":false,"describe":"修改"},{"action":"delete","defaultCheck":false,"describe":"删除"}]'
-    actionEntitySet: [1, 2, 3, 4]
-
-- model: authorization.permission
-  pk: 6
-  fields:
-    permissionId: table
-    permissionName: table
-    actionData: '[{"action":"query","defaultCheck":false,"describe":"查询"},{"action":"get","defaultCheck":false,"describe":"详情"},{"action":"add","defaultCheck":false,"describe":"新增"},{"action":"update","defaultCheck":false,"describe":"修改"},{"action":"delete","defaultCheck":false,"describe":"删除"}]'
-    actionEntitySet: [1, 2, 3, 4]
-
-- model: authorization.permission
-  pk: 7
-  fields:
-    permissionId: form
-    permissionName: form
-    actionData: '[{"action":"query","defaultCheck":false,"describe":"查询"},{"action":"get","defaultCheck":false,"describe":"详情"},{"action":"add","defaultCheck":false,"describe":"新增"},{"action":"update","defaultCheck":false,"describe":"修改"},{"action":"delete","defaultCheck":false,"describe":"删除"}]'
-    actionEntitySet: [1, 2, 3, 4]
-
-- model: authorization.permission
-  pk: 8
-  fields:
-    permissionId: form
-    permissionName: form
-    actionData: '[{"action":"query","defaultCheck":false,"describe":"查询"},{"action":"get","defaultCheck":false,"describe":"详情"},{"action":"add","defaultCheck":false,"describe":"新增"},{"action":"update","defaultCheck":false,"describe":"修改"},{"action":"delete","defaultCheck":false,"describe":"删除"}]'
-    actionEntitySet: [1, 2, 3, 4]
-
-- model: authorization.permission
-  pk: 9
-  fields:
     permissionId: permission
     permissionName: permission
-    actionData: '[{"action":"query","defaultCheck":false,"describe":"查询"},{"action":"get","defaultCheck":false,"describe":"详情"},{"action":"add","defaultCheck":false,"describe":"新增"},{"action":"update","defaultCheck":false,"describe":"修改"},{"action":"delete","defaultCheck":false,"describe":"删除"}]'
-    actionEntitySet: [1, 2, 3, 4]
-
-- model: authorization.permission
-  pk: 10
-  fields:
-    permissionId: role
-    permissionName: role
-    actionData: '[{"action":"query","defaultCheck":false,"describe":"查询"},{"action":"get","defaultCheck":false,"describe":"详情"},{"action":"add","defaultCheck":false,"describe":"新增"},{"action":"update","defaultCheck":false,"describe":"修改"},{"action":"delete","defaultCheck":false,"describe":"删除"}]'
-    actionEntitySet: [1, 2, 3, 4]
-
-- model: authorization.permission
-  pk: 11
-  fields:
-    permissionId: user
-    permissionName: user
-    actionData: '[{"action":"query","defaultCheck":false,"describe":"查询"},{"action":"get","defaultCheck":false,"describe":"详情"},{"action":"add","defaultCheck":false,"describe":"新增"},{"action":"update","defaultCheck":false,"describe":"修改"},{"action":"delete","defaultCheck":false,"describe":"删除"}]'
-    actionEntitySet: [1, 2, 3, 4]
-
-- model: authorization.permission
-  pk: 12
-  fields:
-    permissionId: support
-    permissionName: support
-    actionData: '[{"action":"query","defaultCheck":false,"describe":"查询"},{"action":"get","defaultCheck":false,"describe":"详情"},{"action":"add","defaultCheck":false,"describe":"新增"},{"action":"update","defaultCheck":false,"describe":"修改"},{"action":"delete","defaultCheck":false,"describe":"删除"}]'
     actionEntitySet: [1, 2, 3, 4]
 
 ###################################### role ############################################
@@ -137,4 +69,4 @@
   fields:
     name: admin
     describe: super manager
-    permissions: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    permissions: [1, 2, 3, 4]

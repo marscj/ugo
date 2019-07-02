@@ -148,8 +148,6 @@ export default {
           return { label: action.describe, value: action.action, defaultCheck: action.defaultCheck }
         })
       })
-
-      console.log(this.mdl)
       this.visible = true
     },
     handleOk () {

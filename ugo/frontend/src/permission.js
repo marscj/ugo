@@ -22,8 +22,7 @@ router.beforeEach((to, from, next) => {
       NProgress.done()
     } else {
       if (store.getters.roles.length === 0) {
-        store
-          .dispatch('GetInfo')
+        store.dispatch('GetInfo')
           .then(res => { 
             const roles = res.result && res.result.role
             store.dispatch('GenerateRoutes', { roles }).then(() => {
