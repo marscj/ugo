@@ -8,23 +8,7 @@
               <img :src="avatar()">
             </div>
             <div class="username">{{ nickname() }}</div>
-            <div class="bio">海纳百川，有容乃大</div>
           </div>
-          <div class="account-center-detail">
-            <p>
-              <i class="title"></i>交互专家
-            </p>
-            <p>
-              <i class="group"></i>蚂蚁金服－某某某事业群－某某平台部－某某技术部－UED
-            </p>
-            <p>
-              <i class="address"></i>
-              <span>浙江省</span>
-              <span>杭州市</span>
-            </p>
-          </div>
-          <a-divider/>
-          <a-divider :dashed="true"/>
         </a-card>
       </a-col>
       <a-col :md="24" :lg="17">
@@ -35,9 +19,9 @@
           :activeTabKey="noTitleKey"
           @tabChange="key => handleTabChange(key, 'noTitleKey')"
         >
-          <article-page v-if="noTitleKey === 'article'"></article-page>
-          <app-page v-else-if="noTitleKey === 'app'"></app-page>
-          <project-page v-else-if="noTitleKey === 'project'"></project-page>
+          <article-page v-if="noTitleKey === 'ticket'"></article-page>
+          <app-page v-else-if="noTitleKey === 'food'"></app-page>
+          <project-page v-else-if="noTitleKey === 'trip'"></project-page>
         </a-card>
       </a-col>
     </a-row>
@@ -65,19 +49,19 @@ export default {
 
       tabListNoTitle: [
         {
-          key: 'article',
-          tab: '文章(8)'
+          key: 'ticket',
+          tab: 'Ticket'
         },
         {
-          key: 'app',
-          tab: '应用(8)'
+          key: 'food',
+          tab: 'Food'
         },
         {
-          key: 'project',
-          tab: '项目(8)'
+          key: 'trip',
+          tab: 'Day trip'
         }
       ],
-      noTitleKey: 'app'
+      noTitleKey: 'ticket'
     }
   },
   mounted () {
@@ -149,7 +133,6 @@ export default {
       width: 14px;
       left: 0;
       top: 4px;
-      background: url(https://gw.alipayobjects.com/zos/rmsportal/pBjWzVAHnOOtAUvZmZfy.svg);
     }
 
     .title {
