@@ -44,3 +44,7 @@ class RoleView(ModelViewSet):
 class PermissionView(ModelViewSet):
     serializer_class = PermissionSerializer
     queryset = Permission.objects.all().cache()
+
+class ActionEntityView(ModelViewSet):
+    serializer_class = ActionEntitySerializer
+    queryset = ActionEntity.objects.all().cache()

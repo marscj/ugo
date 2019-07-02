@@ -31,6 +31,7 @@
       size="default"
       :columns="columns"
       :data="loadData"
+      :pagination="false"
     >
       <div
         slot="expandedRowRender"
@@ -150,10 +151,10 @@
 
 <script>
 import { STable } from '@/components'
-import { getRoleList, getServiceList } from '@/api/manage'
+import { getUserList } from '@/api/manage'
 
 export default {
-  name: 'TableList',
+  name: 'UserList',
   components: {
     STable
   },
@@ -178,21 +179,21 @@ export default {
       // 表头
       columns: [
         {
-          title: '唯一识别码',
+          title: 'Key',
           dataIndex: 'id'
         },
         {
-          title: '角色名称',
+          title: 'Name',
           dataIndex: 'name'
         },
         {
-          title: '状态',
+          title: 'Status',
           dataIndex: 'status'
         },
         {
-          title: '创建时间',
+          title: 'CreateTime',
           dataIndex: 'createTime',
-          sorter: true
+          sorter: '-createTime'
         }, {
           title: '操作',
           width: '150px',
@@ -202,7 +203,8 @@ export default {
       ],
       // 加载数据方法 必须为 Promise 对象
       loadData: parameter => {
-        return getRoleList(parameter)
+        console.log(parameter)
+        return getUserList(parameter)
           .then(res => {
             return res.result
           })
@@ -213,9 +215,7 @@ export default {
     }
   },
   created () {
-    getServiceList().then(res => {})
-
-    getRoleList().then(res => {})
+    
   },
   methods: {
     handleEdit (record) {

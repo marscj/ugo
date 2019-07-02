@@ -93,7 +93,7 @@ export const asyncRouterMap = [
         path: '/user',
         name: 'Users',
         component: RouteView,
-        meta: { title: 'User Management', icon: 'user', permission: [ 'user' ] },
+        meta: { title: 'Users', icon: 'user', permission: [ 'user' ] },
         redirect: '/user/users',
         children: [
           {
@@ -108,7 +108,7 @@ export const asyncRouterMap = [
         path: '/role',
         name: 'Roles',
         component: RouteView,
-        meta: { title: 'Role Management', icon: 'user', permission: [ 'role', 'permission' ] },
+        meta: { title: 'Roles', icon: 'user', permission: [ 'role', 'permission' ] },
         redirect: '/role/roles',
         children: [
           {

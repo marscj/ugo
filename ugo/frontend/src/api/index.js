@@ -5,8 +5,6 @@ const api = {
 
   user: '/user/',
   role: '/role/',
-  service: '/service/',
   permission: '/permission/',
-  orgTree: '/org/tree/'
 }
 export default api

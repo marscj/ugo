@@ -50,7 +50,7 @@ MIDDLEWARE = [
 ]
 
 REST_FRAMEWORK = {
-    'ORDERING_PARAM': 'sort',
+    'ORDERING_PARAM': 'sorter',
     'DEFAULT_PERMISSION_CLASSES': (
         # 'rest_framework.authentication.BasicAuthentication',
         # 'rest_framework.authentication.SessionAuthentication',
