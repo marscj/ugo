@@ -261,7 +261,7 @@ export const asyncRouterMap = [
             path: '/other/list/system-role',
             name: 'SystemRole',
             component: () => import('@/views/role/RoleList'),
-            meta: { title: 'Users2', keepAlive: true }
+            meta: { title: 'Roles', keepAlive: true }
           },
           {
             path: '/other/list/user-list',
@@ -269,12 +269,12 @@ export const asyncRouterMap = [
             component: () => import('@/views/other/UserList'),
             meta: { title: 'Users', keepAlive: true }
           },
-          {
-            path: '/other/list/role-list',
-            name: 'RoleList',
-            component: () => import('@/views/other/RoleList'),
-            meta: { title: 'Roles', keepAlive: true }
-          },
+          // {
+          //   path: '/other/list/role-list',
+          //   name: 'RoleList',
+          //   component: () => import('@/views/other/RoleList'),
+          //   meta: { title: 'Roles', keepAlive: true }
+          // },
           {
             path: '/other/list/permission-list',
             name: 'PermissionList',
