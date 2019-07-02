@@ -38,8 +38,9 @@
 - model: authorization.permission
   pk: 1
   fields:
-    permissionId: role
+    permissionId: user
     permissionName: user management
+    actionData: '[{"action":"query","defaultCheck":false,"describe":"查询"},{"action":"get","defaultCheck":false,"describe":"详情"},{"action":"add","defaultCheck":false,"describe":"新增"},{"action":"update","defaultCheck":false,"describe":"修改"},{"action":"delete","defaultCheck":false,"describe":"删除"}]'
     actionEntitySet: [1, 2, 3, 4]
 
 - model: authorization.permission
@@ -47,6 +48,7 @@
   fields:
     permissionId: dashboard
     permissionName: dashboard
+    actionData: '[{"action":"query","defaultCheck":false,"describe":"查询"},{"action":"get","defaultCheck":false,"describe":"详情"},{"action":"add","defaultCheck":false,"describe":"新增"},{"action":"update","defaultCheck":false,"describe":"修改"},{"action":"delete","defaultCheck":false,"describe":"删除"}]'
     actionEntitySet: [1, 2, 3, 4]
 
 - model: authorization.permission
@@ -54,6 +56,7 @@
   fields:
     permissionId: exception
     permissionName: exception
+    actionData: '[{"action":"query","defaultCheck":false,"describe":"查询"},{"action":"get","defaultCheck":false,"describe":"详情"},{"action":"add","defaultCheck":false,"describe":"新增"},{"action":"update","defaultCheck":false,"describe":"修改"},{"action":"delete","defaultCheck":false,"describe":"删除"}]'
     actionEntitySet: [1, 2, 3, 4]
 
 - model: authorization.permission
@@ -61,6 +64,7 @@
   fields:
     permissionId: result
     permissionName: result
+    actionData: '[{"action":"query","defaultCheck":false,"describe":"查询"},{"action":"get","defaultCheck":false,"describe":"详情"},{"action":"add","defaultCheck":false,"describe":"新增"},{"action":"update","defaultCheck":false,"describe":"修改"},{"action":"delete","defaultCheck":false,"describe":"删除"}]'
     actionEntitySet: [1, 2, 3, 4]
 
 - model: authorization.permission
@@ -68,6 +72,7 @@
   fields:
     permissionId: profile
     permissionName: profile
+    actionData: '[{"action":"query","defaultCheck":false,"describe":"查询"},{"action":"get","defaultCheck":false,"describe":"详情"},{"action":"add","defaultCheck":false,"describe":"新增"},{"action":"update","defaultCheck":false,"describe":"修改"},{"action":"delete","defaultCheck":false,"describe":"删除"}]'
     actionEntitySet: [1, 2, 3, 4]
 
 - model: authorization.permission
@@ -75,6 +80,7 @@
   fields:
     permissionId: table
     permissionName: table
+    actionData: '[{"action":"query","defaultCheck":false,"describe":"查询"},{"action":"get","defaultCheck":false,"describe":"详情"},{"action":"add","defaultCheck":false,"describe":"新增"},{"action":"update","defaultCheck":false,"describe":"修改"},{"action":"delete","defaultCheck":false,"describe":"删除"}]'
     actionEntitySet: [1, 2, 3, 4]
 
 - model: authorization.permission
@@ -82,6 +88,7 @@
   fields:
     permissionId: form
     permissionName: form
+    actionData: '[{"action":"query","defaultCheck":false,"describe":"查询"},{"action":"get","defaultCheck":false,"describe":"详情"},{"action":"add","defaultCheck":false,"describe":"新增"},{"action":"update","defaultCheck":false,"describe":"修改"},{"action":"delete","defaultCheck":false,"describe":"删除"}]'
     actionEntitySet: [1, 2, 3, 4]
 
 - model: authorization.permission
@@ -89,6 +96,7 @@
   fields:
     permissionId: form
     permissionName: form
+    actionData: '[{"action":"query","defaultCheck":false,"describe":"查询"},{"action":"get","defaultCheck":false,"describe":"详情"},{"action":"add","defaultCheck":false,"describe":"新增"},{"action":"update","defaultCheck":false,"describe":"修改"},{"action":"delete","defaultCheck":false,"describe":"删除"}]'
     actionEntitySet: [1, 2, 3, 4]
 
 - model: authorization.permission
@@ -96,6 +104,7 @@
   fields:
     permissionId: permission
     permissionName: permission
+    actionData: '[{"action":"query","defaultCheck":false,"describe":"查询"},{"action":"get","defaultCheck":false,"describe":"详情"},{"action":"add","defaultCheck":false,"describe":"新增"},{"action":"update","defaultCheck":false,"describe":"修改"},{"action":"delete","defaultCheck":false,"describe":"删除"}]'
     actionEntitySet: [1, 2, 3, 4]
 
 - model: authorization.permission
@@ -103,6 +112,7 @@
   fields:
     permissionId: role
     permissionName: role
+    actionData: '[{"action":"query","defaultCheck":false,"describe":"查询"},{"action":"get","defaultCheck":false,"describe":"详情"},{"action":"add","defaultCheck":false,"describe":"新增"},{"action":"update","defaultCheck":false,"describe":"修改"},{"action":"delete","defaultCheck":false,"describe":"删除"}]'
     actionEntitySet: [1, 2, 3, 4]
 
 - model: authorization.permission
@@ -110,6 +120,7 @@
   fields:
     permissionId: user
     permissionName: user
+    actionData: '[{"action":"query","defaultCheck":false,"describe":"查询"},{"action":"get","defaultCheck":false,"describe":"详情"},{"action":"add","defaultCheck":false,"describe":"新增"},{"action":"update","defaultCheck":false,"describe":"修改"},{"action":"delete","defaultCheck":false,"describe":"删除"}]'
     actionEntitySet: [1, 2, 3, 4]
 
 - model: authorization.permission
@@ -117,6 +128,7 @@
   fields:
     permissionId: support
     permissionName: support
+    actionData: '[{"action":"query","defaultCheck":false,"describe":"查询"},{"action":"get","defaultCheck":false,"describe":"详情"},{"action":"add","defaultCheck":false,"describe":"新增"},{"action":"update","defaultCheck":false,"describe":"修改"},{"action":"delete","defaultCheck":false,"describe":"删除"}]'
     actionEntitySet: [1, 2, 3, 4]
 
 ###################################### role ############################################

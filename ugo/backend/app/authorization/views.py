@@ -40,3 +40,7 @@ class UserView(ModelViewSet):
 class RoleView(ModelViewSet):
     serializer_class = RoleSerializer
     queryset = Role.objects.all().cache()
+
+class PermissionView(ModelViewSet):
+    serializer_class = PermissionSerializer
+    queryset = Permission.objects.all().cache()

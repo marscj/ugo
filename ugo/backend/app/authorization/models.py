@@ -3,6 +3,8 @@ from django.utils import timezone
 from django.contrib.auth.models import AbstractBaseUser, UserManager, AbstractUser
 from django.contrib.auth.validators import UnicodeUsernameValidator
 
+from jsonfield import JSONField,JSONCharField
+
 class CustomUser(AbstractBaseUser):
     username_validator = UnicodeUsernameValidator()
 
@@ -60,8 +62,9 @@ class Role(models.Model):
 class Permission(models.Model):
     permissionId = models.CharField(blank=True, null=True, max_length=32)
     permissionName = models.CharField(blank=True, null=True, max_length=32)
+    actionData = JSONCharField(blank=True, null=True, max_length=512)
     actionEntitySet = models.ManyToManyField('ActionEntity', blank=True, related_name='permission')
-
+    
     class Meta:
         db_table = 'permission'
 

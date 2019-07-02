@@ -14,33 +14,30 @@
       <a-col :md="20">
         <div style="max-width: 800px">
           <a-divider v-if="isMobile()" />
-          <div v-if="mdl.id">
-            <h3>角色：{{ mdl.name }}</h3>
-          </div>
           <a-form :form="form" :layout="isMobile() ? 'vertical' : 'horizontal'">
-            <a-form-item label="唯一键">
-              <a-input v-decorator="[ 'id', {rules: [{ required: true, message: 'Please input unique key!' }]} ]" placeholder="请填写唯一键" />
+            <a-form-item label="Key">
+              <a-input v-decorator="[ 'id', {rules: [{ required: true, message: 'Please input unique key!' }]} ]" />
             </a-form-item>
 
-            <a-form-item label="角色名称">
-              <a-input v-decorator="[ 'name', {rules: [{ required: true, message: 'Please input role name!' }]} ]" placeholder="请填写角色名称" />
+            <a-form-item label="Name:">
+              <a-input v-decorator="[ 'name', {rules: [{ required: true, message: 'This field is required.' }]} ]" />
             </a-form-item>
 
-            <a-form-item label="状态">
+            <a-form-item label="Status">
               <a-select v-decorator="[ 'status', {rules: []} ]">
-                <a-select-option :value="1">正常</a-select-option>
-                <a-select-option :value="2">禁用</a-select-option>
+                <a-select-option :value="0">Enable</a-select-option>
+                <a-select-option :value="1">Disable</a-select-option>
               </a-select>
             </a-form-item>
 
-            <a-form-item label="备注说明">
-              <a-textarea :row="3" v-decorator="[ 'describe', {rules: [{ required: true, message: 'Please input role name!' }]} ]" placeholder="请填写角色名称" />
+            <a-form-item label="Describe">
+              <a-textarea :row="3" v-decorator="[ 'describe', {rules: [{ required: true, message: 'This field is required.' }]} ]" />
             </a-form-item>
 
-            <a-form-item label="拥有权限">
+            <a-form-item label="Permissions">
               <a-row :gutter="16" v-for="(permission, index) in permissions" :key="index">
                 <a-col :xl="4" :lg="24">
-                  {{ permission.name }}：
+                  {{ permission.permissionName }}：
                 </a-col>
                 <a-col :xl="20" :lg="24">
                   <a-checkbox
@@ -48,13 +45,12 @@
                     :indeterminate="permission.indeterminate"
                     :checked="permission.checkedAll"
                     @change="onChangeCheckAll($event, permission)">
-                    全选
+                    all
                   </a-checkbox>
                   <a-checkbox-group :options="permission.actionsOptions" v-model="permission.selected" @change="onChangeCheck(permission)" />
                 </a-col>
               </a-row>
             </a-form-item>
-
           </a-form>
         </div>
       </a-col>
@@ -86,8 +82,8 @@ export default {
       this.roles = res
       this.roles.push({
         id: '-1',
-        name: '新增角色',
-        describe: '新增一个角色'
+        name: 'Add Role',
+        describe: 'Add a role'
       })
       console.log('this.roles', this.roles)
     })
@@ -144,9 +140,9 @@ export default {
     },
     loadPermissions () {
       getPermissions().then(res => {
-        const result = res.result
+        const result = res
         this.permissions = result.map(permission => {
-          const options = actionToObject(permission.actionData)
+          const options = actionToObject('[{"action":"query","defaultCheck":false,"describe":"查询"},{"action":"get","defaultCheck":false,"describe":"详情"},{"action":"add","defaultCheck":false,"describe":"新增"},{"action":"update","defaultCheck":false,"describe":"修改"},{"action":"delete","defaultCheck":false,"describe":"删除"}]')
           permission.checkedAll = false
           permission.selected = []
           permission.indeterminate = false

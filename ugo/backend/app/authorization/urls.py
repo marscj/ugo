@@ -6,6 +6,7 @@ from .import views
 router = DefaultRouter()
 router.register(r'user', views.UserView, basename='user')
 router.register(r'role', views.RoleView, basename='role')
+router.register(r'permission', views.PermissionView, basename='permission')
 
 urlpatterns = [
     url(r'auth/login', views.LoginJwtTokenView.as_view(), name='login'),

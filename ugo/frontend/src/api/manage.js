@@ -27,7 +27,7 @@ export function getServiceList (parameter) {
 
 export function getPermissions (parameter) {
   return axios({
-    url: api.permissionNoPager,
+    url: api.permission,
     method: 'get',
     params: parameter
   })

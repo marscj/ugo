@@ -8,7 +8,7 @@ export const asyncRouterMap = [
     path: '/',
     name: 'index',
     component: BasicLayout,
-    meta: { title: '首页' },
+    meta: { title: 'Dashboard' },
     redirect: '/dashboard/workplace',
     children: [
       // forms
@@ -226,25 +226,25 @@ export const asyncRouterMap = [
                 path: '/account/settings/security',
                 name: 'SecuritySettings',
                 component: () => import('@/views/account/settings/Security'),
-                meta: { title: 'Security', hidden: true, keepAlive: true }
+                meta: { title: 'Security Settings', hidden: true, keepAlive: true }
               },
               {
                 path: '/account/settings/custom',
                 name: 'CustomSettings',
                 component: () => import('@/views/account/settings/Custom'),
-                meta: { title: 'Custom Setting', hidden: true, keepAlive: true }
+                meta: { title: 'Custom Settings', hidden: true, keepAlive: true }
               },
               {
                 path: '/account/settings/binding',
                 name: 'BindingSettings',
                 component: () => import('@/views/account/settings/Binding'),
-                meta: { title: 'User Binding', hidden: true, keepAlive: true }
+                meta: { title: 'Binding Settings', hidden: true, keepAlive: true }
               },
               {
                 path: '/account/settings/notification',
                 name: 'NotificationSettings',
                 component: () => import('@/views/account/settings/Notification'),
-                meta: { title: 'Notification', hidden: true, keepAlive: true }
+                meta: { title: 'Notification Settings', hidden: true, keepAlive: true }
               }
             ]
           }
