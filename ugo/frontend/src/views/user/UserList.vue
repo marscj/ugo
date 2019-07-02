@@ -28,10 +28,10 @@
     </div>
 
     <s-table
+      row-key="id"
       size="default"
       :columns="columns"
       :data="loadData"
-      :pagination="false"
     >
       <div
         slot="expandedRowRender"
@@ -202,20 +202,20 @@ export default {
         }
       ],
       // 加载数据方法 必须为 Promise 对象
-      loadData: parameter => {
-        console.log(parameter)
-        return getUserList(parameter)
-          .then(res => {
-            return res.result
-          })
+      loadData: (parameter) => {
+        return getUserList(parameter).then(res => {
+          return res.result
+        })
       },
+      
+      pagination: {},
 
       selectedRowKeys: [],
       selectedRows: []
     }
   },
   created () {
-    
+
   },
   methods: {
     handleEdit (record) {
