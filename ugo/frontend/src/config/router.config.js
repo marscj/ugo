@@ -200,19 +200,19 @@ export const asyncRouterMap = [
         component: RouteView,
         redirect: '/account/center',
         name: 'account',
-        meta: { title: 'User Profile', icon: 'user', keepAlive: true, permission: [ 'user' ] },
+        meta: { title: 'Account', icon: 'user', keepAlive: true },
         children: [
           {
             path: '/account/center',
             name: 'center',
             component: () => import('@/views/account/center/Index'),
-            meta: { title: 'My HomePage', keepAlive: true, permission: [ 'user' ] }
+            meta: { title: 'My HomePage', keepAlive: true }
           },
           {
             path: '/account/settings',
             name: 'settings',
             component: () => import('@/views/account/settings/Index'),
-            meta: { title: 'My Settrings', hideHeader: true, permission: [ 'user' ] },
+            meta: { title: 'My Settrings', hideHeader: true },
             redirect: '/account/settings/base',
             hideChildrenInMenu: true,
             children: [
@@ -220,31 +220,31 @@ export const asyncRouterMap = [
                 path: '/account/settings/base',
                 name: 'BaseSettings',
                 component: () => import('@/views/account/settings/BaseSetting'),
-                meta: { title: 'Base Settings', hidden: true, permission: [ 'user' ] }
+                meta: { title: 'Base Settings', hidden: true }
               },
               {
                 path: '/account/settings/security',
                 name: 'SecuritySettings',
                 component: () => import('@/views/account/settings/Security'),
-                meta: { title: 'Security', hidden: true, keepAlive: true, permission: [ 'user' ] }
+                meta: { title: 'Security', hidden: true, keepAlive: true }
               },
               {
                 path: '/account/settings/custom',
                 name: 'CustomSettings',
                 component: () => import('@/views/account/settings/Custom'),
-                meta: { title: 'Custom Setting', hidden: true, keepAlive: true, permission: [ 'user' ] }
+                meta: { title: 'Custom Setting', hidden: true, keepAlive: true }
               },
               {
                 path: '/account/settings/binding',
                 name: 'BindingSettings',
                 component: () => import('@/views/account/settings/Binding'),
-                meta: { title: 'User Binding', hidden: true, keepAlive: true, permission: [ 'user' ] }
+                meta: { title: 'User Binding', hidden: true, keepAlive: true }
               },
               {
                 path: '/account/settings/notification',
                 name: 'NotificationSettings',
                 component: () => import('@/views/account/settings/Notification'),
-                meta: { title: 'Notification', hidden: true, keepAlive: true, permission: [ 'user' ] }
+                meta: { title: 'Notification', hidden: true, keepAlive: true }
               }
             ]
           }

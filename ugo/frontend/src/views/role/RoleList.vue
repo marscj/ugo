@@ -83,7 +83,7 @@ export default {
   },
   created () {
     getRoleList().then((res) => {
-      this.roles = res.result.data
+      this.roles = res
       this.roles.push({
         id: '-1',
         name: '新增角色',
