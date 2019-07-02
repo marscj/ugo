@@ -86,11 +86,13 @@ export default {
       this.roles.push({
         id: '-1',
         name: 'Add Role',
-        describe: 'Add a role'
-      })  
-      this.edit(this.roles[0])
+        describe: 'Add a role',
+        permissions: [
+
+        ]
+      }) 
+      this.loadPermissions()
     })
-    this.loadPermissions()
   },
   methods: {
     callback (val) {
@@ -105,13 +107,10 @@ export default {
       if (this.mdl.permissions && this.permissions) {
         const permissionsAction = {}
         this.mdl.permissions.forEach(permission => {
-          permissionsAction[permission.permissionId] = permission.actionEntitySet.map(entity => {
-            return entity
-          })
+          permissionsAction[permission.permissionId] = permission.actionEntitySet.map(entity => entity.action)
         })
-
         this.permissions.forEach(permission => {
-          const selected = permissionsAction[permission.id]
+          const selected = permissionsAction[permission.permissionId]
           permission.selected = selected || []
           this.onChangeCheck(permission)
         })
@@ -137,7 +136,10 @@ export default {
       getPermissions().then(res => {
         const result = res
         this.permissions = result.map(permission => {
-          const options = actionToObject('[{"action":"query","defaultCheck":false,"describe":"查询"},{"action":"get","defaultCheck":false,"describe":"详情"},{"action":"add","defaultCheck":false,"describe":"新增"},{"action":"update","defaultCheck":false,"describe":"修改"},{"action":"delete","defaultCheck":false,"describe":"删除"}]')
+          const options = permission.actionEntitySet.map((f) => {
+            f.defaultCheck = false
+            return f;
+          })
           permission.checkedAll = false
           permission.selected = []
           permission.indeterminate = false
@@ -149,6 +151,7 @@ export default {
           })
           return permission
         })
+        this.edit(this.roles[0])
       })
     }
   }

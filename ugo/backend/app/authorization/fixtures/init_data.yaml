@@ -28,7 +28,7 @@
     defaultCheck: true
 
 - model: authorization.actionentity
-  pk: 4
+  pk: 5
   fields:
     action: detail
     describe: detail
