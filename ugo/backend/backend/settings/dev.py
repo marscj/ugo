@@ -25,7 +25,7 @@ DATABASES = {
 }
 
 JWT_AUTH = {
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=300), 
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1), 
     'JWT_AUTH_COOKIE': 'Access-Token',
     # 'JWT_GET_USER_SECRET_KEY': 'ubang.user.models.jwt_get_secret_key'
 }
