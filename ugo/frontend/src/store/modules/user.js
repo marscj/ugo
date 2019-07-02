@@ -50,7 +50,7 @@ const user = {
     GetInfo ({ commit }) {
       return new Promise((resolve, reject) => {
         getInfo().then(response => {
-          const result = response.data
+          const result = response.result
 
           if (result.role && result.role.permissions.length > 0) {
             const role = result.role
@@ -62,6 +62,7 @@ const user = {
               }
             })
             role.permissionList = role.permissions.map(permission => { return permission.permissionId })
+            console.log(role)
             commit('SET_ROLES', result.role)
             commit('SET_INFO', result)
           } else {

@@ -33,6 +33,6 @@ class UserView(ModelViewSet):
         serializer = self.get_serializer(request.user)
         context = {
             'code': 20000,
-            'data': serializer.data
+            'result': serializer.data
         }
         return Response(context)

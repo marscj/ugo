@@ -42,10 +42,87 @@
     permissionName: user management
     actionEntitySet: [1, 2, 3, 4]
 
+- model: authorization.permission
+  pk: 2
+  fields:
+    permissionId: dashboard
+    permissionName: dashboard
+    actionEntitySet: [1, 2, 3, 4]
+
+- model: authorization.permission
+  pk: 3
+  fields:
+    permissionId: exception
+    permissionName: exception
+    actionEntitySet: [1, 2, 3, 4]
+
+- model: authorization.permission
+  pk: 4
+  fields:
+    permissionId: result
+    permissionName: result
+    actionEntitySet: [1, 2, 3, 4]
+
+- model: authorization.permission
+  pk: 5
+  fields:
+    permissionId: profile
+    permissionName: profile
+    actionEntitySet: [1, 2, 3, 4]
+
+- model: authorization.permission
+  pk: 6
+  fields:
+    permissionId: table
+    permissionName: table
+    actionEntitySet: [1, 2, 3, 4]
+
+- model: authorization.permission
+  pk: 7
+  fields:
+    permissionId: form
+    permissionName: form
+    actionEntitySet: [1, 2, 3, 4]
+
+- model: authorization.permission
+  pk: 8
+  fields:
+    permissionId: form
+    permissionName: form
+    actionEntitySet: [1, 2, 3, 4]
+
+- model: authorization.permission
+  pk: 9
+  fields:
+    permissionId: permission
+    permissionName: permission
+    actionEntitySet: [1, 2, 3, 4]
+
+- model: authorization.permission
+  pk: 10
+  fields:
+    permissionId: role
+    permissionName: role
+    actionEntitySet: [1, 2, 3, 4]
+
+- model: authorization.permission
+  pk: 11
+  fields:
+    permissionId: user
+    permissionName: user
+    actionEntitySet: [1, 2, 3, 4]
+
+- model: authorization.permission
+  pk: 12
+  fields:
+    permissionId: support
+    permissionName: support
+    actionEntitySet: [1, 2, 3, 4]
+
 ###################################### role ############################################
 - model: authorization.role
   pk: 1
   fields:
-    name: manager
+    name: admin
     describe: super manager
-    permissions: [1]
+    permissions: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
