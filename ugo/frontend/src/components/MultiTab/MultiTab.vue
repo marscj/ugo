@@ -114,10 +114,10 @@ export default {
     renderTabPaneMenu (e) {
       return (
         <a-menu {...{ on: { click: this.closeMenuClick } }}>
-          <a-menu-item key="close-that" data-vkey={e}>关闭当前标签</a-menu-item>
-          <a-menu-item key="close-right" data-vkey={e}>关闭右侧</a-menu-item>
-          <a-menu-item key="close-left" data-vkey={e}>关闭左侧</a-menu-item>
-          <a-menu-item key="close-all" data-vkey={e}>关闭全部</a-menu-item>
+          <a-menu-item key="close-that" data-vkey={e}>close current tags</a-menu-item>
+          <a-menu-item key="close-right" data-vkey={e}>close right side tags</a-menu-item>
+          <a-menu-item key="close-left" data-vkey={e}>close left side tags</a-menu-item>
+          <a-menu-item key="close-all" data-vkey={e}>close all</a-menu-item>
         </a-menu>
       )
     },

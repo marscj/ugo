@@ -52,8 +52,8 @@ import { mapGetters } from 'vuex'
 
 export default {
   components: {
-    // RouteView,
-    // PageView,
+    RouteView,
+    PageView,
     AppPage,
     ArticlePage,
     ProjectPage
