@@ -135,6 +135,7 @@
 
 <script>
 import { STable } from '@/components'
+import { getPermissions } from '@/api/manage'
 
 export default {
   name: 'PermissionList',
@@ -167,7 +168,7 @@ export default {
         },
         {
           title: '权限名称',
-          dataIndex: 'name'
+          dataIndex: 'permissionName'
         },
         {
           title: '可操作权限',
@@ -190,12 +191,10 @@ export default {
       permissionList: null,
       // 加载数据方法 必须为 Promise 对象
       loadData: parameter => {
-        return this.$http.get('/permission', {
-          params: Object.assign(parameter, this.queryParam)
-        }).then(res => {
+        return getPermissions(parameter).then(res => {
           const result = res.result
           result.data.map(permission => {
-            permission.actionList = JSON.parse(permission.actionData)
+            permission.actionList = permission.actionEntitySet
             return permission
           })
           return result
