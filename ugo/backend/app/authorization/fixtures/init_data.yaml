@@ -63,10 +63,17 @@
     permissionName: permission
     actionEntitySet: [1, 2, 3, 4]
 
+- model: authorization.permission
+  pk: 5
+  fields:
+    permissionId: product
+    permissionName: product
+    actionEntitySet: [1, 2, 3, 4]
+
 ###################################### role ############################################
 - model: authorization.role
   pk: 1
   fields:
     name: admin
     describe: super manager
-    permissions: [1, 2, 3, 4]
+    permissions: [1, 2, 3, 4, 5]
