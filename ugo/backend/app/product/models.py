@@ -1,6 +1,6 @@
 from django.db import models
 
-from versatileimagefield.fields import PPOIField, VersatileImageField
+from versatileimagefield.fields import VersatileImageField
 
 class Category(models.Model):
 
@@ -10,6 +10,7 @@ class Category(models.Model):
         db_table = 'category'
 
 class CategoryTranslation(models.Model):
+
     code = models.CharField(blank=True, null=True, max_length=16)
 
     category = models.ForeignKey(Category, blank=True, null=True, related_name='translation', on_delete=models.CASCADE)
@@ -23,7 +24,7 @@ class Product(models.Model):
 
     description = models.CharField(blank=True, null=True, max_length=128)
 
-    image = VersatileImageField(upload_to="products", ppoi_field="ppoi", blank=False)
+    image = VersatileImageField(upload_to="products", blank=False)
     
     category = models.ForeignKey(Category, blank=True, null=True, related_name='product', on_delete=models.SET_NULL)
 
@@ -49,7 +50,7 @@ class ProductVariant(models.Model):
 
     product = models.ForeignKey(Product, blank=True, null=True, related_name='variant', on_delete=models.CASCADE)
 
-    images = models.ManyToManyField("ProductImage", through="VariantImage")
+    images = models.ManyToManyField("ProductImage", blank=True)
 
     class Meta:
         db_table = 'productvariant'
@@ -69,28 +70,10 @@ class ProductImage(models.Model):
         Product, related_name="images", on_delete=models.CASCADE
     )
 
-    image = VersatileImageField(upload_to="products", ppoi_field="ppoi", blank=False)
-
-    ppoi = PPOIField()
-
-    alt = models.CharField(max_length=128, blank=True)
+    image = VersatileImageField(upload_to="products", blank=False)
 
     class Meta:
         db_table = 'productimage'
 
     def get_ordering_queryset(self):
         return self.product.images.all()
-
-
-class VariantImage(models.Model):
-
-    variant = models.ForeignKey(
-        "ProductVariant", related_name="variant_images", on_delete=models.CASCADE
-    )
-
-    image = models.ForeignKey(
-        ProductImage, related_name="variant_images", on_delete=models.CASCADE
-    )
-
-    class Meta:
-        db_table = 'variantimage'

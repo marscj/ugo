@@ -26,9 +26,9 @@ class Booking(models.Model):
 
     childQuantity = models.PositiveIntegerField(blank=True, null=True, validators=[MinValueValidator(0)])
 
-    product = models.ForeignKey(ProductVariant, blank=True, null=True, related_name='cart', on_delete=models.CASCADE)
+    product = models.ForeignKey(ProductVariant, blank=True, null=True, related_name='booking', on_delete=models.CASCADE)
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, related_name='cart', on_delete=models.SET_NULL)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, related_name='booking', on_delete=models.SET_NULL)
 
     remark = models.TextField(blank=True, null=True)
 
