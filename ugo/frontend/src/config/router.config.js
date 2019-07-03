@@ -20,13 +20,13 @@ export const asyncRouterMap = [
           {
             path: 'analysis',
             name: 'Analysis',
-            component: () => import('@/views/dashboard/Analysis'),
+            component: () => import('@/views/admin/dashboard/Analysis'),
             meta: { title: 'Analysis', keepAlive: false, permission: [ 'dashboard' ] }
           },
           {
             path: 'workplace',
             name: 'Workplace',
-            component: () => import('@/views/dashboard/Workplace'),
+            component: () => import('@/views/admin/dashboard/Workplace'),
             meta: { title: 'Workplace', keepAlive: true, permission: [ 'dashboard' ] }
           }
         ]
@@ -42,13 +42,13 @@ export const asyncRouterMap = [
           {
             path: 'center',
             name: 'center',
-            component: () => import('@/views/account/center/Index'),
+            component: () => import('@/views/admin/account/center/Index'),
             meta: { title: 'Account', keepAlive: true }
           },
           {
             path: 'settings',
             name: 'settings',
-            component: () => import('@/views/account/settings/Index'),
+            component: () => import('@/views/admin/account/settings/Index'),
             meta: { title: 'Profile', hideHeader: true },
             redirect: '/admin/account/settings/base',
             hideChildrenInMenu: true,
@@ -56,31 +56,31 @@ export const asyncRouterMap = [
               {
                 path: 'base',
                 name: 'BaseSettings',
-                component: () => import('@/views/account/settings/BaseSetting'),
+                component: () => import('@/views/admin/account/settings/BaseSetting'),
                 meta: { title: 'Base Settings', hidden: true }
               },
               {
                 path: 'security',
                 name: 'SecuritySettings',
-                component: () => import('@/views/account/settings/Security'),
+                component: () => import('@/views/admin/account/settings/Security'),
                 meta: { title: 'Security Settings', hidden: true, keepAlive: true }
               },
               {
                 path: 'custom',
                 name: 'CustomSettings',
-                component: () => import('@/views/account/settings/Custom'),
+                component: () => import('@/views/admin/account/settings/Custom'),
                 meta: { title: 'Custom Settings', hidden: true, keepAlive: true }
               },
               {
                 path: 'binding',
                 name: 'BindingSettings',
-                component: () => import('@/views/account/settings/Binding'),
+                component: () => import('@/views/admin/account/settings/Binding'),
                 meta: { title: 'Binding Settings', hidden: true, keepAlive: true }
               },
               {
                 path: 'notification',
                 name: 'NotificationSettings',
-                component: () => import('@/views/account/settings/Notification'),
+                component: () => import('@/views/admin/account/settings/Notification'),
                 meta: { title: 'Notification Settings', hidden: true, keepAlive: true }
               }
             ]
@@ -97,7 +97,7 @@ export const asyncRouterMap = [
           {
             path: 'users',
             name: 'UserList',
-            component: () => import('@/views/user/UserList'),
+            component: () => import('@/views/admin/user/UserList'),
             meta: { title: 'Users', keepAlive: true }
           }
         ]
@@ -112,13 +112,13 @@ export const asyncRouterMap = [
           {
             path: 'roles',
             name: 'SystemRole',
-            component: () => import('@/views/role/RoleList'),
+            component: () => import('@/views/admin/role/RoleList'),
             meta: { title: 'Roles', keepAlive: true, permission: [ 'role' ] }
           },
           {
             path: 'permissions',
             name: 'PermissionList',
-            component: () => import('@/views/role/PermissionList'),
+            component: () => import('@/views/admin/role/PermissionList'),
             meta: { title: 'Permission', keepAlive: true, permission: [ 'permission' ] }
           }
         ]
@@ -163,7 +163,7 @@ export const constantRouterMap = [
       {
         path: 'login',
         name: 'loginadmin',
-        component: () => import('@/views/user/Login')
+        component: () => import('@/views/admin/user/Login')
       }
     ]
   },
