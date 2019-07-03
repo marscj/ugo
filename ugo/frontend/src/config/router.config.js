@@ -35,20 +35,20 @@ export const asyncRouterMap = [
       {
         path: 'product',
         name: 'product',
-        redirect: '/admin/product/category',
+        redirect: '/admin/product/categorys',
         component: PageView,
         meta: { title: 'Product', keepAlive: true, icon: bxAnaalyse, permission: [ 'product' ] },
         children: [
           {
-            path: 'category',
-            name: 'category',
-            component: () => import('@/views/admin/product/category'),
+            path: 'categorys',
+            name: 'CategoryList',
+            component: () => import('@/views/admin/product/categoryList'),
             meta: { title: 'Category', keepAlive: false, permission: [ 'product' ] }
           },
           {
-            path: 'product',
-            name: 'product',
-            component: () => import('@/views/admin/product/category'),
+            path: 'products',
+            name: 'ProductList',
+            component: () => import('@/views/admin/product/productList'),
             meta: { title: 'Product', keepAlive: false, permission: [ 'product' ] }
           },
         ]
@@ -79,7 +79,7 @@ export const asyncRouterMap = [
         children: [
           {
             path: 'roles',
-            name: 'SystemRole',
+            name: 'RoleList',
             component: () => import('@/views/admin/role/RoleList'),
             meta: { title: 'Roles', keepAlive: true, permission: [ 'role' ] }
           },

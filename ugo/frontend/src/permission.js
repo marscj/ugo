@@ -14,9 +14,6 @@ const whiteList = ['login', 'index', 'loginadmin'] // no redirect whitelist
 
 router.beforeEach((to, from, next) => {
   NProgress.start() // start progress bar
-  console.log('from name = ', from.name, 'from path = ', from.path)
-  console.log('to name = ', to.name, 'to path = ', to.path)
-  console.log('access token = ', Vue.ls.get(ACCESS_TOKEN))
   to.meta && (typeof to.meta.title !== 'undefined' && setDocumentTitle(`${to.meta.title} - ${domTitle}`))
   if (Vue.ls.get(ACCESS_TOKEN)) {
     /* has token */
