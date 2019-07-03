@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 from django.core.validators import MinValueValidator
 
 from app.product.models import ProductVariant
@@ -26,6 +27,8 @@ class Booking(models.Model):
     childQuantity = models.PositiveIntegerField(blank=True, null=True, validators=[MinValueValidator(0)])
 
     product = models.ForeignKey(ProductVariant, blank=True, null=True, related_name='cart', on_delete=models.CASCADE)
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, related_name='cart', on_delete=models.SET_NULL)
 
     remark = models.TextField(blank=True, null=True)
 
