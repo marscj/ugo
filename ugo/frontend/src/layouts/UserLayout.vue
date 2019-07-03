@@ -5,7 +5,7 @@
         <div class="header">
           <a href="/">
             <img src="~@/assets/logo.svg" class="logo" alt="logo">
-            <span class="title">Ugo Dubai</span>
+            <span class="title">UgoDubai Admin</span>
           </a>
         </div>
         <div class="desc">

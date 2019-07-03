@@ -18,7 +18,7 @@ export default {
   props: {
     title: {
       type: String,
-      default: 'Ugo Dubai System',
+      default: 'UgoDubai Admin',
       required: false
     },
     showTitle: {

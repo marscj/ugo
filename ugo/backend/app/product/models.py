@@ -9,15 +9,6 @@ class Category(models.Model):
     class Meta:
         db_table = 'category'
 
-class CategoryTranslation(models.Model):
-
-    code = models.CharField(blank=True, null=True, max_length=16)
-
-    category = models.ForeignKey(Category, blank=True, null=True, related_name='translation', on_delete=models.CASCADE)
-
-    class Meta:
-        db_table = 'categorytranslation'
-
 class Product(models.Model):
 
     name = models.CharField(blank=True, null=True, max_length=128, unique=True)
@@ -30,15 +21,6 @@ class Product(models.Model):
 
     class Meta:
         db_table = 'product'
-
-class ProductTranslation(models.Model):
-
-    code = models.CharField(blank=True, null=True, max_length=16)
-
-    product = models.ForeignKey(Product, blank=True, null=True, related_name='translation', on_delete=models.CASCADE)
-
-    class Meta:
-        db_table = 'producttranslation'
 
 class ProductVariant(models.Model):
 
@@ -54,15 +36,6 @@ class ProductVariant(models.Model):
 
     class Meta:
         db_table = 'productvariant'
-    
-class ProductVariantTranslation(models.Model):
-
-    code = models.CharField(blank=True, null=True, max_length=16)
-
-    productvariant = models.ForeignKey(ProductVariant, blank=True, null=True, related_name='translation', on_delete=models.CASCADE)
-
-    class Meta:
-        db_table = 'productvarianttranslation'
 
 class ProductImage(models.Model):
 

@@ -36,7 +36,7 @@ export const asyncRouterMap = [
         path: 'product',
         name: 'product',
         redirect: '/admin/product/category',
-        component: RouteView,
+        component: PageView,
         meta: { title: 'Product', keepAlive: true, icon: bxAnaalyse, permission: [ 'product' ] },
         children: [
           {
@@ -57,7 +57,7 @@ export const asyncRouterMap = [
       {
         path: 'user',
         name: 'Users',
-        component: RouteView,
+        component: PageView,
         meta: { title: 'Users', icon: 'user', permission: [ 'user' ] },
         redirect: '/admin/user/users',
         children: [
@@ -73,7 +73,7 @@ export const asyncRouterMap = [
       {
         path: 'role',
         name: 'Roles',
-        component: RouteView,
+        component: PageView,
         meta: { title: 'Roles', icon: 'user', permission: [ 'role', 'permission' ] },
         redirect: '/admin/role/roles',
         children: [
@@ -95,7 +95,7 @@ export const asyncRouterMap = [
       {
         path: 'account',
         name: 'account',
-        component: RouteView,
+        component: PageView,
         redirect: '/admin/account/center',
         meta: { title: 'Account', icon: 'user', keepAlive: true },
         children: [

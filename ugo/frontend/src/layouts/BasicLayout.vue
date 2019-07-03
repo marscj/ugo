@@ -111,7 +111,6 @@ export default {
     }
   },
   created () {
-    console.log(this.mainMenu.find(item => item.path === '/admin'), '=================')
     this.menus = this.mainMenu.find(item => item.path === '/admin').children
     this.collapsed = !this.sidebarOpened
   },

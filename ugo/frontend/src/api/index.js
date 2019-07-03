@@ -6,5 +6,7 @@ const api = {
   user: '/user/',
   role: '/role/',
   permission: '/permission/',
+
+  categorys: '/category/'
 }
 export default api
