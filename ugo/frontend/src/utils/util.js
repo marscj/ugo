@@ -50,7 +50,7 @@ export function handleScrollHeader (callback) {
  * @param id parent element id or class
  * @param timeout
  */
-export function removeLoadingAnimate (id = '', timeout = 1500) {
+export function removeLoadingAnimate (id = '', timeout = 0) {
   if (id === '') {
     return
   }

@@ -10,17 +10,23 @@ import { ACCESS_TOKEN } from '@/store/mutation-types'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
-const whiteList = ['login', 'register', 'registerResult'] // no redirect whitelist
+const whiteList = ['login', 'index', 'loginadmin'] // no redirect whitelist
 
 router.beforeEach((to, from, next) => {
   NProgress.start() // start progress bar
+  console.log('from name = ', from.name, 'from path = ', from.path)
+  console.log('to name = ', to.name, 'to path = ', to.path)
+  console.log('access token = ', Vue.ls.get(ACCESS_TOKEN))
   to.meta && (typeof to.meta.title !== 'undefined' && setDocumentTitle(`${to.meta.title} - ${domTitle}`))
   if (Vue.ls.get(ACCESS_TOKEN)) {
     /* has token */
-    if (to.path === '/user/login') {
-      next({ path: '/dashboard/workplace' })
+    if (to.path === '/admin/login') {
+      next({ path: '/admin/dashboard/workplace' })
       NProgress.done()
-    } else {
+    } else if (to.path === '/user/login') {
+      next({ path: '/' })
+      NProgress.done()
+    }else {
       if (store.getters.roles.length === 0) {
         store.dispatch('GetInfo')
           .then(res => { 
@@ -45,7 +51,11 @@ router.beforeEach((to, from, next) => {
               description: 'Unable to get user information, please try again.'
             })
             store.dispatch('Logout').then(() => {
-              next({ path: '/user/login', query: { redirect: to.fullPath } })
+              if (to.path.includes('/admin')){
+                next({ path: '/admin/login', query: { redirect: to.fullPath } })
+              } else {
+                next({ path: '/user/login', query: { redirect: to.fullPath } })
+              }
             })
           })
       } else {
@@ -57,7 +67,12 @@ router.beforeEach((to, from, next) => {
       // 在免登录白名单，直接进入
       next()
     } else {
-      next({ path: '/user/login', query: { redirect: to.fullPath } })
+      if (to.path.includes('/admin')){
+        next({ path: '/admin/login', query: { redirect: to.fullPath } })
+      } else {
+        next({ path: '/user/login', query: { redirect: to.fullPath } })
+      }
+      
       NProgress.done() // if current page is login will not trigger afterEach hook, so manually handle it
     }
   }

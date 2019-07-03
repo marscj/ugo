@@ -102,7 +102,7 @@ export default {
       })
     },
     loginSuccess (res) {
-      this.$router.push({ name: 'dashboard' })
+      this.$router.push({ path: '/admin/dashboard' })
       // 延迟 1 秒显示欢迎信息
       setTimeout(() => {
         this.$notification.success({
