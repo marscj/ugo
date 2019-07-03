@@ -15,9 +15,9 @@ class Cart(models.Model):
 
     changeAt = models.DateTimeField(auto_now=True)
 
-    adultQuantity = models.PositiveIntegerField(validators=[MinValueValidator(1)])
+    adultQuantity = models.PositiveIntegerField(validators=[MinValueValidator(0)])
 
-    childQuantity = models.PositiveIntegerField(validators=[MinValueValidator(1)])
+    childQuantity = models.PositiveIntegerField(validators=[MinValueValidator(0)])
 
     product = models.ForeignKey(ProductVariant, blank=True, null=True, related_name='cart', on_delete=models.CASCADE)
 
