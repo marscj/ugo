@@ -12,7 +12,7 @@ class CategoryView(ModelViewSet):
     queryset = Category.objects.all().cache()
 
     def list(self, request, *args, **kwargs):
-        response = super().list(request, *args, **kwargs)
+        response = super().list(request, args, kwargs)
         response.data = {
             'result': response.data
         }

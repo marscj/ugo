@@ -82,7 +82,7 @@ export default {
   },
   created () {
     getRoleList().then((res) => {
-      this.roles = res
+      this.roles = res.result
       this.roles.push({
         id: '-1',
         name: 'Add Role',

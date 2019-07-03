@@ -11,7 +11,6 @@ from .serializers import UserSerializer, RoleSerializer, PermissionSerializer, A
 
 class LoginJwtTokenView(ObtainJSONWebToken):
     def post(self, request, *args, **kwargs):
-        print(request.data)
         response = super().post(request, *args, **kwargs)
 
         if response.status_code == 200:
@@ -41,10 +40,31 @@ class RoleView(ModelViewSet):
     serializer_class = RoleSerializer
     queryset = Role.objects.all().cache()
 
+    def list(self, request, *args, **kwargs):
+        response = super().list(request, args, kwargs)
+        response.data = {
+            'result': response.data
+        }
+        return response
+
 class PermissionView(ModelViewSet):
     serializer_class = PermissionSerializer
     queryset = Permission.objects.all().cache()
 
+    def list(self, request, *args, **kwargs):
+        response = super().list(request, args, kwargs)
+        response.data = {
+            'result': response.data
+        }
+        return response
+
 class ActionEntityView(ModelViewSet):
     serializer_class = ActionEntitySerializer
     queryset = ActionEntity.objects.all().cache()
+
+    def list(self, request, *args, **kwargs):
+        response = super().list(request, args, kwargs)
+        response.data = {
+            'result': response.data
+        }
+        return response
