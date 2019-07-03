@@ -22,3 +22,6 @@ class Cart(models.Model):
     product = models.ForeignKey(ProductVariant, blank=True, null=True, related_name='cart', on_delete=models.CASCADE)
 
     remark = models.TextField(blank=True, null=True)
+
+    class Meta:
+        db_table = 'cart'

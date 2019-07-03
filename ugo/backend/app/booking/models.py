@@ -13,3 +13,6 @@ class Booking(models.Model):
 
     # 修改时间
     changeAt = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'booking'
