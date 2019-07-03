@@ -150,7 +150,7 @@ export const constantRouterMap = [
       {
         path: 'login',
         name: 'login',
-        component: () => import('@/views/user/Login')
+        component: () => import('@/views/admin/user/Login')
       },
     ]
   },
