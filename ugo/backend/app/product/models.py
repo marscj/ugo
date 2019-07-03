@@ -4,7 +4,7 @@ from versatileimagefield.fields import PPOIField, VersatileImageField
 
 class Category(models.Model):
 
-    name = models.CharField(blank=True, null=True, max_length=16)
+    name = models.CharField(blank=True, null=True, max_length=16, unique=True)
 
     class Meta:
         db_table = 'category'
@@ -19,7 +19,7 @@ class CategoryTranslation(models.Model):
 
 class Product(models.Model):
 
-    name = models.CharField(blank=True, null=True, max_length=128)
+    name = models.CharField(blank=True, null=True, max_length=128, unique=True)
 
     description = models.CharField(blank=True, null=True, max_length=128)
 
@@ -43,7 +43,7 @@ class ProductVariant(models.Model):
 
     sku = models.CharField(max_length=32, unique=True)
 
-    name = models.CharField(blank=True, null=True, max_length=128)
+    name = models.CharField(blank=True, null=True, max_length=128, unique=True)
 
     description = models.CharField(blank=True, null=True, max_length=128)
 
