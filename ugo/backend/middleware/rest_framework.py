@@ -9,6 +9,7 @@ class CustomPagination(PageNumberPagination):
     max_page_size = 500
 
     def get_paginated_response(self, data):
+        print(self.page.number)
         return Response({'result': {
             'links': {
                'next': self.get_next_link(),
@@ -16,7 +17,6 @@ class CustomPagination(PageNumberPagination):
             },
             'totalPage': self.page.paginator.num_pages,
             'totalCount': self.page.paginator.count,
-            'pageSize': 10,
-            'pageNo': 0, 
+            'pageNo': self.page.number,
             'data': data
         }})

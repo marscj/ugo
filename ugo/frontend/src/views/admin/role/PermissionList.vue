@@ -27,7 +27,7 @@
       </a-form>
     </div>
 
-    <s-table :columns="columns" :data="loadData">
+    <s-table :columns="columns" :data="loadData" rowKey="id">
 
       <span slot="actions" slot-scope="text, record">
         <a-tag v-for="(action, index) in record.actionList" :key="index">{{ action.describe }}</a-tag>
@@ -193,7 +193,6 @@ export default {
       loadData: parameter => {
         return getPermissions(parameter).then(res => {
           const result = res.result.result
-          console.log(res)
           result.data.map(permission => {
             permission.actionList = permission.actionEntitySet
             return permission
