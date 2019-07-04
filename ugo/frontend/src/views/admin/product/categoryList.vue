@@ -14,9 +14,7 @@
         <template v-else>
           <a-card :hoverable="true">
             <a-card-meta>
-              <div style="margin-bottom: 3px" slot="title">{{ item.title }}</div>
-              <a-avatar class="card-avatar" slot="avatar" :src="item.avatar" size="large"/>
-              <div class="meta-content" slot="description">{{ item.content }}</div>
+              <div style="margin-bottom: 3px" slot="title">{{ item.name }}</div>
             </a-card-meta>
             <template class="ant-card-actions" slot="actions">
               <a>change</a>
@@ -30,16 +28,7 @@
 </template>
 
 <script>
-
-const dataSource = []
-dataSource.push(null)
-for (let i = 0; i < 11; i++) {
-  dataSource.push({
-    title: 'Alipay',
-    avatar: 'https://gw.alipayobjects.com/zos/rmsportal/WdGqmHpayyMjiEhcKoVE.png',
-    content: '在中台产品的研发过程中，会出现不同的设计规范和实现方式，但其中往往存在很多类似的页面和组件，这些类似的组件会被抽离成一套标准规范。'
-  })
-}
+import { getCategoryList } from '@/api/product'
 
 export default {
   name: 'CardList',
@@ -48,7 +37,20 @@ export default {
       description: '产品类别',
       dataSource: []
     }
-  }
+  },
+  created() {
+    this.dataSource.push(null)
+    this.fetch()
+  },
+  methods: {
+    fetch() {
+      getCategoryList().then(res => {
+        const { result } = res
+        this.dataSource = result
+        this.dataSource.unshift(null)
+      })
+    }
+  },
 }
 </script>
 
@@ -88,7 +90,7 @@ export default {
     background-color: #fff;
     border-radius: 2px;
     width: 100%;
-    height: 188px;
+    height: 120px;
   }
 
   .meta-content {

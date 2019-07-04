@@ -9,13 +9,15 @@ from .serializers import CategorySerializer, ProductSerializer, ProductVariantSe
 
 class CategoryView(ModelViewSet):
     serializer_class = CategorySerializer
-    queryset = Category.objects.all().cache()
+    queryset = Category.objects.all()
 
     def list(self, request, *args, **kwargs):
-        response = super().list(request, args, kwargs)
+        response = super().list(request, *args, **kwargs)
+        print(response.data)
         response.data = {
             'result': response.data
         }
+        print(response.data)
         return response
 
 

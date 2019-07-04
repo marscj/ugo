@@ -7,6 +7,6 @@ const api = {
   role: '/role/',
   permission: '/permission/',
 
-  categorys: '/category/'
+  category: '/category/'
 }
 export default api
