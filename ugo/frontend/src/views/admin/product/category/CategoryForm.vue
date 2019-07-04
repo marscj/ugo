@@ -16,12 +16,12 @@
         >
         <a-input v-decorator="['id']" :disabled="true"/>
         </a-form-item>
-      </a-form>
-      <a-form :form="form">
         <a-form-item
           label="Name:"
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
+          :validate-status="validate['name'] != null ? 'error' : null"
+          :help="validate['name']"
         >
           <a-input v-decorator="['name', {rules: [{required: true, min: 2, message: 'Please enter at least 2 characters.'}]}]" />
         </a-form-item>
@@ -32,6 +32,7 @@
 
 <script>
 import pick from 'lodash.pick'
+import { checkError } from '@/views/utils/error'
 import { updateCategory, createCategory } from '@/api/product'
 export default {
   name: 'CreateForm',
@@ -48,6 +49,9 @@ export default {
       visible: false,
       confirmLoading: false,
       title:'Add',
+      validate: {
+        name: {}
+      },
 
       form: this.$form.createForm(this)
     }
@@ -56,6 +60,7 @@ export default {
     add () {
       this.title = 'Add'
       this.visible = true
+      this.validate = {},
       this.$nextTick(() => {
         this.form.setFieldsValue({'id': null, 'name': ''})
       })
@@ -63,6 +68,7 @@ export default {
     edit(data) {
       this.title = 'Edit'
       this.visible = true
+      this.validate = {},
       this.$nextTick(() => {
         const formData = pick(data, ['id', 'name'])
         this.form.setFieldsValue(formData)
@@ -73,7 +79,8 @@ export default {
         this.$emit('ok', res)
         this.visible = false
       }).catch((error) => {
-        console.log(error.response)
+        console.log(checkError(error, 'name', 'id'))
+        this.validate.name = checkError(error, 'name')['name']
         this.$notification['error']({
           message: 'error',
           description: ((error.response || {}).data || {}).message || 'error.',
@@ -86,7 +93,6 @@ export default {
     handleSubmit () {
       const { form: { validateFields } } = this
       this.confirmLoading = true
-      console.log(this)
       validateFields((errors, values) => {
         if (!errors) {
           if (this.title === 'Add') {
