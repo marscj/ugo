@@ -68,7 +68,8 @@ REST_FRAMEWORK = {
         'rest_framework.filters.SearchFilter',
         'rest_framework.filters.OrderingFilter',
     ),
-    'DEFAULT_PAGINATION_CLASS': 'middleware.rest_framework.CustomPagination'
+    'DEFAULT_PAGINATION_CLASS': 'middleware.rest_framework.CustomPagination',
+    'EXCEPTION_HANDLER': 'middleware.utils.custom_exception_handler'
 }
 
 ROOT_URLCONF = 'backend.urls'
