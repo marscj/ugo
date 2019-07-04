@@ -8,3 +8,19 @@ export function getCategoryList (parameter) {
     params: parameter
   })
 }
+
+export function updateCategory (data) {
+  return axios({
+    url: api.category,
+    method: 'get',
+    data: data
+  })
+}
+
+export function createCategory (data) {
+  return axios({
+    url: api.category,
+    method: 'post',
+    data: data
+  })
+}
