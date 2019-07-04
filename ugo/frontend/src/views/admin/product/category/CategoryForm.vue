@@ -76,10 +76,24 @@ export default {
     },
     createForm(data) {
       return createCategory(data).then((res) => {
-        this.$emit('ok', res)
+        this.$emit('create', res.result)
         this.visible = false
       }).catch((error) => {
-        console.log(checkError(error, 'name', 'id'))
+        this.validate.name = checkError(error, 'name')['name']
+        this.$notification['error']({
+          message: 'error',
+          description: ((error.response || {}).data || {}).message || 'error.',
+          duration: 4
+        })
+      }).finally(() => {
+        this.confirmLoading = false
+      })
+    },
+    updateForm(data) {
+      return updateCategory(data['id'], data).then((res) => {
+        this.$emit('update', res.result)
+        this.visible = false
+      }).catch((error) => {
         this.validate.name = checkError(error, 'name')['name']
         this.$notification['error']({
           message: 'error',
@@ -97,8 +111,9 @@ export default {
         if (!errors) {
           if (this.title === 'Add') {
             this.createForm(values)
+          } else {
+            this.updateForm(values)
           }
-          
         } else {
           this.confirmLoading = false
         }

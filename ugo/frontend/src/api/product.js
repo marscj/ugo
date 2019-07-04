@@ -9,10 +9,10 @@ export function getCategoryList (parameter) {
   })
 }
 
-export function updateCategory (data) {
+export function updateCategory (pk, data) {
   return axios({
-    url: api.category,
-    method: 'get',
+    url: api.category + `${pk}/`,
+    method: 'put',
     data: data
   })
 }
@@ -22,5 +22,12 @@ export function createCategory (data) {
     url: api.category,
     method: 'post',
     data: data
+  })
+}
+
+export function deleteCategory (pk) {
+  return axios({
+    url: api.category + `${pk}/`,
+    method: 'delete',
   })
 }

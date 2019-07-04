@@ -14,6 +14,7 @@ class ModelViewSetMixin(object):
         response.data = {
             'result': response.data
         }
+        print(response.data)
         return response
 
     def retrieve(self, request, *args, **kwargs):
@@ -21,6 +22,7 @@ class ModelViewSetMixin(object):
         response.data = {
             'result': response.data
         }
+        print(response.data)
         return response
 
     def update(self, request, *args, **kwargs):
@@ -28,13 +30,16 @@ class ModelViewSetMixin(object):
         response.data = {
             'result': response.data
         }
+        print(response.data)
         return response
 
     def destroy(self, request, *args, **kwargs):
         response = super().destroy(request, *args, **kwargs)
         response.data = {
-            'result': response.data
+            'result': 'ok'
         }
+        response.status_code = 200
+        print(response.data)
         return response
 
 class CustomModelViewSet(ModelViewSetMixin, ModelViewSet):

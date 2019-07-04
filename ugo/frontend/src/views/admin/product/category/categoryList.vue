@@ -3,6 +3,7 @@
     <a-list
       :grid="{gutter: 24, lg: 3, md: 2, sm: 1, xs: 1}"
       :dataSource="dataSource"
+      :loading="loading"
     >
       <a-list-item slot="renderItem" slot-scope="item">
         <template v-if="item === null">
@@ -18,18 +19,18 @@
             </a-card-meta>
             <template class="ant-card-actions" slot="actions">
               <a @click="$refs.createModal.edit(item)">change</a>
-              <a>delete</a>
+              <a @click="deleteItem(item)">delete</a>
             </template>
           </a-card>
         </template>
       </a-list-item>
     </a-list>
-    <category-form ref="createModal" @ok="handleOk" />
+    <category-form ref="createModal" @create="handleCreate"  @update="handleUpdate"/>
   </div>
 </template>
 
 <script>
-import { getCategoryList } from '@/api/product'
+import { getCategoryList, deleteCategory } from '@/api/product'
 import CategoryForm from './CategoryForm'
 
 export default {
@@ -41,6 +42,7 @@ export default {
     return {
       description: '产品类别',
       dataSource: [],
+      loading: false
     }
   },
   created() {
@@ -49,14 +51,48 @@ export default {
   },
   methods: {
     fetch() {
+      this.loading = true
       getCategoryList().then(res => {
         const { result } = res
         this.dataSource = result
         this.dataSource.unshift(null)
+      }).catch((error) => {
+        this.$notification['error']({
+          message: 'error',
+          description: ((error.response || {}).data || {}).message || 'error.',
+          duration: 4
+        })
+      }).finally(() => {
+        this.loading = false
       })
     },
-    handleOk (value) {
-      
+    deleteItem(data) {
+      this.loading = true
+      deleteCategory(data.id).then((res) => {
+        const { result } = res
+        if (result === 'ok') {
+          this.dataSource.pop(data)
+        }
+      }).catch((error) => {
+        this.$notification['error']({
+          message: 'error',
+          description: ((error.response || {}).data || {}).message || 'error.',
+          duration: 4
+        })
+      }).finally(() => {
+        this.loading = false
+      })
+    },
+    handleCreate (value) {
+      this.dataSource.push(value)
+    },  
+    handleUpdate (value) {
+      for(let index in this.dataSource) {
+        if(this.dataSource[index] && this.dataSource[index].id === value.id) {
+          this.dataSource[index] = Object.assign({}, value)
+          return
+        }
+      }
     },
   },
 }
