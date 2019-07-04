@@ -70,11 +70,16 @@ export default {
     },
     createForm(data) {
       return createCategory(data).then((res) => {
-        console.log(res)
         this.$emit('ok', res)
         this.visible = false
-        this.confirmLoading = false
       }).catch((error) => {
+        console.log(error.response)
+        this.$notification['error']({
+          message: 'error',
+          description: ((error.response || {}).data || {}).message || 'error.',
+          duration: 4
+        })
+      }).finally(() => {
         this.confirmLoading = false
       })
     },

@@ -28,6 +28,15 @@ class UserView(CustomModelViewSet):
     serializer_class = UserSerializer
     queryset = CustomUser.objects.all().cache()
 
+    @action(detail=False, methods=['get'])
+    def info(self, request):
+        serializer = self.get_serializer(request.user)
+        context = {
+            'code': 200,
+            'result': serializer.data
+        }
+        return Response(context)
+
 class RoleView(CustomModelViewSet):
     serializer_class = RoleSerializer
     queryset = Role.objects.all().cache()

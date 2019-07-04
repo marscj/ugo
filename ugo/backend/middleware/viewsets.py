@@ -9,6 +9,34 @@ class ModelViewSetMixin(object):
         }
         return response
 
+    def create(self, request, *args, **kwargs):
+        response = super().create(request, *args, **kwargs)
+        response.data = {
+            'result': response.data
+        }
+        return response
+
+    def retrieve(self, request, *args, **kwargs):
+        response = super().retrieve(request, *args, **kwargs)
+        response.data = {
+            'result': response.data
+        }
+        return response
+
+    def update(self, request, *args, **kwargs):
+        response = super().update(request, *args, **kwargs)
+        response.data = {
+            'result': response.data
+        }
+        return response
+
+    def destroy(self, request, *args, **kwargs):
+        response = super().destroy(request, *args, **kwargs)
+        response.data = {
+            'result': response.data
+        }
+        return response
+
 class CustomModelViewSet(ModelViewSetMixin, ModelViewSet):
     pass
 
