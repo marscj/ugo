@@ -42,13 +42,13 @@ export const asyncRouterMap = [
           {
             path: 'categorys',
             name: 'CategoryList',
-            component: () => import('@/views/admin/product/categoryList'),
+            component: () => import('@/views/admin/product/category/categoryList'),
             meta: { title: 'Category', keepAlive: false, permission: [ 'product' ] }
           },
           {
             path: 'products',
             name: 'ProductList',
-            component: () => import('@/views/admin/product/productList'),
+            component: () => import('@/views/admin/product/product/productList'),
             meta: { title: 'Product', keepAlive: false, permission: [ 'product' ] }
           },
         ]

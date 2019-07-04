@@ -6,7 +6,7 @@
     >
       <a-list-item slot="renderItem" slot-scope="item">
         <template v-if="item === null">
-          <a-button class="new-btn" type="dashed">
+          <a-button class="new-btn" type="dashed" @click="$refs.createModal.add()">
             <a-icon type="plus"/>
             Add Category
           </a-button>
@@ -17,25 +17,30 @@
               <div style="margin-bottom: 3px" slot="title">{{ item.name }}</div>
             </a-card-meta>
             <template class="ant-card-actions" slot="actions">
-              <a>change</a>
+              <a @click="$refs.createModal.edit(item)">change</a>
               <a>delete</a>
             </template>
           </a-card>
         </template>
       </a-list-item>
     </a-list>
+    <category-form ref="createModal" @ok="handleOk" />
   </div>
 </template>
 
 <script>
 import { getCategoryList } from '@/api/product'
+import CategoryForm from './CategoryForm'
 
 export default {
   name: 'CardList',
+  components: {
+    CategoryForm,
+  },
   data () {
     return {
       description: '产品类别',
-      dataSource: []
+      dataSource: [],
     }
   },
   created() {
@@ -49,7 +54,10 @@ export default {
         this.dataSource = result
         this.dataSource.unshift(null)
       })
-    }
+    },
+    handleOk (value) {
+      
+    },
   },
 }
 </script>
@@ -90,7 +98,7 @@ export default {
     background-color: #fff;
     border-radius: 2px;
     width: 100%;
-    height: 120px;
+    height: 116px;
   }
 
   .meta-content {

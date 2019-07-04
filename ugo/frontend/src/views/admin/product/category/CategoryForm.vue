@@ -14,7 +14,7 @@
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
         >
-          <a-input v-decorator="['desc', {rules: [{required: true, min: 5, message: '请输入至少五个字符的规则描述！'}]}]" />
+          <a-input v-decorator="['name', {rules: [{required: true, min: 5, message: '请输入至少五个字符的规则描述！'}]}]" />
         </a-form-item>
       </a-form>
     </a-spin>
@@ -22,7 +22,15 @@
 </template>
 
 <script>
+import pick from 'lodash.pick'
 export default {
+  name: 'CreateForm',
+  // props: {
+  //   record: {
+  //     type: [Object, String],
+  //     default: ''
+  //   }
+  // },
   data () {
     return {
       labelCol: {
@@ -43,9 +51,20 @@ export default {
     add () {
       this.visible = true
     },
+    edit(data) {
+      this.visible = true
+
+      new Promise((resolve) => {
+        setTimeout(resolve, 100)
+      }).then(() => {
+        const formData = pick(data, ['name'])
+        this.form.setFieldsValue(formData)
+      })
+    },
     handleSubmit () {
       const { form: { validateFields } } = this
       this.confirmLoading = true
+      console.log(this)
       validateFields((errors, values) => {
         if (!errors) {
           setTimeout(() => {
