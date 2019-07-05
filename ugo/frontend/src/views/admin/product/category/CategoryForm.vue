@@ -1,14 +1,15 @@
 <template>
   <a-modal
+    key="formkey"
     :title="title"
     :width="640"
     :visible="visible"
     :confirmLoading="confirmLoading"
     @ok="handleSubmit"
-    @cancel="handleCancel"
+    @cancel="visible=false"
   >
-     <template slot="footer">
-      <a-button key="back" @click="handleCancel">Return</a-button>
+    <template slot="footer">
+      <a-button key="back" @click="visible">Return</a-button>
       <a-button key="submit" type="primary" @click="handleSubmit">Submit</a-button>
     </template>
     <a-spin :spinning="confirmLoading">
@@ -37,7 +38,7 @@
 <script>
 import pick from 'lodash.pick'
 import { checkError } from '@/views/utils/error'
-import { updateCategory, createCategory } from '@/api/product'
+import { createCategory, updateCategory, deleteCategory } from '@/api/product'
 export default {
   name: 'CreateForm',
   data () {
@@ -51,6 +52,7 @@ export default {
         sm: { span: 13 }
       },
       visible: false,
+      showDelete: false,
       confirmLoading: false,
       title:'Add',
       validate: {
@@ -71,6 +73,15 @@ export default {
     },
     edit(data) {
       this.title = 'Edit'
+      this.visible = true
+      this.validate = {},
+      this.$nextTick(() => {
+        const formData = pick(data, ['id', 'name'])
+        this.form.setFieldsValue(formData)
+      })
+    },
+    delete(data) {
+      this.title = 'Are you sure delete this category?'
       this.visible = true
       this.validate = {},
       this.$nextTick(() => {
@@ -108,6 +119,21 @@ export default {
         this.confirmLoading = false
       })
     },
+    deleteForm(data) {
+      this.loading = true
+      return deleteCategory(data.id).then((res) => {
+        this.$emit('delete', data)
+        this.visible = false
+      }).catch((error) => {
+        this.$notification['error']({
+          message: 'error',
+          description: ((error.response || {}).data || {}).message || 'error.',
+          duration: 4
+        })
+      }).finally(() => {
+        this.confirmLoading = false
+      })
+    },
     handleSubmit () {
       const { form: { validateFields } } = this
       this.confirmLoading = true
@@ -115,25 +141,15 @@ export default {
         if (!errors) {
           if (this.title === 'Add') {
             this.createForm(values)
-          } else {
+          } else if (this.title === 'Edit') {
             this.updateForm(values)
+          } else {
+            this.deleteForm(values)
           }
         } else {
           this.confirmLoading = false
         }
-        // if (!errors) {
-        //   setTimeout(() => {
-        //     this.visible = false
-        //     this.confirmLoading = false
-        //     this.$emit('ok', values)
-        //   }, 1500)
-        // } else {
-        //   this.confirmLoading = false
-        // }
       })
-    },
-    handleCancel () {
-      this.visible = false
     }
   }
 }

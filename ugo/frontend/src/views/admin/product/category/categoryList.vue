@@ -7,7 +7,7 @@
     >
       <a-list-item slot="renderItem" slot-scope="item">
         <template v-if="item === null">
-          <a-button class="new-btn" type="dashed" @click="$refs.createModal.add()">
+          <a-button class="new-btn" type="dashed" @click="$refs.modal.add()">
             <a-icon type="plus"/>
             Add Category
           </a-button>
@@ -18,19 +18,19 @@
               <div style="margin-bottom: 3px" slot="title">{{ item.name }}</div>
             </a-card-meta>
             <template class="ant-card-actions" slot="actions">
-              <a @click="$refs.createModal.edit(item)">Change</a>
-              <a @click="showDeleteConfirm(item)">Delete</a>
+              <a @click="$refs.modal.edit(item)">Change</a>
+              <a @click="$refs.modal.delete(item)">Delete</a>
             </template>
           </a-card>
         </template>
       </a-list-item>
     </a-list>
-    <category-form ref="createModal" @create="handleCreate"  @update="handleUpdate"/>
+    <category-form ref="modal" @create="handleCreate"  @update="handleUpdate" @delete="handleDelete"/>
   </div>
 </template>
 
 <script>
-import { getCategoryList, deleteCategory } from '@/api/product'
+import { getCategoryList } from '@/api/product'
 import CategoryForm from './CategoryForm'
 
 export default {
@@ -68,48 +68,12 @@ export default {
       })
     },
     sort() {
-      this.dataSource.sort(function(f1, f2){
-        console.log(f1,f2, '======')
+      this.dataSource.sort((f1, f2) => {
         if(f1 && f2){
-          console.log(f1,f2, '------')
           return f2.id - f1.id;
         } 
         return false
       })
-    },
-    deleteItem(data) {
-      this.loading = true
-      return deleteCategory(data.id).then((res) => {
-        const { result } = res
-        if (result === 'ok') {
-          var index = this.dataSource.indexOf(data);
-          if (~index) {
-            this.dataSource.splice(index, 1);
-          }
-        }
-      }).catch((error) => {
-        this.$notification['error']({
-          message: 'error',
-          description: ((error.response || {}).data || {}).message || 'error.',
-          duration: 4
-        })
-      }).finally(() => {
-        this.loading = false
-      })
-    },
-    showDeleteConfirm(data) {
-      this.$confirm({
-        title: 'Are you sure delete this category?',
-        okText: 'Yes',
-        okType: 'danger',
-        cancelText: 'No',
-        onOk() {
-          this.deleteItem(data)
-        },
-        onCancel() {
-          
-        },
-      });
     },
     handleCreate (value) {
       this.dataSource.push(value)
@@ -122,6 +86,14 @@ export default {
         return f
       })
     },
+    handleDelete(value) {
+      if(value) {
+        var index = this.dataSource.indexOf(value);
+        if (~index) {
+          this.dataSource.splice(index, 1);
+        }
+      }
+    }
   },
 }
 </script>
