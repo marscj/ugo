@@ -77,6 +77,7 @@ export default {
     },
     handleCreate (value) {
       this.dataSource.push(value)
+      this.sort()
     },  
     handleUpdate (value) {
       this.dataSource = this.dataSource.map(function (f) {
@@ -85,14 +86,10 @@ export default {
         } 
         return f
       })
+      this.sort()
     },
     handleDelete(value) {
-      if(value) {
-        var index = this.dataSource.indexOf(value);
-        if (~index) {
-          this.dataSource.splice(index, 1);
-        }
-      }
+      this.fetch()
     }
   },
 }

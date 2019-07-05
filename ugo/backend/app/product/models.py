@@ -4,12 +4,16 @@ from versatileimagefield.fields import VersatileImageField
 
 class Category(models.Model):
 
+    categoryId = models.CharField(blank=True, null=True, max_length=16, unique=True)
+
     name = models.CharField(blank=True, null=True, max_length=16, unique=True)
 
     class Meta:
         db_table = 'category'
 
 class Product(models.Model):
+
+    productId = models.CharField(blank=True, null=True, max_length=16, unique=True)
 
     name = models.CharField(blank=True, null=True, max_length=128, unique=True)
 
@@ -23,6 +27,8 @@ class Product(models.Model):
         db_table = 'product'
 
 class ProductVariant(models.Model):
+
+    variantId = models.CharField(blank=True, null=True, max_length=128, unique=True)
 
     sku = models.CharField(max_length=32, unique=True)
 

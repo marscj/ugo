@@ -9,8 +9,8 @@
     @cancel="visible=false"
   >
     <template slot="footer">
-      <a-button key="back" @click="visible">Return</a-button>
-      <a-button key="submit" type="primary" @click="handleSubmit">Submit</a-button>
+      <a-button key="back" @click="visible=false">Return</a-button>
+      <a-button key="submit" :type="submitButton.type" @click="handleSubmit">{{submitButton.name}}</a-button>
     </template>
     <a-spin :spinning="confirmLoading">
       <a-form :form="form">
@@ -54,6 +54,10 @@ export default {
       visible: false,
       showDelete: false,
       confirmLoading: false,
+      submitButton: {
+        type: 'primary',
+        name: 'Submit'
+      },
       title:'Add',
       validate: {
         name: {}
@@ -66,6 +70,10 @@ export default {
     add () {
       this.title = 'Add'
       this.visible = true
+      this.submitButton = {
+        type: 'primary',
+        name: 'Submit'
+      },
       this.validate = {},
       this.$nextTick(() => {
         this.form.setFieldsValue({'id': null, 'name': ''})
@@ -74,6 +82,10 @@ export default {
     edit(data) {
       this.title = 'Edit'
       this.visible = true
+      this.submitButton = {
+        type: 'primary',
+        name: 'Submit'
+      },
       this.validate = {},
       this.$nextTick(() => {
         const formData = pick(data, ['id', 'name'])
@@ -83,6 +95,10 @@ export default {
     delete(data) {
       this.title = 'Are you sure delete this category?'
       this.visible = true
+      this.submitButton = {
+        type: 'danger',
+        name: 'Yes'
+      },
       this.validate = {},
       this.$nextTick(() => {
         const formData = pick(data, ['id', 'name'])
