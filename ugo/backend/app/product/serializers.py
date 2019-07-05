@@ -6,8 +6,6 @@ from .models import Category, Product, ProductVariant, ProductImage
 
 class CategorySerializer(serializers.ModelSerializer):
 
-    categoryId = serializers.CharField(required=True, allow_null=False, max_length=16, validators=[UniqueValidator(queryset=Category.objects.all())])
-
     name = serializers.CharField(required=True, allow_null=False, max_length=16, validators=[UniqueValidator(queryset=Category.objects.all())])
 
     class Meta:
@@ -15,8 +13,6 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ProductSerializer(serializers.ModelSerializer):
-
-    productId = serializers.CharField(required=True, allow_null=False, max_length=16, validators=[UniqueValidator(queryset=Product.objects.all())])
 
     name = serializers.CharField(required=True, allow_null=False, max_length=128, validators=[UniqueValidator(queryset=Product.objects.all())])
 
@@ -33,8 +29,6 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ProductVariantSerializer(serializers.ModelSerializer):
-
-    variantId = serializers.CharField(required=True, allow_null=False, max_length=16, validators=[UniqueValidator(queryset=ProductVariant.objects.all())])
 
     sku = serializers.CharField(required=True, allow_null=False, max_length=32, validators=[UniqueValidator(queryset=ProductVariant.objects.all())])
 

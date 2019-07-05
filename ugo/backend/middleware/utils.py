@@ -1,13 +1,10 @@
-import re
 from rest_framework.views import exception_handler
-from rest_framework.exceptions import ErrorDetail
-from django.utils.six import text_type
 
 def custom_exception_handler(exc, context):
     response = exception_handler(exc, context)
 
     for key, value in response.data.items():
-        if isinstance(object, (list,)):
+        if isinstance(value, (list,)):
             response.data[key] = value[0]
         else:
             response.data[key] = value
@@ -16,4 +13,6 @@ def custom_exception_handler(exc, context):
         response.data = {
             'message': response.data
         }
+
+    print(response.data)
     return response 

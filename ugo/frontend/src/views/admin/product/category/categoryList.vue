@@ -60,7 +60,7 @@ export default {
       }).catch((error) => {
         this.$notification['error']({
           message: 'error',
-          description: ((error.response || {}).data || {}).message || 'error.',
+          description: 'get failure',
           duration: 4
         })
       }).finally(() => {
@@ -70,7 +70,7 @@ export default {
     sort() {
       this.dataSource.sort((f1, f2) => {
         if(f1 && f2){
-          return f2.id - f1.id;
+          return f1.sortNo - f2.sortNo;
         } 
         return false
       })
