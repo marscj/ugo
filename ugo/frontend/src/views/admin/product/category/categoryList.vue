@@ -18,8 +18,8 @@
               <div style="margin-bottom: 3px" slot="title">{{ item.name }}</div>
             </a-card-meta>
             <template class="ant-card-actions" slot="actions">
-              <a @click="$refs.createModal.edit(item)">change</a>
-              <a @click="deleteItem(item)">delete</a>
+              <a @click="$refs.createModal.edit(item)">Change</a>
+              <a @click="showDeleteConfirm(item)">Delete</a>
             </template>
           </a-card>
         </template>
@@ -56,6 +56,7 @@ export default {
         const { result } = res
         this.dataSource = result
         this.dataSource.unshift(null)
+        this.sort()
       }).catch((error) => {
         this.$notification['error']({
           message: 'error',
@@ -66,12 +67,25 @@ export default {
         this.loading = false
       })
     },
+    sort() {
+      this.dataSource.sort(function(f1, f2){
+        console.log(f1,f2, '======')
+        if(f1 && f2){
+          console.log(f1,f2, '------')
+          return f2.id - f1.id;
+        } 
+        return false
+      })
+    },
     deleteItem(data) {
       this.loading = true
-      deleteCategory(data.id).then((res) => {
+      return deleteCategory(data.id).then((res) => {
         const { result } = res
         if (result === 'ok') {
-          this.dataSource.pop(data)
+          var index = this.dataSource.indexOf(data);
+          if (~index) {
+            this.dataSource.splice(index, 1);
+          }
         }
       }).catch((error) => {
         this.$notification['error']({
@@ -82,17 +96,31 @@ export default {
       }).finally(() => {
         this.loading = false
       })
+    },
+    showDeleteConfirm(data) {
+      this.$confirm({
+        title: 'Are you sure delete this category?',
+        okText: 'Yes',
+        okType: 'danger',
+        cancelText: 'No',
+        onOk() {
+          this.deleteItem(data)
+        },
+        onCancel() {
+          
+        },
+      });
     },
     handleCreate (value) {
       this.dataSource.push(value)
     },  
     handleUpdate (value) {
-      for(let index in this.dataSource) {
-        if(this.dataSource[index] && this.dataSource[index].id === value.id) {
-          this.dataSource[index] = Object.assign({}, value)
-          return
-        }
-      }
+      this.dataSource = this.dataSource.map(function (f) {
+        if (f && f.id === value.id) {
+          return value
+        } 
+        return f
+      })
     },
   },
 }

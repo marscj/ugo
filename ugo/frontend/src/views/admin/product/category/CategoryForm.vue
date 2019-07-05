@@ -7,6 +7,10 @@
     @ok="handleSubmit"
     @cancel="handleCancel"
   >
+     <template slot="footer">
+      <a-button key="back" @click="handleCancel">Return</a-button>
+      <a-button key="submit" type="primary" @click="handleSubmit">Submit</a-button>
+    </template>
     <a-spin :spinning="confirmLoading">
       <a-form :form="form">
         <a-form-item
