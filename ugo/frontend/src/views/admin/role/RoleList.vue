@@ -134,7 +134,7 @@ export default {
     },
     loadPermissions () {
       getPermissions().then(res => {
-        const result = res
+        const result = res.result
         this.permissions = result.map(permission => {
           const options = permission.actionEntitySet.map((f) => {
             f.defaultCheck = false
