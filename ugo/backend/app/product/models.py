@@ -28,7 +28,7 @@ class Product(models.Model):
 
 class ProductVariant(models.Model):
 
-    variantId = models.CharField(blank=True, null=True, max_length=128, unique=True)
+    variantId = models.CharField(blank=True, null=True, max_length=16, unique=True)
 
     sku = models.CharField(max_length=32, unique=True)
 
