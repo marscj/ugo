@@ -7,6 +7,7 @@ class ModelViewSetMixin(object):
         response.data = {
             'result': response.data
         }
+        print(response.data)
         return response
 
     def create(self, request, *args, **kwargs):

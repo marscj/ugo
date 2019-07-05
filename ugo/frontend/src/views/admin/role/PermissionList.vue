@@ -192,7 +192,7 @@ export default {
       // 加载数据方法 必须为 Promise 对象
       loadData: parameter => {
         return getPermissions(parameter).then(res => {
-          const result = res.result.result
+          const result = res.result
           result.data.map(permission => {
             permission.actionList = permission.actionEntitySet
             return permission

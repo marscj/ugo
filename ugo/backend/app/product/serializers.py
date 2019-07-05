@@ -14,6 +14,8 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
 
+    productID = serializers.CharField(required=True, allow_null=False, max_length=16, validators=[UniqueValidator(queryset=Product.objects.all())])
+
     name = serializers.CharField(required=True, allow_null=False, max_length=128, validators=[UniqueValidator(queryset=Product.objects.all())])
 
     image = VersatileImageFieldSerializer(required=True, allow_null=False, sizes=[
@@ -29,6 +31,8 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ProductVariantSerializer(serializers.ModelSerializer):
+
+    productID = serializers.CharField(required=True, allow_null=False, max_length=16, validators=[UniqueValidator(queryset=ProductVariant.objects.all())])
 
     sku = serializers.CharField(required=True, allow_null=False, max_length=32, validators=[UniqueValidator(queryset=ProductVariant.objects.all())])
 

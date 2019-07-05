@@ -56,7 +56,6 @@ export default {
         const { result } = res
         this.dataSource = result
         this.dataSource.unshift(null)
-        this.sort()
       }).catch((error) => {
         this.$notification['error']({
           message: 'error',
@@ -65,14 +64,6 @@ export default {
         })
       }).finally(() => {
         this.loading = false
-      })
-    },
-    sort() {
-      this.dataSource.sort((f1, f2) => {
-        if(f1 && f2){
-          return f1.sortNo - f2.sortNo;
-        } 
-        return false
       })
     },
     handleCreate (value) {
@@ -86,7 +77,6 @@ export default {
         } 
         return f
       })
-      this.sort()
     },
     handleDelete(value) {
       this.fetch()

@@ -22,15 +22,6 @@
         <a-input v-decorator="['id']" :disabled="true"/>
         </a-form-item>
         <a-form-item
-          label="SortNo.:"
-          :labelCol="labelCol"
-          :wrapperCol="wrapperCol"
-          :validate-status="validate['sortNo'] != null ? 'error' : null"
-          :help="validate['sortNo']"
-        >
-          <a-input v-decorator="['sortNo', {rules: [{required: true, message: 'This field is required.'}]}]" />
-        </a-form-item>
-        <a-form-item
           label="Name:"
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
@@ -85,7 +76,7 @@ export default {
       },
       this.validate = {},
       this.$nextTick(() => {
-        this.form.setFieldsValue({'id': null, 'name': '', 'sortNo': ''})
+        this.form.setFieldsValue({'id': null, 'name': ''})
       })
     },
     edit(data) {
@@ -97,7 +88,7 @@ export default {
       },
       this.validate = {},
       this.$nextTick(() => {
-        const formData = pick(data, ['id', 'name', 'sortNo'])
+        const formData = pick(data, ['id', 'name'])
         this.form.setFieldsValue(formData)
       })
     },
@@ -110,7 +101,7 @@ export default {
       },
       this.validate = {},
       this.$nextTick(() => {
-        const formData = pick(data, ['id', 'name', 'sortNo'])
+        const formData = pick(data, ['id', 'name'])
         this.form.setFieldsValue(formData)
       })
     },
@@ -120,7 +111,6 @@ export default {
         this.visible = false
       }).catch((error) => {
         this.validate.name = checkError(error, 'name')['name']
-        this.validate.sortNo = checkError(error, 'sortNo')['sortNo']
         this.$notification['error']({
           message: 'error',
           description: 'create failure',
@@ -136,7 +126,6 @@ export default {
         this.visible = false
       }).catch((error) => {
         this.validate.name = checkError(error, 'name')['name']
-        this.validate.sortNo = checkError(error, 'sortNo')['sortNo']
         this.$notification['error']({
           message: 'error',
           description: 'change failure',
