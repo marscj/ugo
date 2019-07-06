@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.parsers import FileUploadParser
+from rest_framework.exceptions import ParseError
 
 from django.core.files.uploadedfile import UploadedFile
 
@@ -26,10 +27,3 @@ class ProductVariantView(CustomModelViewSet):
 class ProductImageView(CustomModelViewSet):
     serializer_class = ProductImageSerializer
     queryset = ProductImage.objects.all()
-
-class FileUploadView(APIView):
-    parser_classes = (FileUploadParser,)
-
-    def put(self, request, filename, format=None):
-        file_obj = request.data['file']
-        return Response(status=204)

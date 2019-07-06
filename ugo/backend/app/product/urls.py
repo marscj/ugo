@@ -9,8 +9,4 @@ router.register(r'product', views.ProductView, basename='product')
 router.register(r'productvariant', views.ProductVariantView, basename='productvariant')
 router.register(r'image', views.ProductImageView, base_name='images')
 
-urlpatterns = [
-    url(r'upload', views.FileUploadView.as_view(), name='upload'),
-]
-
-urlpatterns = urlpatterns + router.urls
+urlpatterns = router.urls
