@@ -8,8 +8,8 @@ from rest_framework.parsers import FileUploadParser
 from django.core.files.uploadedfile import UploadedFile
 
 from middleware.viewsets import CustomModelViewSet
-from .models import Category, Product, ProductVariant
-from .serializers import CategorySerializer, ProductSerializer, ProductVariantSerializer
+from .models import Category, Product, ProductVariant, ProductImage
+from .serializers import CategorySerializer, ProductSerializer, ProductVariantSerializer, ProductImageSerializer
 
 class CategoryView(CustomModelViewSet):
     serializer_class = CategorySerializer
@@ -17,13 +17,17 @@ class CategoryView(CustomModelViewSet):
 
 class ProductView(CustomModelViewSet):
     serializer_class = ProductSerializer
-    queryset = Product.objects.all().cache()
+    queryset = Product.objects.all()
  
 class ProductVariantView(CustomModelViewSet):
     serializer_class = ProductVariantSerializer
-    queryset = ProductVariant.objects.all().cache()
+    queryset = ProductVariant.objects.all()
 
-class FileUploadView(views.APIView):
+class ProductImageView(CustomModelViewSet):
+    serializer_class = ProductImageSerializer
+    queryset = ProductImage.objects.all()
+
+class FileUploadView(APIView):
     parser_classes = (FileUploadParser,)
 
     def put(self, request, filename, format=None):

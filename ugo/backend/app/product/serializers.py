@@ -36,7 +36,7 @@ class ProductVariantSerializer(serializers.ModelSerializer):
 
     product = ProductSerializer(required=True, allow_null=False, many=False)
 
-    images = serializers.ModelSerializer('ProductImageSerializer', required=False, allow_null=True, many=True)
+    # images = serializers.ModelSerializer('ProductImageSerializer', required=False, allow_null=True, many=True)
 
     class Meta:
         model = ProductVariant
@@ -44,7 +44,7 @@ class ProductVariantSerializer(serializers.ModelSerializer):
 
 class ProductImageSerializer(serializers.ModelSerializer):
 
-    product = ProductSerializer(required=False, allow_null=True, many=False)
+    # product = ProductSerializer(required=False, allow_null=True, many=False)
 
     image = VersatileImageFieldSerializer(sizes='product_size')
 
