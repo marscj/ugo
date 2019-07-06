@@ -27,7 +27,7 @@
       </a-form>
     </div>
 
-    <s-table :columns="columns" :data="loadData" rowKey="id">
+    <s-table :columns="columns" :data="loadData" :rowKey="(item) => item.id">
 
       <span slot="actions" slot-scope="text, record">
         <a-tag v-for="(action, index) in record.actionList" :key="index">{{ action.describe }}</a-tag>

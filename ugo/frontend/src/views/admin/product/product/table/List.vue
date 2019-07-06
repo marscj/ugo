@@ -28,17 +28,19 @@
     <s-table
       ref="table"
       size="default"
-      rowKey="key"
+      :rowKey="(item) => item.id"
       :columns="columns"
       :data="loadData"
+      bordered
     >
-      <span slot="serial" slot-scope="text, record, index">
-        {{ index + 1 }}
-      </span>
-      <span slot="action" slot-scope="text, record">
+      <span slot="photo" slot-scope="data">
         <template>
-          <a @click="handleEdit(record)">Edit</a>
-          <a-divider type="vertical" />
+          <img :src="data.photo.thumbnail" alt='photo'>
+        </template>
+      </span>
+      <span slot="action" slot-scope="text, data">
+        <template>
+          <a @click="handleEdit(data)">Edit</a>
         </template>
       </span>
     </s-table>
@@ -57,26 +59,29 @@ export default {
   },
   data () {
     return {
-      mdl: {},
+      imgUrl: "http://127.0.0.1:8000/media/__sized__/products/ic_launcher_XTDOmva-thumbnail-100x100.png",
       // 查询参数
       queryParam: {},
       // 表头
       columns: [
         {
           title: '#',
-          scopedSlots: { customRender: 'id' }
+          dataIndex: 'id',
+          width: 40
         },
         {
           title: 'Product ID',
-          dataIndex: 'productID'
+          dataIndex: 'productID',
+          width: 120
+        },
+        {
+          title: 'photo',
+          width: 200,
+          scopedSlots: { customRender: 'photo' }
         },
         {
           title: 'description',
           dataIndex: 'description'
-        },
-        {
-          title: 'photo',
-          dataIndex: 'image'
         },
         {
           title: '操作',
