@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'django_filters',
     'rest_framework',
     'rest_framework_jwt',
+    'versatileimagefield',
 
     'app.authorization',
     'app.product',
@@ -123,6 +124,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
+#缓存
 CACHEOPS_DEFAULTS = {
     'timeout': 60*60
 }
@@ -140,3 +142,13 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = ('*',)
 CORS_ALLOW_HEADERS = ('*',)
 CORS_ALLOW_METHODS = ('*',)
+
+# 图片压缩
+VERSATILEIMAGEFIELD_RENDITION_KEY_SETS = {
+    'product_size': [
+        ('full_size', 'url'),
+        ('thumbnail', 'thumbnail__100x100'),
+        ('medium_square_crop', 'crop__400x400'),
+        ('small_square_crop', 'crop__50x50')
+    ]
+}

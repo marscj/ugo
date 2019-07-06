@@ -5,38 +5,25 @@
       <a-form-item
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
-        label="规则编号"
-        hasFeedback
-        validateStatus="success"
+        label="Product ID:"
       >
-        <a-input
-          placeholder="规则编号"
-          v-decorator="[
-            'no',
-            {rules: [{ required: true, message: '请输入规则编号' }]}
-          ]"
-          :disabled="true"
-        ></a-input>
+        <a-input v-decorator="['productID', {rules: [{ required: true, message: 'This field is required.' }]}]"></a-input>
       </a-form-item>
 
       <a-form-item
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
-        label="服务调用次数"
-        hasFeedback
-        validateStatus="success"
+        label="Product Name:"
       >
-        <a-input-number :min="1" style="width: 100%" v-decorator="['callNo', {rules: [{ required: true }]}]" />
+        <a-input v-decorator="['name', {rules: [{ required: true, message: 'This field is required.'}]}]" />
       </a-form-item>
 
       <a-form-item
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
-        label="状态"
-        hasFeedback
-        validateStatus="warning"
+        label="Category"
       >
-        <a-select v-decorator="['status', {rules: [{ required: true, message: '请选择状态' }], initialValue: '1'}]">
+        <a-select v-decorator="['category', {rules: [{ required: true, message: 'This field is required.' }], initialValue: '1'}]">
           <a-select-option :value="1">Option 1</a-select-option>
           <a-select-option :value="2">Option 2</a-select-option>
           <a-select-option :value="3">Option 3</a-select-option>
@@ -46,28 +33,32 @@
       <a-form-item
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
-        label="描述"
-        hasFeedback
-        help="请填写一段描述"
+        label="Description"
       >
         <a-textarea :rows="5" placeholder="..." v-decorator="['description', {rules: [{ required: true }]}]" />
       </a-form-item>
 
-      <a-form-item
+      <!-- <a-form-item
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
-        label="更新时间"
-        hasFeedback
-        validateStatus="error"
+        label="Photo"
       >
-        <a-date-picker
-          style="width: 100%"
-          showTime
-          format="YYYY-MM-DD HH:mm:ss"
-          placeholder="Select Time"
-          v-decorator="['updatedAt']"
-        />
-      </a-form-item>
+        <a-upload
+          name="avatar"
+          listType="picture-card"
+          :showUploadList="false"
+          class="avatar-uploader"
+          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+          v-decorator="['productID']"
+          @change="handleChange"
+        >
+          <img v-if="imageUrl" :src="imageUrl" alt="avatar" />
+          <div v-else>
+              <a-icon :type="loading ? 'loading' : 'plus'" />
+              <div class="ant-upload-text">Upload</div>
+          </div>
+        </a-upload>
+      </a-form-item> -->
 
       <a-form-item
         v-bind="buttonCol"
@@ -115,7 +106,9 @@ export default {
         }
       },
       form: this.$form.createForm(this),
-      id: 0
+      id: 0,
+      loading: false,
+      imageUrl: '',
     }
   },
   // beforeCreate () {
@@ -134,7 +127,6 @@ export default {
       const { form: { validateFields } } = this
       validateFields((err, values) => {
         if (!err) {
-          // eslint-disable-next-line no-console
           console.log('Received values of form: ', values)
         }
       })
@@ -144,17 +136,40 @@ export default {
     },
     loadEditInfo (data) {
       const { form } = this
-      // ajax
-      console.log(`将加载 ${this.id} 信息到表单`)
-      new Promise((resolve) => {
-        setTimeout(resolve, 1500)
-      }).then(() => {
-        const formData = pick(data, ['no', 'callNo', 'status', 'description', 'updatedAt'])
-        formData.updatedAt = moment(data.updatedAt)
-        console.log('formData', formData)
+      this.$nextTick(() => {
+        const formData = pick(data, ['productID', 'name', 'category', 'description', 'image'])
         form.setFieldsValue(formData)
       })
-    }
+    },
+    handleChange (info) {
+      if (info.file.status === 'uploading') {
+        this.loading = true
+        return
+      }
+      if (info.file.status === 'done') {
+        // Get this url from response in real world.
+        getBase64(info.file.originFileObj, (imageUrl) => {
+          this.imageUrl = imageUrl
+          this.loading = false
+        })
+      }
+    },
   }
 }
 </script>
+
+<style>
+  .avatar-uploader > .ant-upload {
+    width: 128px;
+    height: 128px;
+  }
+  .ant-upload-select-picture-card i {
+    font-size: 32px;
+    color: #999;
+  }
+
+  .ant-upload-select-picture-card .ant-upload-text {
+    margin-top: 8px;
+    color: #666;
+  }
+</style>

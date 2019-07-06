@@ -21,14 +21,16 @@
       </a-form>
     </div>
 
+    <div class="table-operator">
+      <a-button type="primary" icon="plus" @click="handleEdit()">新建</a-button>
+    </div>
+
     <s-table
       ref="table"
       size="default"
       rowKey="key"
       :columns="columns"
       :data="loadData"
-      :alert="options.alert"
-      :rowSelection="options.rowSelection"
     >
       <span slot="serial" slot-scope="text, record, index">
         {{ index + 1 }}
@@ -83,50 +85,18 @@ export default {
           scopedSlots: { customRender: 'action' }
         }
       ],
-      // 加载数据方法 必须为 Promise 对象
       loadData: parameter => {
         return getProductList(Object.assign(parameter, this.queryParam))
           .then(res => {
             return res.result
           })
       },
-      selectedRowKeys: [],
-      selectedRows: [],
-
-      // custom table alert & rowSelection
-      options: {
-        alert: { show: true, clear: () => { this.selectedRowKeys = [] } },
-        rowSelection: {
-          selectedRowKeys: this.selectedRowKeys,
-          onChange: this.onSelectChange
-        }
-      },
-      optionAlertShow: false
     }
   },
   created () {
-    this.tableOption()
-    getRoleList({ t: new Date() })
+
   },
   methods: {
-    tableOption () {
-      if (!this.optionAlertShow) {
-        this.options = {
-          alert: { show: true, clear: () => { this.selectedRowKeys = [] } },
-          rowSelection: {
-            selectedRowKeys: this.selectedRowKeys,
-            onChange: this.onSelectChange
-          }
-        }
-        this.optionAlertShow = true
-      } else {
-        this.options = {
-          alert: false,
-          rowSelection: null
-        }
-        this.optionAlertShow = false
-      }
-    },
 
     handleEdit (record) {
       this.$emit('onEdit', record)
@@ -134,17 +104,6 @@ export default {
     handleOk () {
 
     },
-
-    onSelectChange (selectedRowKeys, selectedRows) {
-      this.selectedRowKeys = selectedRowKeys
-      this.selectedRows = selectedRows
-    },
-
-    resetSearchForm () {
-      this.queryParam = {
-        date: moment(new Date())
-      }
-    }
   }
 }
 </script>

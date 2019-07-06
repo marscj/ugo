@@ -1,6 +1,6 @@
 from django.db import models
 
-from versatileimagefield.fields import VersatileImageField
+from versatileimagefield.fields import VersatileImageField, PPOIField
 
 class Category(models.Model):
 
@@ -17,7 +17,9 @@ class Product(models.Model):
 
     description = models.CharField(blank=True, null=True, max_length=128)
 
-    image = VersatileImageField(upload_to="products", blank=False)
+    photo = VersatileImageField(blank=True, upload_to='products/', ppoi_field='photo_ppoi',)
+    
+    photo_ppoi = PPOIField()
     
     category = models.ForeignKey(Category, blank=True, null=True, related_name='product', on_delete=models.SET_NULL)
 
@@ -47,7 +49,9 @@ class ProductImage(models.Model):
         Product, related_name="images", on_delete=models.CASCADE
     )
 
-    image = VersatileImageField(upload_to="products", blank=False)
+    image = VersatileImageField(blank=True, upload_to='products/', ppoi_field='image_ppoi',)
+    
+    image_ppoi = PPOIField()
 
     class Meta:
         db_table = 'productimage'
