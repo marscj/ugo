@@ -9,7 +9,7 @@ class ProductImageSerializer(serializers.ModelSerializer):
     product = serializers.PrimaryKeyRelatedField(required=False, allow_null=True, read_only=True)
     # product = ProductSerializer(required=False, allow_null=True, read_only=True)
 
-    product_id = serializers.IntegerField(write_only=True)
+    product_id = serializers.IntegerField(required=False, allow_null=True, write_only=True)
 
     image = VersatileImageFieldSerializer(required=False, allow_null=True, sizes='product_size')
 

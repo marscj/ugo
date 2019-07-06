@@ -112,3 +112,4 @@ dump.rdb
 celerybeat.pid
 
 static
+media
