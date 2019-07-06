@@ -18,8 +18,6 @@ class ProductSerializer(serializers.ModelSerializer):
 
     name = serializers.CharField(required=True, allow_null=False, max_length=128, validators=[UniqueValidator(queryset=Product.objects.all())])
 
-    photo = VersatileImageFieldSerializer(sizes='product_size')
-
     category = CategorySerializer(required=False, allow_null=False, many=False)
 
     class Meta:
@@ -36,15 +34,13 @@ class ProductVariantSerializer(serializers.ModelSerializer):
 
     product = ProductSerializer(required=True, allow_null=False, many=False)
 
-    # images = serializers.ModelSerializer('ProductImageSerializer', required=False, allow_null=True, many=True)
-
     class Meta:
         model = ProductVariant
         fields = '__all__'
 
 class ProductImageSerializer(serializers.ModelSerializer):
 
-    # product = ProductSerializer(required=False, allow_null=True, many=False)
+    product = ProductSerializer(required=False, allow_null=True, many=False)
 
     image = VersatileImageFieldSerializer(sizes='product_size')
 

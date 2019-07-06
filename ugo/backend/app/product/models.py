@@ -1,6 +1,5 @@
 from django.db import models
 
-from tinymce.models import HTMLField
 from versatileimagefield.fields import VersatileImageField, PPOIField
 
 class Category(models.Model):
@@ -17,10 +16,6 @@ class Product(models.Model):
     name = models.CharField(blank=True, null=True, max_length=128, unique=True)
 
     description = models.CharField(blank=True, null=True, max_length=128)
-
-    photo = VersatileImageField(blank=True, upload_to='products/', ppoi_field='photo_ppoi',)
-    
-    photo_ppoi = PPOIField()
     
     content = models.TextField(blank=True, null=True)
 
@@ -46,15 +41,15 @@ class ProductVariant(models.Model):
 
 class ProductImage(models.Model):
 
-    # product = models.ForeignKey(
-    #     Product, related_name="image", on_delete=models.CASCADE
-    # )
+    flag = models.CharField(blank=True, null=True, max_length=16)
 
-    flag = models.CharField(blank=True, null=True, max_length=64)
+    description = models.CharField(blank=True, null=True, max_length=64)
 
     image = VersatileImageField(blank=True, upload_to='products/', ppoi_field='image_ppoi',)
     
     image_ppoi = PPOIField()
+
+    product = models.ForeignKey(Product, blank=True, null=True, related_name="image", on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'productimage'
