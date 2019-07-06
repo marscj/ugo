@@ -3,14 +3,10 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from rest_framework.parsers import FileUploadParser
-from rest_framework.exceptions import ParseError
-
-from django.core.files.uploadedfile import UploadedFile
 
 from middleware.viewsets import CustomModelViewSet
-from .models import Category, Product, ProductVariant, ProductImage
-from .serializers import CategorySerializer, ProductSerializer, ProductVariantSerializer, ProductImageSerializer
+from .models import Category, Product, ProductVariant
+from .serializers import CategorySerializer, ProductSerializer, ProductVariantSerializer
 
 class CategoryView(CustomModelViewSet):
     serializer_class = CategorySerializer
@@ -23,7 +19,3 @@ class ProductView(CustomModelViewSet):
 class ProductVariantView(CustomModelViewSet):
     serializer_class = ProductVariantSerializer
     queryset = ProductVariant.objects.all()
-
-class ProductImageView(CustomModelViewSet):
-    serializer_class = ProductImageSerializer
-    queryset = ProductImage.objects.all()

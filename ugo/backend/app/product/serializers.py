@@ -1,8 +1,9 @@
 from rest_framework import  serializers
 from rest_framework.validators import UniqueValidator
-from versatileimagefield.serializers import VersatileImageFieldSerializer
 
-from .models import Category, Product, ProductVariant, ProductImage
+from .models import Category, Product, ProductVariant
+from app.source.models import ProductImage
+from app.source.serializers import ProductImageSerializer
 
 class CategorySerializer(serializers.ModelSerializer):
 
@@ -20,6 +21,8 @@ class ProductSerializer(serializers.ModelSerializer):
 
     category = CategorySerializer(required=False, allow_null=False, many=False)
 
+    image = ProductImageSerializer(required=False, allow_null=True, many=True, read_only=True)
+
     class Meta:
         model = Product
         fields = '__all__'
@@ -33,18 +36,8 @@ class ProductVariantSerializer(serializers.ModelSerializer):
     name = serializers.CharField(required=True, allow_null=False, max_length=128, validators=[UniqueValidator(queryset=Product.objects.all())])
 
     product = ProductSerializer(required=True, allow_null=False, many=False)
-
+ 
     class Meta:
         model = ProductVariant
-        fields = '__all__'
-
-class ProductImageSerializer(serializers.ModelSerializer):
-
-    product = ProductSerializer(required=False, allow_null=True, many=False)
-
-    image = VersatileImageFieldSerializer(sizes='product_size')
-
-    class Meta:
-        model = ProductImage
         fields = '__all__'
 

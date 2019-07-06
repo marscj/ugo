@@ -1,7 +1,5 @@
 from django.db import models
 
-from versatileimagefield.fields import VersatileImageField, PPOIField
-
 class Category(models.Model):
 
     name = models.CharField(blank=True, null=True, max_length=16, unique=True)
@@ -38,21 +36,3 @@ class ProductVariant(models.Model):
 
     class Meta:
         db_table = 'productvariant'
-
-class ProductImage(models.Model):
-
-    flag = models.CharField(blank=True, null=True, max_length=16)
-
-    description = models.CharField(blank=True, null=True, max_length=64)
-
-    image = VersatileImageField(blank=True, upload_to='products/', ppoi_field='image_ppoi',)
-    
-    image_ppoi = PPOIField()
-
-    product = models.ForeignKey(Product, blank=True, null=True, related_name="image", on_delete=models.CASCADE)
-
-    class Meta:
-        db_table = 'productimage'
-
-    def get_ordering_queryset(self):
-        return self.product.images.all()
