@@ -2,7 +2,6 @@ from rest_framework import  serializers
 from rest_framework.validators import UniqueValidator
 
 from .models import Category, Product, ProductVariant
-from app.source.models import ProductImage
 from app.source.serializers import ProductImageSerializer
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -21,11 +20,19 @@ class ProductSerializer(serializers.ModelSerializer):
 
     category = CategorySerializer(required=False, allow_null=False, many=False)
 
-    image = ProductImageSerializer(required=False, allow_null=True, many=True, read_only=True)
+    image = ProductImageSerializer(many=True)
+
+    icon = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
-        fields = '__all__'
+        fields = ('id', 'productID', 'name', 'category', 'image', 'icon')
+    
+    def get_icon(self, obj):
+        print('-----------------------')
+        print(obj.image.filter(flag='icon').last().image.thumbnail['100x100'].url)
+        print('==================')
+        return 'abc'
 
 class ProductVariantSerializer(serializers.ModelSerializer):
 
