@@ -84,6 +84,21 @@
           </div> 
         </a-upload>
       </a-form-item>
+      
+      <a-form-item
+        :labelCol="labelCol"
+        :wrapperCol="{
+          xs: { span: 24 },
+          sm: { span: 24 }
+        }"
+      >
+        <div class="components-container">
+          <div>
+            <tinymce v-model="content" :height="500" />
+          </div>
+          <div class="editor-content" v-html="content" />
+        </div>
+      </a-form-item>
 
       <a-form-item
         v-bind="buttonCol"
@@ -99,6 +114,7 @@
         </a-row>
       </a-form-item>
     </a-form>
+    
   </div>
 </template>
 
@@ -106,8 +122,14 @@
 import moment from 'moment'
 import pick from 'lodash.pick'
 import { upload } from '@/api/upload'
+
+import Tinymce from '@/components/Tinymce'
+
 export default {
   name: 'TableEdit',
+  components: {
+    Tinymce,
+  },
   props: {
     record: {
       type: [Object, String],
@@ -118,16 +140,16 @@ export default {
     return {
       labelCol: {
         xs: { span: 24 },
-        sm: { span: 5 }
+        sm: { span: 3 }
       },
       wrapperCol: {
         xs: { span: 24 },
-        sm: { span: 12 }
+        sm: { span: 15 }
       },
       buttonCol: {
         wrapperCol: {
           xs: { span: 24 },
-          sm: { span: 12, offset: 5 }
+          sm: { span: 12}
         }
       },
       form: this.$form.createForm(this),
@@ -190,14 +212,16 @@ export default {
           })
         }
       },
+      content: null
     }
   },
-  // beforeCreate () {
-  //   this.form = this.$form.createForm(this)
-  // },
   mounted () {
     this.$nextTick(() => {
-      this.loadEditInfo(this.record)
+      const { form } = this
+      this.$nextTick(() => {
+        const formData = pick(data, ['productID', 'name', 'category', 'description', 'photo'])
+        form.setFieldsValue(formData)
+      })
     })
   },
   methods: {
@@ -210,13 +234,6 @@ export default {
         if (!err) {
           console.log('Received values of form: ', values)
         }
-      })
-    },
-    loadEditInfo (data) {
-      const { form } = this
-      this.$nextTick(() => {
-        const formData = pick(data, ['productID', 'name', 'category', 'description', 'photo'])
-        form.setFieldsValue(formData)
       })
     },
     beforeUpload(file) {
@@ -247,5 +264,9 @@ export default {
   .ant-upload-select-picture-card .ant-upload-text {
     margin-top: 8px;
     color: #666;
+  }
+
+  .editor-content{
+    margin-top: 20px;
   }
 </style>

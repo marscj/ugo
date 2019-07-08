@@ -50,7 +50,7 @@ export const asyncRouterMap = [
             name: 'ProductList',
             component: () => import('@/views/admin/product/product/productList'),
             meta: { title: 'Product', keepAlive: false, permission: [ 'product' ] }
-          },
+          }
         ]
       },
       //users
