@@ -1,10 +1,13 @@
 from django.db import models
+from uuid import uuid4
 
 from versatileimagefield.fields import VersatileImageField, PPOIField
 
 from app.product.models import Product
 
 class ProductImage(models.Model):
+
+    uid = models.UUIDField(default=uuid4)
 
     flag = models.CharField(blank=True, null=True, max_length=16)
 
