@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { upload } from '@/api/upload'
+import { upload } from '@/api/source'
 export default {
   name: 'EditorSlideUpload',
   props: {

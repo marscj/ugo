@@ -121,7 +121,7 @@
 <script>
 import moment from 'moment'
 import pick from 'lodash.pick'
-import { upload } from '@/api/upload'
+import { upload } from '@/api/source'
 
 import Tinymce from '@/components/Tinymce'
 
