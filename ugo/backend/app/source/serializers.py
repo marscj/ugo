@@ -13,6 +13,11 @@ class ProductImageSerializer(serializers.ModelSerializer):
 
     image = VersatileImageFieldSerializer(required=False, allow_null=True, sizes='product_size')
 
+    name = serializers.SerializerMethodField()
+
     class Meta:
         model = ProductImage
         fields = '__all__'
+
+    def get_name(self, obj):
+        return obj.image.name
