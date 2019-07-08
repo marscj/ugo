@@ -8,6 +8,8 @@ const api = {
   permission: '/permission/',
 
   category: '/category/',
-  product: '/product/'
+  product: '/product/',
+
+  source: '/source/'
 }
 export default api

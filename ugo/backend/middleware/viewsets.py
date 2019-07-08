@@ -13,7 +13,7 @@ class ModelViewSetMixin(object):
     def create(self, request, *args, **kwargs):
         print(request)
         print(request.headers)
-        # print(request.data)
+        print(request.data)
         response = super().create(request, *args, **kwargs)
         response.data = {
             'result': response.data

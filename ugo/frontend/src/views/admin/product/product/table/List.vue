@@ -35,9 +35,9 @@
     >
       <span slot="photo" slot-scope="data">
         <template>
-          <img :src="data.image.find((f) => {
+          <img v-if="data.image != null && data.image.length > 0" :src="data.image.find((f) => {
             return f.flag === 'icon'
-          })[0].thumbnail" alt='photo'>
+          }).image.thumbnail" alt='photo'>
         </template>
       </span>
       <span slot="action" slot-scope="text, data">

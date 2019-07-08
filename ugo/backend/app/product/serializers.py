@@ -22,24 +22,9 @@ class ProductSerializer(serializers.ModelSerializer):
 
     image = ProductImageSerializer(many=True)
 
-    icon = serializers.SerializerMethodField()
-
-    gallery = serializers.SerializerMethodField()
-
     class Meta:
         model = Product
-        fields = ('id', 'productID', 'name', 'category', 'image', 'icon', 'gallery')
-    
-    def get_icon(self, obj):
-        icon = obj.image.filter(flag='icon').last()
-        # print(icon.image.thumbnail['400x400'].url)
-        if icon is not None:
-            return icon.image.thumbnail['400x400'].url
-        return None
-
-    def get_gallery(self, obj):
-        return None
-        # return obj.image.filter(flag='gallery')
+        fields = ('id', 'productID', 'name', 'category', 'image')
 
 class ProductVariantSerializer(serializers.ModelSerializer):
 
