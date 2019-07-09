@@ -201,7 +201,6 @@ export default {
     },
     imageSuccessCBK(v) {
       const _this = this
-      console.log(v)
       window.tinymce.get(_this.tinymceId).insertContent(`<img class="wscnph" src="${v.url}" >`)
     }
   }

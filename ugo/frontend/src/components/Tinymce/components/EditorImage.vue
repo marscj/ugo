@@ -1,14 +1,12 @@
 <template>
   <div class="upload-container">
-    <!-- <el-button :style="{background:color,borderColor:color}" icon="el-icon-upload" size="mini" type="primary" @click=" dialogVisible=true">
-      upload
-    </el-button> -->
     <a-button type="primary" style="{background:color,borderColor:color}" @click="dialogVisible=true">
       Upload
     </a-button>
 
     <a-modal :visible="dialogVisible" title="Select a picture" @cancel="dialogVisible=false" @ok="dialogVisible=false">
-      <a-upload
+      <a-upload-dragger
+        :multiple="false"
         :fileList="fileList"
         :showUploadList="false"
         :beforeUpload="beforeUpload"
@@ -17,10 +15,10 @@
         listType="picture-card"
       >
         <div>
-            <a-icon type="plus" />
-            <div class="ant-upload-text">Upload</div>
+          <a-icon :type="loading ? 'loading' : 'plus'" />
+          <div class="ant-upload-text">Upload</div>
         </div> 
-      </a-upload>
+      </a-upload-dragger>
     </a-modal>
   </div>
 </template>
@@ -39,7 +37,8 @@ export default {
     return {
       dialogVisible: false,
       listObj: {},
-      fileList: []
+      fileList: [],
+      loading: false
     }
   },
   methods: {
@@ -63,6 +62,7 @@ export default {
     customRequest(request) {
       const formData = new FormData();
       formData.append('image', request.file);
+      this.loading = true
       upload(formData).then((res) => {
         const { result } = res
         this.fileList.push({
@@ -75,9 +75,12 @@ export default {
         this.$emit('successCBK', this.fileList[0])
         this.fileList = []
         this.dialogVisible = false
+
       }).catch((error) => {
         this.$message.error('Upload failed.')
         console.log(error)
+      }).finally(() => {
+        this.loading = false
       })
     }
   }

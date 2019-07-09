@@ -3,8 +3,6 @@
     <a-form :form="form" @submit="handleSubmit">
       
       <a-form-item
-        :labelCol="labelCol"
-        :wrapperCol="wrapperCol"
         label="Category"
       >
         <a-select v-decorator="['category', {rules: [{ required: true, message: 'This field is required.' }], initialValue: '1'}]">
@@ -15,40 +13,30 @@
       </a-form-item>
 
       <a-form-item
-        :labelCol="labelCol"
-        :wrapperCol="wrapperCol"
         label="Product ID:"
       >
         <a-input v-decorator="['productID', {rules: [{ required: true, message: 'This field is required.' }]}]"></a-input>
       </a-form-item>
 
       <a-form-item
-        :labelCol="labelCol"
-        :wrapperCol="wrapperCol"
         label="Title:"
       >
         <a-input v-decorator="['title', {rules: [{ required: true, message: 'This field is required.'}]}]" />
       </a-form-item>
 
       <a-form-item
-        :labelCol="labelCol"
-        :wrapperCol="wrapperCol"
         label="SubTitle:"
       >
         <a-input v-decorator="['subtitle', {rules: [{ required: true, message: 'This field is required.' }]}]"></a-input>
       </a-form-item>
 
       <a-form-item
-        :labelCol="labelCol"
-        :wrapperCol="wrapperCol"
         label="Description"
       >
         <a-textarea :rows="5" placeholder="..." v-decorator="['description', {rules: [{ required: true }]}]" />
       </a-form-item>
 
       <a-form-item
-        :labelCol="labelCol"
-        :wrapperCol="wrapperCol"
         label="Photo"
       >
         <a-upload
@@ -67,8 +55,6 @@
       </a-form-item>
 
       <a-form-item
-        :labelCol="labelCol"
-        :wrapperCol="wrapperCol"
         label="Gallery"
       >
         <a-upload
@@ -86,11 +72,7 @@
       </a-form-item>
       
       <a-form-item
-        :labelCol="labelCol"
-        :wrapperCol="{
-          xs: { span: 24 },
-          sm: { span: 24 }
-        }"
+        label="Content"
       >
         <div class="components-container">
           <div>
@@ -140,7 +122,7 @@ export default {
     return {
       labelCol: {
         xs: { span: 24 },
-        sm: { span: 3 }
+        sm: { span: 2 }
       },
       wrapperCol: {
         xs: { span: 24 },
@@ -149,7 +131,7 @@ export default {
       buttonCol: {
         wrapperCol: {
           xs: { span: 24 },
-          sm: { span: 12}
+          sm: { span: 6}
         }
       },
       form: this.$form.createForm(this),
@@ -208,7 +190,6 @@ export default {
             this.$message.success('Upload successfully.')
           }).catch((error) => {
             this.$message.error('Upload failed.')
-            console.log(error)
           })
         }
       },
