@@ -75,11 +75,15 @@ export default {
           width: 120
         },
         {
-          title: 'location',
+          title: 'Category',
+          dataIndex: 'category.name',
+        },
+        {
+          title: 'Location',
           dataIndex: 'location'
         },
         {
-          title: 'photo',
+          title: 'Photo',
           width: 200,
           scopedSlots: { customRender: 'photo' }
         },
@@ -103,9 +107,9 @@ export default {
 
   },
   methods: {
-
-    handleEdit (record) {
-      this.$emit('onEdit', record)
+    handleEdit (data) {
+      console.log(data)
+      this.$emit('onEdit', data)
     },
     handleOk () {
 

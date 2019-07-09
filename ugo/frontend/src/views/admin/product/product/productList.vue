@@ -1,6 +1,6 @@
 <template>
   <a-card :bordered="false">
-    <component @onEdit="handleEdit" @onGoBack="handleGoBack" :record="data" :is="currentComponet"></component>
+    <component @onEdit="handleEdit" @onGoBack="handleGoBack" :data="data" :is="currentComponet"></component>
   </a-card>
 </template>
 
@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     handleEdit (data) {
-      this.data = data || ''
+      this.data = data || {}
       this.currentComponet = 'Edit'
     },
     handleGoBack () {

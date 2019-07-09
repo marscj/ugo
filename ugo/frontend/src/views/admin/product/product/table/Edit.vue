@@ -39,7 +39,6 @@
           :remove="photo.remove"
           :customRequest="photo.request"
           listType="picture-card"
-          v-decorator="['photo_id', {rules: [{ required: true, message: 'This field is required.' }]}]"
         >
           <img v-if="photo.file" :src="photo.file.url" alt="photo" />
           <div v-else>
@@ -58,7 +57,6 @@
           :remove="gallery.remove"
           :customRequest="gallery.request"
           listType="picture-card"
-          v-decorator="['gallery_id', {rules: [{ required: true, message: 'This field is required.' }]}]"
         >
           <div v-if="gallery.file.length < 8">
             <a-icon type="plus" />
@@ -70,9 +68,9 @@
       <a-form-item
         label="SubTitle"
       >
-        <div class="components-container" v-decorator="['subtitle', {rules: [{ required: true, message: 'This field is required.' }]}]">
+        <div class="components-container">
           <div>
-            <tinymce v-model="form.subtitle" :height="200" />
+            <tinymce v-model="subtitle" :height="200" />
           </div>
         </div>
       </a-form-item>
@@ -81,9 +79,9 @@
       <a-form-item
         label="Content"
       >
-        <div class="components-container" v-decorator="['content', {rules: [{ required: true, message: 'This field is required.' }]}]">
+        <div class="components-container">
           <div>
-            <tinymce v-model="form.content" :height="500" />
+            <tinymce v-model="content" :height="500" />
           </div>
         </div>
       </a-form-item>
@@ -144,6 +142,7 @@ export default {
       photo: {
         data: null,
         file: null,
+        help: null,
         loading: false,
         remove: (file) => {
           photo.data = null
@@ -170,6 +169,7 @@ export default {
       gallery: {
         data: [],
         file: [],
+        help: null,
         remove: (file) => {
           const index = this.gallery.data.indexOf(file);
           const newFileList = this.gallery.data.slice();
@@ -199,18 +199,43 @@ export default {
           })
         }
       },
+      content: null,
+      subtitle: null
     }
   },
   mounted () {
     this.$nextTick(() => {
       const { form } = this
-      const formData = pick(this.data, ['productID', 'title', 'subtitle', 'location', 'content', 'photo_id', 'gallery_id', 'category_id'])
+      var formData = pick(this.data, ['productID', 'title', 'subtitle', 'location', 'content'])
       form.setFieldsValue(formData)
     })
+
+    this.content = `${this.data.content}`
+    this.subtitle = `${this.data.subtitle}`
+
+    if (this.data.photo != null) {
+      this.photo.file = {
+        uid: this.data.photo.uid,
+        name: this.data.photo.name,
+        url: this.data.photo.image.thumbnail
+      }
+    }
+
+    if (this.data.gallery != null) {
+      for(var data of this.data.gallery) {
+        this.gallery.file.push(
+          {
+            uid: this.data.photo.uid,
+            name: this.data.photo.name,
+            url: this.data.photo.image.thumbnail
+          }
+        )
+      }
+    }
   },
   methods: {
     handleGoBack () {
-      // this.$emit('onGoBack')
+      this.$emit('onGoBack')
     },
     handleSubmit () {
       const { form: { validateFields } } = this
@@ -253,5 +278,9 @@ export default {
 
   .editor-content{
     margin-top: 20px;
+  }
+
+  .components-container {
+    position: relative;
   }
 </style>
