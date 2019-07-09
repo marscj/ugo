@@ -177,6 +177,9 @@ export default {
           this.localDataSource = r.data // 返回结果中的数组数据
           this.localLoading = false
         })
+        .finally(() => {
+          this.localLoading = false
+        })
       }
     },
     initTotalList (columns) {

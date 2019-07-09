@@ -18,15 +18,21 @@ class ProductSerializer(serializers.ModelSerializer):
 
     title = serializers.CharField(required=True, allow_null=False, max_length=128)
 
-    subtitle = serializers.CharField(required=True, allow_null=False)
+    subtitle = serializers.CharField(required=True, allow_null=False, max_length=512)
 
-    category = CategorySerializer(required=False, allow_null=False, many=False)
+    location = serializers.CharField(required=True, allow_null=False, max_length=32)
 
-    image = ProductImageSerializer(many=True)
+    content = serializers.CharField(required=False, allow_null=True, max_length=2048)
+
+    category = CategorySerializer(required=True, allow_null=False, many=False)
+
+    photo = ProductImageSerializer(required=True, many=False)
+
+    gallery = ProductImageSerializer(required=False, many=True)
 
     class Meta:
         model = Product
-        fields = ('id', 'productID', 'name', 'category', 'image')
+        fields = '__all__'
 
 class ProductVariantSerializer(serializers.ModelSerializer):
 

@@ -22,7 +22,7 @@
     </div>
 
     <div class="table-operator">
-      <a-button type="primary" icon="plus" @click="handleEdit()">新建</a-button>
+      <a-button type="primary" icon="plus" @click="handleEdit()">New</a-button>
     </div>
 
     <s-table

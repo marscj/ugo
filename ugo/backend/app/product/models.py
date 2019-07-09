@@ -1,6 +1,7 @@
 from django.db import models
 
 from app.source.models import ProductImage
+
 class Category(models.Model):
 
     name = models.CharField(blank=True, null=True, max_length=16, unique=True)
@@ -20,9 +21,9 @@ class Product(models.Model):
     
     content = models.TextField(blank=True, null=True)
 
-    photo = models.ForeignKey(ProductImage, blank=True, null=True, related_name='product', on_delete=models.SET_NULL)
+    photo = models.ForeignKey(ProductImage, blank=True, null=True, related_name='photo', on_delete=models.SET_NULL)
 
-    gallery = models.ManyToManyField(ProductImage, blank=True, related_name='product')
+    gallery = models.ManyToManyField(ProductImage, blank=True, related_name='gallery')
 
     category = models.ForeignKey(Category, blank=True, null=True, related_name='product', on_delete=models.SET_NULL)
 
