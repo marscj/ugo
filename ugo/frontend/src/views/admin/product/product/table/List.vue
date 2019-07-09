@@ -35,9 +35,7 @@
     >
       <span slot="photo" slot-scope="data">
         <template>
-          <img v-if="data.image != null && data.image.length > 0" :src="data.image.find((f) => {
-            return f.flag === 'icon'
-          }).image.thumbnail" alt='photo'>
+          <img v-if="data.photo" :src="data.photo.image.thumbnail" alt='photo'>
         </template>
       </span>
       <span slot="action" slot-scope="text, data">
@@ -77,14 +75,15 @@ export default {
           width: 120
         },
         {
+          title: 'location',
+          dataIndex: 'location'
+        },
+        {
           title: 'photo',
           width: 200,
           scopedSlots: { customRender: 'photo' }
         },
-        {
-          title: 'description',
-          dataIndex: 'description'
-        },
+        
         {
           title: '操作',
           dataIndex: 'action',

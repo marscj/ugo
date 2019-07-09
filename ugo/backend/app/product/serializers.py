@@ -43,7 +43,8 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         gallery = validated_data.pop('gallery_id', None)
-        product = Product.objects.create(**validated_data)
+        photo = validated_data.pop('photo_id', None)
+        product = Product.objects.create(**validated_data, photo_id=photo)
         
         if gallery is not None:
             for data in gallery:
@@ -53,13 +54,18 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         gallery = validated_data.pop('gallery_id', None)
-        
+        photo = validated_data.pop('photo_id', None)
+
         for data in instance.gallery.all():
             instance.gallery.remove(data)
 
         if gallery is not None:
             for data in gallery:
                 instance.gallery.add(data)
+
+        instance.photo_id = photo
+
+        instance.save()
 
         return instance
 

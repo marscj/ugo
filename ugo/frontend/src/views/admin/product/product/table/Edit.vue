@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-form :form="form" @submit="handleSubmit">
+    <a-form :form="form">
       
       <a-form-item
         label="Category"
@@ -25,15 +25,9 @@
       </a-form-item>
 
       <a-form-item
-        label="SubTitle:"
+        label="Location:"
       >
-        <a-input v-decorator="['subtitle', {rules: [{ required: true, message: 'This field is required.' }]}]"></a-input>
-      </a-form-item>
-
-      <a-form-item
-        label="Description"
-      >
-        <a-textarea :rows="5" placeholder="..." v-decorator="['description', {rules: [{ required: true }]}]" />
+        <a-input v-decorator="['location', {rules: [{ required: true, message: 'This field is required.' }]}]"></a-input>
       </a-form-item>
 
       <a-form-item
@@ -45,6 +39,7 @@
           :remove="photo.remove"
           :customRequest="photo.request"
           listType="picture-card"
+          v-decorator="['photo_id', {rules: [{ required: true, message: 'This field is required.' }]}]"
         >
           <img v-if="photo.file" :src="photo.file.url" alt="photo" />
           <div v-else>
@@ -63,6 +58,7 @@
           :remove="gallery.remove"
           :customRequest="gallery.request"
           listType="picture-card"
+          v-decorator="['gallery_id', {rules: [{ required: true, message: 'This field is required.' }]}]"
         >
           <div v-if="gallery.file.length < 8">
             <a-icon type="plus" />
@@ -72,13 +68,23 @@
       </a-form-item>
       
       <a-form-item
+        label="SubTitle"
+      >
+        <div class="components-container" v-decorator="['subtitle', {rules: [{ required: true, message: 'This field is required.' }]}]">
+          <div>
+            <tinymce v-model="form.subtitle" :height="200" />
+          </div>
+        </div>
+      </a-form-item>
+
+
+      <a-form-item
         label="Content"
       >
-        <div class="components-container">
+        <div class="components-container" v-decorator="['content', {rules: [{ required: true, message: 'This field is required.' }]}]">
           <div>
-            <tinymce v-model="content" :height="500" />
+            <tinymce v-model="form.content" :height="500" />
           </div>
-          <div class="editor-content" v-html="content" />
         </div>
       </a-form-item>
 
@@ -87,7 +93,7 @@
       >
         <a-row>
           <a-col span="6">
-            <a-button type="primary" html-type="submit">Submit</a-button>
+            <a-button type="primary" html-type="submit" @click="handleSubmit">Submit</a-button>
           </a-col>
           <a-col span="10">
             <a-button @click="handleGoBack">Return</a-button>
@@ -113,7 +119,7 @@ export default {
     Tinymce,
   },
   props: {
-    record: {
+    data: {
       type: [Object, String],
       default: ''
     }
@@ -193,25 +199,23 @@ export default {
           })
         }
       },
-      content: null
     }
   },
   mounted () {
     this.$nextTick(() => {
       const { form } = this
-      this.$nextTick(() => {
-        const formData = pick(data, ['productID', 'name', 'category', 'description', 'photo'])
-        form.setFieldsValue(formData)
-      })
+      const formData = pick(this.data, ['productID', 'title', 'subtitle', 'location', 'content', 'photo_id', 'gallery_id', 'category_id'])
+      form.setFieldsValue(formData)
     })
   },
   methods: {
     handleGoBack () {
-      this.$emit('onGoBack')
+      // this.$emit('onGoBack')
     },
     handleSubmit () {
       const { form: { validateFields } } = this
       validateFields((err, values) => {
+        console.log(values)
         if (!err) {
           console.log('Received values of form: ', values)
         }
