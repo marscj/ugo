@@ -2,6 +2,7 @@ from rest_framework import  serializers
 from rest_framework.validators import UniqueValidator
 
 from .models import Category, Product, ProductVariant
+from app.source.models import ProductImage
 from app.source.serializers import ProductImageSerializer
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -24,15 +25,43 @@ class ProductSerializer(serializers.ModelSerializer):
 
     content = serializers.CharField(required=False, allow_null=True, max_length=2048)
 
-    category = CategorySerializer(required=True, allow_null=False, many=False)
+    category = CategorySerializer(read_only=True)
 
-    photo = ProductImageSerializer(required=True, many=False)
+    category_id = serializers.IntegerField(write_only=True)
 
-    gallery = ProductImageSerializer(required=False, many=True)
+    photo = ProductImageSerializer(read_only=True)
+
+    photo_id = serializers.IntegerField(write_only=True)
+
+    gallery = ProductImageSerializer(read_only=True, many=True)
+
+    gallery_id = serializers.PrimaryKeyRelatedField(allow_null=True, read_only=False, write_only=True, many=True, queryset=ProductImage.objects.all())
 
     class Meta:
         model = Product
         fields = '__all__'
+
+    def create(self, validated_data):
+        gallery = validated_data.pop('gallery_id', None)
+        product = Product.objects.create(**validated_data)
+        
+        if gallery is not None:
+            for data in gallery:
+                product.gallery.add(data)
+
+        return product
+
+    def update(self, instance, validated_data):
+        gallery = validated_data.pop('gallery_id', None)
+        
+        for data in instance.gallery.all():
+            instance.gallery.remove(data)
+
+        if gallery is not None:
+            for data in gallery:
+                instance.gallery.add(data)
+
+        return instance
 
 class ProductVariantSerializer(serializers.ModelSerializer):
 
