@@ -32,6 +32,8 @@
 
       <a-form-item
         label="Photo"
+        :validate-status="photo.file == null ?  'error': null"
+        :help="photo.file == null ?  'This field is required.': null"
       >
         <a-upload
           :showUploadList="false"
@@ -67,21 +69,24 @@
       
       <a-form-item
         label="SubTitle"
+        :validate-status="subtitle.help == null || subtitle.help === '' ? null : 'error'"
+        :help="subtitle.help"
       >
         <div class="components-container">
           <div>
-            <tinymce v-model="subtitle" :height="200" />
+            <tinymce v-model="subtitle.data" :height="150" />
           </div>
         </div>
       </a-form-item>
 
-
       <a-form-item
         label="Content"
+        :validate-status="content.help == null || content.help === '' ? null : 'error'"
+        :help="content.help"
       >
         <div class="components-container">
           <div>
-            <tinymce v-model="content" :height="500" />
+            <tinymce v-model="content.data" :height="500" />
           </div>
         </div>
       </a-form-item>
@@ -199,39 +204,52 @@ export default {
           })
         }
       },
-      content: null,
-      subtitle: null
+      content: {
+        data: null,
+        help: null
+      },
+      subtitle: {
+        data: null,
+        help: null
+      }
     }
   },
   mounted () {
     this.$nextTick(() => {
+      this.content = {
+        data: this.data.content,
+        help: null
+      }
+
+      this.subtitle = {
+        data: this.data.subtitle,
+        help: null
+      }
+
+      if (this.data.photo != null) {
+        this.photo.file = {
+          uid: this.data.photo.uid,
+          name: this.data.photo.name,
+          url: this.data.photo.image.thumbnail
+        }
+      }
+
+      if (this.data.gallery != null) {
+        for(var data of this.data.gallery) {
+          this.gallery.file.push(
+            {
+              uid: this.data.photo.uid,
+              name: this.data.photo.name,
+              url: this.data.photo.image.thumbnail
+            }
+          )
+        }
+      }
+
       const { form } = this
-      var formData = pick(this.data, ['productID', 'title', 'subtitle', 'location', 'content'])
+      var formData = pick(this.data, ['productID', 'title', 'subtitle', 'location'])
       form.setFieldsValue(formData)
     })
-
-    this.content = `${this.data.content}`
-    this.subtitle = `${this.data.subtitle}`
-
-    if (this.data.photo != null) {
-      this.photo.file = {
-        uid: this.data.photo.uid,
-        name: this.data.photo.name,
-        url: this.data.photo.image.thumbnail
-      }
-    }
-
-    if (this.data.gallery != null) {
-      for(var data of this.data.gallery) {
-        this.gallery.file.push(
-          {
-            uid: this.data.photo.uid,
-            name: this.data.photo.name,
-            url: this.data.photo.image.thumbnail
-          }
-        )
-      }
-    }
   },
   methods: {
     handleGoBack () {
@@ -240,7 +258,6 @@ export default {
     handleSubmit () {
       const { form: { validateFields } } = this
       validateFields((err, values) => {
-        console.log(values)
         if (!err) {
           console.log('Received values of form: ', values)
         }

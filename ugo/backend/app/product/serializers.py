@@ -35,7 +35,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     gallery = ProductImageSerializer(read_only=True, many=True)
 
-    gallery_id = serializers.PrimaryKeyRelatedField(allow_null=True, read_only=False, write_only=True, many=True, queryset=ProductImage.objects.all())
+    gallery_id = serializers.PrimaryKeyRelatedField(allow_null=True, write_only=True, many=True, queryset=ProductImage.objects.all())
 
     class Meta:
         model = Product
@@ -65,7 +65,10 @@ class ProductSerializer(serializers.ModelSerializer):
 
         instance.photo_id = photo
 
-        instance.save()
+        super().update(instance, validated_data)
+        print('==============')
+        print(instance.subtitle)
+        print('==============')
 
         return instance
 

@@ -30,6 +30,7 @@ class ModelViewSetMixin(object):
         return response
 
     def update(self, request, *args, **kwargs):
+        print(request.data)
         response = super().update(request, *args, **kwargs)
         response.data = {
             'result': response.data

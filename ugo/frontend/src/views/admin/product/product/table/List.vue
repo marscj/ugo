@@ -59,7 +59,6 @@ export default {
   },
   data () {
     return {
-      imgUrl: "http://127.0.0.1:8000/media/__sized__/products/ic_launcher_XTDOmva-thumbnail-100x100.png",
       // 查询参数
       queryParam: {},
       // 表头
@@ -67,27 +66,30 @@ export default {
         {
           title: '#',
           dataIndex: 'id',
-          width: 40
+          width: 40,
         },
         {
           title: 'Product ID',
           dataIndex: 'productID',
-          width: 120
+          width: 120,
         },
         {
           title: 'Category',
           dataIndex: 'category.name',
         },
         {
+          title: 'Title',
+          dataIndex: 'title',
+        },
+        {
           title: 'Location',
-          dataIndex: 'location'
+          dataIndex: 'location',
         },
         {
           title: 'Photo',
           width: 200,
           scopedSlots: { customRender: 'photo' }
         },
-        
         {
           title: '操作',
           dataIndex: 'action',
