@@ -34,7 +34,7 @@ import { getCategoryList } from '@/api/product'
 import CategoryForm from './CategoryForm'
 
 export default {
-  name: 'CardList',
+  name: 'CategoryList',
   components: {
     CategoryForm,
   },

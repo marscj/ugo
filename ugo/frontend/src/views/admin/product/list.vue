@@ -53,7 +53,7 @@ import { STable } from '@/components'
 import { getProductList } from '@/api/product'
 
 export default {
-  name: 'TableList',
+  name: 'ProductList',
   components: {
     STable
   },

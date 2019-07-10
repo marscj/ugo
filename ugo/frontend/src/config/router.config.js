@@ -35,25 +35,25 @@ export const asyncRouterMap = [
       {
         path: 'product',
         name: 'Product',
-        redirect: '/admin/product/list',
+        redirect: '/admin/product/productList',
         component: PageView,
         meta: { title: 'Product', keepAlive: true, permission: [ 'product' ] },
         children: [
           {
-            path: 'list',
+            path: 'productList',
             name: 'ProductList',
             component: () => import('@/views/admin/product/list'),
             meta: { title: 'Product', keepAlive: false },
           },
           {
-            path: 'edit/:id(\\d+)',
+            path: 'productEdit/:id(\\d+)',
             name: 'ProductEdit',
             component: () => import('@/views/admin/product/edit'),
             meta: { title: 'Product Edit', keepAlive: false },
             hidden: true
           },
           {
-            path: 'create',
+            path: 'productCreate',
             name: 'ProductCreate',
             component: () => import('@/views/admin/product/create'),
             meta: { title: 'Product Create', keepAlive: false },
@@ -65,25 +65,25 @@ export const asyncRouterMap = [
       {
         path: 'variant',
         name: 'Variant',
-        redirect: '/admin/variant/list',
+        redirect: '/admin/variant/variantList',
         component: PageView,
         meta: { title: 'Variant', keepAlive: true, permission: [ 'product' ] },
         children: [
           {
-            path: 'list',
-            name: 'Variant',
+            path: 'variantList',
+            name: 'VariantList',
             component: () => import('@/views/admin/variant/list'),
             meta: { title: 'Variant', keepAlive: false },
           },
           {
-            path: 'edit/:id(\\d+)',
+            path: 'variantEdit/:id(\\d+)',
             name: 'VariantEdit',
             component: () => import('@/views/admin/variant/edit'),
             meta: { title: 'Edit', keepAlive: false },
             hidden: true
           },
           {
-            path: 'create',
+            path: 'variantCreate',
             name: 'VariantCreate',
             component: () => import('@/views/admin/variant/create'),
             meta: { title: 'Create', keepAlive: false },
@@ -95,12 +95,12 @@ export const asyncRouterMap = [
       {
         path: 'category',
         name: 'Category',
-        redirect: '/admin/category/list',
+        redirect: '/admin/category/categoryList',
         component: PageView,
         meta: { title: 'Category', keepAlive: true, permission: [ 'product' ] },
         children: [
           {
-            path: 'list',
+            path: 'categoryList',
             name: 'CategoryList',
             component: () => import('@/views/admin/category/list'),
             meta: { title: 'Category', keepAlive: false }
@@ -111,12 +111,12 @@ export const asyncRouterMap = [
       {
         path: 'source',
         name: 'Source',
-        redirect: '/admin/source/list',
+        redirect: '/admin/source/sourceList',
         component: PageView,
         meta: { title: 'Source', keepAlive: true, permission: [ 'product' ] },
         children: [
           {
-            path: 'list',
+            path: 'sourceList',
             name: 'SourceList',
             component: () => import('@/views/admin/source/list'),
             meta: { title: 'Source', keepAlive: false }
@@ -128,7 +128,7 @@ export const asyncRouterMap = [
         path: 'user',
         name: 'Users',
         component: PageView,
-        meta: { title: 'Users', icon: 'user', permission: [ 'user' ] },
+        meta: { title: 'Users', keepAlive: true, permission: [ 'user' ] },
         redirect: '/admin/user/users',
         children: [
           {
@@ -144,7 +144,7 @@ export const asyncRouterMap = [
         path: 'role',
         name: 'Roles',
         component: PageView,
-        meta: { title: 'Roles', permission: [ 'role', 'permission' ] },
+        meta: { title: 'Roles', keepAlive: true, permission: [ 'role', 'permission' ] },
         redirect: '/admin/role/roles',
         children: [
           {

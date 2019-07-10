@@ -50,10 +50,10 @@
 <script>
 import moment from 'moment'
 import { STable } from '@/components'
-import { getProductList } from '@/api/product'
+import { getVariantList } from '@/api/product'
 
 export default {
-  name: 'TableList',
+  name: 'VariantList',
   components: {
     STable
   },
@@ -98,7 +98,7 @@ export default {
         }
       ],
       loadData: parameter => {
-        return getProductList(Object.assign(parameter, this.queryParam))
+        return getVariantList(Object.assign(parameter, this.queryParam))
           .then(res => {
             return res.result
           })

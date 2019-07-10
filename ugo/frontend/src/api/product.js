@@ -70,40 +70,40 @@ export function deleteProduct (pk) {
   })
 }
 
-export function getVaList (parameter) {
+export function getVariantList (parameter) {
   return axios({
-    url: api.product,
+    url: api.variant,
     method: 'get',
     params: parameter
   })
 }
 
-export function getProduct (pk) {
+export function getVariant (pk) {
   return axios({
-    url: api.product + `${pk}/`,
+    url: api.variant + `${pk}/`,
     method: 'get',
   })
 }
 
-export function updateProduct (pk, data) {
+export function updateVariant (pk, data) {
   return axios({
-    url: api.product + `${pk}/`,
+    url: api.variant + `${pk}/`,
     method: 'put',
     data: data
   })
 }
 
-export function createProduct (data) {
+export function createVariant (data) {
   return axios({
-    url: api.product,
+    url: api.variant,
     method: 'post',
     data: data
   })
 }
 
-export function deleteProduct (pk) {
+export function deleteVariant (pk) {
   return axios({
-    url: api.product + `${pk}/`,
+    url: api.variant + `${pk}/`,
     method: 'delete',
   })
 }
