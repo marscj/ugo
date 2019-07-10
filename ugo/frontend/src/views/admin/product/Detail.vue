@@ -19,14 +19,29 @@
             <a-select-option v-for="d in category.data" :key="d.id">{{d.name}}</a-select-option>
           </a-select>
         </a-form-item>
-        <a-form-item label="Product ID:">
-          <a-input v-decorator="['productID', {rules: [{ required: true, message: 'This field is required.' }]}]"></a-input>
+        <a-form-item 
+          label="Product ID:"
+          :required="true"
+          :validate-status="productID.help == null || productID.help === '' ?  null : 'error'"
+          :help="productID.help"
+        >
+          <a-input v-model="productID.data"></a-input>
         </a-form-item>
-        <a-form-item label="Title:">
-          <a-input v-decorator="['title', {rules: [{ required: true, message: 'This field is required.'}]}]" />
+        <a-form-item 
+          label="Title:"
+          :required="true"
+          :validate-status="title.help == null || title.help === '' ?  null : 'error'"
+          :help="title.help"
+        >
+          <a-input v-model="title.data" ></a-input>
         </a-form-item>
-        <a-form-item label="Location:">
-          <a-input v-decorator="['location', {rules: [{ required: true, message: 'This field is required.' }]}]"></a-input>
+        <a-form-item 
+          label="Location:"
+          :required="true"
+          :validate-status="title.help == null || title.help === '' ?  null : 'error'"
+          :help="title.help"
+        >
+          <a-input v-model="location.data"></a-input>
         </a-form-item>
         <a-form-item
           label="Photo"
@@ -109,6 +124,7 @@ import moment from 'moment'
 import pick from 'lodash.pick'
 import Tinymce from '@/components/Tinymce'
 
+import { checkError } from '@/views/utils/error'
 import { upload } from '@/api/source'
 import { getCategoryList, getProduct, updateProduct, createProduct } from '@/api/product'
 
@@ -146,6 +162,7 @@ export default {
         fetching: false,
         help: null,
         handleChange: (value) => {
+          console.log(value)
           this.category.value = value
         }
       },
@@ -217,6 +234,18 @@ export default {
         data: null,
         help: null
       },
+      productID: {
+        data: null,
+        help: null
+      },
+      title: {
+        data: null,
+        help: null
+      },
+      location: {
+        data: null,
+        help: null
+      },
       spinning: false
     }
   },
@@ -236,7 +265,6 @@ export default {
       getProduct(id).then((res) => {
         const { result } = res
         this.initData(result)
-        this.category.value = result.category.id
       }).finally(() => {
         this.spinning = false
       })
@@ -245,6 +273,9 @@ export default {
       this.spinning = true
       updateProduct(this.$route.params.id, data).then((res) => {
         const { result } = res
+        this.handleGoBack()
+      }).catch((error) => {
+        this.checkError(error)
       }).finally(() => {
         this.spinning = false
       })
@@ -254,11 +285,33 @@ export default {
       createProduct(data).then((res) => {
         const { result } = res
         this.$router.replace({
-          name: 'ProductEdit', params: {id: res.id}
+          name: 'ProductEdit', params: {id: result.id}
         })
       }).finally(() => {
         this.spinning = false
       })
+    },
+    checkError(error) {
+      var errors = checkError(error, 'category', 'productID', 'title', 'location', 'photo', 'gallery', 'subtitle', 'content')
+      
+      this.category.help = errors['category']
+      this.productID.help = errors['productID']
+      this.title.help = errors['title']
+      this.location.help = errors['location']
+      this.photo.help = errors['photo']
+      this.gallery.help = errors['gallery']
+      this.subtitle.help = errors['subtitle']
+      this.content.help = errors['content']
+
+      for(var key in errors) {
+        if(errors[key]) {
+          this.$notification['error']({
+            message: key,
+            description: errors[key],
+            duration: 4
+          })
+        }
+      }
     },
     getCategory() {
       this.category.fetching = true
@@ -273,6 +326,23 @@ export default {
       if(this.isEdit) {
         this.$route.meta.title = data.title
         this.$emit('title')
+      }
+
+      this.category.value = data.category.id
+
+      this.productID = {
+        data: data.productID,
+        help: null
+      }
+
+      this.title = {
+        data: data.title,
+        help: null
+      }
+
+      this.location = {
+        data: data.location,
+        help: null
       }
 
       this.content = {
@@ -304,11 +374,6 @@ export default {
         }
         this.gallery.data = data.gallery
       }
-
-      this.$nextTick(() => {
-        var formData = pick(data, ['productID', 'title', 'location'])
-        this.form.setFieldsValue(formData)
-      })
     },
     handleSubmit () {
       const { form: { validateFields } } = this
@@ -317,6 +382,24 @@ export default {
         this.category.help = 'This field is required.'
       } else {
         this.category.help = null
+      }
+
+      if(this.productID.data == null || this.productID.data === '') {
+        this.productID.help = 'This field is required.'
+      } else {
+        this.productID.help = null
+      }
+
+      if(this.title.data == null || this.title.data === '') {
+        this.title.help = 'This field is required.'
+      } else {
+        this.title.help = null
+      }
+
+      if(this.location.data == null || this.location.data === '') {
+        this.location.help = 'This field is required.'
+      } else {
+        this.location.help = null
       }
 
       if(this.photo.data == null) {
@@ -342,27 +425,28 @@ export default {
       } else {
         this.content.help = null
       }
-
-      if(this.category.help && this.photo.help && this.subtitle.help && this.content.help) {
+      
+      if(this.category.help && this.productID.help &&  this.title.help && this.location.help && this.photo.help && this.gallery.help && this.subtitle.help && this.content.help) {
         return
       }
 
-      validateFields((err, values) => {
-        if (!err) {
-          values['category_id'] = this.category.value
-          values['photo_id'] = this.photo.data.id
-          values['gallery_id'] = this.gallery.data.map((f) => {
-            return f.id
-          })
-          values['subtitle'] = this.subtitle.data
-          values['content'] = this.content.data
-          if (this.isEdit) {
-            this.updateForm(values)
-          } else {
-            this.createForm(values)
-          }
-        }
-      })
+      var values = {
+        category_id: this.category.value,
+        productID: this.productID.data,
+        title: this.title.data,
+        location: this.location.data,
+        photo_id: this.photo.data.id,
+        gallery_id: this.gallery.data.map((f) => {
+          return f.id
+        }),
+        subtitle: this.subtitle.data,
+        content: this.content.data
+      }
+      if (this.isEdit) {
+        this.updateForm(values)
+      } else {
+        this.createForm(values)
+      }
     },
     beforeUpload(file) {
       const isIMG = (file.type === 'image/jpeg' || file.type === 'image/png')
