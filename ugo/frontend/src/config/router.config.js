@@ -19,7 +19,7 @@ export const asyncRouterMap = [
         children: [
           {
             path: 'analysis',
-            name: 'analysis',
+            name: 'Analysis',
             component: () => import('@/views/admin/dashboard/Analysis'),
             meta: { title: 'Analysis', keepAlive: false, permission: [ 'dashboard' ] }
           },
@@ -42,12 +42,18 @@ export const asyncRouterMap = [
           {
             path: 'categorys',
             name: 'CategoryList',
-            component: () => import('@/views/admin/product/category/categoryList'),
+            component: () => import('@/views/admin/product/category/list'),
             meta: { title: 'Category', keepAlive: false, permission: [ 'product' ] }
           },
           {
             path: 'products',
             name: 'ProductList',
+            component: () => import('@/views/admin/product/product/list'),
+            meta: { title: 'Product', keepAlive: false, permission: [ 'product' ] }
+          },
+          {
+            path: 'products',
+            name: 'Product',
             component: () => import('@/views/admin/product/product/productList'),
             meta: { title: 'Product', keepAlive: false, permission: [ 'product' ] }
           },
@@ -70,7 +76,7 @@ export const asyncRouterMap = [
           {
             path: 'users',
             name: 'UserList',
-            component: () => import('@/views/admin/user/UserList'),
+            component: () => import('@/views/admin/user/list'),
             meta: { title: 'Users', keepAlive: true }
           }
         ]

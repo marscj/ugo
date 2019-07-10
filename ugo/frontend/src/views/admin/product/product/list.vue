@@ -40,7 +40,8 @@
       </span>
       <span slot="action" slot-scope="text, data">
         <template>
-          <a @click="handleEdit(data)">Edit</a>
+          <!-- <a @click="handleEdit(data)">Edit</a> -->
+          <router-link :to="{ name: 'user', params: { userId: data }}">Edit</router-link>
         </template>
       </span>
     </s-table>
