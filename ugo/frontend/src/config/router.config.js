@@ -21,13 +21,13 @@ export const asyncRouterMap = [
             path: 'analysis',
             name: 'Analysis',
             component: () => import('@/views/admin/dashboard/Analysis'),
-            meta: { title: 'Analysis', keepAlive: false, permission: [ 'dashboard' ] }
+            meta: { title: 'Analysis', keepAlive: false }
           },
           {
             path: 'workplace',
             name: 'Workplace',
             component: () => import('@/views/admin/dashboard/Workplace'),
-            meta: { title: 'Workplace', keepAlive: true, permission: [ 'dashboard' ] }
+            meta: { title: 'Workplace', keepAlive: true }
           }
         ]
       },
@@ -37,26 +37,56 @@ export const asyncRouterMap = [
         name: 'Product',
         redirect: '/admin/product/list',
         component: PageView,
-        meta: { title: 'Product', keepAlive: true, icon: bxAnaalyse, permission: [ 'product' ] },
+        meta: { title: 'Product', keepAlive: true, permission: [ 'product' ] },
         children: [
           {
             path: 'list',
             name: 'ProductList',
             component: () => import('@/views/admin/product/list'),
-            meta: { title: 'Product', keepAlive: false, permission: [ 'product' ] },
+            meta: { title: 'Product', keepAlive: false },
           },
           {
             path: 'edit/:id(\\d+)',
             name: 'ProductEdit',
             component: () => import('@/views/admin/product/edit'),
-            meta: { title: 'Edit', keepAlive: false, permission: [ 'product' ] },
+            meta: { title: 'Product Edit', keepAlive: false },
             hidden: true
           },
           {
             path: 'create',
             name: 'ProductCreate',
             component: () => import('@/views/admin/product/create'),
-            meta: { title: 'Create', keepAlive: false, permission: [ 'product' ] },
+            meta: { title: 'Product Create', keepAlive: false },
+            hidden: true
+          },
+        ]
+      },
+      // product variant
+      {
+        path: 'variant',
+        name: 'Variant',
+        redirect: '/admin/variant/list',
+        component: PageView,
+        meta: { title: 'Variant', keepAlive: true, permission: [ 'product' ] },
+        children: [
+          {
+            path: 'list',
+            name: 'Variant',
+            component: () => import('@/views/admin/variant/list'),
+            meta: { title: 'Variant', keepAlive: false },
+          },
+          {
+            path: 'edit/:id(\\d+)',
+            name: 'VariantEdit',
+            component: () => import('@/views/admin/variant/edit'),
+            meta: { title: 'Edit', keepAlive: false },
+            hidden: true
+          },
+          {
+            path: 'create',
+            name: 'VariantCreate',
+            component: () => import('@/views/admin/variant/create'),
+            meta: { title: 'Create', keepAlive: false },
             hidden: true
           },
         ]
@@ -67,13 +97,13 @@ export const asyncRouterMap = [
         name: 'Category',
         redirect: '/admin/category/list',
         component: PageView,
-        meta: { title: 'Category', keepAlive: true, icon: bxAnaalyse, permission: [ 'product' ] },
+        meta: { title: 'Category', keepAlive: true, permission: [ 'product' ] },
         children: [
           {
             path: 'list',
             name: 'CategoryList',
             component: () => import('@/views/admin/category/list'),
-            meta: { title: 'Category', keepAlive: false, permission: [ 'product' ] }
+            meta: { title: 'Category', keepAlive: false }
           }
         ]
       },
@@ -83,13 +113,13 @@ export const asyncRouterMap = [
         name: 'Source',
         redirect: '/admin/source/list',
         component: PageView,
-        meta: { title: 'Source', keepAlive: true, icon: bxAnaalyse, permission: [ 'product' ] },
+        meta: { title: 'Source', keepAlive: true, permission: [ 'product' ] },
         children: [
           {
             path: 'list',
             name: 'SourceList',
             component: () => import('@/views/admin/source/list'),
-            meta: { title: 'Source', keepAlive: false, permission: [ 'product' ] }
+            meta: { title: 'Source', keepAlive: false }
           }
         ]
       },
@@ -114,7 +144,7 @@ export const asyncRouterMap = [
         path: 'role',
         name: 'Roles',
         component: PageView,
-        meta: { title: 'Roles', icon: 'user', permission: [ 'role', 'permission' ] },
+        meta: { title: 'Roles', permission: [ 'role', 'permission' ] },
         redirect: '/admin/role/roles',
         children: [
           {
@@ -137,7 +167,7 @@ export const asyncRouterMap = [
         name: 'account',
         component: PageView,
         redirect: '/admin/account/center',
-        meta: { title: 'Account', icon: 'user', keepAlive: true },
+        meta: { title: 'Account', keepAlive: true },
         children: [
           {
             path: 'center',
