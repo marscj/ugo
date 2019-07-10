@@ -43,20 +43,20 @@ export const asyncRouterMap = [
             path: 'list',
             name: 'ProductList',
             component: () => import('@/views/admin/product/list'),
-            meta: { title: 'Products', keepAlive: false, permission: [ 'product' ] },
+            meta: { title: 'Product', keepAlive: false, permission: [ 'product' ] },
           },
           {
             path: 'edit/:id(\\d+)',
             name: 'ProductEdit',
             component: () => import('@/views/admin/product/edit'),
-            meta: { title: 'Product Edit', keepAlive: false, permission: [ 'product' ] },
+            meta: { title: 'Edit', keepAlive: false, permission: [ 'product' ] },
             hidden: true
           },
           {
             path: 'create',
             name: 'ProductCreate',
             component: () => import('@/views/admin/product/create'),
-            meta: { title: 'Product Create', keepAlive: false, permission: [ 'product' ] },
+            meta: { title: 'Create', keepAlive: false, permission: [ 'product' ] },
             hidden: true
           },
         ]

@@ -15,15 +15,15 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
 
-    productID = serializers.CharField(required=True, allow_null=False, max_length=16, validators=[UniqueValidator(queryset=Product.objects.all())])
+    productID = serializers.CharField(allow_null=False, max_length=16, validators=[UniqueValidator(queryset=Product.objects.all())])
 
-    title = serializers.CharField(required=True, allow_null=False, max_length=128)
+    title = serializers.CharField(allow_null=False, max_length=128)
 
-    subtitle = serializers.CharField(required=True, allow_null=False, max_length=512)
+    subtitle = serializers.CharField(allow_null=False, max_length=512)
 
-    location = serializers.CharField(required=True, allow_null=False, max_length=32)
+    location = serializers.CharField(allow_null=False, max_length=32)
 
-    content = serializers.CharField(required=False, allow_null=True, max_length=2048)
+    content = serializers.CharField(allow_null=True, max_length=2048)
 
     category = CategorySerializer(read_only=True)
 
@@ -35,7 +35,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     gallery = ProductImageSerializer(read_only=True, many=True)
 
-    gallery_id = serializers.PrimaryKeyRelatedField(allow_null=True, write_only=True, many=True, queryset=ProductImage.objects.all())
+    gallery_id = serializers.PrimaryKeyRelatedField(write_only=True, allow_null=True, many=True, queryset=ProductImage.objects.all())
 
     class Meta:
         model = Product

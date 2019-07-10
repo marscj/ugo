@@ -1,93 +1,102 @@
 <template>
-  <a-card>
-    <a-form :form="form">
-      <a-form-item label="Category">
-        <!-- <a-select v-decorator="['category', {rules: [{ required: true, message: 'This field is required.' }], initialValue: '1'}]">
-          <a-select-option :value="1">Option 1</a-select-option>
-          <a-select-option :value="2">Option 2</a-select-option>
-          <a-select-option :value="3">Option 3</a-select-option>
-        </a-select> -->
-        <!-- <a-select
-          placeholder="Select category"
-          @search="getCategory"
-        > 
-
-        </a-select>-->
-      </a-form-item>
-      <a-form-item label="Product ID:">
-        <a-input v-decorator="['productID', {rules: [{ required: true, message: 'This field is required.' }]}]"></a-input>
-      </a-form-item>
-      <a-form-item label="Title:">
-        <a-input v-decorator="['title', {rules: [{ required: true, message: 'This field is required.'}]}]" />
-      </a-form-item>
-      <a-form-item label="Location:">
-        <a-input v-decorator="['location', {rules: [{ required: true, message: 'This field is required.' }]}]"></a-input>
-      </a-form-item>
-      <a-form-item
-        label="Photo"
-        :validate-status="photo.file == null ?  'error': null"
-        :help="photo.file == null ?  'This field is required.': null"
-      >
-        <a-upload
-          :showUploadList="false"
-          :beforeUpload="beforeUpload"
-          :remove="photo.remove"
-          :customRequest="photo.request"
-          listType="picture-card"
+  <a-spin :spinning="spinning">
+    <a-card>
+      <a-form :form="form">
+        <a-form-item 
+          label="Category"
+          :validate-status="category.help == null || category.help === '' ?  null : 'error'"
+          :help="category.help"
         >
-          <img v-if="photo.file" :src="photo.file.url" alt="photo" />
-          <div v-else>
-              <a-icon :type="photo.loading ? 'loading' : 'plus'" />
+          <a-select
+            :value="category.value"
+            placeholder="Select users"
+            :filterOption="false"
+            @change="category.handleChange"
+            :notFoundContent="category.fetching ? undefined : null"
+          >
+            <a-spin v-if="category.fetching" slot="notFoundContent" size="small"/>
+            <a-select-option v-for="d in category.data" :key="d.id">{{d.name}}</a-select-option>
+          </a-select>
+        </a-form-item>
+        <a-form-item label="Product ID:">
+          <a-input v-decorator="['productID', {rules: [{ required: true, message: 'This field is required.' }]}]"></a-input>
+        </a-form-item>
+        <a-form-item label="Title:">
+          <a-input v-decorator="['title', {rules: [{ required: true, message: 'This field is required.'}]}]" />
+        </a-form-item>
+        <a-form-item label="Location:">
+          <a-input v-decorator="['location', {rules: [{ required: true, message: 'This field is required.' }]}]"></a-input>
+        </a-form-item>
+        <a-form-item
+          label="Photo"
+          :validate-status="photo.help == null || photo.help === '' ?  null : 'error'"
+          :help="photo.help"
+        >
+          <a-upload
+            :showUploadList="false"
+            :beforeUpload="beforeUpload"
+            :remove="photo.remove"
+            :customRequest="photo.request"
+            listType="picture-card"
+          >
+            <img v-if="photo.file" :src="photo.file.url" alt="photo" />
+            <div v-else>
+                <a-icon :type="photo.loading ? 'loading' : 'plus'" />
+                <div class="ant-upload-text">Upload</div>
+            </div>
+          </a-upload>
+        </a-form-item>
+        <a-form-item 
+          label="Gallery"
+          :validate-status="gallery.help == null || gallery.help === '' ?  null : 'error'"
+          :help="gallery.help"
+        >
+          <a-upload
+            :fileList="gallery.file"
+            :beforeUpload="beforeUpload"
+            :remove="gallery.remove"
+            :customRequest="gallery.request"
+            listType="picture-card"
+          >
+            <div v-if="gallery.file.length < 8">
+              <a-icon type="plus" />
               <div class="ant-upload-text">Upload</div>
-          </div>
-        </a-upload>
-      </a-form-item>
-      <a-form-item label="Gallery">
-        <a-upload
-          :fileList="gallery.file"
-          :beforeUpload="beforeUpload"
-          :remove="gallery.remove"
-          :customRequest="gallery.request"
-          listType="picture-card"
+            </div> 
+          </a-upload>
+        </a-form-item>
+        <a-form-item
+          label="SubTitle"
+          :validate-status="subtitle.help == null || subtitle.help === '' ? null : 'error'"
+          :help="subtitle.help"
         >
-          <div v-if="gallery.file.length < 8">
-            <a-icon type="plus" />
-            <div class="ant-upload-text">Upload</div>
-          </div> 
-        </a-upload>
-      </a-form-item>
-      <a-form-item
-        label="SubTitle"
-        :validate-status="subtitle.help == null || subtitle.help === '' ? null : 'error'"
-        :help="subtitle.help"
-      >
-        <div class="components-container">
-          <div>
-            <tinymce v-model="subtitle.data" :height="150" />
+          <div class="components-container">
+            <div>
+              <tinymce v-model="subtitle.data" :height="150" />
+            </div>
           </div>
-        </div>
-      </a-form-item>
-      <a-form-item
-        label="Content"
-        :validate-status="content.help == null || content.help === '' ? null : 'error'"
-        :help="content.help"
-      >
-        <div class="components-container">
-          <div>
-            <tinymce v-model="content.data" :height="500" />
+        </a-form-item>
+        <a-form-item
+          label="Content"
+          :validate-status="content.help == null || content.help === '' ? null : 'error'"
+          :help="content.help"
+        >
+          <div class="components-container">
+            <div>
+              <tinymce v-model="content.data" :height="500" />
+            </div>
           </div>
-        </div>
-      </a-form-item>
-    </a-form>
-    <a-row>
-      <a-col span="2">
-      <a-button type="primary" html-type="submit" @click="handleSubmit">Submit</a-button>
-      </a-col>
-      <a-col span="2">
-      <a-button @click="handleGoBack">Return</a-button>
-      </a-col>
-    </a-row>
-  </a-card>
+        </a-form-item>
+      </a-form>
+      <a-row>
+        <a-col span="2">
+        <a-button type="primary" html-type="submit" @click="handleSubmit">Submit</a-button>
+        </a-col>
+        <a-col span="2">
+        <a-button @click="handleGoBack">Return</a-button>
+        </a-col>
+      </a-row>
+    </a-card>
+  </a-spin>
 </template>
 
 <script>
@@ -96,7 +105,7 @@ import pick from 'lodash.pick'
 import Tinymce from '@/components/Tinymce'
 
 import { upload } from '@/api/source'
-import { getCategoryList, getProduct } from '@/api/product'
+import { getCategoryList, getProduct, updateProduct, createProduct } from '@/api/product'
 
 export default {
   name:'ProductDetail',
@@ -126,6 +135,16 @@ export default {
         }
       },
       form: this.$form.createForm(this),
+      category: {
+        data: [],
+        value: null,
+        fetching: false,
+        help: null,
+        handleChange: (value) => {
+          this.category.value = value
+          console.log(value)
+        }
+      },
       photo: {
         data: null,
         file: null,
@@ -193,35 +212,62 @@ export default {
       subtitle: {
         data: null,
         help: null
-      }
+      },
+      spinning: false
     }
   },
   created() {
     if (this.isEdit) {
       const id = this.$route.params && this.$route.params.id
-      console.log(id, '-----------')
       this.fetch(id)
     }
+    this.getCategory()
   },
   methods: {
     handleGoBack () {
       this.$router.go(-1)
     },
     fetch(id) {
+      this.spinning = true
       getProduct(id).then((res) => {
         const { result } = res
         this.initData(result)
+        this.category.value = result.category.id
+      }).finally(() => {
+        this.spinning = false
+      })
+    },
+    updateForm(data) {
+      this.spinning = true
+      updateProduct(data).then((res) => {
+        const { result } = res
+      }).finally(() => {
+        this.spinning = false
+      })
+    },
+    createForm(data) {
+      this.spinning = true
+      createProduct(data).then((res) => {
+        const { result } = res
+      }).finally(() => {
+        this.spinning = false
       })
     },
     getCategory() {
+      this.category.fetching = true
       getCategoryList().then((res) => {
-
+        const { result } = res
+        this.category.data = result
+      }).finally(() => {
+        this.category.fetching = false
       })
     },
     initData (data) {
-      if(this.isEdit) {
-        this.$route.meta.title = data.title
-      }
+      // if(this.isEdit) {
+      //   this.$route.meta.title = data.title
+      // }
+
+      this.description = data.title
 
       this.content = {
         data: data.content,
@@ -244,12 +290,13 @@ export default {
       if (data.gallery != null) {
         for(var g of data.gallery) {
             this.gallery.file.push({
-                uid: g.uid,
-                name: g.name,
-                url: g.image.thumbnail
+              uid: g.uid,
+              name: g.name,
+              url: g.image.thumbnail
             })
         }
       }
+
       this.$nextTick(() => {
         var formData = pick(data, ['productID', 'title', 'location'])
         this.form.setFieldsValue(formData)
@@ -257,9 +304,44 @@ export default {
     },
     handleSubmit () {
       const { form: { validateFields } } = this
+
+      if(this.category.value == null) {
+        this.category.help = 'This field is required.'
+      } else {
+        this.category.help = null
+      }
+
+      if(this.photo.data == null) {
+        this.photo.help = 'This field is required.'
+      } else {
+        this.photo.help = null
+      }
+
+      if(this.gallery.data == null || this.gallery.data.length == 0) {
+        this.gallery.help = 'This field is required.'
+      } else {
+        this.gallery.help = null
+      }
+
+      if(this.subtitle.data == null || this.subtitle.data === '') {
+        this.subtitle.help = 'This field is required.'
+      } else {
+        this.subtitle.help = null
+      }
+
+      if(this.content.data == null || this.content.data ==='') {
+        this.content.help = 'This field is required.'
+      } else {
+        this.content.help = null
+      }
+
       validateFields((err, values) => {
         if (!err) {
-          console.log('Received values of form: ', values)
+          if (this.isEdit) {
+            updateForm(values)
+          } else {
+            createForm(values)
+          }
         }
       })
     },
