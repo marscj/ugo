@@ -1,35 +1,22 @@
 <template>
   <a-card>
     <a-form :form="form">
-      
-      <a-form-item
-        label="Category"
-      >
+      <a-form-item label="Category">
         <a-select v-decorator="['category', {rules: [{ required: true, message: 'This field is required.' }], initialValue: '1'}]">
           <a-select-option :value="1">Option 1</a-select-option>
           <a-select-option :value="2">Option 2</a-select-option>
           <a-select-option :value="3">Option 3</a-select-option>
         </a-select>
       </a-form-item>
-
-      <a-form-item
-        label="Product ID:"
-      >
+      <a-form-item label="Product ID:">
         <a-input v-decorator="['productID', {rules: [{ required: true, message: 'This field is required.' }]}]"></a-input>
       </a-form-item>
-
-      <a-form-item
-        label="Title:"
-      >
+      <a-form-item label="Title:">
         <a-input v-decorator="['title', {rules: [{ required: true, message: 'This field is required.'}]}]" />
       </a-form-item>
-
-      <a-form-item
-        label="Location:"
-      >
+      <a-form-item label="Location:">
         <a-input v-decorator="['location', {rules: [{ required: true, message: 'This field is required.' }]}]"></a-input>
       </a-form-item>
-
       <a-form-item
         label="Photo"
         :validate-status="photo.file == null ?  'error': null"
@@ -49,10 +36,7 @@
           </div>
         </a-upload>
       </a-form-item>
-
-      <a-form-item
-        label="Gallery"
-      >
+      <a-form-item label="Gallery">
         <a-upload
           :fileList="gallery.file"
           :beforeUpload="beforeUpload"
@@ -66,7 +50,6 @@
           </div> 
         </a-upload>
       </a-form-item>
-      
       <a-form-item
         label="SubTitle"
         :validate-status="subtitle.help == null || subtitle.help === '' ? null : 'error'"
@@ -78,7 +61,6 @@
           </div>
         </div>
       </a-form-item>
-
       <a-form-item
         label="Content"
         :validate-status="content.help == null || content.help === '' ? null : 'error'"
@@ -90,22 +72,15 @@
           </div>
         </div>
       </a-form-item>
-
-      <a-form-item
-        v-bind="buttonCol"
-      >
-        <a-row>
-          <a-col span="6">
-            <a-button type="primary" html-type="submit" @click="handleSubmit">Submit</a-button>
-          </a-col>
-          <a-col span="10">
-            <a-button @click="handleGoBack">Return</a-button>
-          </a-col>
-          <a-col span="8"></a-col>
-        </a-row>
-      </a-form-item>
     </a-form>
-    
+    <a-row>
+      <a-col span="2">
+      <a-button type="primary" html-type="submit" @click="handleSubmit">Submit</a-button>
+      </a-col>
+      <a-col span="2">
+      <a-button @click="handleGoBack">Return</a-button>
+      </a-col>
+    </a-row>
   </a-card>
 </template>
 

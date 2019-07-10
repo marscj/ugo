@@ -1,30 +1,5 @@
 <template>
-  <div>
-    <div class="table-page-search-wrapper">
-      <a-form layout="inline">
-        <a-row :gutter="48">
-          <a-col :md="8" :sm="16">
-            <a-form-item label="Search">
-              <a-input v-model="queryParam.search" placeholder="Name or ID" />
-            </a-form-item>
-          </a-col>
-          <a-col :md="8" :sm="16">
-            <a-form-item label="Category">
-              <a-select v-model="queryParam.category" placeholder="请选择" default-value="0">
-                <a-select-option value="0">全部</a-select-option>
-                <a-select-option value="1">关闭</a-select-option>
-                <a-select-option value="2">运行中</a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-        </a-row>
-      </a-form>
-    </div>
-
-    <div class="table-operator">
-      <a-button type="primary" icon="plus" @click="handleEdit()">新建</a-button>
-    </div>
-
+  <a-card>
     <s-table
       ref="table"
       size="default"
@@ -33,11 +8,9 @@
       :data="loadData"
       bordered
     >
-      <span slot="photo" slot-scope="data">
+      <span slot="image" slot-scope="data">
         <template>
-          <img v-if="data.image != null && data.image.length > 0" :src="data.image.find((f) => {
-            return f.flag === 'icon'
-          }).image.thumbnail" alt='photo'>
+          <img v-if="data" :src="data.image.thumbnail" alt='photo'>
         </template>
       </span>
       <span slot="action" slot-scope="text, data">
@@ -46,7 +19,7 @@
         </template>
       </span>
     </s-table>
-  </div>
+  </a-card>
 </template>
 
 <script>
@@ -70,18 +43,17 @@ export default {
           width: 80
         },
         {
+          title: 'Flag',
+          dataIndex: 'flag',
+        },
+        {
           title: 'Title',
-          dataIndex: 'productID',
-          width: 120
+          dataIndex: 'title'
         },
         {
-          title: 'Description',
-          width: 120,
-          dataIndex: 'description'
-        },
-        {
-          title: 'description',
-          dataIndex: 'description'
+          title: 'Image',
+          width: 200,
+          scopedSlots: { customRender: 'image' }
         },
         {
           title: '操作',
