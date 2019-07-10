@@ -34,45 +34,65 @@ export const asyncRouterMap = [
       // product
       {
         path: 'product',
-        name: 'product',
-        redirect: '/admin/product/categorys',
+        name: 'Product',
+        redirect: '/admin/product/list',
         component: PageView,
         meta: { title: 'Product', keepAlive: true, icon: bxAnaalyse, permission: [ 'product' ] },
         children: [
           {
-            path: 'category',
-            name: 'CategoryList',
-            component: () => import('@/views/admin/product/category/list'),
-            meta: { title: 'Category', keepAlive: false, permission: [ 'product' ] }
-          },
-          {
-            path: 'product',
+            path: 'list',
             name: 'ProductList',
             component: () => import('@/views/admin/product/product/list'),
-            meta: { title: 'Product', keepAlive: false, permission: [ 'product' ] }
+            meta: { title: 'Products', keepAlive: false, permission: [ 'product' ] },
           },
           {
-            path: 'product/:id',
+            path: 'edit/:id(\\d+)',
             name: 'ProductEdit',
             component: () => import('@/views/admin/product/product/edit'),
             meta: { title: 'Product Edit', keepAlive: false, permission: [ 'product' ] },
             hidden: true
           },
           {
-            path: 'product/create',
+            path: 'create',
             name: 'ProductCreate',
             component: () => import('@/views/admin/product/product/create'),
             meta: { title: 'Product Create', keepAlive: false, permission: [ 'product' ] },
             hidden: true
           },
+        ]
+      },
+      //Category
+      {
+        path: 'category',
+        name: 'Category',
+        redirect: '/admin/category/list',
+        component: PageView,
+        meta: { title: 'Category', keepAlive: true, icon: bxAnaalyse, permission: [ 'product' ] },
+        children: [
           {
-            path: 'source',
-            name: 'SourceList',
-            component: () => import('@/views/admin/source/list'),
-            meta: { title: 'Source', keepAlive: false, permission: [ 'product' ] }
+            path: 'list',
+            name: 'CategoryList',
+            component: () => import('@/views/admin/category/list'),
+            meta: { title: 'Category', keepAlive: false, permission: [ 'product' ] }
           }
         ]
       },
+      // //Source
+      // {
+      //   path: 'source',
+      //   name: 'Source',
+      //   redirect: '/admin/source/list',
+      //   component: PageView,
+      //   meta: { title: 'Source', keepAlive: true, icon: bxAnaalyse, permission: [ 'product' ] },
+      //   children: [
+      //     {
+      //       path: 'list',
+      //       name: 'SourceList',
+      //       component: () => import('@/views/admin/source/list'),
+      //       meta: { title: 'Source', keepAlive: false, permission: [ 'product' ] }
+      //     }
+      //   ]
+      // },
       //users
       {
         path: 'user',

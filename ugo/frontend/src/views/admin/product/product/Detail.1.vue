@@ -196,19 +196,17 @@ export default {
       }
     }
   },
-  created() {
+  mounted() {
     if (this.isEdit) {
-      const id = this.$route.params && this.$route.params.id
-      console.log(id, '-----------')
-      this.fetch(id)
+      this.fetch()
     }
   },
   methods: {
     handleGoBack () {
       this.$router.go(-1)
     },
-    fetch(id) {
-      getProduct(id).then((res) => {
+    fetch() {
+      getProduct(this.$route.params.id).then((res) => {
         const { result } = res
         this.initData(result)
       })
