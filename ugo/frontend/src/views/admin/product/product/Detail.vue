@@ -1,6 +1,7 @@
 <template>
-  <a-card :bordered="false">
+  <a-card>
     <a-form :form="form">
+      
       <a-form-item
         label="Category"
       >
@@ -104,25 +105,27 @@
         </a-row>
       </a-form-item>
     </a-form>
+    
   </a-card>
 </template>
 
 <script>
 import moment from 'moment'
 import pick from 'lodash.pick'
-import { upload } from '@/api/source'
-
 import Tinymce from '@/components/Tinymce'
 
+import { upload } from '@/api/source'
+import { getProduct } from '@/api/product'
+
 export default {
-  name: 'TableEdit',
+  name:'ProductDetail',
   components: {
     Tinymce,
   },
   props: {
-    data: {
-      type: [Object, String],
-      default: ''
+    isEdit: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -212,47 +215,55 @@ export default {
       }
     }
   },
-  mounted () {
-    this.$nextTick(() => {
-      this.content = {
-        data: this.data.content,
-        help: null
-      }
-
-      this.subtitle = {
-        data: this.data.subtitle,
-        help: null
-      }
-
-      if (this.data.photo != null) {
-        this.photo.file = {
-          uid: this.data.photo.uid,
-          name: this.data.photo.name,
-          url: this.data.photo.image.thumbnail
-        }
-      }
-
-      if (this.data.gallery != null) {
-        for(var data of this.data.gallery) {
-          this.gallery.file.push(
-            {
-              uid: this.data.photo.uid,
-              name: this.data.photo.name,
-              url: this.data.photo.image.thumbnail
-            }
-          )
-        }
-      }
-
-      const { form } = this
-      var formData = pick(this.data, ['productID', 'title', 'subtitle', 'location'])
-      console.log(formData)
-      form.setFieldsValue(formData)
-    })
+  mounted() {
+    this.fetch()
   },
   methods: {
     handleGoBack () {
       this.$emit('onGoBack')
+    },
+    fetch() {
+      getProduct(this.$route.params.id).then((res) => {
+        const { result } = res
+        this.initData(result)
+      })
+    },
+    initData (data) {
+      if(this.isEdit) {
+        this.$route.meta.title = data.title
+      }
+
+      this.content = {
+        data: data.content,
+        help: null
+      }
+
+      this.subtitle = {
+        data: data.subtitle,
+        help: null
+      }
+
+      if (data.photo != null) {
+        this.photo.file = {
+            uid: data.photo.uid,
+            name: data.photo.name,
+            url: data.photo.image.thumbnail
+        }
+      }
+
+      if (data.gallery != null) {
+        for(var g of data.gallery) {
+            this.gallery.file.push({
+                uid: g.uid,
+                name: g.name,
+                url: g.image.thumbnail
+            })
+        }
+      }
+      this.$nextTick(() => {
+        var formData = pick(data, ['productID', 'title', 'location'])
+        this.form.setFieldsValue(formData)
+      })
     },
     handleSubmit () {
       const { form: { validateFields } } = this
@@ -276,27 +287,3 @@ export default {
   }
 }
 </script>
-
-<style>
-  .avatar-uploader > .ant-upload {
-    width: 128px;
-    height: 128px;
-  }
-  .ant-upload-select-picture-card i {
-    font-size: 32px;
-    color: #999;
-  }
-
-  .ant-upload-select-picture-card .ant-upload-text {
-    margin-top: 8px;
-    color: #666;
-  }
-
-  .editor-content{
-    margin-top: 20px;
-  }
-
-  .components-container {
-    position: relative;
-  }
-</style>

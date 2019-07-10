@@ -40,6 +40,13 @@ export function getProductList (parameter) {
   })
 }
 
+export function getProduct (pk) {
+  return axios({
+    url: api.product + `${pk}/`,
+    method: 'get',
+  })
+}
+
 export function updateProduct (pk, data) {
   return axios({
     url: api.product + `${pk}/`,

@@ -40,27 +40,35 @@ export const asyncRouterMap = [
         meta: { title: 'Product', keepAlive: true, icon: bxAnaalyse, permission: [ 'product' ] },
         children: [
           {
-            path: 'categorys',
+            path: 'category',
             name: 'CategoryList',
             component: () => import('@/views/admin/product/category/list'),
             meta: { title: 'Category', keepAlive: false, permission: [ 'product' ] }
           },
           {
-            path: 'products',
+            path: 'product',
             name: 'ProductList',
             component: () => import('@/views/admin/product/product/list'),
             meta: { title: 'Product', keepAlive: false, permission: [ 'product' ] }
           },
           {
-            path: 'products',
-            name: 'Product',
-            component: () => import('@/views/admin/product/product/productList'),
-            meta: { title: 'Product', keepAlive: false, permission: [ 'product' ] }
+            path: 'product/:id',
+            name: 'ProductEdit',
+            component: () => import('@/views/admin/product/product/edit'),
+            meta: { title: 'Product Edit', keepAlive: false, permission: [ 'product' ] },
+            hidden: true
           },
           {
-            path: 'sources',
+            path: 'product/create',
+            name: 'ProductCreate',
+            component: () => import('@/views/admin/product/product/create'),
+            meta: { title: 'Product Create', keepAlive: false, permission: [ 'product' ] },
+            hidden: true
+          },
+          {
+            path: 'source',
             name: 'SourceList',
-            component: () => import('@/views/admin/source/source'),
+            component: () => import('@/views/admin/source/list'),
             meta: { title: 'Source', keepAlive: false, permission: [ 'product' ] }
           }
         ]
