@@ -17,7 +17,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     productID = serializers.CharField(allow_null=False, max_length=16, validators=[UniqueValidator(queryset=Product.objects.all())])
 
-    title = serializers.CharField(allow_null=False, max_length=128)
+    title = serializers.CharField(allow_null=False, max_length=128, validators=[UniqueValidator(queryset=Product.objects.all())])
 
     subtitle = serializers.CharField(allow_null=False, max_length=512)
 
@@ -35,7 +35,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     gallery = ProductImageSerializer(read_only=True, many=True)
 
-    gallery_id = serializers.PrimaryKeyRelatedField(write_only=True, allow_null=True, many=True, queryset=ProductImage.objects.all())
+    gallery_id = serializers.PrimaryKeyRelatedField(write_only=True, many=True, queryset=ProductImage.objects.all())
 
     class Meta:
         model = Product

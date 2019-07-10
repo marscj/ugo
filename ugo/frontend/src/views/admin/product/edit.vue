@@ -1,5 +1,5 @@
 <template>
-  <detail :is-edit="true" />
+  <detail :is-edit="true" @title="onTitle"/>
 </template>
 
 <script>
@@ -12,7 +12,12 @@ export default {
     return {
       description: '编辑产品',
     }
-  }
+  },
+  methods: {
+    onTitle() {
+      this.$parent.getPageMeta()
+    }
+  },
 }
 </script>
 

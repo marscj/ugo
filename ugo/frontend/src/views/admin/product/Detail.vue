@@ -4,6 +4,7 @@
       <a-form :form="form">
         <a-form-item 
           label="Category"
+          :required="true"
           :validate-status="category.help == null || category.help === '' ?  null : 'error'"
           :help="category.help"
         >
@@ -29,6 +30,7 @@
         </a-form-item>
         <a-form-item
           label="Photo"
+          :required="true"
           :validate-status="photo.help == null || photo.help === '' ?  null : 'error'"
           :help="photo.help"
         >
@@ -48,6 +50,7 @@
         </a-form-item>
         <a-form-item 
           label="Gallery"
+          :required="true"
           :validate-status="gallery.help == null || gallery.help === '' ?  null : 'error'"
           :help="gallery.help"
         >
@@ -66,6 +69,7 @@
         </a-form-item>
         <a-form-item
           label="SubTitle"
+          :required="true"
           :validate-status="subtitle.help == null || subtitle.help === '' ? null : 'error'"
           :help="subtitle.help"
         >
@@ -77,6 +81,7 @@
         </a-form-item>
         <a-form-item
           label="Content"
+          :required="true"
           :validate-status="content.help == null || content.help === '' ? null : 'error'"
           :help="content.help"
         >
@@ -142,7 +147,6 @@ export default {
         help: null,
         handleChange: (value) => {
           this.category.value = value
-          console.log(value)
         }
       },
       photo: {
@@ -192,12 +196,12 @@ export default {
           formData.append('image', request.file);
           upload(formData).then((res) => {
             const { result } = res
-            this.gallery.data.push(result) 
+            this.gallery.data.push(result)
             this.gallery.file.push({
               uid: result.uid,
               name: result.name,
               status: 'done',
-              url: result.image.thumbnail,
+              url: result.image.full_size,
             })
             this.$message.success('Upload successfully.')
           }).catch((error) => {
@@ -239,7 +243,7 @@ export default {
     },
     updateForm(data) {
       this.spinning = true
-      updateProduct(data).then((res) => {
+      updateProduct(this.$route.params.id, data).then((res) => {
         const { result } = res
       }).finally(() => {
         this.spinning = false
@@ -249,6 +253,9 @@ export default {
       this.spinning = true
       createProduct(data).then((res) => {
         const { result } = res
+        this.$router.replace({
+          name: 'ProductEdit', params: {id: res.id}
+        })
       }).finally(() => {
         this.spinning = false
       })
@@ -265,9 +272,8 @@ export default {
     initData (data) {
       if(this.isEdit) {
         this.$route.meta.title = data.title
+        this.$emit('title')
       }
-
-      this.description = data.title
 
       this.content = {
         data: data.content,
@@ -281,10 +287,11 @@ export default {
 
       if (data.photo != null) {
         this.photo.file = {
-            uid: data.photo.uid,
-            name: data.photo.name,
-            url: data.photo.image.thumbnail
+          uid: data.photo.uid,
+          name: data.photo.name,
+          url: data.photo.image.thumbnail
         }
+        this.photo.data = data.photo
       }
 
       if (data.gallery != null) {
@@ -292,9 +299,10 @@ export default {
             this.gallery.file.push({
               uid: g.uid,
               name: g.name,
-              url: g.image.thumbnail
+              url: g.image.full_size
             })
         }
+        this.gallery.data = data.gallery
       }
 
       this.$nextTick(() => {
@@ -335,12 +343,23 @@ export default {
         this.content.help = null
       }
 
+      if(this.category.help && this.photo.help && this.subtitle.help && this.content.help) {
+        return
+      }
+
       validateFields((err, values) => {
         if (!err) {
+          values['category_id'] = this.category.value
+          values['photo_id'] = this.photo.data.id
+          values['gallery_id'] = this.gallery.data.map((f) => {
+            return f.id
+          })
+          values['subtitle'] = this.subtitle.data
+          values['content'] = this.content.data
           if (this.isEdit) {
-            updateForm(values)
+            this.updateForm(values)
           } else {
-            createForm(values)
+            this.createForm(values)
           }
         }
       })
