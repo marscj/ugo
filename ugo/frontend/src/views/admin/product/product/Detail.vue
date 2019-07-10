@@ -191,11 +191,13 @@ export default {
     }
   },
   mounted() {
-    this.fetch()
+    if (this.isEdit) {
+      this.fetch()
+    }
   },
   methods: {
     handleGoBack () {
-      this.$emit('onGoBack')
+      this.$router.go(-1)
     },
     fetch() {
       getProduct(this.$route.params.id).then((res) => {

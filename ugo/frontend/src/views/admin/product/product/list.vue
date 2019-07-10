@@ -22,7 +22,7 @@
     </div>
 
     <div class="table-operator">
-      <a-button type="primary" icon="plus" @click="handleEdit()">New</a-button>
+      <a-button type="primary" icon="plus" @click="handleCreate">New</a-button>
     </div>
 
     <s-table
@@ -105,17 +105,12 @@ export default {
       },
     }
   },
-  created () {
-
-  },
   methods: {
-    handleEdit (data) {
-      console.log(data)
-      this.$emit('onEdit', data)
-    },
-    handleOk () {
-
-    },
+    handleCreate (data) {
+      this.$router.push({
+        name: 'ProductCreate'
+      })
+    }
   }
 }
 </script>
