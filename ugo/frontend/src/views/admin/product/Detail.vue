@@ -263,9 +263,9 @@ export default {
       })
     },
     initData (data) {
-      // if(this.isEdit) {
-      //   this.$route.meta.title = data.title
-      // }
+      if(this.isEdit) {
+        this.$route.meta.title = data.title
+      }
 
       this.description = data.title
 
