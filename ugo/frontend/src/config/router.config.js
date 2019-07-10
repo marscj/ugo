@@ -42,20 +42,20 @@ export const asyncRouterMap = [
           {
             path: 'list',
             name: 'ProductList',
-            component: () => import('@/views/admin/product/product/list'),
+            component: () => import('@/views/admin/product/list'),
             meta: { title: 'Products', keepAlive: false, permission: [ 'product' ] },
           },
           {
             path: 'edit/:id(\\d+)',
             name: 'ProductEdit',
-            component: () => import('@/views/admin/product/product/edit'),
+            component: () => import('@/views/admin/product/edit'),
             meta: { title: 'Product Edit', keepAlive: false, permission: [ 'product' ] },
             hidden: true
           },
           {
             path: 'create',
             name: 'ProductCreate',
-            component: () => import('@/views/admin/product/product/create'),
+            component: () => import('@/views/admin/product/create'),
             meta: { title: 'Product Create', keepAlive: false, permission: [ 'product' ] },
             hidden: true
           },
@@ -77,22 +77,22 @@ export const asyncRouterMap = [
           }
         ]
       },
-      // //Source
-      // {
-      //   path: 'source',
-      //   name: 'Source',
-      //   redirect: '/admin/source/list',
-      //   component: PageView,
-      //   meta: { title: 'Source', keepAlive: true, icon: bxAnaalyse, permission: [ 'product' ] },
-      //   children: [
-      //     {
-      //       path: 'list',
-      //       name: 'SourceList',
-      //       component: () => import('@/views/admin/source/list'),
-      //       meta: { title: 'Source', keepAlive: false, permission: [ 'product' ] }
-      //     }
-      //   ]
-      // },
+      //Source
+      {
+        path: 'source',
+        name: 'Source',
+        redirect: '/admin/source/list',
+        component: PageView,
+        meta: { title: 'Source', keepAlive: true, icon: bxAnaalyse, permission: [ 'product' ] },
+        children: [
+          {
+            path: 'list',
+            name: 'SourceList',
+            component: () => import('@/views/admin/source/list'),
+            meta: { title: 'Source', keepAlive: false, permission: [ 'product' ] }
+          }
+        ]
+      },
       //users
       {
         path: 'user',
