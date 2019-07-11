@@ -44,3 +44,7 @@ class ProductVariant(models.Model):
 
     class Meta:
         db_table = 'productvariant'
+
+    @property
+    def category(self):
+        return self.product.category
