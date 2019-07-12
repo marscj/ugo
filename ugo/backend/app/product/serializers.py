@@ -66,9 +66,6 @@ class ProductSerializer(serializers.ModelSerializer):
         instance.photo_id = photo
 
         super().update(instance, validated_data)
-        print('==============')
-        print(instance.subtitle)
-        print('==============')
 
         return instance
 
