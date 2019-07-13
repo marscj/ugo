@@ -232,8 +232,15 @@ export const constantRouterMap = [
   {
     path: '/',
     name: 'index',
-    component: () => import('@/views/home/index'),
-    hidden: true
+    component: BasicLayout,
+    children: [
+      {
+        path: '/home',
+        name: 'Home',
+        component: () => import('@/views/home/index'),
+        meta: { title: '首页', keepAlive: true }
+      }
+    ]
   },
   {
     path: '/user',
