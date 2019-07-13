@@ -23,8 +23,6 @@
       <a-layout-footer>
         <global-footer />
       </a-layout-footer>
-
-      <!-- Setting Drawer (show in development mode) -->
       <setting-drawer v-if="!production"></setting-drawer>
     </a-layout>
   </a-layout>
@@ -35,7 +33,7 @@
 import { triggerWindowResizeEvent } from '@/utils/util'
 import { mapState, mapActions } from 'vuex'
 import { mixin, mixinDevice } from '@/utils/mixin'
-import config from '@/config/defaultSettings'
+import config from './defaultSettings'
 
 import RouteView from './RouteView'
 import GlobalHeader from './GlobalHeader'

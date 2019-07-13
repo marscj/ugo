@@ -244,7 +244,7 @@ export const constantRouterMap = [
       {
         path: 'ticket',
         name: 'Ticket',
-        component: () => import('@/views/home/index'),
+        component: () => import('@/views/home/ticket'),
         meta: { title: '门票', keepAlive: true },
       },
       {
@@ -272,8 +272,8 @@ export const constantRouterMap = [
         meta: { title: '酒店', keepAlive: true },
       },
       {
-        path: 'souvenir',
-        name: 'Souvenir',
+        path: 'gift',
+        name: 'Gift',
         component: () => import('@/views/home/index'),
         meta: { title: '伴手礼', keepAlive: true },
       }

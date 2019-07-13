@@ -8,7 +8,7 @@
         <div :class="['c-top-nav-header-index', theme]">
           <div class="header-index-wide">
             <div class="header-index-left">
-              <logo class="top-nav-header" :show-title="device !== 'mobile'"/>
+              <logo class="top-nav-header" :show-title="true"/>
               <s-menu v-if="device !== 'mobile'" mode="horizontal" :menu="menus" :theme="theme" align="center" />
               <a-icon v-else class="trigger" :type="collapsed ? 'menu-fold' : 'menu-unfold'" @click="toggle" />
             </div>
@@ -23,7 +23,7 @@
 <script>
 import UserMenu from '../../components/tools/UserMenu'
 import SMenu from '../Menu/'
-import Logo from '../../components/tools/Logo'
+import Logo from './Logo'
 import { mixin } from '@/utils/mixin'
 
 export default {
