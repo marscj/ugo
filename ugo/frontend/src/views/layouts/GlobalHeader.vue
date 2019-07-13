@@ -5,11 +5,11 @@
         v-if="visible"
         :class="[fixedHeader && 'ant-header-fixedHeader', sidebarOpened ? 'ant-header-side-opened' : 'ant-header-side-closed', ]"
         :style="{ padding: '0' }">
-        <div :class="['top-nav-header-index', theme]">
+        <div :class="['c-top-nav-header-index', theme]">
           <div class="header-index-wide">
             <div class="header-index-left">
               <logo class="top-nav-header" :show-title="device !== 'mobile'"/>
-              <s-menu v-if="device !== 'mobile'" mode="horizontal" :menu="menus" :theme="theme" />
+              <s-menu v-if="device !== 'mobile'" mode="horizontal" :menu="menus" :theme="theme" align="center" />
               <a-icon v-else class="trigger" :type="collapsed ? 'menu-fold' : 'menu-unfold'" @click="toggle" />
             </div>
             <user-menu class="header-index-right"></user-menu>

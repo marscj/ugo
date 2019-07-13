@@ -175,9 +175,88 @@ body {
     }
   }
 
+  .header,
+  .c-top-nav-header-index {
+    .user-wrapper {
+      float: right;
+      height: 100%;
+
+      .action {
+        cursor: pointer;
+        padding: 0 12px;
+        display: inline-block;
+        transition: all 0.3s;
+        height: 100%;
+        color: rgba(0, 0, 0, 0.65);
+
+        &:hover {
+          background: rgba(0, 0, 0, 0.025);
+        }
+
+        .avatar {
+          margin: 20px 8px 20px 0;
+          color: #1890ff;
+          background: hsla(0, 0%, 100%, 0.85);
+          vertical-align: middle;
+        }
+
+        .icon {
+          font-size: 16px;
+          padding: 4px;
+        }
+      }
+    }
+
+    &.dark {
+      .user-wrapper {
+        .action {
+          color: rgba(255, 255, 255, 0.85);
+          a {
+            color: rgba(255, 255, 255, 0.85);
+          }
+
+          &:hover {
+            background: rgba(255, 255, 255, 0.16);
+          }
+        }
+      }
+    }
+  }
+
   &.mobile,
   &.tablet {
     .top-nav-header-index {
+      .header-index-wide {
+        .header-index-left {
+          .trigger {
+            color: rgba(255, 255, 255, 0.85);
+            padding: 0 12px;
+          }
+
+          .logo.top-nav-header {
+            flex: 0 0 56px;
+            text-align: center;
+            line-height: 58px;
+            h1 {
+              display: none;
+            }
+          }
+        }
+      }
+
+      &.light {
+        .header-index-wide {
+          .header-index-left {
+            .trigger {
+              color: rgba(0, 0, 0, 0.65);
+            }
+          }
+        }
+        //
+      }
+    }
+
+    .c-top-nav-header-index {
       .header-index-wide {
         .header-index-left {
           .trigger {
@@ -212,6 +291,22 @@ body {
   &.tablet {
     // overflow: hidden; text-overflow:ellipsis; white-space: nowrap;
     .top-nav-header-index {
+      .header-index-wide {
+        .header-index-left {
+          .logo > a {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+        }
+        .ant-menu.ant-menu-horizontal {
+          flex: 0 1 auto;
+          white-space: normal;
+        }
+      }
+    }
+
+    .c-top-nav-header-index {
       .header-index-wide {
         .header-index-left {
           .logo > a {
@@ -283,6 +378,85 @@ body {
       .header-index-right {
         flex: 1 0 auto;
         height: 64px;
+        overflow: hidden;
+
+        .content-box {
+          float: right;
+        }
+      }
+    }
+
+    &.light {
+      background-color: #fff;
+
+      .header-index-wide {
+        .header-index-left {
+          .logo {
+            h1 {
+              color: #002140;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .c-top-nav-header-index {
+    box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+    position: relative;
+    transition: background 0.3s, width 0.2s;
+
+    .header-index-wide {
+      max-width: 1200px;
+      margin: auto;
+      padding-left: 0;
+      display: flex;
+      height: 80px;
+
+      .ant-menu.ant-menu-horizontal {
+        max-width: 835px;
+        flex: 0 1 835px;
+        border: none;
+        height: 80px;
+        line-height: 80px;
+      }
+
+      .header-index-left {
+        flex: 1 0 auto;
+        display: flex;
+
+        .logo.top-nav-header {
+          flex: 0 0 165px;
+          width: 165px;
+          height: 80px;
+          position: relative;
+          line-height: 80px;
+          transition: all 0.3s;
+          overflow: hidden;
+
+          img,
+          svg {
+            display: inline-block;
+            vertical-align: middle;
+            height: 32px;
+            width: 32px;
+          }
+
+          h1 {
+            color: #fff;
+            display: inline-block;
+            vertical-align: top;
+            font-size: 16px;
+            margin: 0 0 0 12px;
+            font-weight: 400;
+          }
+        }
+      }
+
+      .header-index-right {
+        flex: 1 0 auto;
+        height: 80px;
+        padding-top: 10px;
         overflow: hidden;
 
         .content-box {

@@ -1,6 +1,5 @@
 import { UserLayout, BasicLayout, RouteView, BlankLayout, PageView } from '@/layouts'
 import { bxAnaalyse } from '@/core/icons'
-import indexRouterMap from './indexRouter'
 
 export const asyncRouterMap = [
   {
@@ -240,7 +239,43 @@ export const constantRouterMap = [
         path: 'home',
         name: 'Home',
         component: () => import('@/views/home/index'),
-        meta: { title: 'Home', keepAlive: true },
+        meta: { title: '首页', keepAlive: true },
+      },
+      {
+        path: 'ticket',
+        name: 'Ticket',
+        component: () => import('@/views/home/index'),
+        meta: { title: '门票', keepAlive: true },
+      },
+      {
+        path: 'food',
+        name: 'Food',
+        component: () => import('@/views/home/index'),
+        meta: { title: '美食', keepAlive: true },
+      },
+      {
+        path: 'trip',
+        name: 'Trip',
+        component: () => import('@/views/home/index'),
+        meta: { title: '日游', keepAlive: true },
+      },
+      {
+        path: 'car',
+        name: 'Car',
+        component: () => import('@/views/home/index'),
+        meta: { title: '用车', keepAlive: true },
+      },
+      {
+        path: 'hotel',
+        name: 'Hotel',
+        component: () => import('@/views/home/index'),
+        meta: { title: '酒店', keepAlive: true },
+      },
+      {
+        path: 'souvenir',
+        name: 'Souvenir',
+        component: () => import('@/views/home/index'),
+        meta: { title: '伴手礼', keepAlive: true },
       }
     ]
   },
