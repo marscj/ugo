@@ -1,5 +1,6 @@
 import { UserLayout, BasicLayout, RouteView, BlankLayout, PageView } from '@/layouts'
 import { bxAnaalyse } from '@/core/icons'
+import { indexRouterMap } from './indexRouter'
 
 export const asyncRouterMap = [
   {
@@ -92,21 +93,21 @@ export const asyncRouterMap = [
         ]
       },
       //Category
-      {
-        path: 'category',
-        name: 'Category',
-        redirect: '/admin/category/categoryList',
-        component: PageView,
-        meta: { title: 'Category', keepAlive: true, permission: [ 'product' ] },
-        children: [
-          {
-            path: 'categoryList',
-            name: 'CategoryList',
-            component: () => import('@/views/admin/category/list'),
-            meta: { title: 'Category', keepAlive: false }
-          }
-        ]
-      },
+      // {
+      //   path: 'category',
+      //   name: 'Category',
+      //   redirect: '/admin/category/categoryList',
+      //   component: PageView,
+      //   meta: { title: 'Category', keepAlive: true, permission: [ 'product' ] },
+      //   children: [
+      //     {
+      //       path: 'categoryList',
+      //       name: 'CategoryList',
+      //       component: () => import('@/views/admin/category/list'),
+      //       meta: { title: 'Category', keepAlive: false }
+      //     }
+      //   ]
+      // },
       //Source
       {
         path: 'source',
@@ -229,19 +230,7 @@ export const asyncRouterMap = [
  * @type { *[] }
  */
 export const constantRouterMap = [
-  {
-    path: '/',
-    name: 'index',
-    component: BasicLayout,
-    children: [
-      {
-        path: '/home',
-        name: 'Home',
-        component: () => import('@/views/home/index'),
-        meta: { title: '首页', keepAlive: true }
-      }
-    ]
-  },
+  indexRouterMap,
   {
     path: '/user',
     component: UserLayout,

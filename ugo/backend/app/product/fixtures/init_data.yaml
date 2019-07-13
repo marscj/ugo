@@ -1,0 +1,30 @@
+###################################### actionentity ############################################
+- model: product.category
+  pk: 1
+  fields:
+    name: 门票
+
+- model: product.category
+  pk: 2
+  fields:
+    name: 美食
+
+- model: product.category
+  pk: 3
+  fields:
+    name: 日游
+
+- model: product.category
+  pk: 4
+  fields:
+    name: 用车
+
+- model: product.category
+  pk: 5
+  fields:
+    name: 酒店 
+
+- model: product.category
+  pk: 6
+  fields:
+    name: 伴手礼
