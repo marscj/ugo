@@ -1,10 +1,10 @@
-import { UserLayout, BasicLayout, RouteView, BlankLayout, PageView } from '@/view/layouts'
+// import { UserLayout, BasicLayout, RouteView, BlankLayout, PageView } from '@/views/layouts'
 
-export const indexRouterMap = [
+const indexRouterMap = [
   {
     path: '/',
     name: 'index',
-    component: BasicLayout,
+    component: () => import('@/views/layouts/BasicLayout'),
     redirect: '/home',
     children: [
       {
@@ -16,3 +16,5 @@ export const indexRouterMap = [
     ]
   }
 ]
+
+export default indexRouterMap

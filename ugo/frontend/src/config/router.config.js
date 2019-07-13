@@ -1,6 +1,6 @@
 import { UserLayout, BasicLayout, RouteView, BlankLayout, PageView } from '@/layouts'
 import { bxAnaalyse } from '@/core/icons'
-import { indexRouterMap } from './indexRouter'
+import indexRouterMap from './indexRouter'
 
 export const asyncRouterMap = [
   {
@@ -230,7 +230,20 @@ export const asyncRouterMap = [
  * @type { *[] }
  */
 export const constantRouterMap = [
-  indexRouterMap,
+  {
+    path: '/',
+    name: 'index',
+    component: () => import('@/views/layouts/BasicLayout'),
+    redirect: '/home',
+    children: [
+      {
+        path: 'home',
+        name: 'Home',
+        component: () => import('@/views/home/index'),
+        meta: { title: 'Home', keepAlive: true },
+      }
+    ]
+  },
   {
     path: '/user',
     component: UserLayout,

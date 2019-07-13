@@ -1,33 +1,5 @@
 <template>
   <a-layout :class="['layout', device]">
-    <!-- SideMenu -->
-    <a-drawer
-      v-if="isMobile()"
-      placement="left"
-      :wrapClassName="`drawer-sider ${navTheme}`"
-      :closable="false"
-      :visible="collapsed"
-      @close="drawerClose"
-    >
-      <side-menu
-        mode="inline"
-        :menus="menus"
-        :theme="navTheme"
-        :collapsed="false"
-        :collapsible="true"
-        @menuSelect="menuSelect"
-      ></side-menu>
-    </a-drawer>
-
-    <side-menu
-      v-else-if="isSideMenu()"
-      mode="inline"
-      :menus="menus"
-      :theme="navTheme"
-      :collapsed="collapsed"
-      :collapsible="true"
-    ></side-menu>
-
     <a-layout :class="[layoutMode, `content-width-${contentWidth}`]" :style="{ paddingLeft: contentPaddingLeft, minHeight: '100vh' }">
       <!-- layout header -->
       <global-header
@@ -36,7 +8,7 @@
         :theme="navTheme"
         :collapsed="collapsed"
         :device="device"
-        @toggle="toggle"
+        @toggle="toggle" 
       />
 
       <!-- layout content -->
@@ -66,9 +38,7 @@ import { mixin, mixinDevice } from '@/utils/mixin'
 import config from '@/config/defaultSettings'
 
 import RouteView from './RouteView'
-import MultiTab from '@/components/MultiTab'
-import SideMenu from '@/components/Menu/SideMenu'
-import GlobalHeader from '@/components/GlobalHeader'
+import GlobalHeader from './GlobalHeader'
 import GlobalFooter from '@/components/GlobalFooter'
 import SettingDrawer from '@/components/SettingDrawer'
 
@@ -77,8 +47,6 @@ export default {
   mixins: [mixin, mixinDevice],
   components: {
     RouteView,
-    MultiTab,
-    SideMenu,
     GlobalHeader,
     GlobalFooter,
     SettingDrawer
@@ -93,7 +61,7 @@ export default {
   computed: {
     ...mapState({
       // 动态主路由
-      mainMenu: state => state.permission.addRouters
+      mainMenu: state => state.permission.routers
     }),
     contentPaddingLeft () {
       if (!this.fixSidebar || this.isMobile()) {
@@ -111,8 +79,7 @@ export default {
     }
   },
   created () {
-    this.menus = this.mainMenu.find(item => item.path === '/admin').children
-    // this.menus = this.mainMenu.find(item => item.path === '/').children
+    this.menus = this.mainMenu.find(item => item.path === '/').children
     this.collapsed = !this.sidebarOpened
   },
   mounted () {
@@ -155,7 +122,7 @@ export default {
 </script>
 
 <style lang="less">
-@import url('../components/global.less');
+@import url('../../components/global.less');
 
 /*
  * The following styles are auto-applied to elements with
