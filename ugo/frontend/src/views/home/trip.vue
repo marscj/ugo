@@ -17,7 +17,7 @@ export default {
       data: [],
       loading: false,
       description: ' ',
-      extraImage: require('@/assets/ticket.svg'),
+      extraImage: require('@/assets/trip.svg'),
     }
   },
   mounted() {

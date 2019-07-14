@@ -159,10 +159,10 @@ export default {
 
   .extra-img {
     margin-top: -60px;
-    margin-bottom: 25px;
+    margin-bottom: 5px;
     text-align: center;
-    width: 100px;
-
+    width: 80px;
+    height: 80px;
     img {
       width: 100%;
     }
