@@ -2,23 +2,6 @@
   <a-spin :spinning="spinning">
     <a-card>
       <a-form :form="form">
-        <!-- <a-form-item 
-          label="Category"
-          :required="true"
-          :validate-status="category.help == null || category.help === '' ?  null : 'error'"
-          :help="category.help"
-        >
-          <a-select
-            :value="category.value"
-            placeholder="Select users"
-            :filterOption="false"
-            @change="category.handleChange"
-            :notFoundContent="category.fetching ? undefined : null"
-          >
-            <a-spin v-if="category.fetching" slot="notFoundContent" size="small"/>
-            <a-select-option v-for="d in category.data" :key="d.id">{{d.name}}</a-select-option>
-          </a-select>
-        </a-form-item> -->
       <a-form-item
         label="Category"
         :required="true"
@@ -58,6 +41,7 @@
           :required="true"
           :validate-status="photo.help == null || photo.help === '' ?  null : 'error'"
           :help="photo.help"
+          v-if="title.data"
         >
           <a-upload
             :showUploadList="false"
@@ -78,6 +62,7 @@
           :required="true"
           :validate-status="gallery.help == null || gallery.help === '' ?  null : 'error'"
           :help="gallery.help"
+          v-if="title.data"
         >
           <a-upload
             :fileList="gallery.file"
@@ -196,6 +181,8 @@ export default {
         request: (request) => {
           const formData = new FormData();
           formData.append('image', request.file);
+          formData.append('flag', 'icon')
+          formData.append('title', this.title.data)
           upload(formData).then((res) => {
             const { result } = res
             this.photo.data = result
@@ -229,6 +216,8 @@ export default {
         request: (request) => {
           const formData = new FormData();
           formData.append('image', request.file);
+          formData.append('flag', 'gallery')
+          formData.append('title', this.title.data)
           upload(formData).then((res) => {
             const { result } = res
             this.gallery.data.push(result)
