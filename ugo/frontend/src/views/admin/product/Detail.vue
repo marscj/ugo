@@ -25,7 +25,7 @@
         :validate-status="category.help == null || category.help === '' ?  null : 'error'"
         :help="category.help"
       >
-        <a-select :value="category.value" @change="category.handleChange">
+        <a-select :value="category.value" @change="category.handleChange" :filterOption="false">
           <a-select-option v-for="d in categoryData" :key="d.value">{{d.label}}</a-select-option>
         </a-select>
       </a-form-item>
@@ -139,12 +139,12 @@ import { upload } from '@/api/source'
 import { getProduct, updateProduct, createProduct } from '@/api/product'
 
 const categoryData = [
-  { value: '1', label: '美食' },
-  { value: '2', label: '门票' },
-  { value: '3', label: '日游' },
-  { value: '4', label: '用车' },
-  { value: '5', label: '酒店' },
-  { value: '6', label: '伴手礼' },
+  { value: 1, label: '美食' },
+  { value: 2, label: '门票' },
+  { value: 3, label: '日游' },
+  { value: 4, label: '用车' },
+  { value: 5, label: '酒店' },
+  { value: 6, label: '伴手礼' },
 ]
 
 export default {

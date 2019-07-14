@@ -51,12 +51,13 @@ import { STable } from '@/components'
 import { getProductList } from '@/api/product'
 
 const categoryData = [
-  { value: '1', label: '美食' },
-  { value: '2', label: '门票' },
-  { value: '3', label: '日游' },
-  { value: '4', label: '用车' },
-  { value: '5', label: '酒店' },
-  { value: '6', label: '伴手礼' },
+  { value: 0, label: '全部' },
+  { value: 1, label: '美食' },
+  { value: 2, label: '门票' },
+  { value: 3, label: '日游' },
+  { value: 4, label: '用车' },
+  { value: 5, label: '酒店' },
+  { value: 6, label: '伴手礼' },
 ]
 
 export default {
@@ -84,11 +85,10 @@ export default {
         {
           title: 'Category',
           dataIndex: 'category',
-          // customRender: (text, index, row) => {
-          //   console.log(text, index, row, '========');
-            
-          //   return <a href="javascript:;">{categoryData}</a>;
-          // }
+          customRender: (text, index, row) => {
+
+            return <span href="javascript:;">{categoryData[text].label}</span>;
+          }
         },
         {
           title: 'Title',
