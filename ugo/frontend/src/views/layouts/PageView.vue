@@ -29,12 +29,22 @@
             enterButton="搜索"
           />
         </div>
+        <div class="page-menu-tabs" v-if="tabs && tabs.items">
+          <!-- @change="callback" :activeKey="activeKey" -->
+          <a-tabs :tabBarStyle="{margin: 0}" :activeKey="tabs.active()" @change="tabs.callback">
+            <a-tab-pane v-for="item in tabs.items" :tab="item.title" :key="item.key"></a-tab-pane>
+          </a-tabs>
+        </div>
       </div>
     </page-header>
     <div class="content">
       <div class="page-header-index-wide">
         <slot>
-          <router-view ref="content" />
+          <!-- keep-alive  -->
+          <keep-alive v-if="multiTab">
+            <router-view ref="content" />
+          </keep-alive>
+          <router-view v-else ref="content" />
         </slot>
       </div>
     </div>
@@ -62,6 +72,10 @@ export default {
     logo: {
       type: String,
       default: null
+    },
+    directTabs: {
+      type: Object,
+      default: null
     }
   },
   data () {
@@ -71,11 +85,16 @@ export default {
       linkList: [],
       extraImage: '',
       search: false,
+      tabs: {}
     }
   },
   computed: {
+    ...mapState({
+      multiTab: state => state.app.multiTab
+    })
   },
   mounted () {
+    this.tabs = this.directTabs
     this.getPageMeta()
   },
   updated () {
@@ -95,6 +114,7 @@ export default {
           this.linkList = content.linkList
           this.extraImage = content.extraImage
           this.search = content.search === true
+          this.tabs = content.tabs
         }
       }
     }
@@ -132,6 +152,9 @@ export default {
   .page-menu-search {
     text-align: center;
     margin-bottom: 16px;
+  }
+  .page-menu-tabs {
+    margin-top: 48px;
   }
 
   .extra-img {

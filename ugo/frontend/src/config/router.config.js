@@ -232,51 +232,60 @@ export const constantRouterMap = [
   {
     path: '/',
     name: 'index',
-    component: () => import('@/views/layouts/BasicLayout'),
     redirect: '/home',
+    component: () => import('@/views/layouts/BasicLayout'),
     children: [
       {
         path: 'home',
         name: 'Home',
-        component: () => import('@/views/home/index'),
+        component: () => import('@/views/layouts/PageView'),
+        redirect: '/home/ticket',
         meta: { title: '首页', keepAlive: true },
+        children: [
+          {
+            path: 'index',
+            name: 'HomePage',
+            component: () => import('@/views/home/index'),
+            meta: { title: '首页', keepAlive: true },
+          },
+          {
+            path: 'ticket',
+            name: 'Ticket',
+            component: () => import('@/views/home/ticket'),
+            meta: { title: '门票', keepAlive: true },
+          },
+          {
+            path: 'food',
+            name: 'Food',
+            component: () => import('@/views/home/food'),
+            meta: { title: '美食', keepAlive: true },
+          },
+          {
+            path: 'trip',
+            name: 'Trip',
+            component: () => import('@/views/home/index'),
+            meta: { title: '日游', keepAlive: true },
+          },
+          {
+            path: 'car',
+            name: 'Car',
+            component: () => import('@/views/home/index'),
+            meta: { title: '用车', keepAlive: true },
+          },
+          {
+            path: 'hotel',
+            name: 'Hotel',
+            component: () => import('@/views/home/index'),
+            meta: { title: '酒店', keepAlive: true },
+          },
+          {
+            path: 'gift',
+            name: 'Gift',
+            component: () => import('@/views/home/index'),
+            meta: { title: '伴手礼', keepAlive: true },
+          }
+        ]
       },
-      {
-        path: 'ticket',
-        name: 'Ticket',
-        component: () => import('@/views/home/ticket'),
-        meta: { title: '门票', keepAlive: true },
-      },
-      {
-        path: 'food',
-        name: 'Food',
-        component: () => import('@/views/home/food'),
-        meta: { title: '美食', keepAlive: true },
-      },
-      {
-        path: 'trip',
-        name: 'Trip',
-        component: () => import('@/views/home/index'),
-        meta: { title: '日游', keepAlive: true },
-      },
-      {
-        path: 'car',
-        name: 'Car',
-        component: () => import('@/views/home/index'),
-        meta: { title: '用车', keepAlive: true },
-      },
-      {
-        path: 'hotel',
-        name: 'Hotel',
-        component: () => import('@/views/home/index'),
-        meta: { title: '酒店', keepAlive: true },
-      },
-      {
-        path: 'gift',
-        name: 'Gift',
-        component: () => import('@/views/home/index'),
-        meta: { title: '伴手礼', keepAlive: true },
-      }
     ]
   },
   {

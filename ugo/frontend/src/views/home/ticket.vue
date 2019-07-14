@@ -1,12 +1,5 @@
 <template>
-  <page-view :search="true">
-    <div class="content">
-      <div class="page-header-index-wide">
-        <list-view :loading="loading" :data="data" align="center"/>
-      </div>
-    </div>
-  </page-view>
-    
+  <list-view :loading="loading" :data="data" align="center"/>
 </template>
 
 <script>
@@ -22,7 +15,8 @@ export default {
   data() {
     return {
       data: [],
-      loading: false
+      loading: false,
+      extraImage: "https://gw.alipayobjects.com/zos/rmsportal/RzwpdLnhmvDJToTdfDPe.png"
     }
   },
   mounted() {
