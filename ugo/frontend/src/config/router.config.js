@@ -263,25 +263,25 @@ export const constantRouterMap = [
           {
             path: 'trip',
             name: 'Trip',
-            component: () => import('@/views/home/index'),
+            component: () => import('@/views/home/trip'),
             meta: { title: '日游', keepAlive: true },
           },
           {
             path: 'car',
             name: 'Car',
-            component: () => import('@/views/home/index'),
+            component: () => import('@/views/home/car'),
             meta: { title: '用车', keepAlive: true },
           },
           {
             path: 'hotel',
             name: 'Hotel',
-            component: () => import('@/views/home/index'),
+            component: () => import('@/views/home/hotel'),
             meta: { title: '酒店', keepAlive: true },
           },
           {
             path: 'gift',
             name: 'Gift',
-            component: () => import('@/views/home/index'),
+            component: () => import('@/views/home/gift'),
             meta: { title: '伴手礼', keepAlive: true },
           }
         ]

@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div>
     <div slot="pageMenu" style="margin-bottom:25px;">
       <div class="page-menu-search">
         <a-input-search
@@ -15,7 +15,7 @@
       :dataSource="data"
       :loading="loading"
     >
-      <a-list-item slot="renderItem" slot-scope="item" style="margin-bottom:20px;">
+      <a-list-item slot="renderItem" slot-scope="item" style="margin-bottom:20px;" @click="handleClick(item)">
         <template >
           <a-card 
           :hoverable="true" 
@@ -54,6 +54,11 @@ export default {
   data() {
     return {
     }
-  }
+  },
+  methods: {
+    handleClick(row) {
+      
+    }
+  },
 }
 </script>

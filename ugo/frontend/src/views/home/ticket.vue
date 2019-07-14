@@ -26,7 +26,7 @@ export default {
   methods: {
     fetch() {
       this.loading = true
-      getProductList().then((res) => {
+      getProductList({category: 1}).then((res) => {
         const { result } = res
         this.data = result
       }).finally(() => {

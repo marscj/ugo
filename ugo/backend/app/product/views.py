@@ -15,6 +15,7 @@ from .serializers import ProductSerializer, ProductVariantSerializer #CategorySe
 class ProductView(CustomModelViewSet):
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
+    filterset_fields = ('category', )
  
 class ProductVariantView(CustomModelViewSet):
     serializer_class = ProductVariantSerializer

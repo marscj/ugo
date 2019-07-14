@@ -3,6 +3,8 @@ from rest_framework.viewsets import ModelViewSet
 class ModelViewSetMixin(object):
 
     def list(self, request, *args, **kwargs):
+        print(request)
+        print(request.data)
         response = super().list(request, *args, **kwargs)
         response.data = {
             'result': response.data
