@@ -67,7 +67,6 @@ export default {
   },
   data () {
     return {
-      extraImage: "https://gw.alipayobjects.com/zos/rmsportal/RzwpdLnhmvDJToTdfDPe.png",
       categoryData,
       // 查询参数
       queryParam: {},

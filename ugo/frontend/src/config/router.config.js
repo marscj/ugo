@@ -255,9 +255,21 @@ export const constantRouterMap = [
             meta: { title: '门票', keepAlive: true },
           },
           {
+            path: 'ticket/:id(\\d+)',
+            name: 'TicketDetail',
+            component: () => import('@/views/home/detail'),
+            meta: { title: '门票', keepAlive: true },
+          },
+          {
             path: 'food',
             name: 'Food',
             component: () => import('@/views/home/food'),
+            meta: { title: '美食', keepAlive: true },
+          },
+          {
+            path: 'food/:id(\\d+)',
+            name: 'FoodDetail',
+            component: () => import('@/views/home/detail'),
             meta: { title: '美食', keepAlive: true },
           },
           {
@@ -267,9 +279,21 @@ export const constantRouterMap = [
             meta: { title: '日游', keepAlive: true },
           },
           {
+            path: 'trip/:id(\\d+)',
+            name: 'TripDetail',
+            component: () => import('@/views/home/detail'),
+            meta: { title: '日游', keepAlive: true },
+          },
+          {
             path: 'car',
             name: 'Car',
             component: () => import('@/views/home/car'),
+            meta: { title: '用车', keepAlive: true },
+          },
+          {
+            path: 'car/:id(\\d+)',
+            name: 'CarDetail',
+            component: () => import('@/views/home/detail'),
             meta: { title: '用车', keepAlive: true },
           },
           {
@@ -279,9 +303,21 @@ export const constantRouterMap = [
             meta: { title: '酒店', keepAlive: true },
           },
           {
+            path: 'hotel/:id(\\d+)',
+            name: 'HotelDetail',
+            component: () => import('@/views/home/detail'),
+            meta: { title: '酒店', keepAlive: true },
+          },
+          {
             path: 'gift',
             name: 'Gift',
             component: () => import('@/views/home/gift'),
+            meta: { title: '伴手礼', keepAlive: true },
+          },
+          {
+            path: 'gift/:id(\\d+)',
+            name: 'GiftDetail',
+            component: () => import('@/views/home/detail'),
             meta: { title: '伴手礼', keepAlive: true },
           }
         ]

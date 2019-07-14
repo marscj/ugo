@@ -34,6 +34,8 @@ export default {
       })
     },
     onClick(data) {
+      console.log(data)
+      this.$router.push({name: 'TicketDetail', params: { id: data.id }})
     },
     onSearch(value) {
       this.fetch(value)
