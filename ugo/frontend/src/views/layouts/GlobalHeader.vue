@@ -5,7 +5,7 @@
         v-if="visible"
         :class="[fixedHeader && 'ant-header-fixedHeader', sidebarOpened ? 'ant-header-side-opened' : 'ant-header-side-closed', ]"
         :style="{ padding: '0' }">
-        <div :class="['c-top-nav-header-index', theme]">
+        <div :class="['top-nav-header-index', theme]">
           <div class="header-index-wide">
             <div class="header-index-left">
               <logo class="top-nav-header" :show-title="true"/>

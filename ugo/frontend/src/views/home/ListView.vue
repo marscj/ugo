@@ -11,7 +11,7 @@
       </div>
     </div>
     <a-list
-      :grid="{gutter: 24, lg: 2, md: 2, sm: 1, xs: 1}"
+      :grid="{gutter: 24, lg: 3, md: 3, sm: 2, xs: 1}"
       :dataSource="data"
       :loading="loading"
     >
@@ -19,13 +19,12 @@
         <template >
           <a-card 
           :hoverable="true" 
-          style="width: 80%"
+          style="width: 100%"
           :bordered="false"
           >
             <img
               :alt="item.title"
               :src="item.photo.image.large_square_crop"
-              style="height: 400px"
               slot="cover"
               v-if="item.photo"
             />
@@ -54,8 +53,6 @@ export default {
   },
   data() {
     return {
-      extraImage: '@/assets/ticket.svg',
-      description: '段落示意：蚂蚁金服务设计平台 ant.design，用最小的工作量，无缝接入蚂蚁金服生态， 提供跨越设计与开发的体验解决方案。',
     }
   }
 }

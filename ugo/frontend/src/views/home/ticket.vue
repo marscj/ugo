@@ -16,7 +16,8 @@ export default {
     return {
       data: [],
       loading: false,
-      extraImage: "https://gw.alipayobjects.com/zos/rmsportal/RzwpdLnhmvDJToTdfDPe.png"
+      description: ' ',
+      extraImage: require('@/assets/ticket.svg'),
     }
   },
   mounted() {
@@ -35,32 +36,3 @@ export default {
   },
 }
 </script>
-
-<style lang="less" scoped>
-  .content {
-    margin: 24px 24px 0;
-    .link {
-      margin-top: 16px;
-      &:not(:empty) {
-        margin-bottom: 16px;
-      }
-      a {
-        margin-right: 32px;
-        height: 24px;
-        line-height: 24px;
-        display: inline-block;
-        i {
-          font-size: 24px;
-          margin-right: 8px;
-          vertical-align: middle;
-        }
-        span {
-          height: 24px;
-          line-height: 24px;
-          display: inline-block;
-          vertical-align: middle;
-        }
-      }
-    }
-  }
-</style>

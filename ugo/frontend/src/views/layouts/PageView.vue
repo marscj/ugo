@@ -17,7 +17,7 @@
       </div>
       <slot slot="extra" name="extra">
         <div class="extra-img">
-          <img v-if="typeof extraImage !== 'undefined'" :src="extraImage"/>
+          <img v-if="typeof extraImage !== 'undefined'" v-bind:src="extraImage"/>
         </div>
       </slot>
       <div slot="pageMenu">
@@ -83,7 +83,7 @@ export default {
       pageTitle: null,
       description: null,
       linkList: [],
-      extraImage: '',
+      extraImage: undefined,
       search: false,
       tabs: {}
     }
@@ -159,8 +159,9 @@ export default {
 
   .extra-img {
     margin-top: -60px;
+    margin-bottom: 25px;
     text-align: center;
-    width: 195px;
+    width: 100px;
 
     img {
       width: 100%;
