@@ -87,13 +87,16 @@ export default {
           title: 'Category',
           dataIndex: 'category',
           customRender: (text, index, row) => {
-
             return <span href="javascript:;">{categoryData[text].label}</span>;
           }
         },
         {
-          title: 'Title',
-          dataIndex: 'title',
+          title: 'Name',
+          dataIndex: 'name',
+        },
+        {
+          title: 'Description',
+          dataIndex: 'description',
         },
         {
           title: 'Location',

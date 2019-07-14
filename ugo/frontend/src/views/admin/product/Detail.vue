@@ -21,18 +21,26 @@
           <a-input v-model="productID.data"></a-input>
         </a-form-item>
         <a-form-item 
-          label="Title:"
+          label="Name:"
           :required="true"
-          :validate-status="title.help == null || title.help === '' ?  null : 'error'"
-          :help="title.help"
+          :validate-status="name.help == null || name.help === '' ?  null : 'error'"
+          :help="name.help"
         >
-          <a-input v-model="title.data" ></a-input>
+          <a-input v-model="name.data" ></a-input>
+        </a-form-item>
+        <a-form-item 
+          label="Description:"
+          :required="true"
+          :validate-status="description.help == null || description.help === '' ?  null : 'error'"
+          :help="description.help"
+        >
+          <a-input v-model="description.data" ></a-input>
         </a-form-item>
         <a-form-item 
           label="Location:"
           :required="true"
-          :validate-status="title.help == null || title.help === '' ?  null : 'error'"
-          :help="title.help"
+          :validate-status="location.help == null || location.help === '' ?  null : 'error'"
+          :help="location.help"
         >
           <a-input v-model="location.data"></a-input>
         </a-form-item>
@@ -41,7 +49,7 @@
           :required="true"
           :validate-status="photo.help == null || photo.help === '' ?  null : 'error'"
           :help="photo.help"
-          v-if="title.data"
+          v-if="name.data"
         >
           <a-upload
             :showUploadList="false"
@@ -62,7 +70,7 @@
           :required="true"
           :validate-status="gallery.help == null || gallery.help === '' ?  null : 'error'"
           :help="gallery.help"
-          v-if="title.data"
+          v-if="name.data"
         >
           <a-upload
             :fileList="gallery.file"
@@ -182,7 +190,7 @@ export default {
           const formData = new FormData();
           formData.append('image', request.file);
           formData.append('flag', 'icon')
-          formData.append('title', this.title.data)
+          formData.append('title', this.name.data)
           upload(formData).then((res) => {
             const { result } = res
             this.photo.data = result
@@ -217,7 +225,7 @@ export default {
           const formData = new FormData();
           formData.append('image', request.file);
           formData.append('flag', 'gallery')
-          formData.append('title', this.title.data)
+          formData.append('title', this.name.data)
           upload(formData).then((res) => {
             const { result } = res
             this.gallery.data.push(result)
@@ -245,7 +253,11 @@ export default {
         data: null,
         help: null
       },
-      title: {
+      name: {
+        data: null,
+        help: null
+      },
+      description: {
         data: null,
         help: null
       },
@@ -298,11 +310,12 @@ export default {
       })
     },
     checkError(error) {
-      var errors = checkError(error, 'category', 'productID', 'title', 'location', 'photo', 'gallery', 'subtitle', 'content')
+      var errors = checkError(error, 'category', 'productID', 'name', 'description', 'location', 'photo', 'gallery', 'subtitle', 'content')
       
       this.category.help = errors['category']
       this.productID.help = errors['productID']
-      this.title.help = errors['title']
+      this.name.help = errors['name']
+      this.description.help = errors['description']
       this.location.help = errors['location']
       this.photo.help = errors['photo']
       this.gallery.help = errors['gallery']
@@ -321,7 +334,7 @@ export default {
     },
     initData (data) {
       if(this.isEdit) {
-        this.$route.meta.title = data.title
+        this.$route.meta.title = data.name
         this.$emit('title')
       }
 
@@ -332,8 +345,13 @@ export default {
         help: null
       }
 
-      this.title = {
-        data: data.title,
+      this.name = {
+        data: data.name,
+        help: null
+      }
+
+      this.description = {
+        data: data.description,
         help: null
       }
 
@@ -387,10 +405,16 @@ export default {
         this.productID.help = null
       }
 
-      if(this.title.data == null || this.title.data === '') {
-        this.title.help = 'This field is required.'
+      if(this.name.data == null || this.name.data === '') {
+        this.name.help = 'This field is required.'
       } else {
-        this.title.help = null
+        this.name.help = null
+      }
+
+      if(this.description.data == null || this.description.data === '') {
+        this.description.help = 'This field is required.'
+      } else {
+        this.description.help = null
       }
 
       if(this.location.data == null || this.location.data === '') {
@@ -423,14 +447,15 @@ export default {
         this.content.help = null
       }
       
-      if(this.category.help || this.productID.help ||  this.title.help || this.location.help || this.photo.help || this.gallery.help || this.subtitle.help || this.content.help) {
+      if(this.category.help || this.productID.help ||  this.name.help || this.description.help || this.location.help || this.photo.help || this.gallery.help || this.subtitle.help || this.content.help) {
         return
       }
 
       var values = {
         category: this.category.value,
         productID: this.productID.data,
-        title: this.title.data,
+        name: this.name.data,
+        description: this.description.data,
         location: this.location.data,
         photo_id: this.photo.data.id,
         gallery_id: this.gallery.data.map((f) => {
