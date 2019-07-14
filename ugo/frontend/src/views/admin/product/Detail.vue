@@ -25,13 +25,8 @@
         :validate-status="category.help == null || category.help === '' ?  null : 'error'"
         :help="category.help"
       >
-        <a-select :value="category.value">
-          <a-select-option :value="1">美食</a-select-option>
-          <a-select-option :value="2">门票</a-select-option>
-          <a-select-option :value="3">日游</a-select-option>
-          <a-select-option :value="4">用车</a-select-option>
-          <a-select-option :value="5">酒店</a-select-option>
-          <a-select-option :value="6">伴手礼</a-select-option>
+        <a-select :value="category.value" @change="category.handleChange">
+          <a-select-option v-for="d in categoryData" :key="d.value">{{d.label}}</a-select-option>
         </a-select>
       </a-form-item>
         <a-form-item 
@@ -143,6 +138,15 @@ import { checkError } from '@/views/utils/error'
 import { upload } from '@/api/source'
 import { getProduct, updateProduct, createProduct } from '@/api/product'
 
+const categoryData = [
+  { value: '1', label: '美食' },
+  { value: '2', label: '门票' },
+  { value: '3', label: '日游' },
+  { value: '4', label: '用车' },
+  { value: '5', label: '酒店' },
+  { value: '6', label: '伴手礼' },
+]
+
 export default {
   name:'ProductDetail',
   components: {
@@ -156,6 +160,7 @@ export default {
   },
   data () {
     return {
+      categoryData,
       labelCol: {
         xs: { span: 24 },
         sm: { span: 2 }
@@ -267,7 +272,6 @@ export default {
       const id = this.$route.params && this.$route.params.id
       this.fetch(id)
     }
-    this.getCategory()
   },
   methods: {
     handleGoBack () {
@@ -332,7 +336,7 @@ export default {
         this.$emit('title')
       }
 
-      this.category.value = data.category.id
+      this.category.value = data.category
 
       this.productID = {
         data: data.productID,
@@ -435,7 +439,7 @@ export default {
       }
 
       var values = {
-        category_id: this.category.value,
+        category: this.category.value,
         productID: this.productID.data,
         title: this.title.data,
         location: this.location.data,

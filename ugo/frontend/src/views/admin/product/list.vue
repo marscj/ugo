@@ -9,11 +9,9 @@
             </a-form-item>
           </a-col>
           <a-col :md="8" :sm="16">
-            <a-form-item label="Category">
-              <a-select v-model="queryParam.category" placeholder="请选择" default-value="0">
-                <a-select-option value="0">全部</a-select-option>
-                <a-select-option value="1">关闭</a-select-option>
-                <a-select-option value="2">运行中</a-select-option>
+            <a-form-item label="Category" >
+              <a-select v-model="queryParam.category">
+                <a-select-option v-for="d in categoryData" :key="d.value">{{d.label}}</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
@@ -52,6 +50,15 @@ import moment from 'moment'
 import { STable } from '@/components'
 import { getProductList } from '@/api/product'
 
+const categoryData = [
+  { value: '1', label: '美食' },
+  { value: '2', label: '门票' },
+  { value: '3', label: '日游' },
+  { value: '4', label: '用车' },
+  { value: '5', label: '酒店' },
+  { value: '6', label: '伴手礼' },
+]
+
 export default {
   name: 'ProductList',
   components: {
@@ -59,6 +66,7 @@ export default {
   },
   data () {
     return {
+      categoryData,
       // 查询参数
       queryParam: {},
       // 表头
@@ -75,7 +83,12 @@ export default {
         },
         {
           title: 'Category',
-          dataIndex: 'category.name',
+          dataIndex: 'category',
+          // customRender: (text, index, row) => {
+          //   console.log(text, index, row, '========');
+            
+          //   return <a href="javascript:;">{categoryData}</a>;
+          // }
         },
         {
           title: 'Title',

@@ -1,6 +1,7 @@
 <template>
   <a-spin :spinning="spinning">
     <a-card>
+      <a-form :form="form">
         <a-form-item 
           label="Product ID:"
           :required="true"
