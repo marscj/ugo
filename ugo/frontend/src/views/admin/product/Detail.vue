@@ -423,7 +423,7 @@ export default {
         this.content.help = null
       }
       
-      if(this.category.help && this.productID.help &&  this.title.help && this.location.help && this.photo.help && this.gallery.help && this.subtitle.help && this.content.help) {
+      if(this.category.help || this.productID.help ||  this.title.help || this.location.help || this.photo.help || this.gallery.help || this.subtitle.help || this.content.help) {
         return
       }
 
@@ -434,7 +434,9 @@ export default {
         location: this.location.data,
         photo_id: this.photo.data.id,
         gallery_id: this.gallery.data.map((f) => {
-          return f.id
+          if (f) {
+            return f.id
+          }
         }),
         subtitle: this.subtitle.data,
         content: this.content.data
