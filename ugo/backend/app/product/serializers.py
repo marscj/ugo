@@ -5,29 +5,19 @@ from .models import Category, Product, ProductVariant
 from app.source.models import ProductImage
 from app.source.serializers import ProductImageSerializer
 
-# class CategorySerializer(serializers.ModelSerializer):
-
-#     name = serializers.CharField(required=True, allow_null=False, max_length=16, validators=[UniqueValidator(queryset=Category.objects.all())])
-
-#     class Meta:
-#         model = Category
-#         fields = '__all__'
-
 class ProductSerializer(serializers.ModelSerializer):
 
     productID = serializers.CharField(allow_null=False, max_length=16, validators=[UniqueValidator(queryset=Product.objects.all())])
 
-    title = serializers.CharField(allow_null=False, max_length=128, validators=[UniqueValidator(queryset=Product.objects.all())])
+    name = serializers.CharField(allow_null=False, max_length=128, validators=[UniqueValidator(queryset=Product.objects.all())])
+
+    description = serializers.CharField(allow_null=False, max_length=128)
 
     subtitle = serializers.CharField(allow_null=False, max_length=512)
 
     location = serializers.CharField(allow_null=False, max_length=32)
 
     content = serializers.CharField(allow_null=True, max_length=2048)
-
-    # category = CategorySerializer(read_only=True)
-
-    # category_id = serializers.IntegerField(write_only=True)
 
     photo = ProductImageSerializer(read_only=True)
 
