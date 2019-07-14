@@ -5,13 +5,13 @@ from .models import Category, Product, ProductVariant
 from app.source.models import ProductImage
 from app.source.serializers import ProductImageSerializer
 
-class CategorySerializer(serializers.ModelSerializer):
+# class CategorySerializer(serializers.ModelSerializer):
 
-    name = serializers.CharField(required=True, allow_null=False, max_length=16, validators=[UniqueValidator(queryset=Category.objects.all())])
+#     name = serializers.CharField(required=True, allow_null=False, max_length=16, validators=[UniqueValidator(queryset=Category.objects.all())])
 
-    class Meta:
-        model = Category
-        fields = '__all__'
+#     class Meta:
+#         model = Category
+#         fields = '__all__'
 
 class ProductSerializer(serializers.ModelSerializer):
 
@@ -25,9 +25,9 @@ class ProductSerializer(serializers.ModelSerializer):
 
     content = serializers.CharField(allow_null=True, max_length=2048)
 
-    category = CategorySerializer(read_only=True)
+    # category = CategorySerializer(read_only=True)
 
-    category_id = serializers.IntegerField(write_only=True)
+    # category_id = serializers.IntegerField(write_only=True)
 
     photo = ProductImageSerializer(read_only=True)
 

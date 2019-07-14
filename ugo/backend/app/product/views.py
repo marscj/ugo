@@ -6,11 +6,11 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from middleware.viewsets import CustomModelViewSet
 from .models import Category, Product, ProductVariant
-from .serializers import CategorySerializer, ProductSerializer, ProductVariantSerializer
+from .serializers import ProductSerializer, ProductVariantSerializer #CategorySerializer, 
 
-class CategoryView(CustomModelViewSet):
-    serializer_class = CategorySerializer
-    queryset = Category.objects.all()
+# class CategoryView(CustomModelViewSet):
+#     serializer_class = CategorySerializer
+#     queryset = Category.objects.all()
 
 class ProductView(CustomModelViewSet):
     serializer_class = ProductSerializer

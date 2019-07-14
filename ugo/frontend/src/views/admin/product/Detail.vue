@@ -2,7 +2,7 @@
   <a-spin :spinning="spinning">
     <a-card>
       <a-form :form="form">
-        <a-form-item 
+        <!-- <a-form-item 
           label="Category"
           :required="true"
           :validate-status="category.help == null || category.help === '' ?  null : 'error'"
@@ -18,7 +18,22 @@
             <a-spin v-if="category.fetching" slot="notFoundContent" size="small"/>
             <a-select-option v-for="d in category.data" :key="d.id">{{d.name}}</a-select-option>
           </a-select>
-        </a-form-item>
+        </a-form-item> -->
+      <a-form-item
+        label="Category"
+        :required="true"
+        :validate-status="category.help == null || category.help === '' ?  null : 'error'"
+        :help="category.help"
+      >
+        <a-select :value="category.value">
+          <a-select-option :value="1">美食</a-select-option>
+          <a-select-option :value="2">门票</a-select-option>
+          <a-select-option :value="3">日游</a-select-option>
+          <a-select-option :value="4">用车</a-select-option>
+          <a-select-option :value="5">酒店</a-select-option>
+          <a-select-option :value="6">伴手礼</a-select-option>
+        </a-select>
+      </a-form-item>
         <a-form-item 
           label="Product ID:"
           :required="true"
@@ -126,7 +141,7 @@ import Tinymce from '@/components/Tinymce'
 
 import { checkError } from '@/views/utils/error'
 import { upload } from '@/api/source'
-import { getCategoryList, getProduct, updateProduct, createProduct } from '@/api/product'
+import { getProduct, updateProduct, createProduct } from '@/api/product'
 
 export default {
   name:'ProductDetail',
@@ -157,9 +172,7 @@ export default {
       },
       form: this.$form.createForm(this),
       category: {
-        data: [],
         value: null,
-        fetching: false,
         help: null,
         handleChange: (value) => {
           console.log(value)
@@ -312,15 +325,6 @@ export default {
           })
         }
       }
-    },
-    getCategory() {
-      this.category.fetching = true
-      getCategoryList().then((res) => {
-        const { result } = res
-        this.category.data = result
-      }).finally(() => {
-        this.category.fetching = false
-      })
     },
     initData (data) {
       if(this.isEdit) {

@@ -2,14 +2,18 @@ from django.db import models
 
 from app.source.models import ProductImage
 
-class Category(models.Model):
+from .import Category
 
-    name = models.CharField(blank=True, null=True, max_length=16, unique=True)
+# class Category(models.Model):
 
-    class Meta:
-        db_table = 'category'
+#     name = models.CharField(blank=True, null=True, max_length=16, unique=True)
+
+#     class Meta:
+#         db_table = 'category'
 
 class Product(models.Model):
+
+    category = models.IntegerField(default=Category.Food, choices=Category.CHOISE)
 
     productID = models.CharField(blank=True, null=True, max_length=16, unique=True)
 
@@ -25,7 +29,7 @@ class Product(models.Model):
 
     gallery = models.ManyToManyField(ProductImage, blank=True, related_name='gallery')
 
-    category = models.ForeignKey(Category, blank=True, null=True, related_name='product', on_delete=models.SET_NULL)
+    # category = models.ForeignKey(Category, blank=True, null=True, related_name='product', on_delete=models.SET_NULL)
 
     class Meta:
         db_table = 'product'

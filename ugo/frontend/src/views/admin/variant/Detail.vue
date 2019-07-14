@@ -1,24 +1,6 @@
 <template>
   <a-spin :spinning="spinning">
     <a-card>
-      <a-form :form="form">
-        <a-form-item 
-          label="Category"
-          :required="true"
-          :validate-status="category.help == null || category.help === '' ?  null : 'error'"
-          :help="category.help"
-        >
-          <a-select
-            :value="category.value"
-            placeholder="Select users"
-            :filterOption="false"
-            @change="category.handleChange"
-            :notFoundContent="category.fetching ? undefined : null"
-          >
-            <a-spin v-if="category.fetching" slot="notFoundContent" size="small"/>
-            <a-select-option v-for="d in category.data" :key="d.id">{{d.name}}</a-select-option>
-          </a-select>
-        </a-form-item>
         <a-form-item 
           label="Product ID:"
           :required="true"
@@ -126,7 +108,7 @@ import Tinymce from '@/components/Tinymce'
 
 import { checkError } from '@/views/utils/error'
 import { upload } from '@/api/source'
-import { getCategoryList, getProduct, updateProduct, createProduct } from '@/api/product'
+import { getProduct, updateProduct, createProduct } from '@/api/product'
 
 export default {
   name:'ProductDetail',
@@ -312,15 +294,6 @@ export default {
           })
         }
       }
-    },
-    getCategory() {
-      this.category.fetching = true
-      getCategoryList().then((res) => {
-        const { result } = res
-        this.category.data = result
-      }).finally(() => {
-        this.category.fetching = false
-      })
     },
     initData (data) {
       if(this.isEdit) {

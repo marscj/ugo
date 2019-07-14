@@ -7,7 +7,7 @@ const api = {
   role: '/role/',
   permission: '/permission/',
 
-  category: '/category/',
+  // category: '/category/',
   product: '/product/',
   variant: '/productvariant/',
 
