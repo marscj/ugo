@@ -2,7 +2,7 @@
   <div class="content">
     <div class="page-header-index-wide">
       <a-card>
-        <page-view/>
+        <page-view title="sdf"/>
       </a-card>
     </div>
   </div>
@@ -16,9 +16,9 @@ export default {
     PageView
   },
   data() {
-      return {
+    return {
 
-      }
+    }
   },
 }
 </script>
