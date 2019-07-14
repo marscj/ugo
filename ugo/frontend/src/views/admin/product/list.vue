@@ -93,10 +93,12 @@ export default {
         {
           title: 'Name',
           dataIndex: 'name',
+          width: 140,
         },
         {
           title: 'Description',
           dataIndex: 'description',
+          width: 200,
         },
         {
           title: 'Location',
