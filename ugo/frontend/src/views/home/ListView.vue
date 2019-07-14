@@ -1,12 +1,13 @@
 <template>
   <div>
-    <div slot="pageMenu" style="margin-bottom:25px;">
+    <div style="margin-bottom:25px;">
       <div class="page-menu-search">
         <a-input-search
           style="width: 80%; max-width: 522px;"
           placeholder="请输入..."
           size="large"
           enterButton="搜索"
+          @search="handleSearch"
         />
       </div>
     </div>
@@ -51,13 +52,12 @@ export default {
       default: false
     }
   },
-  data() {
-    return {
-    }
-  },
   methods: {
     handleClick(row) {
-      
+      this.$emit('onClick', row)
+    },
+    handleSearch(value) {
+      this.$emit('onSearch', value)
     }
   },
 }

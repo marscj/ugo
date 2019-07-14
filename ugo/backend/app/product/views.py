@@ -16,6 +16,7 @@ class ProductView(CustomModelViewSet):
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
     filterset_fields = ('category', )
+    search_fields = ('title', )
  
 class ProductVariantView(CustomModelViewSet):
     serializer_class = ProductVariantSerializer

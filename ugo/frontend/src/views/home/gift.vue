@@ -1,5 +1,5 @@
 <template>
-  <list-view :loading="loading" :data="data" align="center"/>
+  <list-view :loading="loading" :data="data" align="center" @onClick="onClick" @onSearch="onSearch"/>
 </template>
 
 <script>
@@ -21,17 +21,22 @@ export default {
     }
   },
   mounted() {
-    this.fetch()
+    this.fetch(null)
   },
   methods: {
-    fetch() {
+    fetch(search) {
       this.loading = true
-      getProductList({category: 6}).then((res) => {
+      getProductList({category: 6, search: search}).then((res) => {
         const { result } = res
         this.data = result
       }).finally(() => {
         this.loading = false
       })
+    },
+    onClick(data) {
+    },
+    onSearch(value) {
+      this.fetch(value)
     }
   },
 }
