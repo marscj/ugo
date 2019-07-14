@@ -250,7 +250,7 @@ export const constantRouterMap = [
       {
         path: 'food',
         name: 'Food',
-        component: () => import('@/views/home/index'),
+        component: () => import('@/views/home/food'),
         meta: { title: '美食', keepAlive: true },
       },
       {
@@ -310,5 +310,4 @@ export const constantRouterMap = [
     path: '/404',
     component: () => import('@/views/exception/404')
   }
-
 ]

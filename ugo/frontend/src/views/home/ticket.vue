@@ -1,20 +1,22 @@
 <template>
-  <div class="content">
-    <div class="page-header-index-wide">
-      <a-card>
-        <page-view :loading="loading" :data="data"/>
-      </a-card>
+  <page-view :search="true">
+    <div class="content">
+      <div class="page-header-index-wide">
+        <list-view :loading="loading" :data="data" align="center"/>
+      </div>
     </div>
-  </div>
+  </page-view>
     
 </template>
 
 <script>
-import PageView from './PageView'
+import ListView from './ListView'
+import PageView from '@/views/layouts/PageView'
 import { getProductList } from '@/api/product'
 
 export default {
   components: {
+    ListView,
     PageView
   },
   data() {

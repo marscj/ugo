@@ -13,7 +13,6 @@
 
       <!-- layout content -->
       <a-layout-content :style="{ height: '100%', margin: '24px 24px 0', paddingTop: fixedHeader ? '64px' : '0' }">
-        <multi-tab v-if="multiTab"></multi-tab>
         <transition name="page-transition">
           <route-view />
         </transition>
@@ -33,7 +32,7 @@
 import { triggerWindowResizeEvent } from '@/utils/util'
 import { mapState, mapActions } from 'vuex'
 import { mixin, mixinDevice } from '@/utils/mixin'
-import config from './defaultSettings'
+import config from '../../config/defaultSettings'
 
 import RouteView from './RouteView'
 import GlobalHeader from './GlobalHeader'
