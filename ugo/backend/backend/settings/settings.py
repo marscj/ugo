@@ -151,6 +151,7 @@ VERSATILEIMAGEFIELD_RENDITION_KEY_SETS = {
         ('thumbnail', 'thumbnail__100x100'),
         ('large_square_crop', 'crop__400x400'),
         ('small_square_crop', 'crop__50x50'),
-        ('medium_square_crop', 'crop__200x200')
+        ('medium_square_crop', 'crop__200x200'),
+        ('gallery_square_crop', 'crop__524x288'),
     ]
 }

@@ -253,12 +253,14 @@ export const constantRouterMap = [
             name: 'Ticket',
             component: () => import('@/views/home/ticket'),
             meta: { title: '门票', keepAlive: true },
+            
           },
           {
             path: 'ticket/:id(\\d+)',
             name: 'TicketDetail',
             component: () => import('@/views/home/detail'),
             meta: { title: '门票', keepAlive: true },
+            hidden: true
           },
           {
             path: 'food',
@@ -271,6 +273,7 @@ export const constantRouterMap = [
             name: 'FoodDetail',
             component: () => import('@/views/home/detail'),
             meta: { title: '美食', keepAlive: true },
+            hidden: true
           },
           {
             path: 'trip',
@@ -283,6 +286,7 @@ export const constantRouterMap = [
             name: 'TripDetail',
             component: () => import('@/views/home/detail'),
             meta: { title: '日游', keepAlive: true },
+            hidden: true
           },
           {
             path: 'car',
@@ -295,6 +299,7 @@ export const constantRouterMap = [
             name: 'CarDetail',
             component: () => import('@/views/home/detail'),
             meta: { title: '用车', keepAlive: true },
+            hidden: true
           },
           {
             path: 'hotel',
@@ -307,6 +312,7 @@ export const constantRouterMap = [
             name: 'HotelDetail',
             component: () => import('@/views/home/detail'),
             meta: { title: '酒店', keepAlive: true },
+            hidden: true
           },
           {
             path: 'gift',
@@ -319,6 +325,7 @@ export const constantRouterMap = [
             name: 'GiftDetail',
             component: () => import('@/views/home/detail'),
             meta: { title: '伴手礼', keepAlive: true },
+            hidden: true
           }
         ]
       },
