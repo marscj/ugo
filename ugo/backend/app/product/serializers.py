@@ -17,7 +17,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     location = serializers.CharField(allow_null=False, max_length=32)
 
-    content = serializers.CharField(allow_null=True, max_length=2048)
+    content = serializers.CharField(allow_null=True)
 
     photo = ProductImageSerializer(read_only=True)
 
