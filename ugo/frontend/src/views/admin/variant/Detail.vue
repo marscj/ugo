@@ -103,7 +103,6 @@
 </template>
 
 <script>
-import moment from 'moment'
 import pick from 'lodash.pick'
 import Tinymce from '@/components/Tinymce'
 

@@ -46,7 +46,6 @@
 </template>
 
 <script>
-import moment from 'moment'
 import { STable } from '@/components'
 import { getProductList } from '@/api/product'
 
