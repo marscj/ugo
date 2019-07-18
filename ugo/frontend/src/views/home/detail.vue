@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="detail_main">
     <div class="detail_main_wrap basefix">
       <div class="detail_media_left">
         <div class="attraction_photo_wrap">
@@ -45,7 +45,7 @@
               <a-calendar :fullscreen="false" />
             </div>
           </div>
-          <div class="booking-media-right" style="top: 250px; padding-top: 18px;">
+          <div class="booking-media-right" style="top: -120px; margin-bottom: -120px;">
             <div class="detail-booking-info-box">
               <ul class="detail-booking-info" style="margin: 0; padding: 0;">
                 <li>
@@ -56,96 +56,122 @@
                     <div class="choose-wrap">
                       <a
                         data-df="1"
-                        data-disable="disable"
+                        data-disable="indisable"
                         data-attid="207"
                         data-vname="海底餐厅午餐四道式"
                         data-vid="191700"
                         href="javascript:;"
-                        class="disable"
-                      >海底餐厅午餐四道式</a>
+                        class="focus"
+                      >
+                        <!-- react-text: 750 -->
+                        海底餐厅午餐四道式
+                        <!-- /react-text -->
+                        <i></i>
+                      </a>
                       <a
                         data-df="1"
-                        data-disable="disable"
+                        data-disable="indisable"
                         data-attid="207"
-                        data-vname="海底餐厅午餐四道式"
-                        data-vid="191700"
+                        data-vname="海底餐厅晚餐四道式"
+                        data-vid="191800"
                         href="javascript:;"
-                        class="disable"
-                      >海底餐厅午餐四道式</a>
+                        class
+                      >
+                        <!-- react-text: 752 -->
+                        海底餐厅晚餐四道式
+                        <!-- /react-text -->
+                      </a>
                       <a
                         data-df="1"
-                        data-disable="disable"
+                        data-disable="indisable"
                         data-attid="207"
-                        data-vname="海底餐厅午餐四道式"
-                        data-vid="191700"
+                        data-vname="天空餐厅午餐四道式"
+                        data-vid="197200"
                         href="javascript:;"
-                        class="disable"
-                      >海底餐厅午餐四道式</a>
+                        class
+                      >
+                        <!-- react-text: 754 -->
+                        天空餐厅午餐四道式
+                        <!-- /react-text -->
+                      </a>
                       <a
                         data-df="1"
-                        data-disable="disable"
+                        data-disable="indisable"
                         data-attid="207"
-                        data-vname="海底餐厅午餐四道式"
-                        data-vid="191700"
+                        data-vname="池畔餐厅午餐自助"
+                        data-vid="197300"
                         href="javascript:;"
-                        class="disable"
-                      >海底餐厅午餐四道式</a>
+                        class
+                      >
+                        <!-- react-text: 756 -->
+                        池畔餐厅午餐自助
+                        <!-- /react-text -->
+                      </a>
                       <a
                         data-df="1"
-                        data-disable="disable"
+                        data-disable="indisable"
                         data-attid="207"
-                        data-vname="海底餐厅午餐四道式"
-                        data-vid="191700"
+                        data-vname="日落小食下午茶套餐"
+                        data-vid="197500"
                         href="javascript:;"
-                        class="disable"
-                      >海底餐厅午餐四道式</a>
-
+                        class
+                      >
+                        <!-- react-text: 758 -->
+                        日落小食下午茶套餐
+                        <!-- /react-text -->
+                      </a>
                       <a
                         data-df="1"
-                        data-disable="disable"
+                        data-disable="indisable"
                         data-attid="207"
-                        data-vname="海底餐厅午餐四道式"
-                        data-vid="191700"
+                        data-vname="JUNSUI餐厅午餐自助"
+                        data-vid="197600"
                         href="javascript:;"
-                        class="disable"
-                      >海底餐厅午餐四道式</a>
+                        class
+                      >
+                        <!-- react-text: 760 -->
+                        JUNSUI餐厅午餐自助
+                        <!-- /react-text -->
+                      </a>
                       <a
                         data-df="1"
-                        data-disable="disable"
+                        data-disable="indisable"
                         data-attid="207"
-                        data-vname="海底餐厅午餐四道式"
-                        data-vid="191700"
+                        data-vname="天空餐厅晚餐四道式"
+                        data-vid="197700"
                         href="javascript:;"
-                        class="disable"
-                      >海底餐厅午餐四道式</a>
+                        class
+                      >
+                        <!-- react-text: 762 -->
+                        天空餐厅晚餐四道式
+                        <!-- /react-text -->
+                      </a>
                       <a
                         data-df="1"
-                        data-disable="disable"
+                        data-disable="indisable"
                         data-attid="207"
-                        data-vname="海底餐厅午餐四道式"
-                        data-vid="191700"
+                        data-vname="池畔餐厅晚餐自助"
+                        data-vid="197800"
                         href="javascript:;"
-                        class="disable"
-                      >海底餐厅午餐四道式</a>
+                        class
+                      >
+                        <!-- react-text: 764 -->
+                        池畔餐厅晚餐自助
+                        <!-- /react-text -->
+                      </a>
                       <a
                         data-df="1"
-                        data-disable="disable"
+                        data-disable="indisable"
                         data-attid="207"
-                        data-vname="海底餐厅午餐四道式"
-                        data-vid="191700"
+                        data-vname="JUNSUI餐厅晚餐自助"
+                        data-vid="198000"
                         href="javascript:;"
-                        class="disable"
-                      >海底餐厅午餐四道式</a>
-                      <a
-                        data-df="1"
-                        data-disable="disable"
-                        data-attid="207"
-                        data-vname="海底餐厅午餐四道式"
-                        data-vid="191700"
-                        href="javascript:;"
-                        class="disable"
-                      >海底餐厅午餐四道式</a>
-                      
+                        class
+                      >
+                        <!-- react-text: 766 -->
+                        JUNSUI餐厅晚餐自助
+                        <!-- /react-text -->
+                      </a>
                     </div>
                   </div>
                 </li>
@@ -344,6 +370,13 @@ export default {
 </script>
 
 <style scoped>
+.detail_main {
+  width: 100%;
+  margin: 0 auto;
+  background: #f2f5f7;
+  padding-bottom: 40px;
+}
+
 .detail_main_wrap {
   background: #fff;
   border: 1px solid #ddd;
@@ -356,7 +389,7 @@ export default {
 
 .basefix:after {
   clear: both;
-  content: ".";
+  content: " ";
   display: block;
   height: 0;
   overflow: hidden;
@@ -427,363 +460,397 @@ export default {
 }
 
 .detail-booking-mod {
-    background-color: #fff;
-    zoom: 1;
-    width: 100%;
-    padding-top: 10px;
-    height: auto;
+  background-color: #fff;
+  width: 100%;
+  padding-top: 16px;
 }
 
 .detail-booking-mod .booking-media-left {
-    display: inline-block;
-    width: 500px;
-    vertical-align: top
+  display: inline-block;
+  width: 500px;
+  vertical-align: top;
 }
 
 .detail-booking-mod .booking-media-right {
-    position: absolute;
-    right: 30px;
-    width: 590px;
+  position: relative;
+  right: -48px;
+  width: 590px;
 }
 
 .detail-booking-mod .booking-media-right {
-    display: inline-block;
+  display: inline-block;
 }
 
 .detail-booking-mod .detail-booking-info li {
-    margin-bottom: 18px;
-    display: flex
+  margin-bottom: 18px;
+  display: flex;
 }
 
 .detail-booking-mod .detail-booking-info li .error-tip {
-    padding-left: 142px;
-    font-size: 12px;
-    color: #ff5d37;
-    font-family: PingFangSC-Semibold
+  padding-left: 142px;
+  font-size: 12px;
+  color: #ff5d37;
+  font-family: PingFangSC-Semibold;
 }
 
 .detail-booking-mod .detail-booking-info li .act-error-tip {
-    color: #ff5d37;
-    font-family: PingFangSC-Semibold
+  color: #ff5d37;
+  font-family: PingFangSC-Semibold;
 }
 
 .detail-booking-mod .detail-booking-info label {
-    display: inline-block;
-    width: 114px;
-    height: 100%;
-    min-height: 28px;
-    line-height: 28px;
-    font-size: 12px;
-    color: #333;
-    margin-right: 5px
+  display: inline-block;
+  width: 114px;
+  height: 100%;
+  min-height: 28px;
+  line-height: 28px;
+  font-size: 12px;
+  color: #333;
+  margin-right: 5px;
 }
 
 .detail-booking-mod .detail-booking-info label span {
-    display: inline-block
+  display: inline-block;
 }
 
 .detail-booking-mod .detail-booking-info label .extr-tip {
-    display: block;
-    padding-right: 16px;
-    line-height: 20px;
-    font-size: 10px;
-    color: #2680ff
+  display: block;
+  padding-right: 16px;
+  line-height: 20px;
+  font-size: 10px;
+  color: #2680ff;
 }
 
 .detail-booking-mod .detail-booking-info .right {
-    display: inline-block;
-    line-height: 28px;
-    font-size: 12px;
-    width: 418px;
-    float: right
+  display: inline-block;
+  line-height: 28px;
+  font-size: 12px;
+  width: 418px;
+  float: right;
 }
 
 .detail-booking-mod .detail-booking-info .bookinglimit {
-    line-height: 2;
-    margin-bottom: 10px
+  line-height: 2;
+  margin-bottom: 10px;
 }
 
 .detail-booking-mod .detail-booking-info .right .data-ctrl {
-    float: left;
-    margin-right: 12px
+  float: left;
+  margin-right: 12px;
 }
 
 .detail-booking-mod .detail-booking-info .right .data-ctrl input {
-    height: 28px;
-    padding: 0;
-    margin-top: -4px;
-    text-indent: 8px;
-    font-size: 14px;
-    line-height: 28px/9;
-    vertical-align: middle;
-    outline: 0;
-    box-shadow: none;
-    border: 1px solid #ccc;
-    font-family: microsoft yahei
+  height: 28px;
+  padding: 0;
+  margin-top: -4px;
+  text-indent: 8px;
+  font-size: 14px;
+  line-height: 28px/9;
+  vertical-align: middle;
+  outline: 0;
+  box-shadow: none;
+  border: 1px solid #ccc;
+  font-family: microsoft yahei;
 }
 
 .detail-booking-mod .detail-booking-info .right .data-ctrl .select-date {
-    width: 173px;
-    background: url(https://pages.c-ctrip.com/activity/online/detail_caculate.png) 148px -216px no-repeat;
-    color: #333
+  width: 173px;
+  background: url(https://pages.c-ctrip.com/activity/online/detail_caculate.png)
+    148px -216px no-repeat;
+  color: #333;
 }
 
 .detail-booking-mod .detail-booking-info .right .data-ctrl .focus {
-    background-position: 148px -241px;
-    border-color: #45c3da;
-    color: #45c3da
+  background-position: 148px -241px;
+  border-color: #45c3da;
+  color: #45c3da;
 }
 
 .detail-booking-mod .detail-booking-info .right .date-tip {
-    font-size: 14px;
-    color: #333
+  font-size: 14px;
+  color: #333;
 }
 
 .detail-booking-mod .detail-booking-info .right .choose-wrap {
-    position: relative
+  position: relative;
 }
 
 .detail-booking-mod .detail-booking-info .right .choose-wrap a {
-    display: inline-block;
-    min-width: 10px;
-    border: 1px solid #ccc;
-    text-align: left;
-    margin-right: 10px;
-    margin-bottom: 8px;
-    border-radius: 4px;
-    color: #333;
-    padding: 5px 10px;
-    max-width: 380px
+  display: inline-block;
+  min-width: 10px;
+  border: 1px solid #ccc;
+  text-align: left;
+  margin-right: 10px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+  color: #333;
+  padding: 5px 10px;
+  max-width: 380px;
 }
 
 .detail-booking-mod .detail-booking-info .right .choose-wrap a:hover {
-    border: 1px solid #2680ff
+  border: 1px solid #2680ff;
 }
 
 .detail-booking-mod .detail-booking-info .right .choose-wrap a:last-child {
-    margin-right: 0
+  margin-right: 0;
 }
 
 .detail-booking-mod .detail-booking-info .right .choose-wrap .focus {
-    border: 1px solid #2680ff;
-    position: relative
+  border: 1px solid #2680ff;
+  position: relative;
 }
 
 .detail-booking-mod .detail-booking-info .right .choose-wrap i {
-    display: block;
-    position: absolute;
-    border-bottom: 12px solid #2680ff;
-    border-left: 14px solid transparent;
-    width: 0;
-    height: 0;
-    bottom: 0;
-    right: 0
+  display: block;
+  position: absolute;
+  border-bottom: 12px solid #2680ff;
+  border-left: 14px solid transparent;
+  width: 0;
+  height: 0;
+  bottom: 0;
+  right: 0;
 }
 
 .detail-booking-mod .detail-booking-info .right .choose-wrap i:after {
-    position: absolute;
-    content: '';
-    background-image: url(//pages.c-ctrip.com/activity/online/detail_icon_all_new.png);
-    background-position: -598px -297px;
-    width: 10px;
-    height: 8px;
-    left: -9px;
-    top: 4.3px
+  position: absolute;
+  content: "";
+  background-image: url(//pages.c-ctrip.com/activity/online/detail_icon_all_new.png);
+  background-position: -598px -297px;
+  width: 10px;
+  height: 8px;
+  left: -9px;
+  top: 4.3px;
 }
 
 .detail-booking-mod .detail-booking-info .right .choose-wrap .disable {
-    background-color: #f6f6f6;
-    color: #d5d5d5
+  background-color: #f6f6f6;
+  color: #d5d5d5;
 }
 
 .detail-booking-mod .detail-booking-info .right .choose-wrap .disable:hover {
-    cursor: not-allowed
+  cursor: not-allowed;
 }
 
 .detail-booking-mod .detail-booking-info .instruction-list .error-tip {
-    padding-left: 0
+  padding-left: 0;
 }
 
 .detail-booking-mod .detail-booking-info .instruction-item {
-    min-height: 28px;
-    margin-bottom: 10px
+  min-height: 28px;
+  margin-bottom: 10px;
 }
 
 .detail-booking-mod .detail-booking-info .instruction-item .item-left {
-    display: inline-block;
-    max-width: 310px;
-    vertical-align: sub
+  display: inline-block;
+  max-width: 310px;
+  vertical-align: sub;
 }
 
 .detail-booking-mod .detail-booking-info .instruction-item .item-left p {
-    display: block;
-    max-width: 300px;
-    color: #333
+  display: block;
+  max-width: 300px;
+  color: #333;
 }
 
-.detail-booking-mod .detail-booking-info .instruction-item .item-left .text-grey {
-    color: #9b9b9b !important;
-    margin-left: 12px
+.detail-booking-mod
+  .detail-booking-info
+  .instruction-item
+  .item-left
+  .text-grey {
+  color: #9b9b9b !important;
+  margin-left: 12px;
 }
 
 .detail-booking-mod .detail-booking-info .instruction-item .item-left .price {
-    color: #ff6913;
-    line-height: 18px
+  color: #ff6913;
+  line-height: 18px;
 }
 
 .detail-booking-mod .detail-booking-info .instruction-item .item-left .limit {
-    font-size: 12px;
-    color: #999;
-    line-height: 18px
+  font-size: 12px;
+  color: #999;
+  line-height: 18px;
 }
 
-.detail-booking-mod .detail-booking-info .instruction-item .item-left .price em {
-    font-size: 14px;
-    font-weight: 400;
-    font-style: normal;
-    margin-left: 3px
+.detail-booking-mod
+  .detail-booking-info
+  .instruction-item
+  .item-left
+  .price
+  em {
+  font-size: 14px;
+  font-weight: 400;
+  font-style: normal;
+  margin-left: 3px;
 }
 
-.detail-booking-mod .detail-booking-info .instruction-item .item-left .price-tip {
-    font-size: 12px;
-    line-height: 20px
+.detail-booking-mod
+  .detail-booking-info
+  .instruction-item
+  .item-left
+  .price-tip {
+  font-size: 12px;
+  line-height: 20px;
 }
 
-.detail-booking-mod .detail-booking-info .instruction-item .item-left .price-tip dfn {
-    margin-right: 5px
+.detail-booking-mod
+  .detail-booking-info
+  .instruction-item
+  .item-left
+  .price-tip
+  dfn {
+  margin-right: 5px;
 }
 
 .detail-booking-mod .detail-booking-info .instruction-item .item-right {
-    float: right
+  float: right;
 }
 
 .detail-booking-mod .detail-booking-info .instruction-item .num-box {
-    display: inline-block;
-    border: 1px solid #2680ff;
-    height: 26px;
-    overflow: hidden;
-    vertical-align: middle;
-    box-sizing: border-box;
-    margin-bottom: 4px
+  display: inline-block;
+  border: 1px solid #2680ff;
+  height: 26px;
+  overflow: hidden;
+  vertical-align: middle;
+  box-sizing: border-box;
+  margin-bottom: 4px;
 }
 
 .detail-booking-mod .detail-booking-info .instruction-item .num-box a:hover {
-    background-color: #2680ff
+  background-color: #2680ff;
 }
 
 .detail-booking-mod .detail-booking-info .instruction-item .num-box a.disable {
-    background-color: #f3f3f3;
-    cursor: default
+  background-color: #f3f3f3;
+  cursor: default;
 }
 
 .detail-booking-mod .detail-booking-info .instruction-item .num-box .copies-add,
-.detail-booking-mod .detail-booking-info .instruction-item .num-box .copies-cut {
-    background: url(//pages.c-ctrip.com/activity/online/detail_icon_all_new.png) no-repeat #2680ff;
-    display: inline-block;
-    height: 26px;
-    width: 26px;
-    vertical-align: top
+.detail-booking-mod
+  .detail-booking-info
+  .instruction-item
+  .num-box
+  .copies-cut {
+  background: url(//pages.c-ctrip.com/activity/online/detail_icon_all_new.png)
+    no-repeat #2680ff;
+  display: inline-block;
+  height: 26px;
+  width: 26px;
+  vertical-align: top;
 }
 
-.detail-booking-mod .detail-booking-info .instruction-item .num-box .copies-cut {
-    background-position: 6px -289px
+.detail-booking-mod
+  .detail-booking-info
+  .instruction-item
+  .num-box
+  .copies-cut {
+  background-position: 6px -289px;
 }
 
-.detail-booking-mod .detail-booking-info .instruction-item .num-box .copies-add {
-    background-position: 8px -319px
+.detail-booking-mod
+  .detail-booking-info
+  .instruction-item
+  .num-box
+  .copies-add {
+  background-position: 8px -319px;
 }
 
-.detail-booking-mod .detail-booking-info .instruction-item .num-box .copies-num {
-    color: #000;
-    height: 23px;
-    width: 48px;
-    text-align: center;
-    text-indent: 0;
-    vertical-align: middle;
-    border: none;
-    outline: 0;
-    font-size: 12px
+.detail-booking-mod
+  .detail-booking-info
+  .instruction-item
+  .num-box
+  .copies-num {
+  color: #000;
+  height: 23px;
+  width: 48px;
+  text-align: center;
+  text-indent: 0;
+  vertical-align: middle;
+  border: none;
+  outline: 0;
+  font-size: 12px;
 }
 
 .detail-booking-mod .detail-booking-info .instruction-item .num-box.disable {
-    border-color: #dfe2e4
+  border-color: #dfe2e4;
 }
 
 .detail-booking-mod .detail-booking-info .instruction-item .num-box.disable a {
-    background-color: #dfe2e4;
-    cursor: default
+  background-color: #dfe2e4;
+  cursor: default;
 }
 
 .detail-booking-mod .booking-mod-bottom {
-    padding-top: 20px;
-    border-top: 1px dashed #d1d1d1
+  padding-top: 20px;
+  border-top: 1px dashed #d1d1d1;
 }
 
 .booking-btn {
-    display: inline-block;
-    width: 178px;
-    height: 50px;
-    background: linear-gradient(90deg, #ffa900 0, #ff7201 100%);
-    background: -ms-linear-gradient(90deg, #ffa900 0, #ff7201 100%);
-    filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr="#FFA900", endColorstr="#FFA900", gradientType="1");
-    color: #fff;
-    font-size: 26px;
-    line-height: 50px;
-    text-align: center;
-    border-radius: 5px;
-    cursor: pointer;
-    float: right
+  display: inline-block;
+  width: 178px;
+  height: 50px;
+  background: linear-gradient(90deg, #ffa900 0, #ff7201 100%);
+  background: -ms-linear-gradient(90deg, #ffa900 0, #ff7201 100%);
+  filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr="#FFA900", endColorstr="#FFA900", gradientType="1");
+  color: #fff;
+  font-size: 26px;
+  line-height: 50px;
+  text-align: center;
+  border-radius: 5px;
+  cursor: pointer;
+  float: right;
 }
 
 .booking-btn:hover {
-    background: #f2590d;
-    border-color: #d54100;
-    color: #fff
+  background: #f2590d;
+  border-color: #d54100;
+  color: #fff;
 }
 
 .booking-price-wrap {
-    display: inline-block;
-    margin-right: 29px;
-    float: right;
-    font-size: 14px
+  display: inline-block;
+  margin-right: 29px;
+  float: right;
+  font-size: 14px;
 }
 
 .booking-price-wrap-nodesc {
-    margin-top: 10px !important;
-    position: relative
+  margin-top: 10px !important;
+  position: relative;
 }
 
 .booking-price-wrap p {
-    display: block;
-    text-align: right
+  display: block;
+  text-align: right;
 }
 
 .booking-price-wrap .selling-price {
-    color: #333
+  color: #333;
 }
 
 .booking-price-wrap .selling-price dfn {
-    color: #ff6913;
-    font-size: 32px
+  color: #ff6913;
+  font-size: 32px;
 }
 
 .booking-price-wrap .selling-price span {
-    margin-left: 6px;
-    font-size: 24px;
-    height: 32px;
-    line-height: 32px
+  margin-left: 6px;
+  font-size: 24px;
+  height: 32px;
+  line-height: 32px;
 }
 
 .booking-price-wrap .suggest-price {
-    color: #f2590d
+  color: #f2590d;
 }
 
 .booking-price-wrap .suggest-price span {
-    margin-left: 10px
+  margin-left: 10px;
 }
 
 .booking-price-wrap .suggest-price dfn {
-    font-size: 18px
+  font-size: 18px;
 }
 
 .ant-carousel >>> .slick-dots {
@@ -856,5 +923,19 @@ export default {
   margin-inline-start: 0px;
   margin-inline-end: 0px;
   padding-inline-start: 40px;
+}
+
+.right {
+  line-height: normal !important;
+}
+
+.a {
+  text-decoration: none !important;
+}
+
+a {
+  color: #0065bb;
+  text-decoration: none;
+  outline: 0;
 }
 </style>
