@@ -9,7 +9,7 @@
             </a>
             <div v-for="item in data.gallery" :key="item.id">
               <img :src="item.image.gallery_square_crop" />
-            </div> 
+            </div>
           </a-carousel>
         </div>
         <div class="detail_calendar">
@@ -47,125 +47,10 @@
                 </label>
                 <div class="right">
                   <div class="choose-wrap">
-                    <a
-                      data-df="1"
-                      data-disable="indisable"
-                      data-attid="207"
-                      data-vname="海底餐厅午餐四道式"
-                      data-vid="191700"
-                      href="javascript:;"
-                      class="focus"
-                    >
-                      <!-- react-text: 750 -->
-                      海底餐厅午餐四道式
-                      <!-- /react-text -->
-                      <i></i>
+                    <a href="javascript:;" class="focus" v-for="data in varit" :key="data.id">
+                      {{data.name}}
+                      <i/>
                     </a>
-                    <a
-                      data-df="1"
-                      data-disable="indisable"
-                      data-attid="207"
-                      data-vname="海底餐厅晚餐四道式"
-                      data-vid="191800"
-                      href="javascript:;"
-                      class
-                    >
-                      <!-- react-text: 752 -->
-                      海底餐厅晚餐四道式
-                      <!-- /react-text -->
-                    </a>
-                    <a
-                      data-df="1"
-                      data-disable="indisable"
-                      data-attid="207"
-                      data-vname="天空餐厅午餐四道式"
-                      data-vid="197200"
-                      href="javascript:;"
-                      class
-                    >
-                      <!-- react-text: 754 -->
-                      天空餐厅午餐四道式
-                      <!-- /react-text -->
-                    </a>
-                    <a
-                      data-df="1"
-                      data-disable="indisable"
-                      data-attid="207"
-                      data-vname="池畔餐厅午餐自助"
-                      data-vid="197300"
-                      href="javascript:;"
-                      class
-                    >
-                      <!-- react-text: 756 -->
-                      池畔餐厅午餐自助
-                      <!-- /react-text -->
-                    </a>
-                    <a
-                      data-df="1"
-                      data-disable="indisable"
-                      data-attid="207"
-                      data-vname="日落小食下午茶套餐"
-                      data-vid="197500"
-                      href="javascript:;"
-                      class
-                    >
-                      <!-- react-text: 758 -->
-                      日落小食下午茶套餐
-                      <!-- /react-text -->
-                    </a>
-                    <a
-                      data-df="1"
-                      data-disable="indisable"
-                      data-attid="207"
-                      data-vname="JUNSUI餐厅午餐自助"
-                      data-vid="197600"
-                      href="javascript:;"
-                      class
-                    >
-                      <!-- react-text: 760 -->
-                      JUNSUI餐厅午餐自助
-                      <!-- /react-text -->
-                    </a>
-                    <a
-                      data-df="1"
-                      data-disable="indisable"
-                      data-attid="207"
-                      data-vname="天空餐厅晚餐四道式"
-                      data-vid="197700"
-                      href="javascript:;"
-                      class
-                    >
-                      <!-- react-text: 762 -->
-                      天空餐厅晚餐四道式
-                      <!-- /react-text -->
-                    </a>
-                    <a
-                      data-df="1"
-                      data-disable="indisable"
-                      data-attid="207"
-                      data-vname="池畔餐厅晚餐自助"
-                      data-vid="197800"
-                      href="javascript:;"
-                      class
-                    >
-                      <!-- react-text: 764 -->
-                      池畔餐厅晚餐自助
-                      <!-- /react-text -->
-                    </a>
-                    <a
-                      data-df="1"
-                      data-disable="indisable"
-                      data-attid="207"
-                      data-vname="JUNSUI餐厅晚餐自助"
-                      data-vid="198000"
-                      href="javascript:;"
-                      class
-                    >
-                      <!-- react-text: 766 -->
-                      JUNSUI餐厅晚餐自助
-                      <!-- /react-text -->
-                    </a>
-                    
                   </div>
                 </div>
               </li>
@@ -307,7 +192,37 @@ export default {
       spinning: false,
       data: {
         gallery: []
-      }
+      },
+      varit: [
+        {
+          id: 1,
+          name: "海底餐厅午餐四道式"
+        },
+        {
+          id: 2,
+          name: "池畔餐厅午餐自助"
+        },
+        {
+          id: 3,
+          name: "日落小食下午茶套餐"
+        },
+        {
+          id: 4,
+          name: "JUNSUI餐厅午餐自助"
+        },
+        {
+          id: 5,
+          name: "天空餐厅晚餐四道式"
+        },
+        {
+          id: 6,
+          name: "池畔餐厅晚餐自助"
+        },
+        {
+          id: 7,
+          name: "JUNSUI餐厅晚餐自助"
+        }
+      ]
     };
   },
   mounted() {
