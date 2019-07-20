@@ -9,7 +9,7 @@
             </a>
             <div v-for="item in data.gallery" :key="item.id">
               <img :src="item.image.gallery_square_crop" />
-            </div>
+            </div> 
           </a-carousel>
         </div>
         <div class="detail_calendar">
