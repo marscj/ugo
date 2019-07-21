@@ -47,9 +47,9 @@
                 </label>
                 <div class="right">
                   <div class="choose-wrap">
-                    <a href="javascript:;" class="focus" v-for="data in varit" :key="data.id">
+                    <a href="javascript:;" :class="variant == data ? 'focus' : null" v-for="data in variantData" :key="data.id" @click="handleVariant(data)">
                       {{data.name}}
-                      <i/>
+                      <i v-if="variant==data" />
                     </a>
                   </div>
                 </div>
@@ -62,7 +62,7 @@
                   <div class="date-wrapper">
                     <div class="date-box">
                       <a-date-picker />
-                      <a-time-picker style="margin-left: 5px">
+                      <a-time-picker style="margin-left: 8px">
                         <a-button slot="addon" size="small" type="primary">Ok</a-button>
                       </a-time-picker>
                     </div>
@@ -89,28 +89,19 @@
                       <div class="item-right">
                         <span class="num-box">
                           <a
-                            data-disable="indisable"
-                            data-vname="成人"
-                            data-vid="3700"
                             class="copies-cut"
                             href="javascript:;"
-                            role="cut"
                           ></a>
                           <input
                             type="text"
                             min="1"
                             max="9999"
-                            value="1"
+                            value="10"
                             class="copies-num"
-                            role="copy"
                           />
                           <a
-                            data-disable="indisable"
-                            data-vname="成人"
-                            data-vid="3700"
                             class="copies-add"
                             href="javascript:;"
-                            role="add"
                           ></a>
                         </span>
                       </div>
@@ -129,12 +120,8 @@
                       <div class="item-right">
                         <span class="num-box">
                           <a
-                            data-disable="indisable"
-                            data-vname="儿童"
-                            data-vid="3800"
                             class="copies-cut disable"
                             href="javascript:;"
-                            role="cut"
                           ></a>
                           <input
                             type="text"
@@ -142,15 +129,10 @@
                             max="9999"
                             value="0"
                             class="copies-num"
-                            role="copy"
                           />
                           <a
-                            data-disable="indisable"
-                            data-vname="儿童"
-                            data-vid="3800"
                             class="copies-add"
                             href="javascript:;"
-                            role="add"
                           ></a>
                         </span>
                       </div>
@@ -193,7 +175,8 @@ export default {
       data: {
         gallery: []
       },
-      varit: [
+      variant: null,
+      variantData: [
         {
           id: 1,
           name: "海底餐厅午餐四道式"
@@ -250,6 +233,9 @@ export default {
         .finally(() => {
           this.spinning = false;
         });
+    },
+    handleVariant(data) {
+      this.variant = data
     }
   }
 };
@@ -624,7 +610,6 @@ export default {
 }
 
 .booking-btn {
-  display: inline-block;
   width: 178px;
   height: 50px;
   background: linear-gradient(90deg, #ffa900 0, #ff7201 100%);
@@ -646,7 +631,6 @@ export default {
 }
 
 .booking-price-wrap {
-  display: inline-block;
   margin-right: 29px;
   float: right;
   font-size: 14px;

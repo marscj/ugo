@@ -2,17 +2,26 @@
   <a-spin :spinning="spinning">
     <a-card>
       <a-form :form="form">
-      <a-form-item
-        label="Category"
-        :required="true"
-        :validate-status="category.help == null || category.help === '' ?  null : 'error'"
-        :help="category.help"
-      >
-        <a-select :value="category.value" @change="category.handleChange" :filterOption="false">
-          <a-select-option v-for="d in categoryData" :key="d.value">{{d.label}}</a-select-option>
-        </a-select>
-      </a-form-item>
-        <a-form-item 
+        <a-form-item
+          label="Status"
+          :required="true"
+        >
+          <a-select :value="status" :defaultValue="true" @change="(value) => status = value">
+            <a-select-option :value="true">上架</a-select-option>
+            <a-select-option :value="false">下架</a-select-option>
+          </a-select>
+        </a-form-item>
+        <a-form-item
+          label="Category"
+          :required="true"
+          :validate-status="category.help == null || category.help === '' ?  null : 'error'"
+          :help="category.help"
+        >
+          <a-select :value="category.value" @change="category.handleChange" :filterOption="false">
+            <a-select-option v-for="d in categoryData" :key="d.value">{{d.label}}</a-select-option>
+          </a-select>
+        </a-form-item>
+        <a-form-item
           label="Product ID:"
           :required="true"
           :validate-status="productID.help == null || productID.help === '' ?  null : 'error'"
@@ -20,23 +29,24 @@
         >
           <a-input v-model="productID.data"></a-input>
         </a-form-item>
-        <a-form-item 
+
+        <a-form-item
           label="Name:"
           :required="true"
           :validate-status="name.help == null || name.help === '' ?  null : 'error'"
           :help="name.help"
         >
-          <a-input v-model="name.data" ></a-input>
+          <a-input v-model="name.data"></a-input>
         </a-form-item>
-        <a-form-item 
+        <a-form-item
           label="Description:"
           :required="true"
           :validate-status="description.help == null || description.help === '' ?  null : 'error'"
           :help="description.help"
         >
-          <a-input v-model="description.data" ></a-input>
+          <a-input v-model="description.data"></a-input>
         </a-form-item>
-        <a-form-item 
+        <a-form-item
           label="Location:"
           :required="true"
           :validate-status="location.help == null || location.help === '' ?  null : 'error'"
@@ -60,12 +70,12 @@
           >
             <img v-if="photo.file" :src="photo.file.url" alt="photo" />
             <div v-else>
-                <a-icon :type="photo.loading ? 'loading' : 'plus'" />
-                <div class="ant-upload-text">Upload</div>
+              <a-icon :type="photo.loading ? 'loading' : 'plus'" />
+              <div class="ant-upload-text">Upload</div>
             </div>
           </a-upload>
         </a-form-item>
-        <a-form-item 
+        <a-form-item
           label="Gallery"
           :required="true"
           :validate-status="gallery.help == null || gallery.help === '' ?  null : 'error'"
@@ -82,7 +92,7 @@
             <div v-if="gallery.file.length < 8">
               <a-icon type="plus" />
               <div class="ant-upload-text">Upload</div>
-            </div> 
+            </div>
           </a-upload>
         </a-form-item>
         <a-form-item
@@ -112,10 +122,10 @@
       </a-form>
       <a-row>
         <a-col span="2">
-        <a-button type="primary" html-type="submit" @click="handleSubmit">Submit</a-button>
+          <a-button type="primary" html-type="submit" @click="handleSubmit">Submit</a-button>
         </a-col>
         <a-col span="2">
-        <a-button @click="handleGoBack">Return</a-button>
+          <a-button @click="handleGoBack">Return</a-button>
         </a-col>
       </a-row>
     </a-card>
@@ -123,26 +133,26 @@
 </template>
 
 <script>
-import pick from 'lodash.pick'
-import Tinymce from '@/components/Tinymce'
+import pick from "lodash.pick";
+import Tinymce from "@/components/Tinymce";
 
-import { checkError } from '@/views/utils/error'
-import { upload } from '@/api/source'
-import { getProduct, updateProduct, createProduct } from '@/api/product'
+import { checkError } from "@/views/utils/error";
+import { upload } from "@/api/source";
+import { getProduct, updateProduct, createProduct } from "@/api/product";
 
 const categoryData = [
-  { value: 1, label: '美食' },
-  { value: 2, label: '门票' },
-  { value: 3, label: '日游' },
-  { value: 4, label: '用车' },
-  { value: 5, label: '酒店' },
-  { value: 6, label: '伴手礼' },
-]
+  { value: 1, label: "美食" },
+  { value: 2, label: "门票" },
+  { value: 3, label: "日游" },
+  { value: 4, label: "用车" },
+  { value: 5, label: "酒店" },
+  { value: 6, label: "伴手礼" }
+];
 
 export default {
-  name:'ProductDetail',
+  name: "ProductDetail",
   components: {
-    Tinymce,
+    Tinymce
   },
   props: {
     isEdit: {
@@ -150,7 +160,7 @@ export default {
       default: false
     }
   },
-  data () {
+  data() {
     return {
       categoryData,
       labelCol: {
@@ -164,16 +174,16 @@ export default {
       buttonCol: {
         wrapperCol: {
           xs: { span: 24 },
-          sm: { span: 6}
+          sm: { span: 6 }
         }
       },
       form: this.$form.createForm(this),
+      status: true,
       category: {
         value: null,
         help: null,
-        handleChange: (value) => {
-          console.log(value)
-          this.category.value = value
+        handleChange: value => {
+          this.category.value = value;
         }
       },
       photo: {
@@ -181,63 +191,67 @@ export default {
         file: null,
         help: null,
         loading: false,
-        remove: (file) => {
-          photo.data = null
-          photo.file = null
+        remove: file => {
+          photo.data = null;
+          photo.file = null;
         },
-        request: (request) => {
+        request: request => {
           const formData = new FormData();
-          formData.append('image', request.file);
-          formData.append('flag', 'icon')
-          formData.append('title', this.name.data)
-          upload(formData).then((res) => {
-            const { result } = res
-            this.photo.data = result
-            this.photo.file = {
-              uid: result.uid,
-              name: result.name,
-              status: 'done',
-              url: result.image.thumbnail,
-            }
-            this.$message.success('Upload successfully.')
-          }).catch((error) => {
-            this.$message.error('Upload failed.')
-          })
+          formData.append("image", request.file);
+          formData.append("flag", "icon");
+          formData.append("title", this.name.data);
+          upload(formData)
+            .then(res => {
+              const { result } = res;
+              this.photo.data = result;
+              this.photo.file = {
+                uid: result.uid,
+                name: result.name,
+                status: "done",
+                url: result.image.thumbnail
+              };
+              this.$message.success("Upload successfully.");
+            })
+            .catch(error => {
+              this.$message.error("Upload failed.");
+            });
         }
       },
       gallery: {
         data: [],
         file: [],
         help: null,
-        remove: (file) => {
+        remove: file => {
           const index = this.gallery.data.indexOf(file);
           const newFileList = this.gallery.data.slice();
           newFileList.splice(index, 1);
-          this.gallery.data = newFileList
+          this.gallery.data = newFileList;
 
           const _index = this.gallery.file.indexOf(file);
           const _newFileList = this.gallery.file.slice();
           _newFileList.splice(_index, 1);
-          this.gallery.file = _newFileList
+          this.gallery.file = _newFileList;
         },
-        request: (request) => {
+        request: request => {
           const formData = new FormData();
-          formData.append('image', request.file);
-          formData.append('flag', 'gallery')
-          formData.append('title', this.name.data)
-          upload(formData).then((res) => {
-            const { result } = res
-            this.gallery.data.push(result)
-            this.gallery.file.push({
-              uid: result.uid,
-              name: result.name,
-              status: 'done',
-              url: result.image.full_size,
+          formData.append("image", request.file);
+          formData.append("flag", "gallery");
+          formData.append("title", this.name.data);
+          upload(formData)
+            .then(res => {
+              const { result } = res;
+              this.gallery.data.push(result);
+              this.gallery.file.push({
+                uid: result.uid,
+                name: result.name,
+                status: "done",
+                url: result.image.full_size
+              });
+              this.$message.success("Upload successfully.");
             })
-            this.$message.success('Upload successfully.')
-          }).catch((error) => {
-            this.$message.error('Upload failed.')
-          })
+            .catch(error => {
+              this.$message.error("Upload failed.");
+            });
         }
       },
       content: {
@@ -265,223 +279,256 @@ export default {
         help: null
       },
       spinning: false
-    }
+    };
   },
   created() {
     if (this.isEdit) {
-      const id = this.$route.params && this.$route.params.id
-      this.fetch(id)
+      const id = this.$route.params && this.$route.params.id;
+      this.fetch(id);
     }
   },
   methods: {
-    handleGoBack () {
-      this.$router.go(-1)
+    handleGoBack() {
+      this.$router.go(-1);
     },
     fetch(id) {
-      this.spinning = true
-      getProduct(id).then((res) => {
-        const { result } = res
-        this.initData(result)
-      }).finally(() => {
-        this.spinning = false
-      })
+      this.spinning = true;
+      getProduct(id)
+        .then(res => {
+          const { result } = res;
+          this.initData(result);
+        })
+        .finally(() => {
+          this.spinning = false;
+        });
     },
     updateForm(data) {
-      this.spinning = true
-      updateProduct(this.$route.params.id, data).then((res) => {
-        const { result } = res
-        this.handleGoBack()
-      }).catch((error) => {
-        this.checkError(error)
-      }).finally(() => {
-        this.spinning = false
-      })
+      this.spinning = true;
+      updateProduct(this.$route.params.id, data)
+        .then(res => {
+          const { result } = res;
+          this.handleGoBack();
+        })
+        .catch(error => {
+          this.checkError(error);
+        })
+        .finally(() => {
+          this.spinning = false;
+        });
     },
     createForm(data) {
-      this.spinning = true
-      createProduct(data).then((res) => {
-        const { result } = res
-        this.$router.replace({
-          name: 'ProductEdit', params: {id: result.id}
+      this.spinning = true;
+      createProduct(data)
+        .then(res => {
+          const { result } = res;
+          this.$router.replace({
+            name: "ProductEdit",
+            params: { id: result.id }
+          });
         })
-      }).finally(() => {
-        this.spinning = false
-      })
+        .finally(() => {
+          this.spinning = false;
+        });
     },
     checkError(error) {
-      var errors = checkError(error, 'category', 'productID', 'name', 'description', 'location', 'photo', 'gallery', 'subtitle', 'content')
-      
-      this.category.help = errors['category']
-      this.productID.help = errors['productID']
-      this.name.help = errors['name']
-      this.description.help = errors['description']
-      this.location.help = errors['location']
-      this.photo.help = errors['photo']
-      this.gallery.help = errors['gallery']
-      this.subtitle.help = errors['subtitle']
-      this.content.help = errors['content']
+      var errors = checkError(
+        error,
+        "status",
+        "category",
+        "productID",
+        "name",
+        "description",
+        "location",
+        "photo",
+        "gallery",
+        "subtitle",
+        "content"
+      );
 
-      for(var key in errors) {
-        if(errors[key]) {
-          this.$notification['error']({
+      this.status = errors["status"];
+      this.category.help = errors["category"];
+      this.productID.help = errors["productID"];
+      this.name.help = errors["name"];
+      this.description.help = errors["description"];
+      this.location.help = errors["location"];
+      this.photo.help = errors["photo"];
+      this.gallery.help = errors["gallery"];
+      this.subtitle.help = errors["subtitle"];
+      this.content.help = errors["content"];
+
+      for (var key in errors) {
+        if (errors[key]) {
+          this.$notification["error"]({
             message: key,
             description: errors[key],
             duration: 4
-          })
+          });
         }
       }
     },
-    initData (data) {
-      if(this.isEdit) {
-        this.$route.meta.title = data.name
-        this.$emit('title')
+    initData(data) {
+      if (this.isEdit) {
+        this.$route.meta.title = data.name;
+        this.$emit("title");
       }
 
-      this.category.value = data.category
+      this.status = data.status;
+
+      this.category.value = data.category;
 
       this.productID = {
         data: data.productID,
         help: null
-      }
+      };
 
       this.name = {
         data: data.name,
         help: null
-      }
+      };
 
       this.description = {
         data: data.description,
         help: null
-      }
+      };
 
       this.location = {
         data: data.location,
         help: null
-      }
+      };
 
       this.content = {
         data: data.content,
         help: null
-      }
+      };
 
       this.subtitle = {
         data: data.subtitle,
         help: null
-      }
+      };
 
       if (data.photo != null) {
         this.photo.file = {
           uid: data.photo.uid,
           name: data.photo.name,
           url: data.photo.image.thumbnail
-        }
-        this.photo.data = data.photo
+        };
+        this.photo.data = data.photo;
       }
 
       if (data.gallery != null) {
-        for(var g of data.gallery) {
-            this.gallery.file.push({
-              uid: g.uid,
-              name: g.name,
-              url: g.image.full_size
-            })
+        for (var g of data.gallery) {
+          this.gallery.file.push({
+            uid: g.uid,
+            name: g.name,
+            url: g.image.full_size
+          });
         }
-        this.gallery.data = data.gallery
+        this.gallery.data = data.gallery;
       }
     },
-    handleSubmit () {
-      const { form: { validateFields } } = this
+    handleSubmit() {
 
-      if(this.category.value == null) {
-        this.category.help = 'This field is required.'
+      if (this.category.value == null) {
+        this.category.help = "This field is required.";
       } else {
-        this.category.help = null
+        this.category.help = null;
       }
 
-      if(this.productID.data == null || this.productID.data === '') {
-        this.productID.help = 'This field is required.'
+      if (this.productID.data == null || this.productID.data === "") {
+        this.productID.help = "This field is required.";
       } else {
-        this.productID.help = null
+        this.productID.help = null;
       }
 
-      if(this.name.data == null || this.name.data === '') {
-        this.name.help = 'This field is required.'
+      if (this.name.data == null || this.name.data === "") {
+        this.name.help = "This field is required.";
       } else {
-        this.name.help = null
+        this.name.help = null;
       }
 
-      if(this.description.data == null || this.description.data === '') {
-        this.description.help = 'This field is required.'
+      if (this.description.data == null || this.description.data === "") {
+        this.description.help = "This field is required.";
       } else {
-        this.description.help = null
+        this.description.help = null;
       }
 
-      if(this.location.data == null || this.location.data === '') {
-        this.location.help = 'This field is required.'
+      if (this.location.data == null || this.location.data === "") {
+        this.location.help = "This field is required.";
       } else {
-        this.location.help = null
+        this.location.help = null;
       }
 
-      if(this.photo.data == null) {
-        this.photo.help = 'This field is required.'
+      if (this.photo.data == null) {
+        this.photo.help = "This field is required.";
       } else {
-        this.photo.help = null
+        this.photo.help = null;
       }
 
-      if(this.gallery.data == null || this.gallery.data.length == 0) {
-        this.gallery.help = 'This field is required.'
+      if (this.gallery.data == null || this.gallery.data.length == 0) {
+        this.gallery.help = "This field is required.";
       } else {
-        this.gallery.help = null
+        this.gallery.help = null;
       }
 
-      if(this.subtitle.data == null || this.subtitle.data === '') {
-        this.subtitle.help = 'This field is required.'
+      if (this.subtitle.data == null || this.subtitle.data === "") {
+        this.subtitle.help = "This field is required.";
       } else {
-        this.subtitle.help = null
+        this.subtitle.help = null;
       }
 
-      if(this.content.data == null || this.content.data ==='') {
-        this.content.help = 'This field is required.'
+      if (this.content.data == null || this.content.data === "") {
+        this.content.help = "This field is required.";
       } else {
-        this.content.help = null
+        this.content.help = null;
       }
-      
-      if(this.category.help || this.productID.help ||  this.name.help || this.description.help || this.location.help || this.photo.help || this.gallery.help || this.subtitle.help || this.content.help) {
-        return
+
+      if (
+        this.category.help ||
+        this.productID.help ||
+        this.name.help ||
+        this.description.help ||
+        this.location.help ||
+        this.photo.help ||
+        this.gallery.help ||
+        this.subtitle.help ||
+        this.content.help
+      ) {
+        return;
       }
 
       var values = {
+        status: this.status,
         category: this.category.value,
         productID: this.productID.data,
         name: this.name.data,
         description: this.description.data,
         location: this.location.data,
         photo_id: this.photo.data.id,
-        gallery_id: this.gallery.data.map((f) => {
+        gallery_id: this.gallery.data.map(f => {
           if (f) {
-            return f.id
+            return f.id;
           }
         }),
         subtitle: this.subtitle.data,
         content: this.content.data
-      }
+      };
       if (this.isEdit) {
-        this.updateForm(values)
+        this.updateForm(values);
       } else {
-        this.createForm(values)
+        this.createForm(values);
       }
     },
     beforeUpload(file) {
-      const isIMG = (file.type === 'image/jpeg' || file.type === 'image/png')
+      const isIMG = file.type === "image/jpeg" || file.type === "image/png";
       if (!isIMG) {
-        this.$message.error('You can only upload JPG or PNG file!')
+        this.$message.error("You can only upload JPG or PNG file!");
       }
-      const isLt2M = file.size / 1024 / 1024 < 2
+      const isLt2M = file.size / 1024 / 1024 < 2;
       if (!isLt2M) {
-        this.$message.error('Image must smaller than 2MB!')
+        this.$message.error("Image must smaller than 2MB!");
       }
-      return isIMG && isLt2M
+      return isIMG && isLt2M;
     }
   }
-}
+};
 </script>

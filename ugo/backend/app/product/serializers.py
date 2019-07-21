@@ -7,6 +7,8 @@ from app.source.serializers import ProductImageSerializer
 
 class ProductSerializer(serializers.ModelSerializer):
 
+    status = serializers.BooleanField()
+
     productID = serializers.CharField(allow_null=False, max_length=16, validators=[UniqueValidator(queryset=Product.objects.all())])
 
     name = serializers.CharField(allow_null=False, max_length=128, validators=[UniqueValidator(queryset=Product.objects.all())])
