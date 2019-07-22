@@ -6,10 +6,7 @@
           label="Status"
           :required="true"
         >
-          <a-select :value="status" :defaultValue="true" @change="(value) => status = value">
-            <a-select-option :value="true">上架</a-select-option>
-            <a-select-option :value="false">下架</a-select-option>
-          </a-select>
+          <a-switch checkedChildren="上架" unCheckedChildren="下架" :checked="status" @change="handleStatusChange"/>
         </a-form-item>
         <a-form-item
           label="Category"
@@ -182,7 +179,7 @@ export default {
       category: {
         value: null,
         help: null,
-        handleChange: value => {
+        handleChange: (value) => {
           this.category.value = value;
         }
       },
@@ -333,7 +330,6 @@ export default {
     checkError(error) {
       var errors = checkError(
         error,
-        "status",
         "category",
         "productID",
         "name",
@@ -345,7 +341,6 @@ export default {
         "content"
       );
 
-      this.status = errors["status"];
       this.category.help = errors["category"];
       this.productID.help = errors["productID"];
       this.name.help = errors["name"];
@@ -528,6 +523,9 @@ export default {
         this.$message.error("Image must smaller than 2MB!");
       }
       return isIMG && isLt2M;
+    },
+    handleStatusChange(value) {
+      this.status = value
     }
   }
 };

@@ -23,8 +23,6 @@ class Product(models.Model):
     
     content = models.TextField(blank=True, null=True)
 
-    
-
     photo = models.ForeignKey(ProductImage, blank=True, null=True, related_name='photo', on_delete=models.SET_NULL)
 
     gallery = models.ManyToManyField(ProductImage, blank=True, related_name='gallery')
@@ -41,20 +39,22 @@ class ProductVariant(models.Model):
     sku = models.CharField(max_length=32, unique=True)
 
     name = models.CharField(blank=True, null=True, max_length=64, unique=True)
+
+    adult_status = models.BooleanField(default=True)
     
     adult_desc = models.CharField(blank=True, null=True, max_length=64)
 
-    adultQuantity = models.PositiveIntegerField(blank=True, null=True, validators=[MinValueValidator(0)])
+    adult_quantity = models.PositiveIntegerField(blank=True, null=True, validators=[MinValueValidator(0)])
 
-    adultPrice = models.DecimalField(blank=True, null=True, max_digits=10, decimal_places=2, validators=[MinValueValidator(0.0)])
+    adult_price = models.DecimalField(blank=True, null=True, max_digits=10, decimal_places=2, validators=[MinValueValidator(0.0)])
 
-    hasChild = models.BooleanField(default=False)
+    child_status = models.BooleanField(default=False)
 
     child_desc = models.CharField(blank=True, null=True, max_length=64)
 
-    childQuantity = models.PositiveIntegerField(blank=True, null=True, validators=[MinValueValidator(0)])
+    child_quantity = models.PositiveIntegerField(blank=True, null=True, validators=[MinValueValidator(0)])
 
-    childPrice = models.DecimalField(blank=True, null=True, max_digits=10, decimal_places=2, validators=[MinValueValidator(0.0)])
+    child_price = models.DecimalField(blank=True, null=True, max_digits=10, decimal_places=2, validators=[MinValueValidator(0.0)])
 
     product = models.ForeignKey(Product, blank=True, null=True, related_name='variant', on_delete=models.CASCADE)
 

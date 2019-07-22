@@ -85,18 +85,16 @@ export default {
           title: 'Category',
           dataIndex: 'category',
           customRender: (text, index, row) => {
-            return <span href="javascript:;">{categoryData[text].label}</span>;
+            return <span>{categoryData[text].label}</span>;
           }
         },
         {
           title: 'Name',
-          dataIndex: 'name',
-          width: 140,
+          dataIndex: 'name'
         },
         {
           title: 'Description',
           dataIndex: 'description',
-          width: 200,
         },
         {
           title: 'Location',
@@ -106,6 +104,17 @@ export default {
           title: 'Photo',
           width: 200,
           scopedSlots: { customRender: 'photo' }
+        },
+        {
+          title: 'Status',
+          dataIndex: 'status',
+          customRender: (text, row, index) => {
+            if(text) {
+              return <span>上架</span>; 
+            } else {
+              return <span>下架</span>;
+            }
+          }
         },
         {
           title: '操作',
