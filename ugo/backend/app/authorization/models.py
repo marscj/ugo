@@ -5,6 +5,8 @@ from django.contrib.auth.validators import UnicodeUsernameValidator
 
 from jsonfield import JSONField,JSONCharField
 
+from .import UserType
+
 class CustomUser(AbstractBaseUser):
     username_validator = UnicodeUsernameValidator()
 
@@ -25,6 +27,7 @@ class CustomUser(AbstractBaseUser):
     avatar = models.ImageField(blank=True, null=True, upload_to='avatars')
     deleted = models.BooleanField(default=False)
     status = models.IntegerField(default=0)
+    user_type = models.IntegerField(default=UserType.Customer, choices=UserType.CHOISE)
     
     role = models.ForeignKey('Role', blank=True, null=True, related_name='user', on_delete=models.SET_NULL)
 

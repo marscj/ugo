@@ -1,3 +1,4 @@
+default_app_config = 'app.product.apps.ProductConfig'
 
 class Category:
     Food = 1

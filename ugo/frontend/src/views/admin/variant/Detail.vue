@@ -137,14 +137,15 @@
       </a-form>
     </a-card>
 
-    <a-card style="margin-top:20px" title="User Price" >
+    <a-card style="margin-top:20px" title="User Price" v-if="isEdit">
       <a-form :form="form">
         <a-form-item label="Status" :required="true">
           <a-switch checkedChildren="上架" unCheckedChildren="下架" :checked="form.status" disabled />
         </a-form-item>
       </a-form>
     </a-card>
-    <a-row>
+
+    <a-row style="margin-top:20px">
       <a-col span="2">
         <a-button type="primary" html-type="submit" @click="handleSubmit">Submit</a-button>
       </a-col>
