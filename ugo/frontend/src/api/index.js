@@ -9,7 +9,7 @@ const api = {
 
   // category: '/category/',
   product: '/product/',
-  variant: '/productvariant/',
+  variant: '/variant/',
 
   source: '/source/'
 }

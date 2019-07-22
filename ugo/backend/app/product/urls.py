@@ -6,6 +6,6 @@ from .import views
 router = DefaultRouter()
 # router.register(r'category', views.CategoryView, basename='product')
 router.register(r'product', views.ProductView, basename='product')
-router.register(r'productvariant', views.ProductVariantView, basename='productvariant')
+router.register(r'variant', views.ProductVariantView, basename='variant')
 
 urlpatterns = router.urls
