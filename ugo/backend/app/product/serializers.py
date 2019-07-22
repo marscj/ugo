@@ -67,9 +67,9 @@ class ProductVariantSerializer(serializers.ModelSerializer):
 
     variantID = serializers.CharField(required=True, allow_null=False, max_length=16, validators=[UniqueValidator(queryset=ProductVariant.objects.all())])
 
-    sku = serializers.CharField(required=True, allow_null=False, max_length=32, validators=[UniqueValidator(queryset=ProductVariant.objects.all())])
+    name = serializers.CharField(required=True, allow_null=False, max_length=64, validators=[UniqueValidator(queryset=Product.objects.all())])
 
-    name = serializers.CharField(required=True, allow_null=False, max_length=128, validators=[UniqueValidator(queryset=Product.objects.all())])
+    sku = serializers.CharField(required=True, allow_null=False, max_length=32, validators=[UniqueValidator(queryset=ProductVariant.objects.all())])
 
     adult_status = serializers.BooleanField(required=True)
 

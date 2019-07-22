@@ -19,7 +19,7 @@
           </a-select>
         </a-form-item>
         <a-form-item
-          label="Product ID:"
+          label="Product ID"
           :required="true"
           :validate-status="productID.help == null || productID.help === '' ?  null : 'error'"
           :help="productID.help"
@@ -28,7 +28,7 @@
         </a-form-item>
 
         <a-form-item
-          label="Name:"
+          label="Name"
           :required="true"
           :validate-status="name.help == null || name.help === '' ?  null : 'error'"
           :help="name.help"
@@ -36,7 +36,7 @@
           <a-input v-model="name.data"></a-input>
         </a-form-item>
         <a-form-item
-          label="Description:"
+          label="Description"
           :required="true"
           :validate-status="description.help == null || description.help === '' ?  null : 'error'"
           :help="description.help"
@@ -44,7 +44,7 @@
           <a-input v-model="description.data"></a-input>
         </a-form-item>
         <a-form-item
-          label="Location:"
+          label="Location"
           :required="true"
           :validate-status="location.help == null || location.help === '' ?  null : 'error'"
           :help="location.help"

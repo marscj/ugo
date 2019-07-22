@@ -14,7 +14,7 @@ class ProductView(CustomModelViewSet):
     permission_classes = [AllowAny]
 
     filterset_fields = ('category', )
-    search_fields = ('title', )
+    search_fields = ('name', )
  
 class ProductVariantView(CustomModelViewSet):
     serializer_class = ProductVariantSerializer

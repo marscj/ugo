@@ -10,7 +10,7 @@ export default {
   components: { Detail },
   data() {
     return {
-      description: '编辑产品',
+      description: '编辑子产品',
     }
   },
   methods: {

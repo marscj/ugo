@@ -1,437 +1,325 @@
 <template>
   <a-spin :spinning="spinning">
-    <a-card>
+    <a-card title="Base">
       <a-form :form="form">
-        <a-form-item 
-          label="Product ID:"
-          :required="true"
-          :validate-status="productID.help == null || productID.help === '' ?  null : 'error'"
-          :help="productID.help"
-        >
-          <a-input v-model="productID.data"></a-input>
+        <a-form-item label="Status" :required="true">
+          <a-switch checkedChildren="上架" unCheckedChildren="下架" :checked="form.status" disabled />
         </a-form-item>
-        <a-form-item 
-          label="Title:"
-          :required="true"
-          :validate-status="title.help == null || title.help === '' ?  null : 'error'"
-          :help="title.help"
-        >
-          <a-input v-model="title.data" ></a-input>
-        </a-form-item>
-        <a-form-item 
-          label="Location:"
-          :required="true"
-          :validate-status="title.help == null || title.help === '' ?  null : 'error'"
-          :help="title.help"
-        >
-          <a-input v-model="location.data"></a-input>
-        </a-form-item>
-        <a-form-item
-          label="Photo"
-          :required="true"
-          :validate-status="photo.help == null || photo.help === '' ?  null : 'error'"
-          :help="photo.help"
-        >
-          <a-upload
-            :showUploadList="false"
-            :beforeUpload="beforeUpload"
-            :remove="photo.remove"
-            :customRequest="photo.request"
-            listType="picture-card"
+        <a-form-item label="Product(主产品)" :required="true">
+          <a-select
+            showSearch
+            v-model="product_id"
+            placeholder="product name"
+            :defaultActiveFirstOption="false"
+            :showArrow="false"
+            :filterOption="false"
+            @search="handleProductSearch"
+            @change="handleProductChange"
+            :notFoundContent="null"
           >
-            <img v-if="photo.file" :src="photo.file.url" alt="photo" />
-            <div v-else>
-                <a-icon :type="photo.loading ? 'loading' : 'plus'" />
-                <div class="ant-upload-text">Upload</div>
-            </div>
-          </a-upload>
-        </a-form-item>
-        <a-form-item 
-          label="Gallery"
-          :required="true"
-          :validate-status="gallery.help == null || gallery.help === '' ?  null : 'error'"
-          :help="gallery.help"
-        >
-          <a-upload
-            :fileList="gallery.file"
-            :beforeUpload="beforeUpload"
-            :remove="gallery.remove"
-            :customRequest="gallery.request"
-            listType="picture-card"
-          >
-            <div v-if="gallery.file.length < 8">
-              <a-icon type="plus" />
-              <div class="ant-upload-text">Upload</div>
-            </div> 
-          </a-upload>
+            <a-select-option v-for="d in productOption" :key="d.id">{{d.name}}</a-select-option>
+          </a-select>
         </a-form-item>
         <a-form-item
-          label="SubTitle"
+          label="Name"
           :required="true"
-          :validate-status="subtitle.help == null || subtitle.help === '' ? null : 'error'"
-          :help="subtitle.help"
+          :validate-status="help.name == null || help.name === '' ?  null : 'error'"
+          :help="help.name"
         >
-          <div class="components-container">
-            <div>
-              <tinymce v-model="subtitle.data" :height="150" />
-            </div>
-          </div>
+          <a-input v-model="form.name"></a-input>
         </a-form-item>
         <a-form-item
-          label="Content"
+          label="SKU"
           :required="true"
-          :validate-status="content.help == null || content.help === '' ? null : 'error'"
-          :help="content.help"
+          :validate-status="help.sku == null || help.sku === '' ?  null : 'error'"
+          :help="help.sku"
         >
-          <div class="components-container">
-            <div>
-              <tinymce v-model="content.data" :height="500" />
-            </div>
-          </div>
+          <a-input v-model="form.sku"></a-input>
+        </a-form-item>
+        <a-form-item label="Adult Status(成人票)" :required="true">
+          <a-switch
+            checkedChildren="上架"
+            unCheckedChildren="下架"
+            :checked="form.adult_status"
+            @change="handleAdultChange"
+          />
+        </a-form-item>
+        <a-form-item
+          label="Adult Desc"
+          :required="true"
+          :validate-status="help.adult_desc == null || help.adult_desc === '' ?  null : 'error'"
+          :help="help.adult_desc"
+          v-if="form.adult_status"
+        >
+          <a-input v-model="form.adult_desc"></a-input>
+        </a-form-item>
+        <a-form-item
+          label="Adult Quantity"
+          :required="true"
+          :validate-status="help.adult_quantity == null || help.adult_quantity === '' ?  null : 'error'"
+          :help="help.adult_quantity"
+          v-if="form.adult_status"
+        >
+          <a-input-number
+            v-model="form.adult_quantity"
+            :min="1"
+            :max="9999"
+            :defaultValue="1"
+            style="width:200px;"
+          />
+        </a-form-item>
+        <a-form-item
+          label="Adult Price(default price)"
+          :required="true"
+          :validate-status="help.adult_price == null || help.adult_price === '' ?  null : 'error'"
+          :help="help.adult_price"
+          v-if="form.adult_status"
+        >
+          <a-input-number
+            v-model="form.adult_price"
+            :min="0.0"
+            :max="99999.99"
+            :defaultValue="0.0"
+            :precision="2"
+            :step="0.5"
+            style="width:200px;"
+          />
+        </a-form-item>
+        <a-form-item label="Child Status(儿童票)" :required="true">
+          <a-switch
+            checkedChildren="上架"
+            unCheckedChildren="下架"
+            :checked="form.child_status"
+            @change="handleChildChange"
+          />
+        </a-form-item>
+        <a-form-item
+          label="Child Desc"
+          :required="true"
+          :validate-status="help.child_desc == null || help.child_desc === '' ?  null : 'error'"
+          :help="help.child_desc"
+          v-if="form.child_status"
+        >
+          <a-input v-model="form.child_desc"></a-input>
+        </a-form-item>
+        <a-form-item
+          label="Child Quantity"
+          :required="true"
+          :validate-status="help.child_quantity == null || help.child_quantity === '' ?  null : 'error'"
+          :help="help.child_quantity"
+          v-if="form.child_status"
+        >
+          <a-input-number
+            v-model="form.child_quantity"
+            :min="1"
+            :max="9999"
+            :defaultValue="1"
+            style="width:200px;"
+          />
+        </a-form-item>
+        <a-form-item
+          label="Child Price(default price)"
+          :required="true"
+          :validate-status="help.child_price == null || help.child_price === '' ?  null : 'error'"
+          :help="help.child_price"
+          v-if="form.child_status"
+        >
+          <a-input-number
+            v-model="form.child_price"
+            :min="0.0"
+            :max="99999.99"
+            :defaultValue="0.0"
+            :precision="2"
+            :step="0.5"
+            style="width:200px;"
+          />
         </a-form-item>
       </a-form>
-      <a-row>
-        <a-col span="2">
-        <a-button type="primary" html-type="submit" @click="handleSubmit">Submit</a-button>
-        </a-col>
-        <a-col span="2">
-        <a-button @click="handleGoBack">Return</a-button>
-        </a-col>
-      </a-row>
     </a-card>
+
+    <a-card style="margin-top:20px" title="User Price" >
+      <a-form :form="form">
+        <a-form-item label="Status" :required="true">
+          <a-switch checkedChildren="上架" unCheckedChildren="下架" :checked="form.status" disabled />
+        </a-form-item>
+      </a-form>
+    </a-card>
+    <a-row>
+      <a-col span="2">
+        <a-button type="primary" html-type="submit" @click="handleSubmit">Submit</a-button>
+      </a-col>
+      <a-col span="2">
+        <a-button @click="handleGoBack">Return</a-button>
+      </a-col>
+    </a-row>
   </a-spin>
 </template>
 
 <script>
-import pick from 'lodash.pick'
-import Tinymce from '@/components/Tinymce'
-
-import { checkError } from '@/views/utils/error'
-import { upload } from '@/api/source'
-import { getProduct, updateProduct, createProduct } from '@/api/product'
+import { checkError } from "@/views/utils/error";
+import { upload } from "@/api/source";
+import { getVariant, updateVariant, createVariant } from "@/api/variant";
+import { getProductList } from "@/api/product";
 
 export default {
-  name:'ProductDetail',
-  components: {
-    Tinymce,
-  },
+  name: "ProductDetail",
   props: {
     isEdit: {
       type: Boolean,
       default: false
     }
   },
-  data () {
+  data() {
     return {
-      labelCol: {
-        xs: { span: 24 },
-        sm: { span: 2 }
+      form: {
+        status: false,
+        adult_status: false,
+        adult_desc: undefined,
+        adult_quantity: undefined,
+        adult_price: undefined,
+        child_status: false,
+        child_desc: undefined,
+        child_quantity: undefined,
+        child_price: undefined
       },
-      wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 15 }
-      },
-      buttonCol: {
-        wrapperCol: {
-          xs: { span: 24 },
-          sm: { span: 6}
-        }
-      },
-      form: this.$form.createForm(this),
-      category: {
-        data: [],
-        value: null,
-        fetching: false,
-        help: null,
-        handleChange: (value) => {
-          console.log(value)
-          this.category.value = value
-        }
-      },
-      photo: {
-        data: null,
-        file: null,
-        help: null,
-        loading: false,
-        remove: (file) => {
-          photo.data = null
-          photo.file = null
-        },
-        request: (request) => {
-          const formData = new FormData();
-          formData.append('image', request.file);
-          upload(formData).then((res) => {
-            const { result } = res
-            this.photo.data = result
-            this.photo.file = {
-              uid: result.uid,
-              name: result.name,
-              status: 'done',
-              url: result.image.thumbnail,
-            }
-            this.$message.success('Upload successfully.')
-          }).catch((error) => {
-            this.$message.error('Upload failed.')
-          })
-        }
-      },
-      gallery: {
-        data: [],
-        file: [],
-        help: null,
-        remove: (file) => {
-          const index = this.gallery.data.indexOf(file);
-          const newFileList = this.gallery.data.slice();
-          newFileList.splice(index, 1);
-          this.gallery.data = newFileList
-
-          const _index = this.gallery.file.indexOf(file);
-          const _newFileList = this.gallery.file.slice();
-          _newFileList.splice(_index, 1);
-          this.gallery.file = _newFileList
-        },
-        request: (request) => {
-          const formData = new FormData();
-          formData.append('image', request.file);
-          upload(formData).then((res) => {
-            const { result } = res
-            this.gallery.data.push(result)
-            this.gallery.file.push({
-              uid: result.uid,
-              name: result.name,
-              status: 'done',
-              url: result.image.full_size,
-            })
-            this.$message.success('Upload successfully.')
-          }).catch((error) => {
-            this.$message.error('Upload failed.')
-          })
-        }
-      },
-      content: {
-        data: null,
-        help: null
-      },
-      subtitle: {
-        data: null,
-        help: null
-      },
-      productID: {
-        data: null,
-        help: null
-      },
-      title: {
-        data: null,
-        help: null
-      },
-      location: {
-        data: null,
-        help: null
-      },
+      help: {},
+      product_id: null,
+      productOption: [],
       spinning: false
-    }
+    };
   },
   created() {
     if (this.isEdit) {
-      const id = this.$route.params && this.$route.params.id
-      this.fetch(id)
+      const id = this.$route.params && this.$route.params.id;
+      this.fetch(id);
     }
-    this.getCategory()
   },
   methods: {
-    handleGoBack () {
-      this.$router.go(-1)
+    handleGoBack() {
+      this.$router.go(-1);
     },
     fetch(id) {
-      this.spinning = true
-      getProduct(id).then((res) => {
-        const { result } = res
-        this.initData(result)
-      }).finally(() => {
-        this.spinning = false
-      })
+      this.spinning = true;
+      getVariant(id)
+        .then(res => {
+          const { result } = res;
+          this.form = result;
+        })
+        .finally(() => {
+          this.spinning = false;
+        });
     },
     updateForm(data) {
-      this.spinning = true
-      updateProduct(this.$route.params.id, data).then((res) => {
-        const { result } = res
-        this.handleGoBack()
-      }).catch((error) => {
-        this.checkError(error)
-      }).finally(() => {
-        this.spinning = false
-      })
+      this.spinning = true;
+      updateVariant(this.$route.params.id, data)
+        .then(res => {
+          const { result } = res;
+          this.handleGoBack();
+        })
+        .catch(error => {
+          this.checkError(error);
+        })
+        .finally(() => {
+          this.spinning = false;
+        });
     },
     createForm(data) {
-      this.spinning = true
-      createProduct(data).then((res) => {
-        const { result } = res
-        this.$router.replace({
-          name: 'ProductEdit', params: {id: result.id}
+      this.spinning = true;
+      createVariant(data)
+        .then(res => {
+          const { result } = res;
+          this.$router.replace({
+            name: "VariantEdit",
+            params: { id: result.id }
+          });
         })
-      }).finally(() => {
-        this.spinning = false
-      })
+        .finally(() => {
+          this.spinning = false;
+        });
+    },
+    handleProductSearch(value) {
+      getProductList({ search: value }).then(res => {
+        const { result } = res;
+        this.productOption = result;
+      });
+    },
+    handleProductChange(value) {
+      this.product_id = value;
+    },
+    handleAdultChange(value) {
+      this.form.adult_status = value;
+      this.handleStatusChange();
+    },
+    handleChildChange(value) {
+      this.form.child_status = value;
+      this.handleStatusChange();
     },
     checkError(error) {
-      var errors = checkError(error, 'category', 'productID', 'title', 'location', 'photo', 'gallery', 'subtitle', 'content')
-      
-      this.category.help = errors['category']
-      this.productID.help = errors['productID']
-      this.title.help = errors['title']
-      this.location.help = errors['location']
-      this.photo.help = errors['photo']
-      this.gallery.help = errors['gallery']
-      this.subtitle.help = errors['subtitle']
-      this.content.help = errors['content']
+      var errors = checkError(
+        error,
+        "category",
+        "productID",
+        "name",
+        "description",
+        "location",
+        "photo",
+        "gallery",
+        "subtitle",
+        "content"
+      );
 
-      for(var key in errors) {
-        if(errors[key]) {
-          this.$notification['error']({
+      this.category.help = errors["category"];
+      this.productID.help = errors["productID"];
+      this.name.help = errors["name"];
+      this.description.help = errors["description"];
+      this.location.help = errors["location"];
+      this.photo.help = errors["photo"];
+      this.gallery.help = errors["gallery"];
+      this.subtitle.help = errors["subtitle"];
+      this.content.help = errors["content"];
+
+      for (var key in errors) {
+        if (errors[key]) {
+          this.$notification["error"]({
             message: key,
             description: errors[key],
             duration: 4
-          })
+          });
         }
       }
     },
-    initData (data) {
-      if(this.isEdit) {
-        this.$route.meta.title = data.title
-        this.$emit('title')
-      }
-
-      this.category.value = data.category.id
-
-      this.productID = {
-        data: data.productID,
-        help: null
-      }
-
-      this.title = {
-        data: data.title,
-        help: null
-      }
-
-      this.location = {
-        data: data.location,
-        help: null
-      }
-
-      this.content = {
-        data: data.content,
-        help: null
-      }
-
-      this.subtitle = {
-        data: data.subtitle,
-        help: null
-      }
-
-      if (data.photo != null) {
-        this.photo.file = {
-          uid: data.photo.uid,
-          name: data.photo.name,
-          url: data.photo.image.thumbnail
-        }
-        this.photo.data = data.photo
-      }
-
-      if (data.gallery != null) {
-        for(var g of data.gallery) {
-            this.gallery.file.push({
-              uid: g.uid,
-              name: g.name,
-              url: g.image.full_size
-            })
-        }
-        this.gallery.data = data.gallery
-      }
-    },
-    handleSubmit () {
-      const { form: { validateFields } } = this
-
-      if(this.category.value == null) {
-        this.category.help = 'This field is required.'
-      } else {
-        this.category.help = null
-      }
-
-      if(this.productID.data == null || this.productID.data === '') {
-        this.productID.help = 'This field is required.'
-      } else {
-        this.productID.help = null
-      }
-
-      if(this.title.data == null || this.title.data === '') {
-        this.title.help = 'This field is required.'
-      } else {
-        this.title.help = null
-      }
-
-      if(this.location.data == null || this.location.data === '') {
-        this.location.help = 'This field is required.'
-      } else {
-        this.location.help = null
-      }
-
-      if(this.photo.data == null) {
-        this.photo.help = 'This field is required.'
-      } else {
-        this.photo.help = null
-      }
-
-      if(this.gallery.data == null || this.gallery.data.length == 0) {
-        this.gallery.help = 'This field is required.'
-      } else {
-        this.gallery.help = null
-      }
-
-      if(this.subtitle.data == null || this.subtitle.data === '') {
-        this.subtitle.help = 'This field is required.'
-      } else {
-        this.subtitle.help = null
-      }
-
-      if(this.content.data == null || this.content.data ==='') {
-        this.content.help = 'This field is required.'
-      } else {
-        this.content.help = null
-      }
-      
-      if(this.category.help && this.productID.help &&  this.title.help && this.location.help && this.photo.help && this.gallery.help && this.subtitle.help && this.content.help) {
-        return
-      }
-
-      var values = {
-        category_id: this.category.value,
-        productID: this.productID.data,
-        title: this.title.data,
-        location: this.location.data,
-        photo_id: this.photo.data.id,
-        gallery_id: this.gallery.data.map((f) => {
-          return f.id
-        }),
-        subtitle: this.subtitle.data,
-        content: this.content.data
-      }
+    initData(data) {
       if (this.isEdit) {
-        this.updateForm(values)
-      } else {
-        this.createForm(values)
+        this.$route.meta.title = data.name;
+        this.$emit("title");
       }
     },
-    beforeUpload(file) {
-      const isIMG = (file.type === 'image/jpeg' || file.type === 'image/png')
-      if (!isIMG) {
-        this.$message.error('You can only upload JPG or PNG file!')
+    handleSubmit() {
+      if (this.isEdit) {
+        this.updateForm(this.form);
+      } else {
+        this.createForm(this.form);
       }
-      const isLt2M = file.size / 1024 / 1024 < 2
-      if (!isLt2M) {
-        this.$message.error('Image must smaller than 2MB!')
+    },
+    handleStatusChange() {
+      if (this.form.adult_status || this.form.child_status) {
+        this.form.status = true;
+      } else {
+        this.form.status = false;
       }
-      return isIMG && isLt2M
+
+      if (!this.form.adult_status) {
+        this.form.adult_desc = undefined;
+        this.form.adult_quantity = undefined;
+        this.form.adult_price = undefined;
+      }
+
+      if (!this.child_status) {
+        this.form.child_desc = undefined;
+        this.form.child_quantity = undefined;
+        this.form.child_price = undefined;
+      }
     }
   }
-}
+};
 </script>

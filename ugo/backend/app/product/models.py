@@ -36,9 +36,9 @@ class ProductVariant(models.Model):
 
     variantID = models.CharField(blank=True, null=True, max_length=16, unique=True)
 
-    sku = models.CharField(max_length=32, unique=True)
-
     name = models.CharField(blank=True, null=True, max_length=64, unique=True)
+
+    sku = models.CharField(max_length=32, unique=True)
 
     adult_status = models.BooleanField(default=True)
     
@@ -64,3 +64,4 @@ class ProductVariant(models.Model):
     @property
     def category(self):
         return self.product.category
+
