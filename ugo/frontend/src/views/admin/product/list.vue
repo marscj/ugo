@@ -108,6 +108,7 @@ export default {
         {
           title: 'Status',
           dataIndex: 'status',
+          width: '80px',
           customRender: (text, row, index) => {
             if(text) {
               return <span>上架</span>; 
@@ -119,7 +120,7 @@ export default {
         {
           title: '操作',
           dataIndex: 'action',
-          width: '150px',
+          width: '80px',
           scopedSlots: { customRender: 'action' }
         }
       ],

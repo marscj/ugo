@@ -4,6 +4,7 @@ from rest_framework.validators import UniqueValidator
 from .models import Category, Product, ProductVariant
 from app.source.models import ProductImage
 from app.source.serializers import ProductImageSerializer
+from app.price.serializers import PriceSerializer
 
 class ProductSerializer(serializers.ModelSerializer):
 
@@ -87,10 +88,12 @@ class ProductVariantSerializer(serializers.ModelSerializer):
 
     child_price = serializers.DecimalField(required=False, allow_null=True, max_digits=10, decimal_places=2, min_value=0.0)
 
-    product = ProductSerializer(read_only=True, many=False)
+    product = ProductSerializer(read_only=True)
 
-    product_id = serializers.IntegerField(required=True, write_only=True)
- 
+    product_id = serializers.IntegerField(required=True)
+
+    price = PriceSerializer(many=True)
+
     class Meta:
         model = ProductVariant
         fields = '__all__'
@@ -105,15 +108,15 @@ class ProductVariantSerializer(serializers.ModelSerializer):
         child_price = data.get('child_price')
     
         if adult_status:
-            if adult_quantity is None:
-                raise serializers.ValidationError({'adult_quantity': 'adult quantity is required.'})
+            # if adult_quantity is None:
+            #     raise serializers.ValidationError({'adult_quantity': 'adult quantity is required.'})
 
             if adult_price is None:
                 raise serializers.ValidationError({'adult_price': 'adult price is required.'})
 
         if child_status:
-            if child_quantity is None:
-                raise serializers.ValidationError({'child_quantity': 'child quantity is required.'})
+            # if child_quantity is None:
+            #     raise serializers.ValidationError({'child_quantity': 'child quantity is required.'})
 
             if child_price is None:
                 raise serializers.ValidationError({'child_price': 'child price is required.'})

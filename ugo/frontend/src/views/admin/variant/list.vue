@@ -77,37 +77,33 @@ export default {
           width: 40,
         },
         {
-          title: 'Product ID',
-          dataIndex: 'productID',
-          width: 120,
+          title: 'Name',
+          dataIndex: 'name'
         },
         {
+          title: 'Product Name',
+          dataIndex: 'product.name',
+        },
+        
+        {
           title: 'Category',
-          dataIndex: 'category',
+          dataIndex: 'product.category',
           customRender: (text, index, row) => {
             return <span>{categoryData[text].label}</span>;
           }
         },
         {
-          title: 'Name',
-          dataIndex: 'name'
+          title: 'VariantID',
+          dataIndex: 'variantID'
         },
         {
-          title: 'Description',
-          dataIndex: 'description',
-        },
-        {
-          title: 'Location',
-          dataIndex: 'location',
-        },
-        {
-          title: 'Photo',
-          width: 200,
-          scopedSlots: { customRender: 'photo' }
+          title: 'SKU',
+          dataIndex: 'sku'
         },
         {
           title: 'Status',
           dataIndex: 'status',
+          width: '80px',
           customRender: (text, row, index) => {
             if(text) {
               return <span>上架</span>; 
@@ -119,7 +115,7 @@ export default {
         {
           title: '操作',
           dataIndex: 'action',
-          width: '150px',
+          width: '80px',
           scopedSlots: { customRender: 'action' }
         }
       ],

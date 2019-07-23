@@ -5,17 +5,22 @@
         <a-form-item label="Status" :required="true">
           <a-switch checkedChildren="上架" unCheckedChildren="下架" :checked="form.status" disabled />
         </a-form-item>
-        <a-form-item label="Product(主产品)" :required="true">
+        <a-form-item 
+        label="Product(主产品)" 
+        :required="true"
+        :validate-status="help.product_id == null || help.product_id === '' ?  null : 'error'"
+        :help="help.product_id"
+        >
           <a-select
             showSearch
-            v-model="product_id"
-            placeholder="product name"
+            :value="form.product_id"
+            placeholder="Product name"
             :defaultActiveFirstOption="false"
             :showArrow="false"
             :filterOption="false"
             @search="handleProductSearch"
             @change="handleProductChange"
-            :notFoundContent="null"
+            notFoundContent="没有找到"
           >
             <a-select-option v-for="d in productOption" :key="d.id">{{d.name}}</a-select-option>
           </a-select>
@@ -27,6 +32,14 @@
           :help="help.name"
         >
           <a-input v-model="form.name"></a-input>
+        </a-form-item>
+        <a-form-item
+          label="VariantID"
+          :required="true"
+          :validate-status="help.variantID == null || help.variantID === '' ?  null : 'error'"
+          :help="help.variantID"
+        >
+          <a-input v-model="form.variantID"></a-input>
         </a-form-item>
         <a-form-item
           label="SKU"
@@ -46,14 +59,13 @@
         </a-form-item>
         <a-form-item
           label="Adult Desc"
-          :required="true"
           :validate-status="help.adult_desc == null || help.adult_desc === '' ?  null : 'error'"
           :help="help.adult_desc"
           v-if="form.adult_status"
         >
           <a-input v-model="form.adult_desc"></a-input>
         </a-form-item>
-        <a-form-item
+        <!-- <a-form-item
           label="Adult Quantity"
           :required="true"
           :validate-status="help.adult_quantity == null || help.adult_quantity === '' ?  null : 'error'"
@@ -67,7 +79,7 @@
             :defaultValue="1"
             style="width:200px;"
           />
-        </a-form-item>
+        </a-form-item> -->
         <a-form-item
           label="Adult Price(default price)"
           :required="true"
@@ -95,14 +107,13 @@
         </a-form-item>
         <a-form-item
           label="Child Desc"
-          :required="true"
           :validate-status="help.child_desc == null || help.child_desc === '' ?  null : 'error'"
           :help="help.child_desc"
           v-if="form.child_status"
         >
           <a-input v-model="form.child_desc"></a-input>
         </a-form-item>
-        <a-form-item
+        <!-- <a-form-item
           label="Child Quantity"
           :required="true"
           :validate-status="help.child_quantity == null || help.child_quantity === '' ?  null : 'error'"
@@ -116,7 +127,7 @@
             :defaultValue="1"
             style="width:200px;"
           />
-        </a-form-item>
+        </a-form-item> -->
         <a-form-item
           label="Child Price(default price)"
           :required="true"
@@ -174,6 +185,7 @@ export default {
     return {
       form: {
         status: false,
+        product_id: undefined,
         adult_status: false,
         adult_desc: undefined,
         adult_quantity: undefined,
@@ -184,12 +196,12 @@ export default {
         child_price: undefined
       },
       help: {},
-      product_id: null,
       productOption: [],
       spinning: false
     };
   },
   created() {
+    this.handleProductSearch(null)
     if (this.isEdit) {
       const id = this.$route.params && this.$route.params.id;
       this.fetch(id);
@@ -205,6 +217,7 @@ export default {
         .then(res => {
           const { result } = res;
           this.form = result;
+          this.product = result.product.id
         })
         .finally(() => {
           this.spinning = false;
@@ -233,6 +246,8 @@ export default {
             name: "VariantEdit",
             params: { id: result.id }
           });
+        }).catch(error => {
+          this.checkError(error);
         })
         .finally(() => {
           this.spinning = false;
@@ -245,7 +260,7 @@ export default {
       });
     },
     handleProductChange(value) {
-      this.product_id = value;
+      this.form.product_id = value
     },
     handleAdultChange(value) {
       this.form.adult_status = value;
@@ -258,26 +273,36 @@ export default {
     checkError(error) {
       var errors = checkError(
         error,
-        "category",
-        "productID",
+        "status",
+        "variantID",
         "name",
-        "description",
-        "location",
-        "photo",
-        "gallery",
-        "subtitle",
-        "content"
+        "sku",
+        "adult_status",
+        "adult_desc",
+        "adult_quantity",
+        "adult_price",
+        "child_status",
+        "child_desc",
+        "child_quantity",
+        "child_price",
+        "product_id"
       );
 
-      this.category.help = errors["category"];
-      this.productID.help = errors["productID"];
-      this.name.help = errors["name"];
-      this.description.help = errors["description"];
-      this.location.help = errors["location"];
-      this.photo.help = errors["photo"];
-      this.gallery.help = errors["gallery"];
-      this.subtitle.help = errors["subtitle"];
-      this.content.help = errors["content"];
+      this.help = {
+        status: errors["category"],
+        variantID: errors["variantID"],
+        name: errors["name"],
+        sku: errors["sku"],
+        adult_status: errors["adult_status"],
+        adult_desc: errors["adult_desc"],
+        adult_quantity: errors["adult_quantity"],
+        adult_price: errors["adult_price"],
+        child_status: errors["child_status"],
+        child_desc: errors["child_desc"],
+        child_quantity: errors["child_quantity"],
+        child_price: errors["child_price"],
+        product_id: errors["product_id"]
+      }
 
       for (var key in errors) {
         if (errors[key]) {
@@ -307,18 +332,6 @@ export default {
         this.form.status = true;
       } else {
         this.form.status = false;
-      }
-
-      if (!this.form.adult_status) {
-        this.form.adult_desc = undefined;
-        this.form.adult_quantity = undefined;
-        this.form.adult_price = undefined;
-      }
-
-      if (!this.child_status) {
-        this.form.child_desc = undefined;
-        this.form.child_quantity = undefined;
-        this.form.child_price = undefined;
       }
     }
   }
