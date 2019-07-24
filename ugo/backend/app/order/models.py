@@ -1,7 +1,6 @@
 from django.db import models
 
-# Create your models here.
-class Cart(models.Model):
+class Order(models.Model):
     
     day = models.DateField(blank=True, null=True)
 
@@ -16,4 +15,4 @@ class Cart(models.Model):
     remark = models.TextField(blank=True, null=True)
 
     class Meta:
-        db_table = 'cart'
+        db_table = 'order'
