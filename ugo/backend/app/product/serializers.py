@@ -30,6 +30,8 @@ class ProductSerializer(serializers.ModelSerializer):
 
     gallery_id = serializers.PrimaryKeyRelatedField(required=True, write_only=True, many=True, queryset=ProductImage.objects.all())
 
+    user = serializers.SerializerMethodField()
+
     class Meta:
         model = Product
         fields = '__all__'
