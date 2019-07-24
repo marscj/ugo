@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'app.product',
     'app.cart',
     'app.booking',
-    'app.sales',
     'app.source',
     'app.price'
 ]
