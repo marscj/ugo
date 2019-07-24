@@ -9,6 +9,14 @@ export function getUserList (parameter) {
   })
 }
 
+export function getCompanyUserList (parameter) {
+  return axios({
+    url: api.companyUser,
+    method: 'get',
+    params: parameter
+  })
+}
+
 export function getRoleList (parameter) {
   return axios({
     url: api.role,

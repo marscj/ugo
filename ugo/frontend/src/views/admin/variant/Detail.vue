@@ -5,11 +5,11 @@
         <a-form-item label="Status" :required="true">
           <a-switch checkedChildren="上架" unCheckedChildren="下架" :checked="form.status" disabled />
         </a-form-item>
-        <a-form-item 
-        label="Product(主产品)" 
-        :required="true"
-        :validate-status="help.product_id == null || help.product_id === '' ?  null : 'error'"
-        :help="help.product_id"
+        <a-form-item
+          label="Product(主产品)"
+          :required="true"
+          :validate-status="help.product_id == null || help.product_id === '' ?  null : 'error'"
+          :help="help.product_id"
         >
           <a-select
             showSearch
@@ -79,7 +79,7 @@
             :defaultValue="1"
             style="width:200px;"
           />
-        </a-form-item> -->
+        </a-form-item>-->
         <a-form-item
           label="Adult Price(default price)"
           :required="true"
@@ -127,7 +127,7 @@
             :defaultValue="1"
             style="width:200px;"
           />
-        </a-form-item> -->
+        </a-form-item>-->
         <a-form-item
           label="Child Price(default price)"
           :required="true"
@@ -150,9 +150,7 @@
 
     <a-card style="margin-top:20px" title="User Price" v-if="isEdit">
       <a-form :form="form">
-        <a-form-item label="Status" :required="true">
-          <a-switch checkedChildren="上架" unCheckedChildren="下架" :checked="form.status" disabled />
-        </a-form-item>
+        <a-table :columns="columns" :dataSource="price" bordered></a-table>
       </a-form>
     </a-card>
 
@@ -172,6 +170,7 @@ import { checkError } from "@/views/utils/error";
 import { upload } from "@/api/source";
 import { getVariant, updateVariant, createVariant } from "@/api/variant";
 import { getProductList } from "@/api/product";
+import { getCompanyUserList } from "@/api/manage";
 
 export default {
   name: "ProductDetail",
@@ -195,13 +194,52 @@ export default {
         child_quantity: undefined,
         child_price: undefined
       },
+      price: [],
       help: {},
       productOption: [],
-      spinning: false
+      spinning: false,
+      columns: [
+        {
+          title: "Current Lev",
+          dataIndex: "curLev",
+          width: "25%",
+          scopedSlots: { customRender: "curLev" }
+        },
+        {
+          title: "Lev1",
+          dataIndex: "lve1",
+          width: "15%",
+          scopedSlots: { customRender: "lve1" }
+        },
+        {
+          title: "Lev2",
+          dataIndex: "lve2",
+          width: "15%",
+          scopedSlots: { customRender: "lve2" }
+        },
+        {
+          title: "Lev3",
+          dataIndex: "lve3",
+          width: "15%",
+          scopedSlots: { customRender: "lve3" }
+        },
+        {
+          title: "Lev4",
+          dataIndex: "lve4",
+          width: "15%",
+          scopedSlots: { customRender: "lve4" }
+        },
+        {
+          title: "Lev5",
+          dataIndex: "lve5",
+          width: "15%",
+          scopedSlots: { customRender: "lve5" }
+        }
+      ]
     };
   },
   created() {
-    this.handleProductSearch(null)
+    this.handleProductSearch(null);
     if (this.isEdit) {
       const id = this.$route.params && this.$route.params.id;
       this.fetch(id);
@@ -217,7 +255,17 @@ export default {
         .then(res => {
           const { result } = res;
           this.form = result;
-          this.product = result.product.id
+          this.product = result.product.id;
+          return getCompanyUserList();
+        })
+        .then(res => {
+          const { result } = res;
+          for (var data of result) {
+            this.price.push({
+              variant: this.form.id,
+              user: data
+            });
+          }
         })
         .finally(() => {
           this.spinning = false;
@@ -246,7 +294,8 @@ export default {
             name: "VariantEdit",
             params: { id: result.id }
           });
-        }).catch(error => {
+        })
+        .catch(error => {
           this.checkError(error);
         })
         .finally(() => {
@@ -260,7 +309,7 @@ export default {
       });
     },
     handleProductChange(value) {
-      this.form.product_id = value
+      this.form.product_id = value;
     },
     handleAdultChange(value) {
       this.form.adult_status = value;
@@ -302,7 +351,7 @@ export default {
         child_quantity: errors["child_quantity"],
         child_price: errors["child_price"],
         product_id: errors["product_id"]
-      }
+      };
 
       for (var key in errors) {
         if (errors[key]) {

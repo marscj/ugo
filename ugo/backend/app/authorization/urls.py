@@ -5,6 +5,7 @@ from .import views
 
 router = DefaultRouter()
 router.register(r'user', views.UserView, basename='user')
+router.register(r'companyUser', views.CompanyUserView, basename='companyUser')
 router.register(r'role', views.RoleView, basename='role')
 router.register(r'permission', views.PermissionView, basename='permission')
 router.register(r'action', views.ActionEntityView, base_name='actions')

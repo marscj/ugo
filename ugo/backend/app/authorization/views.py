@@ -6,9 +6,10 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from rest_framework_jwt.views import ObtainJSONWebToken
 
+from .import UserType
 from middleware.viewsets import CustomModelViewSet
 from .models import CustomUser, Role, Permission, ActionEntity
-from .serializers import UserSerializer, RoleSerializer, PermissionSerializer, ActionEntitySerializer
+from .serializers import UserSerializer, UserSimpleSerializer, RoleSerializer, PermissionSerializer, ActionEntitySerializer
 
 class LoginJwtTokenView(ObtainJSONWebToken):
     def post(self, request, *args, **kwargs):
@@ -36,6 +37,10 @@ class UserView(CustomModelViewSet):
             'result': serializer.data
         }
         return Response(context)
+
+class CompanyUserView(CustomModelViewSet):
+    serializer_class = UserSimpleSerializer
+    queryset = CustomUser.objects.filter(user_type=UserType.Company).cache()
 
 class RoleView(CustomModelViewSet):
     serializer_class = RoleSerializer
