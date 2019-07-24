@@ -30,4 +30,15 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = '__all__'
+        # fields = '__all__'
+        exclude = (
+            'password',
+        )
+
+class UserSimpleSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CustomUser
+        fields = (
+            'id', 'username'
+        )

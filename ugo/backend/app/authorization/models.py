@@ -40,6 +40,9 @@ class CustomUser(AbstractBaseUser):
     class Meta:
         db_table = 'user'
 
+    def __str__(self):
+        return self.username
+
     def clean(self):
         super().clean()
         self.email = self.__class__.objects.normalize_email(self.email)

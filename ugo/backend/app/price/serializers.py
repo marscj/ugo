@@ -1,12 +1,12 @@
 from rest_framework import  serializers
 
 from .models import Price
-from app.authorization.serializers import UserSerializer
+from app.authorization.serializers import UserSimpleSerializer
 # from app.product.serializers import ProductVariant
 
 class PriceSerializer(serializers.ModelSerializer):
 
-    user = UserSerializer(read_only=True)
+    user = serializers.StringRelatedField(read_only=True)
 
     variant = serializers.PrimaryKeyRelatedField(read_only=True)
 
