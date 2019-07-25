@@ -148,15 +148,6 @@
       </a-form>
     </a-card>
 
-    <a-card style="margin-top:20px" title="User Price" v-if="isEdit">
-      <a-form :form="form">
-        <div class="table-operator">
-          <a-button type="primary" icon="plus" @click="handleNewPrice">New</a-button>
-        </div>
-        <a-table :columns="columns" :dataSource="price" bordered></a-table>
-      </a-form>
-    </a-card>
-
     <a-row style="margin-top:20px">
       <a-col span="2">
         <a-button type="primary" html-type="submit" @click="handleSubmit">Submit</a-button>
@@ -172,7 +163,6 @@
 import { checkError } from "@/views/utils/error";
 import { getVariant, updateVariant, createVariant } from "@/api/variant";
 import { getProductList } from "@/api/product";
-import { getPriceList } from "@/api/price";
 
 export default {
   name: "ProductDetail",

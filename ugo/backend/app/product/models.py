@@ -60,7 +60,7 @@ class ProductVariant(models.Model):
     product = models.ForeignKey(Product, blank=True, null=True, related_name='variant', on_delete=models.CASCADE)
 
     class Meta:
-        db_table = 'productvariant'
+        db_table = 'variant'
 
     @property
     def category(self):

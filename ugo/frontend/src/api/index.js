@@ -11,7 +11,6 @@ const api = {
   // category: '/category/',
   product: '/product/',
   variant: '/variant/',
-  price: '/price/',
 
   source: '/source/'
 }

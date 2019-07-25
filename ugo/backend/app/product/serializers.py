@@ -77,7 +77,7 @@ class ProductVariantSerializer(serializers.ModelSerializer):
 
     adult_quantity = serializers.IntegerField(required=False, allow_null=True, min_value=0, max_value=9999)
 
-    adult_price = serializers.DecimalField(required=False, allow_null=True, max_digits=10, decimal_places=2, min_value=0.0)
+    adult_price = serializers.ListField(required=False, allow_null=True)
 
     child_status = serializers.BooleanField(required=True)
 
@@ -85,7 +85,7 @@ class ProductVariantSerializer(serializers.ModelSerializer):
 
     child_quantity = serializers.IntegerField(required=False, allow_null=True, min_value=0, max_value=9999)
 
-    child_price = serializers.DecimalField(required=False, allow_null=True, max_digits=10, decimal_places=2, min_value=0.0)
+    child_price = serializers.ListField(required=False, allow_null=True)
 
     product = ProductSerializer(read_only=True)
 
