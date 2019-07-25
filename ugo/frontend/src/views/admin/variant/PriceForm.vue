@@ -20,8 +20,20 @@
         <a-form-item label="Variant ID:" :labelCol="labelCol" :wrapperCol="wrapperCol">
           <a-input v-decorator="['variant_id']" :disabled="true" />
         </a-form-item>
-        <a-form-item label="User" :labelCol="labelCol" :wrapperCol="wrapperCol">
-          <a-input v-decorator="['user_id']" :disabled="true" />
+        <a-form-item
+          label="User"
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+        >
+          <a-select
+            v-decorator="[
+                'user_id',
+                {rules: [{ required: true, message: 'Please select user.' }]}
+            ]"
+            placeholder="Please select a user"
+          >
+            <a-select-option v-for="data in userOption" :key="data.id">{{data.username}}</a-select-option>
+          </a-select>
         </a-form-item>
         <a-form-item
           label="Current Lev"
@@ -121,6 +133,8 @@ import pick from "lodash.pick";
 import { checkError } from "@/views/utils/error";
 
 import { createPrice, updatePrice, deletePrice } from "@/api/price";
+import { getCompanyUserList } from "@/api/manage";
+
 export default {
   name: "CreateForm",
   data() {
@@ -140,18 +154,15 @@ export default {
         type: "primary",
         name: "Submit"
       },
-      title: "Add",
-      validate: {
-        name: {}
-      },
-
+      title: "New",
+      validate: {},
+      userOption: [],
       form: this.$form.createForm(this)
     };
   },
   methods: {
     add(data) {
-      console.log(data, "=======");
-      this.title = "Add";
+      this.title = "New";
       this.visible = true;
       (this.submitButton = {
         type: "primary",
@@ -161,6 +172,10 @@ export default {
         this.$nextTick(() => {
           this.form.setFieldsValue(pick(data, ["variant_id"]));
         });
+
+      if (this.userOption.length == 0) {
+        this.getUserOption();
+      }
     },
     edit(data) {
       this.title = "Edit";
@@ -270,6 +285,7 @@ export default {
       validateFields((errors, values) => {
         if (!errors) {
           if (this.title === "New") {
+            console.log(values)
             this.createForm(values);
           } else if (this.title === "Edit") {
             this.updateForm(values);
@@ -279,6 +295,12 @@ export default {
         } else {
           this.confirmLoading = false;
         }
+      });
+    },
+    getUserOption() {
+      getCompanyUserList().then(res => {
+        const { result } = res;
+        this.userOption = result;
       });
     }
   }

@@ -173,7 +173,6 @@
 import { checkError } from "@/views/utils/error";
 import { getVariant, updateVariant, createVariant } from "@/api/variant";
 import { getProductList } from "@/api/product";
-import { getCompanyUserList } from "@/api/manage";
 import { getPriceList } from "@/api/price";
 import PriceForm from './PriceForm'
 
@@ -214,7 +213,7 @@ export default {
         },
         {
           title: "User",
-          dataIndex: "username",
+          dataIndex: "user",
         },
         {
           title: "Current Lev",
@@ -394,8 +393,18 @@ export default {
         return f
       })
     },
+    getPrice() {
+      this.spinning = true
+      getPriceList().then((res) => {
+        const { result } = res
+        this.price = result
+      })
+      .finally(() => {
+        this.spinning = false
+      })
+    },
     handleDeletePrice (value) {
-      
+      this.getPrice()
     }
   }
 };

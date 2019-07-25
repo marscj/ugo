@@ -4,7 +4,6 @@ from rest_framework.validators import UniqueValidator
 from .models import Category, Product, ProductVariant
 from app.source.models import ProductImage
 from app.source.serializers import ProductImageSerializer
-from app.price.serializers import PriceSerializer
 
 class ProductSerializer(serializers.ModelSerializer):
 
@@ -91,8 +90,6 @@ class ProductVariantSerializer(serializers.ModelSerializer):
     product = ProductSerializer(read_only=True)
 
     product_id = serializers.IntegerField(required=True)
-
-    price = PriceSerializer(many=True)
 
     class Meta:
         model = ProductVariant
