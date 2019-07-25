@@ -91,6 +91,36 @@ export const asyncRouterMap = [
           },
         ]
       },
+      // order
+      {
+        path: 'order',
+        name: 'Order',
+        redirect: '/admin/order/orderList',
+        component: PageView,
+        meta: { title: 'Order', keepAlive: true, permission: [ 'product' ] },
+        children: [
+          {
+            path: 'orderList',
+            name: 'OrderList',
+            component: () => import('@/views/admin/order/list'),
+            meta: { title: 'Order', keepAlive: false },
+          },
+          {
+            path: 'orderEdit/:id(\\d+)',
+            name: 'OrderEdit',
+            component: () => import('@/views/admin/order/edit'),
+            meta: { title: 'Edit', keepAlive: false },
+            hidden: true
+          },
+          {
+            path: 'orderCreate',
+            name: 'OrderCreate',
+            component: () => import('@/views/admin/order/create'),
+            meta: { title: 'Create', keepAlive: false },
+            hidden: true
+          },
+        ]
+      },
       //Category
       // {
       //   path: 'category',
