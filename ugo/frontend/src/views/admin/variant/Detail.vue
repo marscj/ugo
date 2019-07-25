@@ -150,6 +150,9 @@
 
     <a-card style="margin-top:20px" title="User Price" v-if="isEdit">
       <a-form :form="form">
+        <div class="table-operator">
+          <a-button type="primary" icon="plus" @click="handleNewPrice">New</a-button>
+        </div>
         <a-table :columns="columns" :dataSource="price" bordered></a-table>
       </a-form>
     </a-card>
@@ -162,16 +165,17 @@
         <a-button @click="handleGoBack">Return</a-button>
       </a-col>
     </a-row>
+    <price-form ref="modal" @create="handleCreatePrice"  @update="handleUpdatePrice" @delete="handleDeletePrice"/>
   </a-spin>
 </template>
 
 <script>
 import { checkError } from "@/views/utils/error";
-import { upload } from "@/api/source";
 import { getVariant, updateVariant, createVariant } from "@/api/variant";
 import { getProductList } from "@/api/product";
 import { getCompanyUserList } from "@/api/manage";
 import { getPriceList } from "@/api/price";
+import PriceForm from './PriceForm'
 
 export default {
   name: "ProductDetail",
@@ -180,6 +184,9 @@ export default {
       type: Boolean,
       default: false
     }
+  },
+  components: {
+    PriceForm,
   },
   data() {
     return {
@@ -201,7 +208,12 @@ export default {
       spinning: false,
       columns: [
         {
-          title: "User name",
+          title: '#',
+          dataIndex: 'id',
+          width: 40,
+        },
+        {
+          title: "User",
           dataIndex: "username",
         },
         {
@@ -249,16 +261,6 @@ export default {
           const { result } = res;
           this.form = result;
           this.product = result.product.id;
-          return getCompanyUserList();
-        })
-        .then(res => {
-          const { result } = res;
-          for (var data of result) {
-            this.price.push({
-              variant: this.form.id,
-              user: data
-            });
-          }
         })
         .finally(() => {
           this.spinning = false;
@@ -375,6 +377,25 @@ export default {
       } else {
         this.form.status = false;
       }
+    },
+    handleNewPrice() {
+      this.$refs.modal.add({
+        variant_id: this.form.id
+      })
+    },
+    handleCreatePrice (value) {
+      this.price.push(value)
+    },  
+    handleUpdatePrice (value) {
+      this.price = this.price.map(function (f) {
+        if (f && f.id === value.id) {
+          return value
+        } 
+        return f
+      })
+    },
+    handleDeletePrice (value) {
+      
     }
   }
 };

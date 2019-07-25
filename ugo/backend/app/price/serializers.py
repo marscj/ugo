@@ -9,9 +9,9 @@ class PriceSerializer(serializers.ModelSerializer):
 
     variant = serializers.PrimaryKeyRelatedField(read_only=True)
 
-    user_id = serializers.IntegerField(write_only=True)
+    user_id = serializers.IntegerField()
 
-    variant_id = serializers.IntegerField(write_only=True)
+    variant_id = serializers.IntegerField()
 
     curLev = serializers.IntegerField(min_value=1, max_value=5)
 
