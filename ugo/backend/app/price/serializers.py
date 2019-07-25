@@ -2,7 +2,6 @@ from rest_framework import  serializers
 
 from .models import Price
 from app.authorization.serializers import UserSimpleSerializer
-# from app.product.serializers import ProductVariant
 
 class PriceSerializer(serializers.ModelSerializer):
 
@@ -10,16 +9,22 @@ class PriceSerializer(serializers.ModelSerializer):
 
     variant = serializers.PrimaryKeyRelatedField(read_only=True)
 
-    # user_id = serializers.IntegerField(required=True, write_only=True)
+    user_id = serializers.IntegerField(write_only=True)
 
-    # variant_id = serializers.IntegerField(required=True, write_only=True)
+    variant_id = serializers.IntegerField(write_only=True)
+
+    curLev = serializers.IntegerField(min_value=1, max_value=5)
+
+    lv1 = serializers.DecimalField(max_digits=10, decimal_places=2, min_value=0.0)
+
+    lv2 = serializers.DecimalField(max_digits=10, decimal_places=2, min_value=0.0)
+
+    lv3 = serializers.DecimalField(max_digits=10, decimal_places=2, min_value=0.0)
+
+    lv4 = serializers.DecimalField(max_digits=10, decimal_places=2, min_value=0.0)
+
+    lv5 = serializers.DecimalField(max_digits=10, decimal_places=2, min_value=0.0)
 
     class Meta:
         model = Price
         fields = '__all__'
-
-    def create(self, validated_data):
-        user = validated_data.pop('user_id', None)
-        variant = validated_data.pop('variant_id', None)
-        
-        return Price.objects.create(**validated_data, user_id=user, variant_id=variant)

@@ -171,6 +171,7 @@ import { upload } from "@/api/source";
 import { getVariant, updateVariant, createVariant } from "@/api/variant";
 import { getProductList } from "@/api/product";
 import { getCompanyUserList } from "@/api/manage";
+import { getPriceList } from "@/api/price";
 
 export default {
   name: "ProductDetail",
@@ -200,40 +201,32 @@ export default {
       spinning: false,
       columns: [
         {
+          title: "User name",
+          dataIndex: "username",
+        },
+        {
           title: "Current Lev",
           dataIndex: "curLev",
-          width: "25%",
-          scopedSlots: { customRender: "curLev" }
         },
         {
           title: "Lev1",
           dataIndex: "lve1",
-          width: "15%",
-          scopedSlots: { customRender: "lve1" }
         },
         {
           title: "Lev2",
           dataIndex: "lve2",
-          width: "15%",
-          scopedSlots: { customRender: "lve2" }
         },
         {
           title: "Lev3",
           dataIndex: "lve3",
-          width: "15%",
-          scopedSlots: { customRender: "lve3" }
         },
         {
           title: "Lev4",
           dataIndex: "lve4",
-          width: "15%",
-          scopedSlots: { customRender: "lve4" }
         },
         {
           title: "Lev5",
           dataIndex: "lve5",
-          width: "15%",
-          scopedSlots: { customRender: "lve5" }
         }
       ]
     };
