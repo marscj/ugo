@@ -58,7 +58,7 @@
           />
         </a-form-item>
         <a-form-item
-          label="Adult Desc"
+          label="Adult Desc( 儿童票说明 例如: 12周岁（含）以上 )"
           :validate-status="help.adult_desc == null || help.adult_desc === '' ?  null : 'error'"
           :help="help.adult_desc"
           v-if="form.adult_status"
@@ -81,21 +81,30 @@
           />
         </a-form-item>-->
         <a-form-item
-          label="Adult Price(default price)"
+          label="Adult Price"
           :required="true"
           :validate-status="help.adult_price == null || help.adult_price === '' ?  null : 'error'"
           :help="help.adult_price"
           v-if="form.adult_status"
         >
-          <a-input-number
-            v-model="form.adult_price"
-            :min="0.0"
-            :max="99999.99"
-            :defaultValue="0.0"
-            :precision="2"
-            :step="0.5"
-            style="width:200px;"
-          />
+          <div>
+            <div v-for="(data, index) in form.adult_price" :key="index" style="display: inline-block; padding-left: 6px; padding-right: 6px" >
+              <div>
+                <span>
+                  {{'Level ' + (index + 1)}}
+                </span>
+              </div>
+              <a-input-number
+                v-model="form.adult_price[index]"
+                :placeholder="'Input Level ' + (index + 1) + ' price'"
+                :min="0.0"
+                :defaultValue="0.0"
+                :precision="2"
+                :step="0.5"
+                style="width:200px;"
+              />
+            </div>
+          </div>
         </a-form-item>
         <a-form-item label="Child Status(儿童票)" :required="true">
           <a-switch
@@ -106,7 +115,7 @@
           />
         </a-form-item>
         <a-form-item
-          label="Child Desc"
+          label="Child Desc( 儿童票说明 例如: 4周岁（含）-11周岁（含）)"
           :validate-status="help.child_desc == null || help.child_desc === '' ?  null : 'error'"
           :help="help.child_desc"
           v-if="form.child_status"
@@ -128,7 +137,7 @@
             style="width:200px;"
           />
         </a-form-item>-->
-        <a-form-item
+        <!-- <a-form-item
           label="Child Price(default price)"
           :required="true"
           :validate-status="help.child_price == null || help.child_price === '' ?  null : 'error'"
@@ -144,6 +153,32 @@
             :step="0.5"
             style="width:200px;"
           />
+        </a-form-item>-->
+        <a-form-item
+          label="Child Price"
+          :required="true"
+          :validate-status="help.child_price == null || help.child_price === '' ?  null : 'error'"
+          :help="help.child_price"
+          v-if="form.child_status"
+        >
+          <div>
+            <div v-for="(data, index) in form.child_price" :key="index" style="display: inline-block; padding-right: 8px" >
+              <div>
+                <span>
+                  {{'Level ' + (index + 1)}}
+                </span>
+              </div>
+              <a-input-number
+                v-model="form.child_price[index]"
+                :placeholder="'Input Level ' + (index + 1) + ' price'"
+                :min="0.0"
+                :defaultValue="0.0"
+                :precision="2"
+                :step="0.5"
+                style="width:200px;"
+              />
+            </div>
+          </div>
         </a-form-item>
       </a-form>
     </a-card>
@@ -192,37 +227,24 @@ export default {
       spinning: false,
       columns: [
         {
-          title: '#',
-          dataIndex: 'id',
-          width: 40,
-        },
-        {
-          title: "User",
-          dataIndex: "user",
-        },
-        {
-          title: "Current Lev",
-          dataIndex: "curLev",
-        },
-        {
           title: "Lev1",
-          dataIndex: "lve1",
+          dataIndex: () => this.form.child_price[0]
         },
         {
           title: "Lev2",
-          dataIndex: "lve2",
+          dataIndex: () => this.form.child_price[1]
         },
         {
           title: "Lev3",
-          dataIndex: "lve3",
+          dataIndex: () => this.form.child_price[2]
         },
         {
           title: "Lev4",
-          dataIndex: "lve4",
+          dataIndex: () => this.form.child_price[3]
         },
         {
           title: "Lev5",
-          dataIndex: "lve5",
+          dataIndex: () => this.form.child_price[4]
         }
       ]
     };
@@ -361,7 +383,7 @@ export default {
       } else {
         this.form.status = false;
       }
-    },
+    }
   }
 };
 </script>
