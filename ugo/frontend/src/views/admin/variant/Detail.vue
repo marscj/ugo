@@ -165,7 +165,6 @@
         <a-button @click="handleGoBack">Return</a-button>
       </a-col>
     </a-row>
-    <price-form ref="modal" @create="handleCreatePrice"  @update="handleUpdatePrice" @delete="handleDeletePrice"/>
   </a-spin>
 </template>
 
@@ -174,7 +173,6 @@ import { checkError } from "@/views/utils/error";
 import { getVariant, updateVariant, createVariant } from "@/api/variant";
 import { getProductList } from "@/api/product";
 import { getPriceList } from "@/api/price";
-import PriceForm from './PriceForm'
 
 export default {
   name: "ProductDetail",
@@ -183,9 +181,6 @@ export default {
       type: Boolean,
       default: false
     }
-  },
-  components: {
-    PriceForm,
   },
   data() {
     return {

@@ -28,6 +28,7 @@ class CustomUser(AbstractBaseUser):
     deleted = models.BooleanField(default=False)
     status = models.IntegerField(default=0)
     user_type = models.IntegerField(default=UserType.Customer, choices=UserType.CHOISE)
+    price_level = models.IntegerField(default=0)
     
     role = models.ForeignKey('Role', blank=True, null=True, related_name='user', on_delete=models.SET_NULL)
 
