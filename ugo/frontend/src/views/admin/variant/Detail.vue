@@ -362,35 +362,6 @@ export default {
         this.form.status = false;
       }
     },
-    handleNewPrice() {
-      this.$refs.modal.add({
-        variant_id: this.form.id
-      })
-    },
-    handleCreatePrice (value) {
-      this.price.push(value)
-    },  
-    handleUpdatePrice (value) {
-      this.price = this.price.map(function (f) {
-        if (f && f.id === value.id) {
-          return value
-        } 
-        return f
-      })
-    },
-    getPrice() {
-      this.spinning = true
-      getPriceList().then((res) => {
-        const { result } = res
-        this.price = result
-      })
-      .finally(() => {
-        this.spinning = false
-      })
-    },
-    handleDeletePrice (value) {
-      this.getPrice()
-    }
   }
 };
 </script>

@@ -47,7 +47,7 @@ class ProductVariant(models.Model):
 
     adult_quantity = models.PositiveIntegerField(blank=True, null=True, validators=[MinValueValidator(0)])
 
-    adult_price = ArrayField(models.DecimalField(), size=5)
+    adult_price = ArrayField(models.DecimalField(max_digits=10, decimal_places=2), size=5)
 
     child_status = models.BooleanField(default=False)
 
@@ -55,7 +55,7 @@ class ProductVariant(models.Model):
 
     child_quantity = models.PositiveIntegerField(blank=True, null=True, validators=[MinValueValidator(0)])
 
-    child_price = ArrayField(models.DecimalField(), size=5)
+    child_price = ArrayField(models.DecimalField(max_digits=10, decimal_places=2), size=5)
 
     product = models.ForeignKey(Product, blank=True, null=True, related_name='variant', on_delete=models.CASCADE)
 
