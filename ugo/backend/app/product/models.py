@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator
-from django.contrib.postgres.fields import ArrayField
+from django.contrib.postgres.fields import ArrayField, DecimalRangeField
 
 from app.source.models import ProductImage
 
@@ -47,7 +47,7 @@ class ProductVariant(models.Model):
 
     adult_quantity = models.PositiveIntegerField(blank=True, null=True, validators=[MinValueValidator(0)])
 
-    adult_price = ArrayField(models.DecimalField(blank=True, null=True, max_digits=10, decimal_places=2, validators=[MinValueValidator(0.0)]))
+    adult_price = ArrayField(models.DecimalField(), size=5)
 
     child_status = models.BooleanField(default=False)
 
@@ -55,7 +55,7 @@ class ProductVariant(models.Model):
 
     child_quantity = models.PositiveIntegerField(blank=True, null=True, validators=[MinValueValidator(0)])
 
-    child_price = ArrayField(models.DecimalField(blank=True, null=True, max_digits=10, decimal_places=2, validators=[MinValueValidator(0.0)]))
+    child_price = ArrayField(models.DecimalField(), size=5)
 
     product = models.ForeignKey(Product, blank=True, null=True, related_name='variant', on_delete=models.CASCADE)
 

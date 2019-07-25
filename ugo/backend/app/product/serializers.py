@@ -5,17 +5,6 @@ from .models import Category, Product, ProductVariant
 from app.source.models import ProductImage
 from app.source.serializers import ProductImageSerializer
 
-class ArrayIntegerField(serializers.ListField):
-
-    def to_representation(self, obj):
-        obj = super().to_representation(obj)
-        return ",".join([str(element) for element in obj])
-
-    def to_internal_value(self, data):
-        print(data)
-        # data = data.split(",") 
-        return super().to_internal_value(data)
-
 class ProductSerializer(serializers.ModelSerializer):
 
     status = serializers.BooleanField(required=True)
@@ -88,7 +77,7 @@ class ProductVariantSerializer(serializers.ModelSerializer):
 
     adult_quantity = serializers.IntegerField(required=False, allow_null=True, min_value=0, max_value=9999)
 
-    adult_price = ArrayIntegerField(required=False, allow_null=True)
+    adult_price = serializers.ListField(required=False, allow_null=True, allow_empty=False, min_length=5, max_length=5, child=serializers.DecimalField(max_digits=10, decimal_places=2, min_value=0.0))
 
     child_status = serializers.BooleanField(required=True)
 
@@ -96,7 +85,7 @@ class ProductVariantSerializer(serializers.ModelSerializer):
 
     child_quantity = serializers.IntegerField(required=False, allow_null=True, min_value=0, max_value=9999)
 
-    child_price = ArrayIntegerField(required=False, allow_null=True)
+    child_price = serializers.ListField(required=False, allow_null=True, allow_empty=False, min_length=5, max_length=5, child=serializers.DecimalField(max_digits=10, decimal_places=2, min_value=0.0))
 
     product = ProductSerializer(read_only=True)
 

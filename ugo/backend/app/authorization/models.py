@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import AbstractBaseUser, UserManager, AbstractUser
 from django.contrib.auth.validators import UnicodeUsernameValidator
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 from jsonfield import JSONField,JSONCharField
 
@@ -28,7 +29,7 @@ class CustomUser(AbstractBaseUser):
     deleted = models.BooleanField(default=False)
     status = models.IntegerField(default=0)
     user_type = models.IntegerField(default=UserType.Customer, choices=UserType.CHOISE)
-    price_level = models.IntegerField(default=0)
+    price_level = models.IntegerField(default=0, validators=[MinValueValidator(1), MaxValueValidator(5)])
     
     role = models.ForeignKey('Role', blank=True, null=True, related_name='user', on_delete=models.SET_NULL)
 
