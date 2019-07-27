@@ -11,7 +11,7 @@ class Order(models.Model):
 
     confirmID = models.CharField(blank=True, null=True, max_length=64)
 
-    order_status = models.IntegerField(default=OrderStatus.CREATE, choices=OrderStatus.CHOICE)
+    status = models.IntegerField(default=OrderStatus.CREATE, choices=OrderStatus.CHOICE)
 
     day = models.DateField()
 

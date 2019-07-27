@@ -8,9 +8,9 @@ const api = {
   role: '/role/',
   permission: '/permission/',
 
-  // category: '/category/',
   product: '/product/',
   variant: '/variant/',
+  order: '/order/',
 
   source: '/source/'
 }

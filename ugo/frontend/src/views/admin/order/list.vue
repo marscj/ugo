@@ -8,19 +8,8 @@
               <a-input v-model="queryParam.search" placeholder="Name or ID" />
             </a-form-item>
           </a-col>
-          <a-col :md="8" :sm="16">
-            <a-form-item label="Category" >
-              <a-select v-model="queryParam.category">
-                <a-select-option v-for="d in categoryData" :key="d.value">{{d.label}}</a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
         </a-row>
       </a-form>
-    </div>
-
-    <div class="table-operator">
-      <a-button type="primary" icon="plus" @click="handleCreate">New</a-button>
     </div>
 
     <s-table
@@ -30,15 +19,16 @@
       :columns="columns"
       :data="loadData"
       bordered
+      :scroll="{ x: 2800}"
     >
-      <span slot="photo" slot-scope="data">
+      <span slot="create_at" slot-scope="text">
         <template>
-          <img v-if="data.photo" :src="data.photo.image.thumbnail" alt='photo'>
+          <span>{{text | moment('YYYY-MM-DD HH:mm')}}</span>
         </template>
       </span>
       <span slot="action" slot-scope="text, data">
         <template>
-          <router-link :to="{ name: 'VariantEdit', params: { id: data.id } }">Edit</router-link>
+          <router-link :to="{ name: 'OrderEdit', params: { id: data.id } }">Edit</router-link>
         </template>
       </span>
     </s-table>
@@ -46,93 +36,161 @@
 </template>
 
 <script>
-import { STable } from '@/components'
-import { getVariantList } from '@/api/variant'
-
-const categoryData = [
-  { value: 0, label: '全部' },
-  { value: 1, label: '美食' },
-  { value: 2, label: '门票' },
-  { value: 3, label: '日游' },
-  { value: 4, label: '用车' },
-  { value: 5, label: '酒店' },
-  { value: 6, label: '伴手礼' },
-]
+import { STable } from "@/components";
+import { getOrderList } from "@/api/order";
 
 export default {
-  name: 'VariantList',
+  name: "VariantList",
   components: {
     STable
   },
-  data () {
+  data() {
     return {
-      categoryData,
       // 查询参数
       queryParam: {},
       // 表头
       columns: [
         {
-          title: '#',
-          dataIndex: 'id',
-          width: 40,
+          key: "#",
+          title: "#",
+          dataIndex: "id",
+          fixed: 'left',
+          width: 100
         },
         {
-          title: 'Name',
-          dataIndex: 'name'
+          key: "1",
+          title: "OrderID",
+          dataIndex: "orderID",
+          fixed: 'left',
+          width: 150
         },
         {
-          title: 'Product Name',
-          dataIndex: 'product.name',
-        },
-        
-        {
-          title: 'Category',
-          dataIndex: 'product.category',
-          customRender: (text, index, row) => {
-            return <span>{categoryData[text].label}</span>;
-          }
+          key: "2",
+          title: "ConfirmID",
+          dataIndex: "confirmID",
+          width: 150
         },
         {
-          title: 'VariantID',
-          dataIndex: 'variantID'
-        },
-        {
-          title: 'SKU',
-          dataIndex: 'sku'
-        },
-        {
-          title: 'Status',
-          dataIndex: 'status',
-          width: '80px',
+          key: "3",
+          title: "Status",
+          dataIndex: "status",
+          width: 150,
           customRender: (text, row, index) => {
-            if(text) {
-              return <span>上架</span>; 
-            } else {
-              return <span>下架</span>;
+            switch (text) {
+              case 0:
+                return <span>新建</span>;
+              case 1:
+                return <span>订单已确认</span>;
+              case 2:
+                return <span>等待</span>;
+              case 3:
+                return <span>订单已取消</span>;
             }
           }
         },
         {
-          title: '操作',
-          dataIndex: 'action',
-          width: '80px',
-          scopedSlots: { customRender: 'action' }
+          key: "4",
+          title: "Day",
+          dataIndex: "day",
+          width: 150
+        },
+        {
+          key: "5",
+          title: "Time",
+          dataIndex: "time",
+          width: 150
+        },
+        {
+          key: "6",
+          title: "Customer Info",
+          dataIndex: "customer_info",
+          width: 150
+        },
+        {
+          key: "7",
+          title: "Customer Contact",
+          dataIndex: "customer_contact",
+          width: 150
+        },
+        {
+          key: "8",
+          title: "Adult Quantity",
+          dataIndex: "adult_quantity",
+          width: 150
+        },
+        {
+          key: "9",
+          title: "Adult Price",
+          dataIndex: "adult_price",
+          width: 150
+        },
+        {
+          key: "10",
+          title: "Child Quantity",
+          dataIndex: "child_quantity",
+          width: 150
+        },
+        {
+          key: "11",
+          title: "Child Price",
+          dataIndex: "child_price",
+          width: 150
+        },
+        {
+          key: "12",
+          title: "Remark",
+          dataIndex: "remark",
+          width: 150
+        },
+        {
+          key: "13",
+          title: "Variant",
+          dataIndex: "variant",
+          width: 250
+        },
+        {
+          key: "14",
+          title: "Customer",
+          dataIndex: "customer",
+          width: 150
+        },
+        {
+          key: "15",
+          title: "Operator",
+          dataIndex: "operator",
+          width: 150
+        },
+        {
+          key: "16",
+          title: "Create at",
+          dataIndex: "create_at",
+          scopedSlots: { customRender: 'create_at' },
+          width: 250
+        },
+        {
+          key: "action",
+          title: "操作",
+          dataIndex: "action",
+          scopedSlots: { customRender: "action" },
+          width: 100,
+          fixed: 'right'
         }
       ],
       loadData: parameter => {
-        return getVariantList(Object.assign(parameter, this.queryParam))
-          .then(res => {
-            return res.result
-          })
-      },
-    }
+        return getOrderList(Object.assign(parameter, this.queryParam)).then(
+          res => {
+            return res.result;
+          }
+        );
+      }
+    };
   },
   methods: {
-    handleCreate (data) {
+    handleCreate(data) {
       this.$router.push({
-        name: 'VariantCreate'
-      })
+        name: "VariantCreate"
+      });
     }
   }
-}
+};
 </script>
