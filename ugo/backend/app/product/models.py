@@ -31,6 +31,9 @@ class Product(models.Model):
     class Meta:
         db_table = 'product'
 
+    def __str__(self):
+        return self.name
+
 class ProductVariant(models.Model):
 
     status = models.BooleanField(default=True)
@@ -61,6 +64,9 @@ class ProductVariant(models.Model):
 
     class Meta:
         db_table = 'variant'
+
+    def __str__(self):
+        return self.product.name + ' - ' + self.name
 
     @property
     def category(self):

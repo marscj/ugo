@@ -58,7 +58,7 @@
           />
         </a-form-item>
         <a-form-item
-          label="Adult Desc( 儿童票说明 例如: 12周岁（含）以上 )"
+          label="Adult Desc( 成人票说明 例如: 12周岁（含）以上 )"
           :validate-status="help.adult_desc == null || help.adult_desc === '' ?  null : 'error'"
           :help="help.adult_desc"
           v-if="form.adult_status"
@@ -215,11 +215,11 @@ export default {
         adult_status: false,
         adult_desc: undefined,
         adult_quantity: undefined,
-        adult_price: undefined,
+        adult_price: [100.0, 100.0, 100.0, 100.0, 100.0],
         child_status: false,
         child_desc: undefined,
         child_quantity: undefined,
-        child_price: undefined
+        child_price: [100.0, 100.0, 100.0, 100.0, 100.0]
       },
       price: [],
       help: {},

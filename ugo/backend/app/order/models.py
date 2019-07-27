@@ -7,7 +7,7 @@ from app.authorization.models import CustomUser
 
 class Order(models.Model):
     
-    orderID = models.CharField(blank=True, max_length=32)
+    orderID = models.CharField(blank=True, null=True, max_length=32)
 
     confirmID = models.CharField(blank=True, null=True, max_length=64)
 

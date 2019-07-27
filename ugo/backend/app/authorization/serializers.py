@@ -40,5 +40,5 @@ class UserSimpleSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = (
-            'id', 'username'
+            'id', 'username', 'price_level'
         )

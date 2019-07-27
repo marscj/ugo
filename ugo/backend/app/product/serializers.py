@@ -119,5 +119,3 @@ class ProductVariantSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError({'child_price': 'child price is required.'})
 
         return data
-    
-
