@@ -20,19 +20,19 @@ class OrderSerializer(serializers.ModelSerializer):
 
     time = serializers.TimeField()
 
-    contact = serializers.CharField(required=False)
+    customer_contact = serializers.CharField(required=False)
 
-    phone = serializers.CharField(required=False)
+    customer_info = serializers.CharField(required=False)
 
     adult_quantity = serializers.IntegerField(required=False, allow_null=True, min_value=0, max_value=9999)
 
-    adult_price = models.DecimalField(read_only=True)
+    adult_price = serializers.DecimalField(read_only=True, max_digits=10, decimal_places=2, min_value=0.0)
 
     child_quantity = serializers.IntegerField(required=False, allow_null=True, min_value=0, max_value=9999)
 
-    child_price = models.DecimalField(read_only=True)
+    child_price = serializers.DecimalField(read_only=True, max_digits=10, decimal_places=2, min_value=0.0)
 
-    remark = models.TextField(required=False, allow_null=True)
+    remark = serializers.CharField(required=False, allow_null=True)
 
     variant = ProductVariantSerializer(read_only=True)
 

@@ -21,9 +21,9 @@ class Order(models.Model):
 
     change_at = models.DateTimeField(auto_now=True)
 
-    contact = models.TextField(blank=True, null=True)
+    customer_contact = models.TextField(blank=True, null=True)
 
-    phone = models.TextField(blank=True, null=True)
+    customer_info = models.TextField(blank=True, null=True)
 
     adult_quantity = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0)])
 
