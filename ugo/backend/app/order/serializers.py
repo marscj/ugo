@@ -10,7 +10,11 @@ class OrderSerializer(serializers.ModelSerializer):
 
     id = serializers.IntegerField(read_only=True)
 
-    orderID = serializers.CharField(read_only=True, max_length=16)
+    orderID = serializers.CharField(read_only=True)
+
+    confirmID = serializers.CharField(required=False, allow_null=True, max_length=64)
+
+    order_status = serializers.IntegerField(required=False)
 
     day = serializers.DateField()
 

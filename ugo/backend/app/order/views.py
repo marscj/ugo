@@ -8,7 +8,7 @@ from middleware.viewsets import CustomModelViewSet
 from .models import Order
 from .serializers import OrderSerializer
 
-class ProductView(CustomModelViewSet):
+class OrderView(CustomModelViewSet):
     serializer_class = OrderSerializer
     queryset = Order.objects.all()
     permission_classes = [AllowAny]
