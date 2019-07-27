@@ -36,7 +36,7 @@ class OrderSerializer(serializers.ModelSerializer):
     remark = serializers.CharField(required=False, allow_null=True)
 
     variant = serializers.StringRelatedField(read_only=True)
-    
+
     customer = serializers.StringRelatedField(read_only=True)
 
     operator = serializers.StringRelatedField(read_only=True)
@@ -50,10 +50,6 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = '__all__'
-        # fields = (
-        #     'id', 'orderID', 'confirmID', 'order_status', 'day', 'time', 'customer_info', 'customer_contact', 'adult_quantity', 'adult_price',
-        #     'child_quantity', 'child_price', 'remark', 'variant_name', 'variant_id', 'customer_name', 'customer_id', 'operator_name', 'operator_id'
-        # )
 
     def validate(self, data):
         adult_quantity = data.get('adult_quantity')
