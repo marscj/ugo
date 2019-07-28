@@ -28,7 +28,9 @@ class UserSerializer(serializers.ModelSerializer):
 
     password = serializers.CharField(write_only=True)
 
-    role = RoleSerializer(many=False)
+    role = RoleSerializer(read_only=True)
+
+    role_id = serializers.IntegerField()
 
     class Meta:
         model = CustomUser
