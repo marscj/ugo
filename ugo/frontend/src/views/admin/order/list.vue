@@ -15,12 +15,12 @@
     <s-table
       ref="table"
       size="default"
-      rowKey="key"
+      :rowKey="(item) => item.id"
       :columns="columns"
       :data="loadData"
       bordered
       fixed
-      :scroll="{ x: 3300}"
+      :scroll="{ x: 3200}"
     >
       <span slot="remark" slot-scope="text" style="word-warp:break-word;word-break:break-all">
         <ellipsis :length="200" tooltip>{{ text }}</ellipsis>
@@ -104,22 +104,22 @@ export default {
         },
         {
           key: "4",
+          title: "Variant",
+          dataIndex: "variant",
+          scopedSlots: { customRender: 'variant' },
+          width: 250
+        },
+        {
+          key: "5",
           title: "Day",
           dataIndex: "day",
           width: 150
         },
         {
-          key: "5",
+          key: "6",
           title: "Time",
           dataIndex: "time",
           width: 150
-        },
-        {
-          key: "6",
-          title: "Variant",
-          dataIndex: "variant",
-          scopedSlots: { customRender: 'variant' },
-          width: 250
         },
         {
           key: "7",
@@ -131,7 +131,7 @@ export default {
           key: "8",
           title: "Adult Price",
           dataIndex: "adult_price",
-          width: 150
+          width: 100
         },
         {
           key: "9",
@@ -143,7 +143,7 @@ export default {
           key: "10",
           title: "Child Price",
           dataIndex: "child_price",
-          width: 150
+          width: 100
         },
         {
           key: "11",
@@ -161,29 +161,29 @@ export default {
         },
         {
           key: "13",
-          title: "Remark",
-          dataIndex: "remark",
-          scopedSlots: { customRender: 'remark' },
-          width: 400
-        },
-        {
-          key: "14",
           title: "Customer",
           dataIndex: "customer",
           width: 150
         },
         {
-          key: "15",
+          key: "14",
           title: "Operator",
           dataIndex: "operator",
           width: 150
         },
         {
-          key: "16",
+          key: "15",
           title: "Create at",
           dataIndex: "create_at",
           scopedSlots: { customRender: 'create_at' },
           width: 200
+        },
+        {
+          key: "16",
+          title: "Remark",
+          dataIndex: "remark",
+          scopedSlots: { customRender: 'remark' },
+          width: 400
         },
         {
           key: "action",

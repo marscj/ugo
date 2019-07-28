@@ -21,9 +21,9 @@ class OrderSerializer(serializers.ModelSerializer):
 
     time = serializers.TimeField()
 
-    customer_info = serializers.CharField(required=False)
+    customer_info = serializers.CharField(required=False, allow_null=True)
 
-    customer_contact = serializers.CharField(required=False)
+    customer_contact = serializers.CharField(required=False, allow_null=True)
 
     adult_quantity = serializers.IntegerField(required=False, allow_null=True, min_value=0, max_value=9999)
 
@@ -95,17 +95,3 @@ class OrderSerializer(serializers.ModelSerializer):
         child_price = child_quantity * variant.child_price[customer.price_level - 1]
 
         return Order.objects.create(**validated_data, adult_price=adult_price, child_price=child_price)
-
-    def update(self, instance, validated_data):
-        adult_quantity = validated_data.get('adult_quantity')
-        child_quantity = validated_data.get('child_quantity')
-        variant_id = validated_data.get('variant_id')
-        customer_id = validated_data.get('customer_id')
-
-        variant = ProductVariant.objects.get(pk=variant_id)
-        customer = CustomUser.objects.get(pk=customer_id)
-
-        instance.adult_price = adult_quantity * variant.adult_price[customer.price_level - 1]
-        instance.child_price = child_quantity * variant.child_price[customer.price_level - 1]
-        
-        return super().update(instance, validated_data)
