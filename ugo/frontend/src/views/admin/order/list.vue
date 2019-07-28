@@ -20,7 +20,7 @@
       :data="loadData"
       bordered
       fixed
-      :scroll="{ x: 3200}"
+      :scroll="{ x: 3350}"
     >
       <span slot="remark" slot-scope="text" style="word-warp:break-word;word-break:break-all">
         <ellipsis :length="200" tooltip>{{ text }}</ellipsis>
@@ -52,6 +52,22 @@
 import { STable, Ellipsis } from "@/components";
 import { getOrderList } from "@/api/order";
 
+const orderStatus = [
+  { value: 0, label: "新建" },
+  { value: 1, label: "订单已确认" },
+  { value: 2, label: "出票成功" },
+  { value: 3, label: "出票失败" },
+  { value: 4, label: "订单已取消" }
+];
+
+const payStatus = [
+  { value: 0, label: "未支付" },
+  { value: 1, label: "部分支付" },
+  { value: 2, label: "全部付清" },
+  { value: 3, label: "部分退款" },
+  { value: 4, label: "全部退款" }
+];
+
 export default {
   name: "VariantList",
   components: {
@@ -60,7 +76,8 @@ export default {
   },
   data() {
     return {
-      // 查询参数
+      orderStatus,
+      payStatus,
       queryParam: {},
       // 表头
       columns: [
@@ -86,20 +103,20 @@ export default {
         },
         {
           key: "3",
-          title: "Status",
-          dataIndex: "status",
+          title: "OrderStatus",
+          dataIndex: "order_status",
           width: 150,
           customRender: (text, row, index) => {
-            switch (text) {
-              case 0:
-                return <span>新建</span>;
-              case 1:
-                return <span>订单已确认</span>;
-              case 2:
-                return <span>等待</span>;
-              case 3:
-                return <span>订单已取消</span>;
-            }
+            return <span>{orderStatus[text].label}</span>;
+          }
+        },
+        {
+          key: "17",
+          title: "PayStatus",
+          dataIndex: "pay_status",
+          width: 150,
+          customRender: (text, row, index) => {
+            return <span>{payStatus[text].label}</span>;
           }
         },
         {

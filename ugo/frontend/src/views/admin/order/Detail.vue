@@ -50,9 +50,14 @@
             <a-form-item label="OrderID">
               <a-input v-model="form.orderID" disabled></a-input>
             </a-form-item>
-            <a-form-item label="Status">
-              <a-select :value="form.status"  @change="handleStatusChange" :filterOption="false">
-                <a-select-option v-for="d in statusData" :key="d.value">{{d.label}}</a-select-option>
+            <a-form-item label="Order Status">
+              <a-select :value="form.order_status"  @change="handleOrderStatusChange" :filterOption="false">
+                <a-select-option v-for="d in orderStatus" :key="d.value">{{d.label}}</a-select-option>
+              </a-select>
+            </a-form-item>
+            <a-form-item label="Pay Status">
+              <a-select :value="form.pay_status"  @change="handlePayStatusChange" :filterOption="false">
+                <a-select-option v-for="d in payStatus" :key="d.value">{{d.label}}</a-select-option>
               </a-select>
             </a-form-item>
             <a-form-item label="Customer">
@@ -82,12 +87,20 @@
 import { checkError } from "@/views/utils/error";
 import { getOrder, updateOrder, createOrder } from "@/api/order";
 
-const statusData = [
+const orderStatus = [
   { value: 0, label: "新建" },
   { value: 1, label: "订单已确认" },
   { value: 2, label: "出票成功" },
   { value: 3, label: "出票失败" },
   { value: 4, label: "订单已取消" }
+];
+
+const payStatus = [
+  { value: 0, label: "未支付" },
+  { value: 1, label: "部分支付" },
+  { value: 2, label: "全部付清" },
+  { value: 3, label: "部分退款" },
+  { value: 4, label: "全部退款" }
 ];
 
 export default {
@@ -100,9 +113,11 @@ export default {
   },
   data() {
     return {
-      statusData,
+      orderStatus,
+      payStatus,
       form: {
-        status: 0,
+        order_status: 0,
+        pay_status: 0,
         adult_quantity: undefined,
         adult_price: undefined,
         child_quantity: undefined,
@@ -190,8 +205,11 @@ export default {
         this.$emit("title");
       }
     },
-    handleStatusChange(value) {
-      this.form.status = value
+    handleOrderStatusChange(value) {
+      this.form.order_status = value
+    },
+    handlePayStatusChange(value) {
+      this.form.pay_status = value
     },
     handleSubmit() {
       if (this.isEdit) {

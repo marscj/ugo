@@ -1,7 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator
 
-from .import OrderStatus
+from .import OrderStatus, PayStatus
 from app.product.models import ProductVariant
 from app.authorization.models import CustomUser
 
@@ -11,7 +11,9 @@ class Order(models.Model):
 
     confirmID = models.CharField(blank=True, null=True, max_length=64)
 
-    status = models.IntegerField(default=OrderStatus.CREATE, choices=OrderStatus.CHOICE)
+    order_status = models.IntegerField(default=OrderStatus.CREATE, choices=OrderStatus.CHOICE)
+
+    pay_status = models.IntegerField(default=PayStatus.UNPAID, choices=PayStatus.CHOICE)
 
     day = models.DateField()
 

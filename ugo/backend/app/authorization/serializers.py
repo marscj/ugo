@@ -26,14 +26,19 @@ class RoleSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
 
+    password = serializers.CharField(write_only=True)
+
     role = RoleSerializer(many=False)
 
     class Meta:
         model = CustomUser
-        # fields = '__all__'
-        exclude = (
-            'password',
-        )
+        fields = '__all__'
+
+    def create(self, validated_data):
+        user = super().create(validated_data)
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
 
 class UserSimpleSerializer(serializers.ModelSerializer):
 

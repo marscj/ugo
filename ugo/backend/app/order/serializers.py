@@ -15,7 +15,9 @@ class OrderSerializer(serializers.ModelSerializer):
 
     confirmID = serializers.CharField(required=False, allow_null=True, max_length=64)
 
-    status = serializers.IntegerField(required=False)
+    order_status = serializers.IntegerField(required=False)
+
+    pay_status = serializers.IntegerField(required=False)
 
     day = serializers.DateField()
 
