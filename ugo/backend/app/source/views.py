@@ -4,11 +4,26 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 
 from middleware.viewsets import CustomModelViewSet
-from .models import ProductImage
-from .serializers import ProductImageSerializer
+from .models import ProductImage, HomeContent
+from .serializers import ProductImageSerializer, HomeContentSerializer
 
 class ProductImageView(CustomModelViewSet):
     serializer_class = ProductImageSerializer
-    # permission_classes = [AllowAny]
     queryset = ProductImage.objects.all()
+    
+class HomeContentView(APIView):
+    
+    def get(self, request, format=None):
+        serializer = HomeContentSerializer(data=HomeContent.objects.get(pk=1))
+        return Response({'result': serializer.data})
+
+    def post(self, request, format=None):
+        serializer = HomeContentSerializer(data=request.POST)
+        serializer.save()
+        return Response({'result': serializer.data})
+
+    def update(self, request, format=None):
+        serializer = HomeContentSerializer(data=request.POST)
+        serializer.save()
+        return Response({'result': serializer.data})
     

@@ -2,7 +2,7 @@ from rest_framework import  serializers
 
 from versatileimagefield.serializers import VersatileImageFieldSerializer
 
-from .models import ProductImage
+from .models import ProductImage, HomeContent
 
 class ProductImageSerializer(serializers.ModelSerializer):
 
@@ -21,3 +21,9 @@ class ProductImageSerializer(serializers.ModelSerializer):
 
     def get_name(self, obj):
         return obj.image.name
+
+class HomeContentSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = HomeContent
+        fields = '__all__'

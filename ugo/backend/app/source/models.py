@@ -21,3 +21,10 @@ class ProductImage(models.Model):
 
     class Meta:
         db_table = 'source'
+
+class HomeContent(models.Model):
+
+    content = models.TextField(blank=True, null=True)
+
+    class Meta:
+        db_table = 'homecontent'
