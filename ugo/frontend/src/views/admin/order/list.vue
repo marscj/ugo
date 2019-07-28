@@ -15,12 +15,25 @@
     <s-table
       ref="table"
       size="default"
-      :rowKey="(item) => item.id"
+      rowKey="key"
       :columns="columns"
       :data="loadData"
       bordered
-      :scroll="{ x: 2800}"
+      fixed
+      :scroll="{ x: 3300}"
     >
+      <span slot="remark" slot-scope="text" style="word-warp:break-word;word-break:break-all">
+        <ellipsis :length="200" tooltip>{{ text }}</ellipsis>
+      </span>
+      <span slot="variant" slot-scope="text" style="word-warp:break-word;word-break:break-all">
+        <ellipsis :length="60" tooltip>{{ text }}</ellipsis>
+      </span>
+      <span slot="customer_info" slot-scope="text" style="word-warp:break-word;word-break:break-all">
+        <ellipsis :length="160" tooltip>{{ text }}</ellipsis>
+      </span>
+      <span slot="customer_contact" slot-scope="text" style="word-warp:break-word;word-break:break-all">
+        <ellipsis :length="160" tooltip>{{ text }}</ellipsis>
+      </span>
       <span slot="create_at" slot-scope="text">
         <template>
           <span>{{text | moment('YYYY-MM-DD HH:mm')}}</span>
@@ -36,13 +49,14 @@
 </template>
 
 <script>
-import { STable } from "@/components";
+import { STable, Ellipsis } from "@/components";
 import { getOrderList } from "@/api/order";
 
 export default {
   name: "VariantList",
   components: {
-    STable
+    STable,
+    Ellipsis
   },
   data() {
     return {
@@ -102,51 +116,55 @@ export default {
         },
         {
           key: "6",
-          title: "Customer Info",
-          dataIndex: "customer_info",
-          width: 150
+          title: "Variant",
+          dataIndex: "variant",
+          scopedSlots: { customRender: 'variant' },
+          width: 250
         },
         {
           key: "7",
-          title: "Customer Contact",
-          dataIndex: "customer_contact",
-          width: 150
+          title: "Adult Quantity",
+          dataIndex: "adult_quantity",
+          width: 50
         },
         {
           key: "8",
-          title: "Adult Quantity",
-          dataIndex: "adult_quantity",
-          width: 150
-        },
-        {
-          key: "9",
           title: "Adult Price",
           dataIndex: "adult_price",
           width: 150
         },
         {
-          key: "10",
+          key: "9",
           title: "Child Quantity",
           dataIndex: "child_quantity",
-          width: 150
+          width: 50
         },
         {
-          key: "11",
+          key: "10",
           title: "Child Price",
           dataIndex: "child_price",
           width: 150
         },
         {
+          key: "11",
+          title: "Customer Info",
+          dataIndex: "customer_info",
+          scopedSlots: { customRender: 'customer_info' },
+          width: 400
+        },
+        {
           key: "12",
-          title: "Remark",
-          dataIndex: "remark",
-          width: 150
+          title: "Customer Contact",
+          dataIndex: "customer_contact",
+          scopedSlots: { customRender: 'customer_contact' },
+          width: 400
         },
         {
           key: "13",
-          title: "Variant",
-          dataIndex: "variant",
-          width: 250
+          title: "Remark",
+          dataIndex: "remark",
+          scopedSlots: { customRender: 'remark' },
+          width: 400
         },
         {
           key: "14",
@@ -165,7 +183,7 @@ export default {
           title: "Create at",
           dataIndex: "create_at",
           scopedSlots: { customRender: 'create_at' },
-          width: 250
+          width: 200
         },
         {
           key: "action",
