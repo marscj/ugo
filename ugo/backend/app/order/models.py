@@ -1,4 +1,5 @@
 import uuid
+import hashlib
 from django.db import models
 from django.core.validators import MinValueValidator
 
@@ -7,7 +8,7 @@ from app.product.models import ProductVariant
 from app.authorization.models import CustomUser
 
 def create_uuid():
-    return hash(uuid.uuid1())
+    return '%019d' % uuid.uuid4().__hash__()
 
 class Order(models.Model):
     
