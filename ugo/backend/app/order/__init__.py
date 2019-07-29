@@ -1,3 +1,4 @@
+default_app_config = 'app.order.apps.OrderConfig'
 
 class OrderStatus:
     CREATE = 0

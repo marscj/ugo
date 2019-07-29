@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 from django.core.validators import MinValueValidator
 
@@ -5,9 +6,12 @@ from .import OrderStatus, PayStatus
 from app.product.models import ProductVariant
 from app.authorization.models import CustomUser
 
+def create_uuid():
+    return hash(uuid.uuid1())
+
 class Order(models.Model):
     
-    orderID = models.CharField(blank=True, null=True, max_length=32)
+    orderID = models.CharField(default=create_uuid, max_length=64)
 
     confirmID = models.CharField(blank=True, null=True, max_length=64)
 
