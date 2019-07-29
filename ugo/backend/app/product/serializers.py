@@ -12,7 +12,7 @@ class ProductVariantSerializer(serializers.ModelSerializer):
 
     variantID = serializers.CharField(required=True, allow_null=False, max_length=16, validators=[UniqueValidator(queryset=ProductVariant.objects.all())])
 
-    name = serializers.CharField(required=False, allow_null=False, max_length=64, validators=[UniqueValidator(queryset=Product.objects.all())])
+    name = serializers.CharField(required=False, allow_null=False, max_length=64, validators=[UniqueValidator(queryset=ProductVariant.objects.all())])
 
     sku = serializers.CharField(required=True, allow_null=False, max_length=32, validators=[UniqueValidator(queryset=ProductVariant.objects.all())])
 
@@ -53,22 +53,23 @@ class ProductVariantSerializer(serializers.ModelSerializer):
         child_status = data.get('child_status', False)
         child_quantity = data.get('child_quantity')
         child_price = data.get('child_price')
+
+        product_id = data.get('product_id')
     
         if adult_status:
-            # if adult_quantity is None:
-            #     raise serializers.ValidationError({'adult_quantity': 'adult quantity is required.'})
-
             if adult_price is None:
                 raise serializers.ValidationError({'adult_price': 'adult price is required.'})
 
         if child_status:
-            # if child_quantity is None:
-            #     raise serializers.ValidationError({'child_quantity': 'child quantity is required.'})
-
             if child_price is None:
                 raise serializers.ValidationError({'child_price': 'child price is required.'})
 
-        return data
+        try:
+            Product.objects.get(pk=product_id)
+        except Product.DoesNotExist:
+            raise serializers.ValidationError({'product_id': 'Not Found.'})
+
+        return super().validate(data)
 
 class ProductSerializer(serializers.ModelSerializer):
 

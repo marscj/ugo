@@ -34,6 +34,7 @@ export default {
       })
     },
     onClick(data) {
+      this.$router.push({name: 'FoodDetail', params: { id: data.id }})
     },
     onSearch(value) {
       this.fetch(value)
