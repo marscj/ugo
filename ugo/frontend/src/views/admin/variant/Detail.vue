@@ -22,7 +22,7 @@
             @change="handleProductChange"
             notFoundContent="没有找到"
           >
-            <a-select-option v-for="d in productOption" :key="d.id">{{d.name}}</a-select-option>
+            <a-select-option v-for="d in productOption" :key="d.id">{{d.title}}</a-select-option>
           </a-select>
         </a-form-item>
         <a-form-item
@@ -339,7 +339,7 @@ export default {
       );
 
       this.help = {
-        status: errors["category"],
+        status: errors["status"],
         variantID: errors["variantID"],
         name: errors["name"],
         sku: errors["sku"],

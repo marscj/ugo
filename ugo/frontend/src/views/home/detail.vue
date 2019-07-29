@@ -47,7 +47,7 @@
                 </label>
                 <div class="right">
                   <div class="choose-wrap">
-                    <a href="javascript:;" :class="variant == data ? 'focus' : null" v-for="data in data.variant" :key="data.id" @click="handleVariant(data)">
+                    <a href="javascript:;" :class="variant == data ? 'focus disable' : data.status ? null : 'disable'" v-for="data in data.variant" :key="data.id" @click="handleVariant(data)">
                       {{data.name}}
                       <i v-if="variant==data" />
                     </a>
@@ -79,7 +79,7 @@
                       <div class="item-left">
                         <p style="margin-bottom:0px">
                           成人
-                          <span class="text-grey">10周岁（含）以上</span>
+                          <span class="text-grey" v-if="variant">{{variant.adult_desc}}</span>
                         </p>
                         <p class="price">
                           单价
@@ -110,7 +110,7 @@
                       <div class="item-left">
                         <p style="margin-bottom:0px">
                           儿童
-                          <span class="text-grey">3周岁（含）-9周岁（含）</span>
+                          <span class="text-grey" v-if="variant">{{variant.child_desc}}</span>
                         </p>
                         <p class="price">
                           单价

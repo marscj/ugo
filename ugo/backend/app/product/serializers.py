@@ -6,6 +6,70 @@ from .models import Category, Product, ProductVariant
 from app.source.models import ProductImage
 from app.source.serializers import ProductImageSerializer
 
+class ProductVariantSerializer(serializers.ModelSerializer):
+
+    status = serializers.BooleanField(required=True)
+
+    variantID = serializers.CharField(required=True, allow_null=False, max_length=16, validators=[UniqueValidator(queryset=ProductVariant.objects.all())])
+
+    name = serializers.CharField(required=False, allow_null=False, max_length=64, validators=[UniqueValidator(queryset=Product.objects.all())])
+
+    sku = serializers.CharField(required=True, allow_null=False, max_length=32, validators=[UniqueValidator(queryset=ProductVariant.objects.all())])
+
+    adult_status = serializers.BooleanField(required=True)
+
+    adult_desc = serializers.CharField(required=False, allow_null=True, max_length=64)
+
+    adult_quantity = serializers.IntegerField(required=False, allow_null=True, min_value=0, max_value=9999)
+
+    adult_price = serializers.ListField(required=False, allow_null=True, allow_empty=False, min_length=5, max_length=5, child=serializers.DecimalField(max_digits=10, decimal_places=2, min_value=0.0))
+
+    child_status = serializers.BooleanField(required=True)
+
+    child_desc = serializers.CharField(required=False, allow_null=True, max_length=64)
+
+    child_quantity = serializers.IntegerField(required=False, allow_null=True, min_value=0, max_value=9999)
+
+    child_price = serializers.ListField(required=False, allow_null=True, allow_empty=False, min_length=5, max_length=5, child=serializers.DecimalField(max_digits=10, decimal_places=2, min_value=0.0))
+
+    product = serializers.StringRelatedField(read_only=True)
+
+    product_id = serializers.IntegerField(required=True)
+
+    category = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ProductVariant
+        fields = '__all__'
+
+    def get_category(self, obj):
+        return obj.product.category
+
+    def validate(self, data):
+        adult_status = data.get('adult_status', False)
+        adult_quantity = data.get('adult_quantity')
+        adult_price = data.get('adult_price')
+
+        child_status = data.get('child_status', False)
+        child_quantity = data.get('child_quantity')
+        child_price = data.get('child_price')
+    
+        if adult_status:
+            # if adult_quantity is None:
+            #     raise serializers.ValidationError({'adult_quantity': 'adult quantity is required.'})
+
+            if adult_price is None:
+                raise serializers.ValidationError({'adult_price': 'adult price is required.'})
+
+        if child_status:
+            # if child_quantity is None:
+            #     raise serializers.ValidationError({'child_quantity': 'child quantity is required.'})
+
+            if child_price is None:
+                raise serializers.ValidationError({'child_price': 'child price is required.'})
+
+        return data
+
 class ProductSerializer(serializers.ModelSerializer):
 
     id = serializers.IntegerField(read_only=True)
@@ -54,6 +118,8 @@ class ProductDetailSerializer(serializers.ModelSerializer):
 
     gallery_id = serializers.PrimaryKeyRelatedField(required=True, write_only=True, many=True, queryset=ProductImage.objects.all())
 
+    variant = ProductVariantSerializer(read_only=True, many=True)
+
     class Meta:
         model = Product
         fields = '__all__'
@@ -85,62 +151,3 @@ class ProductDetailSerializer(serializers.ModelSerializer):
         super().update(instance, validated_data)
 
         return instance
-
-class ProductVariantSerializer(serializers.ModelSerializer):
-
-    status = serializers.BooleanField(required=True)
-
-    variantID = serializers.CharField(required=True, allow_null=False, max_length=16, validators=[UniqueValidator(queryset=ProductVariant.objects.all())])
-
-    name = serializers.CharField(required=True, allow_null=False, max_length=64, validators=[UniqueValidator(queryset=Product.objects.all())])
-
-    sku = serializers.CharField(required=True, allow_null=False, max_length=32, validators=[UniqueValidator(queryset=ProductVariant.objects.all())])
-
-    adult_status = serializers.BooleanField(required=True)
-
-    adult_desc = serializers.CharField(required=False, allow_null=True, max_length=64)
-
-    adult_quantity = serializers.IntegerField(required=False, allow_null=True, min_value=0, max_value=9999)
-
-    adult_price = serializers.ListField(required=False, allow_null=True, allow_empty=False, min_length=5, max_length=5, child=serializers.DecimalField(max_digits=10, decimal_places=2, min_value=0.0))
-
-    child_status = serializers.BooleanField(required=True)
-
-    child_desc = serializers.CharField(required=False, allow_null=True, max_length=64)
-
-    child_quantity = serializers.IntegerField(required=False, allow_null=True, min_value=0, max_value=9999)
-
-    child_price = serializers.ListField(required=False, allow_null=True, allow_empty=False, min_length=5, max_length=5, child=serializers.DecimalField(max_digits=10, decimal_places=2, min_value=0.0))
-
-    product = ProductSerializer(read_only=True)
-
-    product_id = serializers.IntegerField(required=True)
-
-    class Meta:
-        model = ProductVariant
-        fields = '__all__'
-
-    def validate(self, data):
-        adult_status = data.get('adult_status', False)
-        adult_quantity = data.get('adult_quantity')
-        adult_price = data.get('adult_price')
-
-        child_status = data.get('child_status', False)
-        child_quantity = data.get('child_quantity')
-        child_price = data.get('child_price')
-    
-        if adult_status:
-            # if adult_quantity is None:
-            #     raise serializers.ValidationError({'adult_quantity': 'adult quantity is required.'})
-
-            if adult_price is None:
-                raise serializers.ValidationError({'adult_price': 'adult price is required.'})
-
-        if child_status:
-            # if child_quantity is None:
-            #     raise serializers.ValidationError({'child_quantity': 'child quantity is required.'})
-
-            if child_price is None:
-                raise serializers.ValidationError({'child_price': 'child price is required.'})
-
-        return data

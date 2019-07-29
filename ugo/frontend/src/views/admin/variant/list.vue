@@ -82,12 +82,12 @@ export default {
         },
         {
           title: 'Product Name',
-          dataIndex: 'product.name',
+          dataIndex: 'product',
         },
         
         {
           title: 'Category',
-          dataIndex: 'product.category',
+          dataIndex: 'category',
           customRender: (text, index, row) => {
             return <span>{categoryData[text].label}</span>;
           }

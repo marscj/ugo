@@ -40,7 +40,7 @@ class ProductVariant(models.Model):
 
     variantID = models.CharField(blank=True, null=True, max_length=16, unique=True)
 
-    name = models.CharField(blank=True, null=True, max_length=64, unique=True)
+    name = models.CharField(blank=True, null=True, max_length=64)
 
     sku = models.CharField(max_length=32, unique=True)
 
@@ -68,7 +68,7 @@ class ProductVariant(models.Model):
     def __str__(self):
         return self.product.title + ' - ' + self.name
 
-    @property
-    def category(self):
-        return self.product.category
+    # @property
+    # def category(self):
+    #     return self.product.category
 
