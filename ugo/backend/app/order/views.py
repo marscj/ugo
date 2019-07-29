@@ -23,3 +23,9 @@ class OrderView(CustomModelViewSet):
                 serializer.save(operator=self.request.user)
         
         return super().perform_update(serializer)
+
+    @action(detail=False, methods=['post'])
+    def checkout(self, request):
+        checkout = self.get_serializer(data=request.data)
+        if checkout.is_valid(raise_exception=True):
+            return Response({'result': checkout.data})

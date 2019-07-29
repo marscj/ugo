@@ -42,6 +42,24 @@ class UserSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
+class UserSerializer(serializers.ModelSerializer):
+
+    password = serializers.CharField(required=False, write_only=True)
+
+    role = RoleSerializer(read_only=True)
+
+    role_id = serializers.IntegerField()
+
+    class Meta:
+        model = CustomUser
+        fields = '__all__'
+
+    def create(self, validated_data):
+        user = super().create(validated_data)
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
+
 class UserSimpleSerializer(serializers.ModelSerializer):
 
     class Meta:

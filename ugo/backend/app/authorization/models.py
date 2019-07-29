@@ -30,6 +30,7 @@ class CustomUser(AbstractBaseUser):
     status = models.IntegerField(default=0)
     user_type = models.IntegerField(default=UserType.Customer, choices=UserType.CHOISE)
     price_level = models.IntegerField(default=5, validators=[MinValueValidator(1), MaxValueValidator(5)])
+    balance = models.DecimalField(default=0.0, max_digits=10, decimal_places=2, validators=[MinValueValidator(0.0)])
     
     role = models.ForeignKey('Role', blank=True, null=True, related_name='user', on_delete=models.SET_NULL)
 
