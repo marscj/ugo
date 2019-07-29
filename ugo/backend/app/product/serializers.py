@@ -1,3 +1,4 @@
+from django.db.models import Min, Max, Avg
 from rest_framework import  serializers
 from rest_framework.validators import UniqueValidator
 

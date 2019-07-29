@@ -32,7 +32,7 @@ class Product(models.Model):
         db_table = 'product'
 
     def __str__(self):
-        return self.name
+        return self.title
 
 class ProductVariant(models.Model):
 
@@ -66,7 +66,7 @@ class ProductVariant(models.Model):
         db_table = 'variant'
 
     def __str__(self):
-        return self.product.name + ' - ' + self.name
+        return self.product.title + ' - ' + self.name
 
     @property
     def category(self):
