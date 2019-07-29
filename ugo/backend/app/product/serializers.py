@@ -7,6 +7,30 @@ from app.source.serializers import ProductImageSerializer
 
 class ProductSerializer(serializers.ModelSerializer):
 
+    id = serializers.IntegerField(read_only=True)
+
+    status = serializers.BooleanField(read_only=True)
+
+    category = serializers.IntegerField(read_only=True)
+
+    productID = serializers.CharField(read_only=True)
+
+    title = serializers.CharField(read_only=True)
+
+    subtitle = serializers.CharField(read_only=True)
+
+    location = serializers.CharField(read_only=True)
+
+    photo = ProductImageSerializer(read_only=True)
+
+    class Meta:
+        model = Product
+        fields = (
+            'id', 'status', 'category', 'productID', 'title', 'subtitle', 'location', 'photo'
+        )
+
+class ProductDetailSerializer(serializers.ModelSerializer):
+
     status = serializers.BooleanField(required=True)
 
     productID = serializers.CharField(required=True, allow_null=False, max_length=16, validators=[UniqueValidator(queryset=Product.objects.all())])

@@ -6,15 +6,20 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from middleware.viewsets import CustomModelViewSet
 from .models import Category, Product, ProductVariant
-from .serializers import ProductSerializer, ProductVariantSerializer
+from .serializers import ProductSerializer, ProductDetailSerializer, ProductVariantSerializer
 
 class ProductView(CustomModelViewSet):
-    serializer_class = ProductSerializer
     queryset = Product.objects.all()
     permission_classes = [AllowAny]
 
-    filterset_fields = ('category', )
-    search_fields = ('name', )
+    filterset_fields = ('category', 'status')
+    search_fields = ('title', )
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return ProductSerializer
+        else:
+            return ProductDetailSerializer
  
 class ProductVariantView(CustomModelViewSet):
     serializer_class = ProductVariantSerializer

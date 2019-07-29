@@ -31,7 +31,7 @@
             />
             <a-divider></a-divider>
             <a-card-meta :title="item.title">
-              <div style="margin-bottom:5px; height:45px" slot="description">{{ item.title }}</div>
+              <div style="margin-bottom:5px; height:45px" slot="description">{{ item.subtitle }}</div>
             </a-card-meta>
           </a-card>
         </template>

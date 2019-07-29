@@ -18,10 +18,10 @@
       </div>
       <div class="detail_main_right">
         <div class="detail_info">
-          <h1>{{data.name}}</h1>
+          <h1>{{data.title}}</h1>
           <dl class="detail_dominance">
             <dt>产品特色</dt>
-            <div class="editor-content" v-html="data.subtitle" />
+            <div class="editor-content" v-html="data.special" />
           </dl>
 
           <div class="detail_address">
@@ -33,7 +33,7 @@
           <div class="detail_address">
             <span class="detail_txt">
               <span class="aline">开发商</span>
-              <span class="detail_dest detail_dest_more" id="detail_dest">有UgoDubai提供</span>
+              <span class="detail_dest detail_dest_more" id="detail_dest">由UgoDubai提供</span>
             </span>
           </div>
           <div class="detail_top_line"></div>
@@ -47,7 +47,7 @@
                 </label>
                 <div class="right">
                   <div class="choose-wrap">
-                    <a href="javascript:;" :class="variant == data ? 'focus' : null" v-for="data in variantData" :key="data.id" @click="handleVariant(data)">
+                    <a href="javascript:;" :class="variant == data ? 'focus' : null" v-for="data in data.variant" :key="data.id" @click="handleVariant(data)">
                       {{data.name}}
                       <i v-if="variant==data" />
                     </a>
@@ -176,36 +176,6 @@ export default {
         gallery: []
       },
       variant: null,
-      variantData: [
-        {
-          id: 1,
-          name: "海底餐厅午餐四道式"
-        },
-        {
-          id: 2,
-          name: "池畔餐厅午餐自助"
-        },
-        {
-          id: 3,
-          name: "日落小食下午茶套餐"
-        },
-        {
-          id: 4,
-          name: "JUNSUI餐厅午餐自助"
-        },
-        {
-          id: 5,
-          name: "天空餐厅晚餐四道式"
-        },
-        {
-          id: 6,
-          name: "池畔餐厅晚餐自助"
-        },
-        {
-          id: 7,
-          name: "JUNSUI餐厅晚餐自助"
-        }
-      ]
     };
   },
   mounted() {
@@ -225,8 +195,8 @@ export default {
         .then(res => {
           const { result } = res;
           this.data = result;
-          this.description = result.description;
-          this.$route.meta.title = result.name;
+          this.description = result.subtitle;
+          this.$route.meta.title = result.title;
           this.$parent.getPageMeta();
           this.extraImage = result.photo.image.medium_square_crop;
         })
