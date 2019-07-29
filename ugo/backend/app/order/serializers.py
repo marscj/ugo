@@ -27,11 +27,11 @@ class OrderSerializer(serializers.ModelSerializer):
 
     customer_contact = serializers.CharField(required=False, allow_null=True)
 
-    adult_quantity = serializers.IntegerField(required=False, allow_null=True, min_value=0, max_value=9999)
+    adult_quantity = serializers.IntegerField(min_value=0, max_value=9999)
 
     adult_price = serializers.DecimalField(read_only=True, max_digits=10, decimal_places=2, min_value=0.0)
 
-    child_quantity = serializers.IntegerField(required=False, allow_null=True, min_value=0, max_value=9999)
+    child_quantity = serializers.IntegerField(min_value=0, max_value=9999)
 
     child_price = serializers.DecimalField(read_only=True, max_digits=10, decimal_places=2, min_value=0.0)
 
@@ -53,7 +53,7 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         fields = '__all__'
 
-    def get_price(self, validated_data):
+    def get_info(self, validated_data):
         adult_quantity = validated_data.get('adult_quantity', 0)
         child_quantity = validated_data.get('child_quantity', 0)
         variant_id = validated_data.get('variant_id')
@@ -62,7 +62,12 @@ class OrderSerializer(serializers.ModelSerializer):
         variant = ProductVariant.objects.get(pk=variant_id)
         customer = CustomUser.objects.get(pk=customer_id)
 
-        return adult_quantity * variant.adult_price[customer.price_level - 1], child_quantity * variant.child_price[customer.price_level - 1]
+        return {
+            'adult_price': adult_quantity * variant.adult_price[customer.price_level - 1],
+            'child_price': child_quantity * variant.child_price[customer.price_level - 1],
+            'variant': variant,
+            'customer': customer
+        }
 
     def validate(self, data):
         adult_quantity = data.get('adult_quantity', 0)
@@ -73,7 +78,7 @@ class OrderSerializer(serializers.ModelSerializer):
         operator_id = data.get('operator_id')
 
         if adult_quantity == 0 and child_quantity == 0:
-            raise serializers.ValidationError({'adult_quantity': '数量不足', 'child_quantity': '数量不足'})
+            raise serializers.ValidationError({'adult_quantity': '成人数量或者儿童数量至少为1', 'child_quantity': '成人数量或者儿童数量至少为1'})
 
         try:
             variant = ProductVariant.objects.get(pk=variant_id)
@@ -93,7 +98,9 @@ class OrderSerializer(serializers.ModelSerializer):
             except CustomUser.DoesNotExist:
                 raise serializers.ValidationError({'operator': '操作员不存在'})
 
-        adult_price, child_price = self.get_price(data)
+        info = self.get_info(data)
+        adult_price = info['adult_price']
+        child_price = info['child_price']
         
         if customer.balance < adult_price + child_price:
             raise serializers.ValidationError({'customer': '账户余额不足'})
@@ -101,7 +108,10 @@ class OrderSerializer(serializers.ModelSerializer):
         return super().validate(data)
 
     def create(self, validated_data):
-        adult_price, child_price = self.get_price(validated_data)
+        info = self.get_info(validated_data)
+        adult_price = info['adult_price']
+        child_price = info['child_price']
+        customer = info['customer']
 
         customer.balance -= adult_price + child_price
         customer.save()
