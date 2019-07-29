@@ -7,7 +7,8 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from middleware.viewsets import CustomModelViewSet
 from .models import Order
 from .serializers import OrderSerializer
-from app.authorization import UserType
+from app.product.models import ProductVariant
+from app.authorization.models import CustomUser
 
 class OrderView(CustomModelViewSet):
     serializer_class = OrderSerializer
@@ -28,4 +29,5 @@ class OrderView(CustomModelViewSet):
     def checkout(self, request):
         checkout = self.get_serializer(data=request.data)
         if checkout.is_valid(raise_exception=True):
+            adult_price, child_price = checkout.get_price(checkout.data)
             return Response({'result': checkout.data})

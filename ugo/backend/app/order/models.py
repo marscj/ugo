@@ -50,7 +50,3 @@ class Order(models.Model):
 
     class Meta:
         db_table = 'order'
-
-    @property
-    def total_price(self):
-        return self.adult_price + child_price

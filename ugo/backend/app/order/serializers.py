@@ -53,6 +53,17 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         fields = '__all__'
 
+    def get_price(self, validated_data):
+        adult_quantity = validated_data.get('adult_quantity', 0)
+        child_quantity = validated_data.get('child_quantity', 0)
+        variant_id = validated_data.get('variant_id')
+        customer_id = validated_data.get('customer_id')
+
+        variant = ProductVariant.objects.get(pk=variant_id)
+        customer = CustomUser.objects.get(pk=customer_id)
+
+        return adult_quantity * variant.adult_price[customer.price_level - 1], child_quantity * variant.child_price[customer.price_level - 1]
+
     def validate(self, data):
         adult_quantity = data.get('adult_quantity', 0)
         child_quantity = data.get('child_quantity', 0)
@@ -82,8 +93,7 @@ class OrderSerializer(serializers.ModelSerializer):
             except CustomUser.DoesNotExist:
                 raise serializers.ValidationError({'operator': '操作员不存在'})
 
-        adult_price = adult_quantity * variant.adult_price[customer.price_level - 1]
-        child_price = child_quantity * variant.child_price[customer.price_level - 1]
+        adult_price, child_price = self.get_price(data)
         
         if customer.balance < adult_price + child_price:
             raise serializers.ValidationError({'customer': '账户余额不足'})
@@ -91,16 +101,7 @@ class OrderSerializer(serializers.ModelSerializer):
         return super().validate(data)
 
     def create(self, validated_data):
-        adult_quantity = validated_data.get('adult_quantity')
-        child_quantity = validated_data.get('child_quantity')
-        variant_id = validated_data.get('variant_id')
-        customer_id = validated_data.get('customer_id')
-
-        variant = ProductVariant.objects.get(pk=variant_id)
-        customer = CustomUser.objects.get(pk=customer_id)
-
-        adult_price = adult_quantity * variant.adult_price[customer.price_level - 1]
-        child_price = child_quantity * variant.child_price[customer.price_level - 1]
+        adult_price, child_price = self.get_price(validated_data)
 
         customer.balance -= adult_price + child_price
         customer.save()
