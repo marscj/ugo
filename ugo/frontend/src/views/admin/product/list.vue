@@ -89,12 +89,12 @@ export default {
           }
         },
         {
-          title: 'Name',
-          dataIndex: 'name'
+          title: 'Title',
+          dataIndex: 'title'
         },
         {
-          title: 'Description',
-          dataIndex: 'description',
+          title: 'SubTitle',
+          dataIndex: 'subtitle',
         },
         {
           title: 'Location',

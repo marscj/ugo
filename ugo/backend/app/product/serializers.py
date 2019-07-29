@@ -11,11 +11,11 @@ class ProductSerializer(serializers.ModelSerializer):
 
     productID = serializers.CharField(required=True, allow_null=False, max_length=16, validators=[UniqueValidator(queryset=Product.objects.all())])
 
-    name = serializers.CharField(required=True, allow_null=False, max_length=128, validators=[UniqueValidator(queryset=Product.objects.all())])
+    title = serializers.CharField(required=True, allow_null=False, max_length=128, validators=[UniqueValidator(queryset=Product.objects.all())])
 
-    description = serializers.CharField(required=True, allow_null=False, max_length=128)
+    subtitle = serializers.CharField(required=True, allow_null=False, max_length=128)
 
-    subtitle = serializers.CharField(required=True, allow_null=False, max_length=512)
+    special = serializers.CharField(required=True, allow_null=False, max_length=512)
 
     location = serializers.CharField(required=True, allow_null=False, max_length=32)
 

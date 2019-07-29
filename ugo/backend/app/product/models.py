@@ -14,11 +14,11 @@ class Product(models.Model):
 
     productID = models.CharField(blank=True, null=True, max_length=16, unique=True)
 
-    name = models.CharField(blank=True, null=True, max_length=128, unique=True)
+    title = models.CharField(blank=True, null=True, max_length=128, unique=True)
 
-    description = models.CharField(blank=True, null=True, max_length=128)
+    subtitle = models.CharField(blank=True, null=True, max_length=128)
 
-    subtitle = models.TextField(blank=True, null=True)
+    special = models.TextField(blank=True, null=True)
 
     location = models.CharField(blank=True, null=True, max_length=32)
     

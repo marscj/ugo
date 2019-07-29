@@ -28,20 +28,20 @@
         </a-form-item>
 
         <a-form-item
-          label="Name"
+          label="Title"
           :required="true"
-          :validate-status="name.help == null || name.help === '' ?  null : 'error'"
-          :help="name.help"
+          :validate-status="title.help == null || title.help === '' ?  null : 'error'"
+          :help="title.help"
         >
-          <a-input v-model="name.data"></a-input>
+          <a-input v-model="title.data"></a-input>
         </a-form-item>
         <a-form-item
-          label="Description"
+          label="SubTitle"
           :required="true"
-          :validate-status="description.help == null || description.help === '' ?  null : 'error'"
-          :help="description.help"
+          :validate-status="subtitle.help == null || subtitle.help === '' ?  null : 'error'"
+          :help="subtitle.help"
         >
-          <a-input v-model="description.data"></a-input>
+          <a-input v-model="subtitle.data"></a-input>
         </a-form-item>
         <a-form-item
           label="Location"
@@ -56,7 +56,7 @@
           :required="true"
           :validate-status="photo.help == null || photo.help === '' ?  null : 'error'"
           :help="photo.help"
-          v-if="name.data"
+          v-if="title.data"
         >
           <a-upload
             :showUploadList="false"
@@ -77,7 +77,7 @@
           :required="true"
           :validate-status="gallery.help == null || gallery.help === '' ?  null : 'error'"
           :help="gallery.help"
-          v-if="name.data"
+          v-if="title.data"
         >
           <a-upload
             :fileList="gallery.file"
@@ -93,14 +93,14 @@
           </a-upload>
         </a-form-item>
         <a-form-item
-          label="SubTitle"
+          label="Special"
           :required="true"
-          :validate-status="subtitle.help == null || subtitle.help === '' ? null : 'error'"
-          :help="subtitle.help"
+          :validate-status="special.help == null || special.help === '' ? null : 'error'"
+          :help="special.help"
         >
           <div class="components-container">
             <div>
-              <tinymce v-model="subtitle.data" :height="150" />
+              <tinymce v-model="special.data" :height="150" />
             </div>
           </div>
         </a-form-item>
@@ -196,14 +196,14 @@ export default {
           const formData = new FormData();
           formData.append("image", request.file);
           formData.append("flag", "icon");
-          formData.append("title", this.name.data);
+          formData.append("title", this.title.data);
           upload(formData)
             .then(res => {
               const { result } = res;
               this.photo.data = result;
               this.photo.file = {
                 uid: result.uid,
-                name: result.name,
+                name: result.title,
                 status: "done",
                 url: result.image.thumbnail
               };
@@ -233,14 +233,14 @@ export default {
           const formData = new FormData();
           formData.append("image", request.file);
           formData.append("flag", "gallery");
-          formData.append("title", this.name.data);
+          formData.append("title", this.title.data);
           upload(formData)
             .then(res => {
               const { result } = res;
               this.gallery.data.push(result);
               this.gallery.file.push({
                 uid: result.uid,
-                name: result.name,
+                name: result.title,
                 status: "done",
                 url: result.image.full_size
               });
@@ -263,11 +263,11 @@ export default {
         data: null,
         help: null
       },
-      name: {
+      title: {
         data: null,
         help: null
       },
-      description: {
+      special: {
         data: null,
         help: null
       },
@@ -332,23 +332,23 @@ export default {
         error,
         "category",
         "productID",
-        "name",
-        "description",
+        "title",
+        "subtitle",
         "location",
         "photo",
         "gallery",
-        "subtitle",
+        "special",
         "content"
       );
 
       this.category.help = errors["category"];
       this.productID.help = errors["productID"];
-      this.name.help = errors["name"];
-      this.description.help = errors["description"];
+      this.title.help = errors["title"];
+      this.subtitle.help = errors["subtitle"];
       this.location.help = errors["location"];
       this.photo.help = errors["photo"];
       this.gallery.help = errors["gallery"];
-      this.subtitle.help = errors["subtitle"];
+      this.special.help = errors["special"];
       this.content.help = errors["content"];
 
       for (var key in errors) {
@@ -363,7 +363,7 @@ export default {
     },
     initData(data) {
       if (this.isEdit) {
-        this.$route.meta.title = data.name;
+        this.$route.meta.title = data.title;
         this.$emit("title");
       }
 
@@ -376,13 +376,13 @@ export default {
         help: null
       };
 
-      this.name = {
-        data: data.name,
+      this.title = {
+        data: data.title,
         help: null
       };
 
-      this.description = {
-        data: data.description,
+      this.subtitle = {
+        data: data.subtitle,
         help: null
       };
 
@@ -396,15 +396,15 @@ export default {
         help: null
       };
 
-      this.subtitle = {
-        data: data.subtitle,
+      this.special = {
+        data: data.special,
         help: null
       };
 
       if (data.photo != null) {
         this.photo.file = {
           uid: data.photo.uid,
-          name: data.photo.name,
+          name: data.photo.title,
           url: data.photo.image.thumbnail
         };
         this.photo.data = data.photo;
@@ -414,7 +414,7 @@ export default {
         for (var g of data.gallery) {
           this.gallery.file.push({
             uid: g.uid,
-            name: g.name,
+            name: g.title,
             url: g.image.full_size
           });
         }
@@ -435,16 +435,16 @@ export default {
         this.productID.help = null;
       }
 
-      if (this.name.data == null || this.name.data === "") {
-        this.name.help = "This field is required.";
+      if (this.title.data == null || this.title.data === "") {
+        this.title.help = "This field is required.";
       } else {
-        this.name.help = null;
+        this.title.help = null;
       }
 
-      if (this.description.data == null || this.description.data === "") {
-        this.description.help = "This field is required.";
+      if (this.subtitle.data == null || this.subtitle.data === "") {
+        this.subtitle.help = "This field is required.";
       } else {
-        this.description.help = null;
+        this.subtitle.help = null;
       }
 
       if (this.location.data == null || this.location.data === "") {
@@ -465,10 +465,10 @@ export default {
         this.gallery.help = null;
       }
 
-      if (this.subtitle.data == null || this.subtitle.data === "") {
-        this.subtitle.help = "This field is required.";
+      if (this.special.data == null || this.special.data === "") {
+        this.special.help = "This field is required.";
       } else {
-        this.subtitle.help = null;
+        this.special.help = null;
       }
 
       if (this.content.data == null || this.content.data === "") {
@@ -480,12 +480,12 @@ export default {
       if (
         this.category.help ||
         this.productID.help ||
-        this.name.help ||
-        this.description.help ||
+        this.title.help ||
+        this.subtitle.help ||
         this.location.help ||
         this.photo.help ||
         this.gallery.help ||
-        this.subtitle.help ||
+        this.special.help ||
         this.content.help
       ) {
         return;
@@ -495,8 +495,8 @@ export default {
         status: this.status,
         category: this.category.value,
         productID: this.productID.data,
-        name: this.name.data,
-        description: this.description.data,
+        title: this.title.data,
+        subtitle: this.subtitle.data,
         location: this.location.data,
         photo_id: this.photo.data.id,
         gallery_id: this.gallery.data.map(f => {
@@ -504,7 +504,7 @@ export default {
             return f.id;
           }
         }),
-        subtitle: this.subtitle.data,
+        special: this.special.data,
         content: this.content.data
       };
       if (this.isEdit) {
