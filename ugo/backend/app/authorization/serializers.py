@@ -30,7 +30,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     role = RoleSerializer(read_only=True)
 
-    role_id = serializers.IntegerField()
+    role_id = serializers.IntegerField(required=False)
 
     class Meta:
         model = CustomUser

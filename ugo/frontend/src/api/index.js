@@ -14,6 +14,8 @@ const api = {
   product: '/product/',
   variant: '/variant/',
 
+  checkout: '/order/checkout/',
+
   order: '/order/',
   source: '/source/',
 }

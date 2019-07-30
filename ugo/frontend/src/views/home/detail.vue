@@ -1,152 +1,164 @@
 <template>
-  <div class="detail_main">
-    <div class="detail_main_wrap">
-      <div class="detail_main_left">
-        <div class="detail_gallery">
-          <a-carousel arrows autoplay dotsClass="slick-dots slick-thumb">
-            <a slot="customPaging" slot-scope="props">
-              <img :src="getImgUrl(props.i)" />
-            </a>
-            <div v-for="item in data.gallery" :key="item.id">
-              <img :src="item.image.gallery_square_crop" />
-            </div>
-          </a-carousel>
+  <a-spin :spinning="spinning">
+    <div class="detail_main">
+      <div class="detail_main_wrap">
+        <div class="detail_main_left">
+          <div class="detail_gallery">
+            <a-carousel arrows autoplay dotsClass="slick-dots slick-thumb">
+              <a slot="customPaging" slot-scope="props">
+                <img :src="getImgUrl(props.i)" />
+              </a>
+              <div v-for="item in data.gallery" :key="item.id">
+                <img :src="item.image.gallery_square_crop" />
+              </div>
+            </a-carousel>
+          </div>
+          <div class="detail_calendar">
+            <a-calendar
+              :value="day"
+              :fullscreen="false"
+              @change="handleDay"
+              :disabledDate="disabledDate"
+            />
+          </div>
         </div>
-        <div class="detail_calendar">
-          <a-calendar :value="day" :fullscreen="false" @change="handleDay" :disabledDate="disabledDate" />
-        </div>
-      </div>
-      <div class="detail_main_right">
-        <div class="detail_info">
-          <h1>{{data.title}}</h1>
-          <dl class="detail_dominance">
-            <dt>产品特色</dt>
-            <div class="editor-content" v-html="data.special" />
-          </dl>
+        <div class="detail_main_right">
+          <div class="detail_info">
+            <h1>{{data.title}}</h1>
+            <dl class="detail_dominance">
+              <dt>产品特色</dt>
+              <div class="editor-content" v-html="data.special" />
+            </dl>
 
-          <div class="detail_address">
-            <span class="detail_txt">
-              <span class="aline">所在地</span>
-              <span class="detail_dest detail_dest_more" id="detail_dest">迪拜</span>
-            </span>
+            <div class="detail_address">
+              <span class="detail_txt">
+                <span class="aline">所在地</span>
+                <span class="detail_dest detail_dest_more" id="detail_dest">迪拜</span>
+              </span>
+            </div>
+            <div class="detail_address">
+              <span class="detail_txt">
+                <span class="aline">开发商</span>
+                <span class="detail_dest detail_dest_more" id="detail_dest">由UgoDubai提供</span>
+              </span>
+            </div>
+            <div class="detail_top_line"></div>
           </div>
-          <div class="detail_address">
-            <span class="detail_txt">
-              <span class="aline">开发商</span>
-              <span class="detail_dest detail_dest_more" id="detail_dest">由UgoDubai提供</span>
-            </span>
-          </div>
-          <div class="detail_top_line"></div>
-        </div>
-        <div class="detail-booking-mod">
-          <div class="detail-booking-info-box">
-            <ul class="detail-booking-info" style="margin: 0; padding: 0;">
-              <li>
-                <label>
-                  <span class>选择套餐</span>
-                </label>
-                <div class="right">
-                  <div class="choose-wrap">
-                    <a
-                      href="javascript:;"
-                      :class="variant == data ? data.status ? 'focus' : null : data.status ? null : 'disable' "
-                      v-for="data in data.variant"
-                      :key="data.id"
-                      @click="handleVariant(data)"
-                    >
-                      {{data.name}}
-                      <i v-if="variant==data" />
-                    </a>
-                  </div>
-                </div>
-              </li>
-              <li style="position: relative;">
-                <label>
-                  <span class>选择使用日期时间</span>
-                </label>
-                <div class="right">
-                  <div class="date-wrapper">
-                    <div class="date-box">
-                      <a-date-picker :value="day" @change="handleDay" :disabledDate="disabledDate"/>
-                      <a-time-picker :value="time" style="margin-left: 8px" @change="handleTime" />
+          <div class="detail-booking-mod">
+            <div class="detail-booking-info-box">
+              <ul class="detail-booking-info" style="margin: 0; padding: 0;">
+                <li>
+                  <label>
+                    <span class>选择套餐</span>
+                  </label>
+                  <div class="right">
+                    <div class="choose-wrap">
+                      <a
+                        href="javascript:;"
+                        :class="variant == data ? data.status ? 'focus' : null : data.status ? null : 'disable' "
+                        v-for="data in data.variant"
+                        :key="data.id"
+                        @click="handleVariant(data)"
+                      >
+                        {{data.name}}
+                        <i v-if="variant==data" />
+                      </a>
                     </div>
                   </div>
-                </div>
-              </li>
-              <li>
-                <label>
-                  <span class>人数</span>
-                </label>
-                <div class="right">
-                  <div class="instruction-list">
-                    <div class="instruction-item">
-                      <div class="item-left">
-                        <p style="margin-bottom:0px">
-                          成人
-                          <span class="text-grey" v-if="variant">{{variant.adult_desc}}</span>
-                        </p>
-                        <p v-if="variant" class="price">
-                          单价
-                          <em>${{variant.adult_price}}</em>
-                        </p>
-                      </div>
-                      <div class="item-right">
-                        <a-input-number
-                          v-model="adult_quantity"
-                          :min="0"
-                          :max="9999"
-                          :disabled="variant ? !variant.adult_status : true"
+                </li>
+                <li style="position: relative;">
+                  <label>
+                    <span class>选择使用日期时间</span>
+                  </label>
+                  <div class="right">
+                    <div class="date-wrapper">
+                      <div class="date-box">
+                        <a-date-picker
+                          :value="day"
+                          @change="handleDay"
+                          :disabledDate="disabledDate"
                         />
-                      </div>
-                    </div>
-                    <div class="instruction-item">
-                      <div class="item-left">
-                        <p style="margin-bottom:0px">
-                          儿童
-                          <span class="text-grey" v-if="variant">{{variant.child_desc}}</span>
-                        </p>
-                        <p v-if="variant" class="price">
-                          单价
-                          <em>${{variant.child_price}}</em>
-                        </p>
-                      </div>
-                      <div class="item-right">
-                        <a-input-number
-                          v-model="child_quantity"
-                          :min="0"
-                          :max="9999"
-                          :disabled="variant ? !variant.child_status : true"
-                        />
+                        <a-time-picker :value="time" style="margin-left: 8px" @change="handleTime" />
                       </div>
                     </div>
                   </div>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div class="booking-mod-bottom">
-            <a-button type="primary" class="booking-btn" :disabled="!canbook">立即预订</a-button>
-            <div class="booking-price-wrap booking-price-wrap-nodesc" style="top: 0px;">
-              <p class="selling-price">
-                总价
-                <span>
-                  <dfn>
-                    $
-                    <i class="selling-price-text" style="font-style: inherit;">{{total_price}}</i>
-                  </dfn>
-                </span>
-              </p>
+                </li>
+                <li>
+                  <label>
+                    <span class>人数</span>
+                  </label>
+                  <div class="right">
+                    <div class="instruction-list">
+                      <div class="instruction-item">
+                        <div class="item-left">
+                          <p style="margin-bottom:0px">
+                            成人
+                            <span class="text-grey" v-if="variant">{{variant.adult_desc}}</span>
+                          </p>
+                          <p v-if="variant" class="price">
+                            单价
+                            <em>${{variant.adult_price}}</em>
+                          </p>
+                        </div>
+                        <div class="item-right">
+                          <a-input-number
+                            v-model="adult_quantity"
+                            :min="0"
+                            :max="9999"
+                            :disabled="variant ? !variant.adult_status : true"
+                          />
+                        </div>
+                      </div>
+                      <div class="instruction-item">
+                        <div class="item-left">
+                          <p style="margin-bottom:0px">
+                            儿童
+                            <span class="text-grey" v-if="variant">{{variant.child_desc}}</span>
+                          </p>
+                          <p v-if="variant" class="price">
+                            单价
+                            <em>${{variant.child_price}}</em>
+                          </p>
+                        </div>
+                        <div class="item-right">
+                          <a-input-number
+                            v-model="child_quantity"
+                            :min="0"
+                            :max="9999"
+                            :disabled="variant ? !variant.child_status : true"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="booking-mod-bottom">
+              <a-button type="primary" class="booking-btn" :disabled="!canbook" @click="handleBook">立即预订</a-button>
+              <div class="booking-price-wrap booking-price-wrap-nodesc" style="top: 0px;">
+                <p class="selling-price">
+                  总价
+                  <span>
+                    <dfn>
+                      $
+                      <i class="selling-price-text" style="font-style: inherit;">{{total_price}}</i>
+                    </dfn>
+                  </span>
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <div class="detail_main_wrap" v-html="data.content"></div>
     </div>
-    <div class="detail_main_wrap" v-html="data.content"></div>
-  </div>
+  </a-spin>
 </template>
 
 <script>
 import { getFrontProduct } from "@/api/product";
+import { checkout } from "@/api/order";
 import moment from "moment";
 
 export default {
@@ -158,8 +170,8 @@ export default {
         gallery: []
       },
       variant: null,
-      day: moment(new Date(), 'YYYY-MM-DD'),
-      time: moment('12:00:00', 'HH:mm:ss'),
+      day: moment(new Date(), "YYYY-MM-DD"),
+      time: moment("12:00:00", "HH:mm:ss"),
       adult_quantity: 0,
       adult_price: 0.0,
       child_quantity: 0,
@@ -203,21 +215,41 @@ export default {
     },
     handleDay(value) {
       if (value) {
-        this.day = value
+        this.day = value;
       } else {
-        this.day = moment()
+        this.day = moment();
       }
     },
     handleTime(value) {
       if (value) {
-        this.time = value
+        this.time = value;
       } else {
-        this.time = moment('12:00:00', 'HH:mm:ss')
+        this.time = moment("12:00:00", "HH:mm:ss");
       }
     },
-    handleBook() {},
+    handleBook() {
+      this.spinning = true
+      checkout({
+        day: this.day.format("YYYY-MM-DD"),
+        time: this.time.format("HH:mm:ss"),
+        adult_quantity: this.adult_quantity,
+        adult_price: this.adult_price,
+        child_quantity: this.child_quantity,
+        child_price: this.child_price,
+        total_price: this.total_price,
+        variant_id: this.variant.id
+      }).then(res => {
+        console.log(res)
+      }).finally(() => {
+        this.spinning = false
+      });
+    },
     handleCanBook() {
-      if ((this.adult_quantity > 0 || this.child_quantity > 0) && this.day && this.time) {
+      if (
+        (this.adult_quantity > 0 || this.child_quantity > 0) &&
+        this.day &&
+        this.time
+      ) {
         this.canbook = true;
       } else {
         this.canbook = false;
@@ -231,17 +263,17 @@ export default {
       return Math.round(num * 100) / 100;
     },
     disabledDate(value) {
-      return value.diff(moment(new Date()).format('YYYY-MM-DD')) <= 0
+      return value.diff(moment(new Date()).format("YYYY-MM-DD")) <= 0;
     }
   },
   watch: {
     adult_quantity(value) {
       this.adult_price = this.toDecimal(this.variant.adult_price * value);
-      this.handleCanBook()
+      this.handleCanBook();
     },
     child_quantity(value) {
       this.child_price = this.toDecimal(this.variant.child_price * value);
-      this.handleCanBook()
+      this.handleCanBook();
     },
     adult_price(value) {
       this.total_price = value + this.child_price;
@@ -250,10 +282,10 @@ export default {
       this.total_price = this.adult_price + value;
     },
     day(value) {
-      this.handleCanBook()
+      this.handleCanBook();
     },
     time(value) {
-      this.handleCanBook()
+      this.handleCanBook();
     }
   }
 };

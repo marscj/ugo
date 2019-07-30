@@ -27,6 +27,7 @@ class OrderView(CustomModelViewSet):
 
     @action(detail=False, methods=['post'])
     def checkout(self, request):
+        print(request.data)
         checkout = self.get_serializer(data=request.data)
         if checkout.is_valid(raise_exception=True):
             info = checkout.get_info(checkout.data)
@@ -42,6 +43,4 @@ class OrderView(CustomModelViewSet):
                 'remark': checkout.data['remark'],
                 'variant': info['variant'].__str__(),
                 'variant_id': checkout.data['variant_id'],
-                'customer': info['customer'].__str__(),
-                'customer_id': checkout.data['customer_id']
             }})

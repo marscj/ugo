@@ -45,10 +45,6 @@ class OrderSerializer(serializers.ModelSerializer):
 
     variant_id = serializers.IntegerField()
 
-    customer_id = serializers.IntegerField()
-
-    operator_id = serializers.IntegerField(required=False, allow_null=True)
-
     class Meta:
         model = Order
         fields = '__all__'
@@ -57,10 +53,9 @@ class OrderSerializer(serializers.ModelSerializer):
         adult_quantity = validated_data.get('adult_quantity', 0)
         child_quantity = validated_data.get('child_quantity', 0)
         variant_id = validated_data.get('variant_id')
-        customer_id = validated_data.get('customer_id')
 
         variant = ProductVariant.objects.get(pk=variant_id)
-        customer = CustomUser.objects.get(pk=customer_id)
+        customer = self.context['request'].user
 
         return {
             'adult_price': adult_quantity * variant.adult_price[customer.price_level - 1],
@@ -72,31 +67,18 @@ class OrderSerializer(serializers.ModelSerializer):
     def validate(self, data):
         adult_quantity = data.get('adult_quantity', 0)
         child_quantity = data.get('child_quantity', 0)
-
-        customer_id = data.get('customer_id')
         variant_id = data.get('variant_id')
-        operator_id = data.get('operator_id')
+        customer = self.context['request'].user
 
         if adult_quantity == 0 and child_quantity == 0:
             raise serializers.ValidationError({'adult_quantity': '成人数量或者儿童数量至少为1', 'child_quantity': '成人数量或者儿童数量至少为1'})
-
+        
         try:
             variant = ProductVariant.objects.get(pk=variant_id)
             if not variant.status or not variant.product.status:
                 raise serializers.ValidationError({'variant': '此产品已下架'})
         except ProductVariant.DoesNotExist:
             raise serializers.ValidationError({'variant': '产品不存在'})
-
-        try:
-            customer = CustomUser.objects.get(pk=customer_id)
-        except CustomUser.DoesNotExist:
-            raise serializers.ValidationError({'customer': '用户不存在'})
-
-        if operator_id is not None:
-            try:
-                CustomUser.objects.get(pk=operator_id)
-            except CustomUser.DoesNotExist:
-                raise serializers.ValidationError({'operator': '操作员不存在'})
 
         info = self.get_info(data)
         adult_price = info['adult_price']

@@ -1,6 +1,14 @@
 import api from './index'
 import { axios } from '@/utils/request'
 
+export function checkout (data) {
+  return axios({
+    url: api.checkout,
+    method: 'post',
+    data: data
+  })
+}
+
 export function getOrderList (parameter) {
   return axios({
     url: api.order,
