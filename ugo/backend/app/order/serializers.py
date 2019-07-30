@@ -61,7 +61,6 @@ class OrderSerializer(serializers.ModelSerializer):
             'adult_price': adult_quantity * variant.adult_price[customer.price_level - 1],
             'child_price': child_quantity * variant.child_price[customer.price_level - 1],
             'variant': variant,
-            'customer': customer
         }
 
     def validate(self, data):
@@ -93,9 +92,9 @@ class OrderSerializer(serializers.ModelSerializer):
         info = self.get_info(validated_data)
         adult_price = info['adult_price']
         child_price = info['child_price']
-        customer = info['customer']
+        customer = self.context['request'].user
 
         customer.balance -= adult_price + child_price
         customer.save()
 
-        return Order.objects.create(**validated_data, adult_price=adult_price, child_price=child_price)
+        return Order.objects.create(**validated_data, adult_price=adult_price, child_price=child_price, customer=customer)

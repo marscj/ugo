@@ -159,6 +159,7 @@
 <script>
 import { getFrontProduct } from "@/api/product";
 import { checkout } from "@/api/order";
+import { checkError } from "@/views/utils/error";
 import moment from "moment";
 
 export default {
@@ -240,9 +241,29 @@ export default {
         variant_id: this.variant.id
       }).then(res => {
         console.log(res)
+      }).catch((error) => {
+        this.checkError(error)
       }).finally(() => {
         this.spinning = false
       });
+    },
+    checkError(error) {
+      var errors = checkError(
+        error,
+        "customer",
+        "adult_quantity",
+        "child_quantity",
+        "variant"
+      );
+
+      for (var key in errors) {
+        if (errors[key]) {
+          this.$notification["error"]({
+            message: errors[key],
+            duration: 4
+          });
+        }
+      }
     },
     handleCanBook() {
       if (
