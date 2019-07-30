@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from middleware.viewsets import CustomModelViewSet
 from .models import Category, Product, ProductVariant
-from .serializers import ProductSerializer, ProductDetailSerializer, ProductVariantSerializer
+from .serializers import (ProductListSerializer, ProductDetailSerializer, ProductDetailReadOnlySerializer, ProductVariantSerializer, ProductVariantReadOnlySerializer)
 
 class ProductView(CustomModelViewSet):
     queryset = Product.objects.all()
@@ -17,11 +17,29 @@ class ProductView(CustomModelViewSet):
 
     def get_serializer_class(self):
         if self.action == 'list':
-            return ProductSerializer
+            return ProductListSerializer
         else:
             return ProductDetailSerializer
+
+class ProductReadOnlyView(CustomModelViewSet):
+    queryset = Product.objects.all()
+    permission_classes = [AllowAny]
+
+    filterset_fields = ('category', 'status')
+    search_fields = ('title', )
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return ProductListSerializer
+        else:
+            return ProductDetailReadOnlySerializer
  
-class ProductVariantView(CustomModelViewSet):
+class ProductVariantView(CustomModelViewSet): 
     serializer_class = ProductVariantSerializer
+    queryset = ProductVariant.objects.all()
+    permission_classes = [AllowAny]
+
+class ProductVariantReadOnlyView(CustomModelViewSet): 
+    serializer_class = ProductVariantReadOnlySerializer
     queryset = ProductVariant.objects.all()
     permission_classes = [AllowAny]

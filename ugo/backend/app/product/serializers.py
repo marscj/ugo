@@ -71,21 +71,67 @@ class ProductVariantSerializer(serializers.ModelSerializer):
 
         return super().validate(data)
 
-class ProductSerializer(serializers.ModelSerializer):
+class ProductVariantReadOnlySerializer(serializers.ModelSerializer):
 
-    id = serializers.IntegerField(read_only=True)
+    status = serializers.ReadOnlyField()
 
-    status = serializers.BooleanField(read_only=True)
+    variantID = serializers.ReadOnlyField()
 
-    category = serializers.IntegerField(read_only=True)
+    name = serializers.ReadOnlyField()
 
-    productID = serializers.CharField(read_only=True)
+    sku = serializers.ReadOnlyField()
 
-    title = serializers.CharField(read_only=True)
+    adult_status = serializers.ReadOnlyField()
 
-    subtitle = serializers.CharField(read_only=True)
+    adult_desc = serializers.ReadOnlyField()
 
-    location = serializers.CharField(read_only=True)
+    adult_quantity = serializers.ReadOnlyField()
+
+    adult_price = serializers.SerializerMethodField('user_adult_price')
+
+    child_status = serializers.ReadOnlyField()
+
+    child_desc = serializers.ReadOnlyField()
+
+    child_quantity = serializers.ReadOnlyField()
+
+    child_price = serializers.SerializerMethodField('user_child_price')
+
+    product = serializers.StringRelatedField(read_only=True)
+
+    category = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ProductVariant
+        fields = '__all__'
+
+    def get_user_price_lelve(self):
+        return self.context['request'].user.price_level - 1
+
+    def user_adult_price(self, obj):
+        return obj.adult_price[self.get_user_price_lelve()]
+
+    def user_child_price(self, obj):
+        return obj.child_price[self.get_user_price_lelve()]
+
+    def get_category(self, obj):
+        return obj.product.category
+
+class ProductListSerializer(serializers.ModelSerializer):
+
+    id = serializers.ReadOnlyField()
+
+    status = serializers.ReadOnlyField()
+
+    category = serializers.ReadOnlyField()
+
+    productID = serializers.ReadOnlyField()
+
+    title = serializers.ReadOnlyField()
+
+    subtitle = serializers.ReadOnlyField()
+
+    location = serializers.ReadOnlyField()
 
     photo = ProductImageSerializer(read_only=True)
 
@@ -152,3 +198,60 @@ class ProductDetailSerializer(serializers.ModelSerializer):
         super().update(instance, validated_data)
 
         return instance
+
+class ProductDetailReadOnlySerializer(serializers.ModelSerializer):
+
+    status = serializers.ReadOnlyField()
+
+    productID = serializers.ReadOnlyField()
+
+    title = serializers.ReadOnlyField()
+
+    subtitle = serializers.ReadOnlyField()
+
+    special = serializers.ReadOnlyField()
+
+    location = serializers.ReadOnlyField()
+
+    content = serializers.ReadOnlyField()
+
+    photo = ProductImageSerializer(read_only=True)
+
+    photo_id = serializers.ReadOnlyField()
+
+    gallery = ProductImageSerializer(read_only=True, many=True)
+
+    variant = ProductVariantReadOnlySerializer(read_only=True, many=True)
+
+    class Meta:
+        model = Product
+        fields = '__all__'
+
+    def create(self, validated_data):
+        gallery = validated_data.pop('gallery_id', None)
+        photo = validated_data.pop('photo_id', None)
+        product = Product.objects.create(**validated_data, photo_id=photo)
+        
+        if gallery is not None:
+            for data in gallery:
+                product.gallery.add(data)
+
+        return product
+
+    def update(self, instance, validated_data):
+        gallery = validated_data.pop('gallery_id', None)
+        photo = validated_data.pop('photo_id', None)
+
+        for data in instance.gallery.all():
+            instance.gallery.remove(data)
+
+        if gallery is not None:
+            for data in gallery:
+                instance.gallery.add(data)
+
+        instance.photo_id = photo
+
+        super().update(instance, validated_data)
+
+        return instance
+
