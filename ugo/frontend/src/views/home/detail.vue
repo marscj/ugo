@@ -13,7 +13,7 @@
           </a-carousel>
         </div>
         <div class="detail_calendar">
-          <a-calendar :fullscreen="false" />
+          <a-calendar :value="day" :fullscreen="false" @change="handleDay" :disabledDate="disabledDate" />
         </div>
       </div>
       <div class="detail_main_right">
@@ -46,8 +46,14 @@
                   <span class>选择套餐</span>
                 </label>
                 <div class="right">
-                  <div class="choose-wrap">                         
-                    <a href="javascript:;" :class="variant == data ? data.status ? 'focus' : null : data.status ? null : 'disable' " v-for="data in data.variant" :key="data.id" @click="handleVariant(data)">
+                  <div class="choose-wrap">
+                    <a
+                      href="javascript:;"
+                      :class="variant == data ? data.status ? 'focus' : null : data.status ? null : 'disable' "
+                      v-for="data in data.variant"
+                      :key="data.id"
+                      @click="handleVariant(data)"
+                    >
                       {{data.name}}
                       <i v-if="variant==data" />
                     </a>
@@ -61,10 +67,8 @@
                 <div class="right">
                   <div class="date-wrapper">
                     <div class="date-box">
-                      <a-date-picker />
-                      <a-time-picker style="margin-left: 8px">
-                        <a-button slot="addon" size="small" type="primary">Ok</a-button>
-                      </a-time-picker>
+                      <a-date-picker :value="day" @change="handleDay" :disabledDate="disabledDate"/>
+                      <a-time-picker :value="time" style="margin-left: 8px" @change="handleTime" />
                     </div>
                   </div>
                 </div>
@@ -85,26 +89,14 @@
                           单价
                           <em>${{variant.adult_price}}</em>
                         </p>
-                        
                       </div>
                       <div class="item-right">
-                        <span class="num-box">
-                          <a
-                            class="copies-cut"
-                            href="javascript:;"
-                          ></a>
-                          <input
-                            type="text"
-                            min="1"
-                            max="9999"
-                            value="10"
-                            class="copies-num"
-                          />
-                          <a
-                            class="copies-add"
-                            href="javascript:;"
-                          ></a>
-                        </span>
+                        <a-input-number
+                          v-model="adult_quantity"
+                          :min="0"
+                          :max="9999"
+                          :disabled="variant ? !variant.adult_status : true"
+                        />
                       </div>
                     </div>
                     <div class="instruction-item">
@@ -115,27 +107,16 @@
                         </p>
                         <p v-if="variant" class="price">
                           单价
-                          <em>${{variant.adult_price}}</em>
+                          <em>${{variant.child_price}}</em>
                         </p>
                       </div>
                       <div class="item-right">
-                        <span class="num-box">
-                          <a
-                            class="copies-cut disable"
-                            href="javascript:;"
-                          ></a>
-                          <input
-                            type="text"
-                            min="1"
-                            max="9999"
-                            value="0"
-                            class="copies-num"
-                          />
-                          <a
-                            class="copies-add"
-                            href="javascript:;"
-                          ></a>
-                        </span>
+                        <a-input-number
+                          v-model="child_quantity"
+                          :min="0"
+                          :max="9999"
+                          :disabled="variant ? !variant.child_status : true"
+                        />
                       </div>
                     </div>
                   </div>
@@ -144,14 +125,14 @@
             </ul>
           </div>
           <div class="booking-mod-bottom">
-            <a class="booking-btn">立即预订</a>
+            <a-button type="primary" class="booking-btn" :disabled="!canbook">立即预订</a-button>
             <div class="booking-price-wrap booking-price-wrap-nodesc" style="top: 0px;">
               <p class="selling-price">
                 总价
                 <span>
                   <dfn>
-                    ¥
-                    <i class="selling-price-text" style="font-style: inherit;">1050</i>
+                    $
+                    <i class="selling-price-text" style="font-style: inherit;">{{total_price}}</i>
                   </dfn>
                 </span>
               </p>
@@ -177,19 +158,20 @@ export default {
         gallery: []
       },
       variant: null,
-      oder: {
-        day: undefined,
-        time: undefined,
-        adult_quantity: 0,
-        adult_price: 0.0,
-        child_quantity: 0,
-        child_price: 0.0
-      }
+      day: moment(new Date(), 'YYYY-MM-DD'),
+      time: moment('12:00:00', 'HH:mm:ss'),
+      adult_quantity: 0,
+      adult_price: 0.0,
+      child_quantity: 0,
+      child_price: 0.0,
+      total_price: 0.0,
+      canbook: false
     };
   },
   mounted() {
     const id = this.$route.params && this.$route.params.id;
     this.fetch(id);
+    console.log(this.day, this.time)
   },
   methods: {
     getImgUrl(i) {
@@ -214,9 +196,65 @@ export default {
         });
     },
     handleVariant(data) {
-      if(data.status) {
-        this.variant = data
+      if (data.status) {
+        this.variant = data;
+        this.adult_quantity = 0;
+        this.child_quantity = 0;
       }
+    },
+    handleDay(value) {
+      if (value) {
+        this.day = value
+      } else {
+        this.day = moment()
+      }
+    },
+    handleTime(value) {
+      if (value) {
+        this.time = value
+      } else {
+        this.time = moment('12:00:00', 'HH:mm:ss')
+      }
+    },
+    handleBook() {},
+    handleCanBook() {
+      if ((this.adult_quantity > 0 || this.child_quantity > 0) && this.day && this.time) {
+        this.canbook = true;
+      } else {
+        this.canbook = false;
+      }
+    },
+    toDecimal(num) {
+      let tar = parseFloat(num);
+      if (isNaN(tar)) {
+        return;
+      }
+      return Math.round(num * 100) / 100;
+    },
+    disabledDate(value) {
+      return value.diff(moment(new Date()).format('YYYY-MM-DD')) <= 0
+    }
+  },
+  watch: {
+    adult_quantity(value) {
+      this.adult_price = this.toDecimal(this.variant.adult_price * value);
+      this.handleCanBook()
+    },
+    child_quantity(value) {
+      this.child_price = this.toDecimal(this.variant.child_price * value);
+      this.handleCanBook()
+    },
+    adult_price(value) {
+      this.total_price = value + this.child_price;
+    },
+    child_price(value) {
+      this.total_price = this.adult_price + value;
+    },
+    day(value) {
+      this.handleCanBook()
+    },
+    time(value) {
+      this.handleCanBook()
     }
   }
 };
@@ -511,80 +549,6 @@ export default {
   float: right;
 }
 
-.detail-booking-mod .detail-booking-info .instruction-item .num-box {
-  display: inline-block;
-  border: 1px solid #2680ff;
-  height: 26px;
-  overflow: hidden;
-  vertical-align: middle;
-  box-sizing: border-box;
-  margin-bottom: 4px;
-}
-
-.detail-booking-mod .detail-booking-info .instruction-item .num-box a:hover {
-  background-color: #2680ff;
-}
-
-.detail-booking-mod .detail-booking-info .instruction-item .num-box a.disable {
-  background-color: #f3f3f3;
-  cursor: default;
-}
-
-.detail-booking-mod .detail-booking-info .instruction-item .num-box .copies-add,
-.detail-booking-mod
-  .detail-booking-info
-  .instruction-item
-  .num-box
-  .copies-cut {
-  background: url(//pages.c-ctrip.com/activity/online/detail_icon_all_new.png)
-    no-repeat #2680ff;
-  display: inline-block;
-  height: 26px;
-  width: 26px;
-  vertical-align: top;
-}
-
-.detail-booking-mod
-  .detail-booking-info
-  .instruction-item
-  .num-box
-  .copies-cut {
-  background-position: 6px -289px;
-}
-
-.detail-booking-mod
-  .detail-booking-info
-  .instruction-item
-  .num-box
-  .copies-add {
-  background-position: 8px -319px;
-}
-
-.detail-booking-mod
-  .detail-booking-info
-  .instruction-item
-  .num-box
-  .copies-num {
-  color: #000;
-  height: 23px;
-  width: 48px;
-  text-align: center;
-  text-indent: 0;
-  vertical-align: middle;
-  border: none;
-  outline: 0;
-  font-size: 12px;
-}
-
-.detail-booking-mod .detail-booking-info .instruction-item .num-box.disable {
-  border-color: #dfe2e4;
-}
-
-.detail-booking-mod .detail-booking-info .instruction-item .num-box.disable a {
-  background-color: #dfe2e4;
-  cursor: default;
-}
-
 .detail-booking-mod .booking-mod-bottom {
   padding-top: 20px;
   border-top: 1px dashed #d1d1d1;
@@ -593,22 +557,12 @@ export default {
 .booking-btn {
   width: 178px;
   height: 50px;
-  background: linear-gradient(90deg, #ffa900 0, #ff7201 100%);
-  background: -ms-linear-gradient(90deg, #ffa900 0, #ff7201 100%);
-  filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr="#FFA900", endColorstr="#FFA900", gradientType="1");
-  color: #fff;
   font-size: 26px;
   line-height: 50px;
   text-align: center;
   border-radius: 5px;
   cursor: pointer;
   float: right;
-}
-
-.booking-btn:hover {
-  background: #f2590d;
-  border-color: #d54100;
-  color: #fff;
 }
 
 .booking-price-wrap {
