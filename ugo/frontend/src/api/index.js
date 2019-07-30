@@ -8,10 +8,13 @@ const api = {
   role: '/role/',
   permission: '/permission/',
 
-  product: '/system_product/',
-  variant: '/system_variant/',
-  order: '/order/',
+  system_product: '/system_product/',
+  system_variant: '/system_variant/',
 
-  source: '/source/'
+  product: '/product/',
+  variant: '/variant/',
+
+  order: '/order/',
+  source: '/source/',
 }
 export default api

@@ -217,8 +217,6 @@ class ProductDetailReadOnlySerializer(serializers.ModelSerializer):
 
     photo = ProductImageSerializer(read_only=True)
 
-    photo_id = serializers.ReadOnlyField()
-
     gallery = ProductImageSerializer(read_only=True, many=True)
 
     variant = ProductVariantReadOnlySerializer(read_only=True, many=True)
@@ -226,32 +224,4 @@ class ProductDetailReadOnlySerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = '__all__'
-
-    def create(self, validated_data):
-        gallery = validated_data.pop('gallery_id', None)
-        photo = validated_data.pop('photo_id', None)
-        product = Product.objects.create(**validated_data, photo_id=photo)
-        
-        if gallery is not None:
-            for data in gallery:
-                product.gallery.add(data)
-
-        return product
-
-    def update(self, instance, validated_data):
-        gallery = validated_data.pop('gallery_id', None)
-        photo = validated_data.pop('photo_id', None)
-
-        for data in instance.gallery.all():
-            instance.gallery.remove(data)
-
-        if gallery is not None:
-            for data in gallery:
-                instance.gallery.add(data)
-
-        instance.photo_id = photo
-
-        super().update(instance, validated_data)
-
-        return instance
 

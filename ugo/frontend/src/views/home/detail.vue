@@ -46,8 +46,8 @@
                   <span class>选择套餐</span>
                 </label>
                 <div class="right">
-                  <div class="choose-wrap">
-                    <a href="javascript:;" :class="variant == data ? 'focus disable' : data.status ? null : 'disable'" v-for="data in data.variant" :key="data.id" @click="handleVariant(data)">
+                  <div class="choose-wrap">                         
+                    <a href="javascript:;" :class="variant == data ? data.status ? 'focus' : null : data.status ? null : 'disable' " v-for="data in data.variant" :key="data.id" @click="handleVariant(data)">
                       {{data.name}}
                       <i v-if="variant==data" />
                     </a>
@@ -81,10 +81,11 @@
                           成人
                           <span class="text-grey" v-if="variant">{{variant.adult_desc}}</span>
                         </p>
-                        <p class="price">
+                        <p v-if="variant" class="price">
                           单价
-                          <em>¥975</em>
+                          <em>${{variant.adult_price}}</em>
                         </p>
+                        
                       </div>
                       <div class="item-right">
                         <span class="num-box">
@@ -112,9 +113,9 @@
                           儿童
                           <span class="text-grey" v-if="variant">{{variant.child_desc}}</span>
                         </p>
-                        <p class="price">
+                        <p v-if="variant" class="price">
                           单价
-                          <em>¥528</em>
+                          <em>${{variant.adult_price}}</em>
                         </p>
                       </div>
                       <div class="item-right">
@@ -164,7 +165,7 @@
 </template>
 
 <script>
-import { getProduct } from "@/api/product";
+import { getFrontProduct } from "@/api/product";
 import moment from "moment";
 
 export default {
@@ -176,6 +177,14 @@ export default {
         gallery: []
       },
       variant: null,
+      oder: {
+        day: undefined,
+        time: undefined,
+        adult_quantity: 0,
+        adult_price: 0.0,
+        child_quantity: 0,
+        child_price: 0.0
+      }
     };
   },
   mounted() {
@@ -191,7 +200,7 @@ export default {
     },
     fetch(id) {
       this.spinning = true;
-      getProduct(id)
+      getFrontProduct(id)
         .then(res => {
           const { result } = res;
           this.data = result;
@@ -205,7 +214,9 @@ export default {
         });
     },
     handleVariant(data) {
-      this.variant = data
+      if(data.status) {
+        this.variant = data
+      }
     }
   }
 };

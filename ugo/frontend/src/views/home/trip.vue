@@ -5,7 +5,7 @@
 <script>
 import ListView from './ListView'
 import PageView from '@/views/layouts/PageView'
-import { getProductList } from '@/api/product'
+import { getFrontProductList } from '@/api/product'
 
 export default {
   components: {
@@ -26,7 +26,7 @@ export default {
   methods: {
     fetch(search) {
       this.loading = true
-      getProductList({category: 3, search: search, sorter:'-id'}).then((res) => {
+      getFrontProductList({category: 3, search: search, sorter:'-id'}).then((res) => {
         const { result } = res
         this.data = result
       }).finally(() => {
