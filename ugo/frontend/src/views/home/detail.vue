@@ -163,7 +163,6 @@ import { checkError } from "@/views/utils/error";
 import moment from "moment";
 
 export default {
-  props: {},
   data() {
     return {
       spinning: false,
@@ -240,7 +239,8 @@ export default {
         total_price: this.total_price,
         variant_id: this.variant.id
       }).then(res => {
-        console.log(res)
+        const { result } = res
+        this.$router.push({name: 'Checkout', query: result})
       }).catch((error) => {
         this.checkError(error)
       }).finally(() => {

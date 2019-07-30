@@ -356,6 +356,13 @@ export const constantRouterMap = [
             component: () => import('@/views/home/detail'),
             meta: { title: '伴手礼', keepAlive: true },
             hidden: true
+          },
+          {
+            path: 'checkout',
+            name: 'Checkout',
+            component: () => import('@/views/home/checkout/checkout'),
+            meta: { title: '订单信息', keepAlive: true, hiddenHeaderContent: true },
+            hidden: true
           }
         ]
       },
