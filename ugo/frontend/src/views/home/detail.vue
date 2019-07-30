@@ -171,7 +171,6 @@ export default {
   mounted() {
     const id = this.$route.params && this.$route.params.id;
     this.fetch(id);
-    console.log(this.day, this.time)
   },
   methods: {
     getImgUrl(i) {
