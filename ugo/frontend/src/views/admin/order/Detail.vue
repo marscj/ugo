@@ -31,19 +31,14 @@
             <a-form-item label="ConfirmID">
               <a-input v-model="form.confirmID"></a-input>
             </a-form-item>
-
             <a-form-item label="Remark">
               <a-textarea v-model="form.remark"></a-textarea>
             </a-form-item>
           </a-card>
-          <a-row style="margin-top:20px">
-            <a-col span="2">
-              <a-button type="primary" html-type="submit" @click="handleSubmit">Submit</a-button>
-            </a-col>
-            <a-col span="2">
-              <a-button @click="handleGoBack">Return</a-button>
-            </a-col>
-          </a-row>
+          <div style="position:relative; margin-top:20px">
+            <a-button type="primary" html-type="submit" @click="handleSubmit" style="margin-right:20px">Submit</a-button>
+            <a-button @click="handleGoBack">Return</a-button>
+          </div>
         </a-col>
         <a-col :span="8">
           <a-card>

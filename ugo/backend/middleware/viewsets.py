@@ -32,12 +32,12 @@ class ModelViewSetMixin(object):
         return response
 
     def update(self, request, *args, **kwargs):
-        print(request.data)
+        # print(request.data)
         response = super().update(request, *args, **kwargs)
         response.data = {
             'result': response.data
         }
-        print(response.data)
+        # print(response.data)
         return response
 
     def destroy(self, request, *args, **kwargs):

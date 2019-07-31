@@ -51,11 +51,9 @@ class CustomUser(AbstractBaseUser):
         self.email = self.__class__.objects.normalize_email(self.email)
 
 class UserProfile(models.Model):
-    
     userId = models.IntegerField()
-
     class Meta:
-        db_table = 'user_profile'
+        db_table = 'user_profile' 
 
 class Role(models.Model):
     name = models.CharField(blank=True, null=True, max_length=32)

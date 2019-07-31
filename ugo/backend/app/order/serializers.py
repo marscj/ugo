@@ -98,3 +98,8 @@ class OrderSerializer(serializers.ModelSerializer):
         customer.save()
 
         return Order.objects.create(**validated_data, adult_price=adult_price, child_price=child_price, customer=customer)
+
+    def update(self, instance, validated_data):
+        if instance.operator is None:
+            instance.operator = self.context['request'].user
+        return super().update(instance, validated_data)
