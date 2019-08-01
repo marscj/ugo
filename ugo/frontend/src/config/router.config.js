@@ -370,14 +370,14 @@ export const constantRouterMap = [
   },
   {
     path: '/user',
-    component: UserLayout,
+    component: () => import('@/views/layouts/UserLayout'),
     redirect: '/user/login',
     hidden: true,
     children: [
       {
         path: 'login',
-        name: 'login',
-        component: () => import('@/views/admin/user/Login')
+        name: 'UserLogin',
+        component: () => import('@/views/home/user/Login')
       },
     ]
   },
@@ -389,8 +389,8 @@ export const constantRouterMap = [
     children: [
       {
         path: 'login',
-        name: 'loginadmin',
-        component: () => import('@/views/home/user/Login')
+        name: 'AdminLogin',
+        component: () => import('@/views/admin/user/Login')
       }
     ]
   },

@@ -5,55 +5,81 @@ import store from './store'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import notification from 'ant-design-vue/es/notification'
-import { setDocumentTitle, domTitle } from '@/utils/domUtil'
-import { ACCESS_TOKEN } from '@/store/mutation-types'
+import {
+  setDocumentTitle,
+  domTitle
+} from '@/utils/domUtil'
+import {
+  ACCESS_TOKEN
+} from '@/store/mutation-types'
 
-NProgress.configure({ showSpinner: false }) // NProgress Configuration
+NProgress.configure({
+  showSpinner: false
+}) // NProgress Configuration
 
-const whiteList = ['login', 'index', 'loginadmin', 'index', 'Home', 'HomePage', 'Ticket', 'TicketDetail'] // no redirect whitelist
+const whiteList = ['index', 'UserLogin', 'AdminLogin'] // no redirect whitelist
 
 router.beforeEach((to, from, next) => {
   NProgress.start() // start progress bar
   to.meta && (typeof to.meta.title !== 'undefined' && setDocumentTitle(`${to.meta.title} - ${domTitle}`))
   if (Vue.ls.get(ACCESS_TOKEN)) {
     /* has token */
+    console.log('1111111', to.path)
     if (to.path === '/admin/login') {
-      next({ path: '/admin/dashboard/workplace' })
+      console.log('222222', to.path)
+      next({
+        path: '/admin/dashboard/workplace'
+      })
       NProgress.done()
     } else if (to.path === '/user/login') {
-      next({ path: '/' })
+      next({
+        path: '/'
+      })
       NProgress.done()
-    }else {
+    } else {
+      console.log('33333', to.path)
       if (store.getters.roles.length === 0) {
         store.dispatch('GetInfo')
-          .then(res => { 
+          .then(res => {
             const roles = res.result && res.result.role
-            store.dispatch('GenerateRoutes', { roles }).then(() => {
+            store.dispatch('GenerateRoutes', {
+              roles
+            }).then(() => {
               // 根据roles权限生成可访问的路由表
               // 动态添加可访问路由表
               router.addRoutes(store.getters.addRouters)
               const redirect = decodeURIComponent(from.query.redirect || to.path)
               if (to.path === redirect) {
                 // hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record
-                next({ ...to, replace: true })
+                next({
+                  ...to,
+                  replace: true
+                })
               } else {
                 // 跳转到目的路由
-                next({ path: redirect })
+                next({
+                  path: redirect
+                })
               }
             })
           })
-          .catch(() => {
-            notification.error({
-              message: 'error',
-              description: "You don't have permission to access."
-            })
-            store.dispatch('Logout').then(() => {
-              if (to.path.includes('/admin')){
-                next({ path: '/admin/login', query: { redirect: to.fullPath } })
-              } else {
-                next({ path: '/user/login', query: { redirect: to.fullPath } })
-              }
-            })
+          .catch((error) => {
+            if (to.path.includes('/admin')) {
+              notification.error({
+                message: 'error',
+                description: "You don't have permission to access."
+              })
+              store.dispatch('Logout').then(() => {
+                next({
+                  path: '/admin/login',
+                  query: {
+                    redirect: to.fullPath
+                  }
+                })
+              })
+            } else {
+              next()
+            }
           })
       } else {
         next()
@@ -64,12 +90,22 @@ router.beforeEach((to, from, next) => {
       // 在免登录白名单，直接进入
       next()
     } else {
-      if (to.path.includes('/admin')){
-        next({ path: '/admin/login', query: { redirect: to.fullPath } })
+      if (to.path.includes('/admin')) {
+        next({
+          path: '/admin/login',
+          query: {
+            redirect: to.fullPath
+          }
+        })
       } else {
-        next({ path: '/user/login', query: { redirect: to.fullPath } })
+        next({
+          path: '/user/login',
+          query: {
+            redirect: to.fullPath
+          }
+        })
       }
-      
+
       NProgress.done() // if current page is login will not trigger afterEach hook, so manually handle it
     }
   }
