@@ -1,7 +1,7 @@
 <template>
   <div>
-    <a-form :form="form" style="max-width: 500px; margin: 40px auto 0;" >
-      <a-form-item 
+    <a-form :form="form" style="max-width: 500px; margin: 40px auto 0;">
+      <a-form-item
         label="产品名称"
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
@@ -86,14 +86,17 @@ export default {
   methods: {
     nextStep() {
       this.loading = true;
-      createOrder(this.form).then((res) => {
-        const { result } = res
-        this.$emit('nextStep')
-      }).catch((error) => {
-        this.checkError(error)
-      }).finally(() => {
-        this.loading = false
-      })
+      createOrder(this.form)
+        .then(res => {
+          const { result } = res;
+          this.$emit("nextStep");
+        })
+        .catch(error => {
+          this.checkError(error);
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     },
     checkError(error) {
       var errors = checkError(
@@ -132,6 +135,4 @@ export default {
     line-height: 22px;
   }
 }
-
-
 </style>

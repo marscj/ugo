@@ -32,25 +32,8 @@
       size="default"
       :columns="columns"
       :data="loadData"
+      bordered
     >
-      <div
-        slot="expandedRowRender"
-        slot-scope="record"
-        style="margin: 0">
-        <a-row
-          :gutter="24"
-          :style="{ marginBottom: '12px' }">
-          <a-col :span="12" v-for="(role, index) in record.role.permissions" :key="index" :style="{ marginBottom: '12px' }">
-            <a-col :lg="4" :md="24">
-              <span>{{ role.permissionName }}：</span>
-            </a-col>
-            <a-col :lg="20" :md="24" v-if="role.actionEntitySet.length > 0">
-              <a-tag color="cyan" v-for="(action, k) in role.actionEntitySet" :key="k">{{ action.describe }}</a-tag>
-            </a-col>
-            <a-col :span="20" v-else>-</a-col>
-          </a-col>
-        </a-row>
-      </div>
       <span slot="active" slot-scope="text">
         <a-checkbox :checked="text" disabled />
       </span>
@@ -60,22 +43,7 @@
       <span slot="action" slot-scope="text, record">
         <a @click="handleEdit(record)">编辑</a>
         <a-divider type="vertical" />
-        <a-dropdown>
-          <a class="ant-dropdown-link">
-            更多 <a-icon type="down" />
-          </a>
-          <a-menu slot="overlay">
-            <a-menu-item>
-              <a href="javascript:;">详情</a>
-            </a-menu-item>
-            <a-menu-item>
-              <a href="javascript:;">禁用</a>
-            </a-menu-item>
-            <a-menu-item>
-              <a href="javascript:;">删除</a>
-            </a-menu-item>
-          </a-menu>
-        </a-dropdown>
+        <a @click="handleEdit(record)">修改密码</a>
       </span>
     </s-table>
 
@@ -84,8 +52,13 @@
       style="top: 20px;"
       width="90%"
       v-model="visible"
-      @ok="handleOk"
     >
+      <template slot="footer">
+        <a-button key="back" @click="visible=false">Return</a-button>
+        <a-button key="submit" type="primary" :loading="loading" @click="handleOk">
+          Submit
+        </a-button>
+      </template>
       <a-form :form="form">
         <a-form-item
           :labelCol="labelCol"
@@ -108,6 +81,24 @@
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
+          label="Role"
+        >
+          <a-select
+            :value="mdl.role_id"
+            :defaultActiveFirstOption="false"
+            :showArrow="false"
+            :filterOption="false"
+            allowClear
+            @change="handleRoleChange"
+            notFoundContent="Not Found."
+          >
+            <a-select-option v-for="d in roleOption" :key="d.id" :value="d.id">{{d.name}}</a-select-option>
+          </a-select>
+        </a-form-item>
+
+        <a-form-item
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
           label="Status"
         >
           <a-checkbox @change="handleChangeStatus" :checked="mdl.is_active"></a-checkbox>
@@ -120,25 +111,6 @@
         >
           <a-checkbox @change="handleChangeStaff" :checked="mdl.is_staff"></a-checkbox>
         </a-form-item>
-
-        <a-divider />
-
-        <a-form-item
-          :labelCol="labelCol"
-          :wrapperCol="wrapperCol"
-          label="permission"
-        >
-          <br>
-          <a-row :gutter="16" v-for="(permission, index) in mdl.role.permissions" :key="index">
-            <a-col :span="4">
-              {{ permission.permissionName }}：
-            </a-col>
-            <a-col :span="20">
-              <a-checkbox-group :options="permission.actionsOptions"/>
-            </a-col>
-          </a-row>
-        </a-form-item>
-
       </a-form>
     </a-modal>
 
@@ -147,7 +119,7 @@
 
 <script>
 import { STable } from '@/components'
-import { getUserList } from '@/api/manage'
+import { getUserList, updateUser } from '@/api/manage'
 import { getRoleList } from '@/api/manage'
 
 export default {
@@ -166,24 +138,28 @@ export default {
         xs: { span: 24 },
         sm: { span: 16 }
       },
-      form: null,
+      form: {
+        role_id: 0
+      },
       mdl: {
         role: {}
       },
-
-      // 高级搜索 展开/关闭
-      advanced: false,
       // 查询参数
       queryParam: {},
       // 表头
       columns: [
         {
-          title: 'UserID',
-          dataIndex: 'id'
+          title: 'ID',
+          dataIndex: 'id',
+          width: '100px'
         },
         {
           title: 'Username',
           dataIndex: 'username'
+        },
+        {
+          title: 'Role',
+          dataIndex: 'role.name'
         },
         {
           title: 'Status',
@@ -200,6 +176,14 @@ export default {
           dataIndex: 'balance'
         },
         {
+          title: 'Price Levle',
+          dataIndex: 'price_level',
+          width: '120px',
+          customRender: (text, row, index) => {
+            return <span>Level {text}</span>
+          }
+        },
+        {
           title: '操作',
           width: '150px',
           dataIndex: 'action',
@@ -209,30 +193,34 @@ export default {
       // 加载数据方法 必须为 Promise 对象
       loadData: (parameter) => {
         return getUserList(parameter).then(res => {
-          console.log(res)
           return res.result
         })
       },
       
       pagination: {},
-
-      selectedRowKeys: [],
-      selectedRows: []
+      roleOption: [],
+      loading: false,
     }
   },
   created () {
-
+    this.handleRoleSearch()
   },
   methods: {
+    handleRoleSearch() {
+      getRoleList().then(res => {
+        const { result } = res;
+        this.roleOption = result;
+      });
+    },
+    handleRoleChange(value) {
+      if (value) {
+        this.mdl.role_id = value;
+      } else {
+        this.mdl.role_id = null;
+      }
+    },
     handleEdit (record) {
       this.mdl = Object.assign({}, record)
-
-      this.mdl.role.permissions.forEach(permission => {
-        permission.actionsOptions = permission.actionEntitySet.map(action => {
-          return { label: action.describe, value: action.action, defaultCheck: action.defaultCheck }
-        })
-      })
-
       this.visible = true
     },
     handleChangeStatus(e) {
@@ -242,29 +230,13 @@ export default {
       this.mdl.is_staff = e.target.checked
     },
     handleOk () {
-
-    },
-    onChange (selectedRowKeys, selectedRows) {
-      this.selectedRowKeys = selectedRowKeys
-      this.selectedRows = selectedRows
-    },
-    toggleAdvanced () {
-      this.advanced = !this.advanced
+      this.loading = true
+      updateUser(this.mdl.id, this.mdl).then((res) => {
+        this.visible = false
+      }).finally(() => {
+        this.loading = false
+      })
     }
-  },
-  watch: {
-    /*
-      'selectedRows': function (selectedRows) {
-        this.needTotalList = this.needTotalList.map(item => {
-          return {
-            ...item,
-            total: selectedRows.reduce( (sum, val) => {
-              return sum + val[item.dataIndex]
-            }, 0)
-          }
-        })
-      }
-      */
   }
 }
 </script>

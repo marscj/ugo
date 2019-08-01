@@ -9,11 +9,11 @@ export function getUserList (parameter) {
   })
 }
 
-export function getCompanyUserList (parameter) {
+export function updateUser (pk, data) {
   return axios({
-    url: api.companyUser,
-    method: 'get',
-    params: parameter
+    url: api.user + `${pk}/`,
+    method: 'put',
+    data: data
   })
 }
 

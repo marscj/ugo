@@ -74,12 +74,12 @@ class UserSerializer(serializers.ModelSerializer):
 
     role = RoleSerializer(read_only=True)
 
-    role_id = serializers.IntegerField(required=False)
+    role_id = serializers.IntegerField(required=False, allow_null=True)
 
     class Meta:
         model = CustomUser
         exclude = (
-            # 'password',
+            'password',
         )
 
     def update(self, instance, validated_data):
