@@ -40,7 +40,7 @@
         <a-row
           :gutter="24"
           :style="{ marginBottom: '12px' }">
-          <a-col :span="12" v-for="(role, index) in record.permissions" :key="index" :style="{ marginBottom: '12px' }">
+          <a-col :span="12" v-for="(role, index) in record.role.permissions" :key="index" :style="{ marginBottom: '12px' }">
             <a-col :lg="4" :md="24">
               <span>{{ role.permissionName }}：</span>
             </a-col>
@@ -51,6 +51,12 @@
           </a-col>
         </a-row>
       </div>
+      <span slot="active" slot-scope="text">
+        <a-checkbox :checked="text" disabled />
+      </span>
+      <span slot="staff" slot-scope="text">
+        <a-checkbox :checked="text" disabled />
+      </span>
       <span slot="action" slot-scope="text, record">
         <a @click="handleEdit(record)">编辑</a>
         <a-divider type="vertical" />
@@ -76,52 +82,43 @@
     <a-modal
       title="操作"
       style="top: 20px;"
-      :width="800"
+      width="90%"
       v-model="visible"
       @ok="handleOk"
     >
-      <a-form :autoFormCreate="(form)=>{this.form = form}">
-
+      <a-form :form="form">
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
-          label="唯一识别码"
-          hasFeedback
+          label="UserID"
           validateStatus="success"
         >
-          <a-input placeholder="唯一识别码" v-model="mdl.id" id="no" disabled="disabled" />
+          <a-input v-model="mdl.id" disabled />
         </a-form-item>
 
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
-          label="角色名称"
-          hasFeedback
+          label="Username"
           validateStatus="success"
         >
-          <a-input placeholder="起一个名字" v-model="mdl.name" id="role_name" />
+          <a-input v-model="mdl.username" disabled/>
         </a-form-item>
 
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
-          label="状态"
-          hasFeedback
-          validateStatus="warning"
+          label="Status"
         >
-          <a-select v-model="mdl.status">
-            <a-select-option value="1">正常</a-select-option>
-            <a-select-option value="2">禁用</a-select-option>
-          </a-select>
+          <a-checkbox @change="handleChangeStatus" :checked="mdl.is_active"></a-checkbox>
         </a-form-item>
 
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
-          label="描述"
-          hasFeedback
+          label="Staff"
         >
-          <a-textarea :rows="5" v-model="mdl.describe" placeholder="..." id="describe"/>
+          <a-checkbox @change="handleChangeStaff" :checked="mdl.is_staff"></a-checkbox>
         </a-form-item>
 
         <a-divider />
@@ -129,10 +126,10 @@
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
-          label="拥有权限"
-          hasFeedback
+          label="permission"
         >
-          <a-row :gutter="16" v-for="(permission, index) in mdl.permissions" :key="index">
+          <br>
+          <a-row :gutter="16" v-for="(permission, index) in mdl.role.permissions" :key="index">
             <a-col :span="4">
               {{ permission.permissionName }}：
             </a-col>
@@ -140,7 +137,6 @@
               <a-checkbox-group :options="permission.actionsOptions"/>
             </a-col>
           </a-row>
-
         </a-form-item>
 
       </a-form>
@@ -152,6 +148,7 @@
 <script>
 import { STable } from '@/components'
 import { getUserList } from '@/api/manage'
+import { getRoleList } from '@/api/manage'
 
 export default {
   name: 'UserList',
@@ -170,7 +167,9 @@ export default {
         sm: { span: 16 }
       },
       form: null,
-      mdl: {},
+      mdl: {
+        role: {}
+      },
 
       // 高级搜索 展开/关闭
       advanced: false,
@@ -179,7 +178,7 @@ export default {
       // 表头
       columns: [
         {
-          title: 'Key',
+          title: 'UserID',
           dataIndex: 'id'
         },
         {
@@ -187,14 +186,20 @@ export default {
           dataIndex: 'username'
         },
         {
-          title: 'Active',
-          dataIndex: 'is_active'
+          title: 'Status',
+          dataIndex: 'is_active',
+          scopedSlots: { customRender: 'active' }
         },
         {
-          title: 'CreateTime',
-          dataIndex: 'createTime',
-          sorter: '-createTime'
-        }, {
+          title: 'Staff',
+          dataIndex: 'is_staff',
+          scopedSlots: { customRender: 'staff' }
+        },
+        {
+          title: 'Balance',
+          dataIndex: 'balance'
+        },
+        {
           title: '操作',
           width: '150px',
           dataIndex: 'action',
@@ -204,6 +209,7 @@ export default {
       // 加载数据方法 必须为 Promise 对象
       loadData: (parameter) => {
         return getUserList(parameter).then(res => {
+          console.log(res)
           return res.result
         })
       },
@@ -221,13 +227,19 @@ export default {
     handleEdit (record) {
       this.mdl = Object.assign({}, record)
 
-      this.mdl.permissions.forEach(permission => {
+      this.mdl.role.permissions.forEach(permission => {
         permission.actionsOptions = permission.actionEntitySet.map(action => {
           return { label: action.describe, value: action.action, defaultCheck: action.defaultCheck }
         })
       })
 
       this.visible = true
+    },
+    handleChangeStatus(e) {
+      this.mdl.is_active = e.target.checked
+    },
+    handleChangeStaff(e) {
+      this.mdl.is_staff = e.target.checked
     },
     handleOk () {
 
