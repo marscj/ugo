@@ -43,20 +43,20 @@ export const asyncRouterMap = [
             path: 'productList',
             name: 'ProductList',
             component: () => import('@/views/admin/product/list'),
-            meta: { title: 'Product', keepAlive: false },
+            meta: { title: 'Product', keepAlive: false, permission: [ 'product' ] },
           },
           {
             path: 'productEdit/:id(\\d+)',
             name: 'ProductEdit',
             component: () => import('@/views/admin/product/edit'),
-            meta: { title: 'Product Edit', keepAlive: false },
+            meta: { title: 'Product Edit', keepAlive: false, permission: [ 'product' ] },
             hidden: true
           },
           {
             path: 'productCreate',
             name: 'ProductCreate',
             component: () => import('@/views/admin/product/create'),
-            meta: { title: 'Product Create', keepAlive: false },
+            meta: { title: 'Product Create', keepAlive: false, permission: [ 'product' ] },
             hidden: true
           },
         ]
@@ -73,20 +73,20 @@ export const asyncRouterMap = [
             path: 'variantList',
             name: 'VariantList',
             component: () => import('@/views/admin/variant/list'),
-            meta: { title: 'Variant', keepAlive: false },
+            meta: { title: 'Variant', keepAlive: false, permission: [ 'product' ] },
           },
           {
             path: 'variantEdit/:id(\\d+)',
             name: 'VariantEdit',
             component: () => import('@/views/admin/variant/edit'),
-            meta: { title: 'Edit', keepAlive: false },
+            meta: { title: 'Edit', keepAlive: false, permission: [ 'product' ] },
             hidden: true
           },
           {
             path: 'variantCreate',
             name: 'VariantCreate',
             component: () => import('@/views/admin/variant/create'),
-            meta: { title: 'Create', keepAlive: false },
+            meta: { title: 'Create', keepAlive: false, permission: [ 'product' ] },
             hidden: true
           },
         ]
@@ -97,47 +97,31 @@ export const asyncRouterMap = [
         name: 'Order',
         redirect: '/admin/order/orderList',
         component: PageView,
-        meta: { title: 'Order', keepAlive: true, permission: [ 'product' ] },
+        meta: { title: 'Order', keepAlive: true, permission: [ 'order' ] },
         children: [
           {
             path: 'orderList',
             name: 'OrderList',
             component: () => import('@/views/admin/order/list'),
-            meta: { title: 'Order', keepAlive: false },
+            meta: { title: 'Order', keepAlive: false, permission: [ 'order' ] },
           },
           {
             path: 'orderEdit/:id(\\d+)',
             name: 'OrderEdit',
             component: () => import('@/views/admin/order/edit'),
-            meta: { title: 'Edit', keepAlive: false },
+            meta: { title: 'Edit', keepAlive: false, permission: [ 'order' ] },
             hidden: true
           },
           {
             path: 'orderCreate',
             name: 'OrderCreate',
             component: () => import('@/views/admin/order/create'),
-            meta: { title: 'Create', keepAlive: false },
+            meta: { title: 'Create', keepAlive: false, permission: [ 'order' ] },
             hidden: true
           },
         ]
       },
-      //Category
-      // {
-      //   path: 'category',
-      //   name: 'Category',
-      //   redirect: '/admin/category/categoryList',
-      //   component: PageView,
-      //   meta: { title: 'Category', keepAlive: true, permission: [ 'product' ] },
-      //   children: [
-      //     {
-      //       path: 'categoryList',
-      //       name: 'CategoryList',
-      //       component: () => import('@/views/admin/category/list'),
-      //       meta: { title: 'Category', keepAlive: false }
-      //     }
-      //   ]
-      // },
-      //Source
+      //source
       {
         path: 'source',
         name: 'Source',
@@ -149,7 +133,7 @@ export const asyncRouterMap = [
             path: 'sourceList',
             name: 'SourceList',
             component: () => import('@/views/admin/source/list'),
-            meta: { title: 'Source', keepAlive: false }
+            meta: { title: 'Source', keepAlive: false, permission: [ 'product' ] }
           }
         ]
       },
@@ -165,7 +149,7 @@ export const asyncRouterMap = [
             path: 'users',
             name: 'UserList',
             component: () => import('@/views/admin/user/list'),
-            meta: { title: 'Users', keepAlive: true }
+            meta: { title: 'Users', keepAlive: true, permission: [ 'user' ] }
           }
         ]
       },

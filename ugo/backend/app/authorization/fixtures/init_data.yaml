@@ -1,37 +1,46 @@
 ###################################### actionentity ############################################
+# 'add': { key: 'add', label: '新增' },
+#   'delete': { key: 'delete', label: '删除' },
+#   'edit': { key: 'edit', label: '修改' },
+#   'query': { key: 'query', label: '查询' },
+#   'get': { key: 'get', label: '详情' },
+#   'enable': { key: 'enable', label: '启用' },
+#   'disable': { key: 'disable', label: '禁用' },
+#   'import': { key: 'import', label: '导入' },
+#   'export': { key: 'export', label: '导出' }
 - model: authorization.actionentity
   pk: 1
   fields:
-    action: view
-    describe: can view
+    action: query
+    describe: 查询
     defaultCheck: true
 
 - model: authorization.actionentity
   pk: 2
   fields:
     action: add
-    describe: can add
+    describe: 新增
     defaultCheck: true
 
 - model: authorization.actionentity
   pk: 3
   fields:
-    action: change
-    describe: can change
+    action: edit
+    describe: 编辑
     defaultCheck: true
 
 - model: authorization.actionentity
   pk: 4
   fields:
     action: delete
-    describe: can delete
+    describe: 删除
     defaultCheck: true
 
 - model: authorization.actionentity
   pk: 5
   fields:
-    action: detail
-    describe: detail
+    action: get
+    describe: 详情
     defaultCheck: true
 
 ###################################### permission ############################################
@@ -68,6 +77,13 @@
   fields:
     permissionId: product
     permissionName: product
+    actionEntitySet: [1, 3, 4]
+
+- model: authorization.permission
+  pk: 6
+  fields:
+    permissionId: order
+    permissionName: order
     actionEntitySet: [1, 2, 3, 4]
 
 ###################################### role ############################################
@@ -75,5 +91,12 @@
   pk: 1
   fields:
     name: admin
+    describe: super manager
+    permissions: [1, 2, 3, 4, 5]
+
+- model: authorization.role
+  pk: 2
+  fields:
+    name: operator
     describe: super manager
     permissions: [1, 2, 3, 4, 5]

@@ -69,7 +69,7 @@ const payStatus = [
 ];
 
 export default {
-  name: "VariantList",
+  name: "OrderList",
   components: {
     STable,
     Ellipsis

@@ -1,6 +1,6 @@
 <template>
   <div class="logo">
-    <router-link :to="{name:'index'}">
+    <router-link :to="{name:'Home'}">
       <LogoSvg alt="logo" />
       <h1 v-if="showTitle">{{ title }}</h1>
     </router-link>

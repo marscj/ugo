@@ -1,5 +1,5 @@
 <template>
-  <a-card :bordered="false">
+  <a-card :bordered="false" v-action:query>
     <div class="table-page-search-wrapper">
       <a-form layout="inline">
         <a-row :gutter="48">
@@ -20,7 +20,7 @@
     </div>
 
     <div class="table-operator">
-      <a-button type="primary" icon="plus" @click="handleCreate">New</a-button>
+      <a-button v-action:add type="primary" icon="plus" @click="handleCreate">Add</a-button>
     </div>
 
     <s-table
