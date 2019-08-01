@@ -187,8 +187,8 @@ export default {
           dataIndex: 'username'
         },
         {
-          title: 'Status',
-          dataIndex: 'status'
+          title: 'Active',
+          dataIndex: 'is_active'
         },
         {
           title: 'CreateTime',

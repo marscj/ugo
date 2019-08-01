@@ -1,6 +1,5 @@
-from django.contrib.auth.password_validation import validate_password
-from django.core.exceptions import ValidationError
 from rest_framework import  serializers
+from django.contrib.auth import password_validation
 
 from .models import CustomUser, Role, Permission, ActionEntity
 
@@ -26,12 +25,31 @@ class RoleSerializer(serializers.ModelSerializer):
         model = Role
         fields = '__all__'
 
-class UserSerializer(serializers.ModelSerializer):
+class ChangePasswordSerializer(serializers.Serializer):
 
-    password = serializers.CharField(required=False, write_only=True)
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
 
-    role = RoleSerializer(read_only=True)
+    def get_current_user(self):
+        return self.context['request'].user
 
+    def validate(self, data):
+        old_password = data.get('old_password', None)
+        new_password = data.get('new_password', None)
+
+        if old_password is not None and not self.get_current_user().check_password(old_password):
+            raise serializers.ValidationError({'old_password': 'Your old password was entered incorrectly. Please enter it again.'})
+                
+        if new_password is not None:
+            password_validation.validate_password(new_password)
+
+        return super().validate(data)
+
+class UserCreateSerializer(serializers.ModelSerializer):
+    
+    username = serializers.CharField(max_length=150)
+    password = serializers.CharField(max_length=128)
+    
     role_id = serializers.IntegerField(required=False)
 
     class Meta:
@@ -40,9 +58,10 @@ class UserSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         password = data.get('password', None)
+                
         if password is not None:
-            validate_password(password)
-        
+            password_validation.validate_password(password)
+
         return super().validate(data)
 
     def create(self, validated_data):
@@ -51,12 +70,20 @@ class UserSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
-    def update(self, instance, validated_data):
-        password = validated_data.pop('password', None)
-    
-        if password is not None and instance.check_password(password):
-            instance.set_password(password)
+class UserSerializer(serializers.ModelSerializer):
 
+    role = RoleSerializer(read_only=True)
+
+    role_id = serializers.IntegerField(required=False)
+
+    class Meta:
+        model = CustomUser
+        exclude = (
+            # 'password',
+        )
+
+    def update(self, instance, validated_data):
+        validated_data.pop('password', None)
         return super().update(instance, validated_data)
 
 class UserSimpleSerializer(serializers.ModelSerializer):
