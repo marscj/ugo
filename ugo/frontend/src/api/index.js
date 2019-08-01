@@ -4,7 +4,6 @@ const api = {
   userInfo: '/user/info/',
 
   user: '/user/',
-  companyUser: '/companyUser/',
   role: '/role/',
   permission: '/permission/',
 

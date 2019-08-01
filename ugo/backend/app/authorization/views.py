@@ -55,10 +55,6 @@ class UserView(CustomModelViewSet):
             self.get_current_user().save()
             return Response({'result': 'ok'})
 
-class CompanyUserView(CustomModelViewSet):
-    serializer_class = UserSimpleSerializer
-    queryset = CustomUser.objects.filter(user_type=UserType.Company).cache()
-
 class RoleView(CustomModelViewSet):
     serializer_class = RoleSerializer
     queryset = Role.objects.all().cache()

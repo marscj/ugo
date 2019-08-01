@@ -45,7 +45,7 @@ router.beforeEach((to, from, next) => {
           .catch(() => {
             notification.error({
               message: 'error',
-              description: 'Unable to get user information, please try again.'
+              description: "You don't have permission to access."
             })
             store.dispatch('Logout').then(() => {
               if (to.path.includes('/admin')){
