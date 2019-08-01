@@ -103,13 +103,6 @@ export default {
     },
     loginSuccess (res) {
       this.$router.push({ path: '/admin/dashboard' })
-      // 延迟 1 秒显示欢迎信息
-      setTimeout(() => {
-        this.$notification.success({
-          message: 'Welcome',
-          description: `${timeFix()}, Welcome back`
-        })
-      }, 1000)
     },
     requestFailed (err) {
       this.$notification['error']({

@@ -17,16 +17,14 @@ NProgress.configure({
   showSpinner: false
 }) // NProgress Configuration
 
-const whiteList = ['index', 'UserLogin', 'AdminLogin'] // no redirect whitelist
+const whiteList = ['index', 'UserLogin', 'AdminLogin', 'Home', 'HomePage', 'Ticket', 'TicketDetail', 'Food', 'FoodDetail', 'Trip', 'TripDetail', 'Car', 'CarDetail', 'Hotel', 'HotelDetail', 'Gift', 'GiftDetail'] // no redirect whitelist
 
 router.beforeEach((to, from, next) => {
   NProgress.start() // start progress bar
   to.meta && (typeof to.meta.title !== 'undefined' && setDocumentTitle(`${to.meta.title} - ${domTitle}`))
   if (Vue.ls.get(ACCESS_TOKEN)) {
     /* has token */
-    console.log('1111111', to.path)
     if (to.path === '/admin/login') {
-      console.log('222222', to.path)
       next({
         path: '/admin/dashboard/workplace'
       })
@@ -37,7 +35,6 @@ router.beforeEach((to, from, next) => {
       })
       NProgress.done()
     } else {
-      console.log('33333', to.path)
       if (store.getters.roles.length === 0) {
         store.dispatch('GetInfo')
           .then(res => {
@@ -76,6 +73,7 @@ router.beforeEach((to, from, next) => {
                     redirect: to.fullPath
                   }
                 })
+                NProgress.done()
               })
             } else {
               next()
