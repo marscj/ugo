@@ -183,8 +183,8 @@ export default {
           dataIndex: 'id'
         },
         {
-          title: 'Name',
-          dataIndex: 'name'
+          title: 'Username',
+          dataIndex: 'username'
         },
         {
           title: 'Status',

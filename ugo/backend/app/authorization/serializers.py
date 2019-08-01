@@ -1,3 +1,5 @@
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 from rest_framework import  serializers
 
 from .models import CustomUser, Role, Permission, ActionEntity
@@ -36,11 +38,26 @@ class UserSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = '__all__'
 
+    def validate(self, data):
+        password = data.get('password', None)
+        if password is not None:
+            validate_password(password)
+        
+        return super().validate(data)
+
     def create(self, validated_data):
         user = super().create(validated_data)
         user.set_password(validated_data['password'])
         user.save()
         return user
+
+    def update(self, instance, validated_data):
+        password = validated_data.pop('password', None)
+    
+        if password is not None and instance.check_password(password):
+            instance.set_password(password)
+
+        return super().update(instance, validated_data)
 
 class UserSimpleSerializer(serializers.ModelSerializer):
 
