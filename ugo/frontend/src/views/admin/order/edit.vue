@@ -14,7 +14,9 @@ export default {
     }
   },
   methods: {
-    onTitle() {
+    onTitle(data) {
+      this.description = data.variant
+      this.pageTitle = data.product;
       this.$parent.getPageMeta()
     }
   },

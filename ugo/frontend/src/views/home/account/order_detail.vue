@@ -1,102 +1,73 @@
 <template>
   <a-card title="订单详情">
     <a-form :form="form" style="max-width: 500px; margin: 40px auto 0;">
-      <a-form-item
-        label="主产品名称"
-        :labelCol="labelCol"
-        :wrapperCol="wrapperCol"
-        :required="true"
-      >
-        <a-input v-model="form.product" disabled/>
+      <a-form-item label="主产品名称" :labelCol="labelCol" :wrapperCol="wrapperCol" >
+        <a-input v-model="form.product" disabled />
       </a-form-item>
-      <a-form-item
-        label="子产品名称"
-        :labelCol="labelCol"
-        :wrapperCol="wrapperCol"
-        :required="true"
-      >
-        <a-input v-model="form.variant" disabled/>
+      <a-form-item label="子产品名称" :labelCol="labelCol" :wrapperCol="wrapperCol" >
+        <a-input v-model="form.variant" disabled />
       </a-form-item>
-      <a-form-item
-        label="日期"
-        :labelCol="labelCol"
-        :wrapperCol="wrapperCol"
-        :required="true"
-      >
+      <a-form-item label="日期" :labelCol="labelCol" :wrapperCol="wrapperCol" >
         <a-input v-model="form.day" disabled />
       </a-form-item>
-      <a-form-item
-        label="时间"
-        :labelCol="labelCol"
-        :wrapperCol="wrapperCol"
-        :required="true"
-      >
+      <a-form-item label="时间" :labelCol="labelCol" :wrapperCol="wrapperCol" >
         <a-input v-model="form.time" disabled />
       </a-form-item>
       <a-form-item
         label="成人数量"
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
-        :required="true"
+        
         v-if="form.adult_quantity > 0"
       >
-        <a-input v-model="form.adult_quantity" disabled/>
+        <a-input v-model="form.adult_quantity" disabled />
       </a-form-item>
       <a-form-item
         label="成人金额"
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
-        :required="true"
+        
         v-if="form.adult_quantity > 0"
       >
-        <a-input suffix="$" v-model="form.adult_price" disabled/>
+        <a-input suffix="$" v-model="form.adult_price" disabled />
       </a-form-item>
       <a-form-item
         label="儿童数量"
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
-        :required="true"
+        
         v-if="form.child_quantity > 0"
       >
-        <a-input v-model="form.child_quantity" disabled/>
+        <a-input v-model="form.child_quantity" disabled />
       </a-form-item>
       <a-form-item
         label="儿童金额"
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
-        :required="true"
+        
         v-if="form.child_quantity > 0"
       >
-        <a-input suffix="$" v-model="form.child_price" disabled/>
+        <a-input suffix="$" v-model="form.child_price" disabled />
       </a-form-item>
-      <a-form-item
-        label="总金额"
-        :labelCol="labelCol"
-        :wrapperCol="wrapperCol"
-        :required="true"
-      >
-        <a-input suffix="$" v-model="form.total_price" disabled/>
+      <a-form-item label="总金额" :labelCol="labelCol" :wrapperCol="wrapperCol" >
+        <a-input suffix="$" v-model="form.total_price" disabled />
       </a-form-item>
-      <a-form-item
-        label="联系人信息"
-        :labelCol="labelCol"
-        :wrapperCol="wrapperCol"
-      >
-        <a-textarea v-model="form.customer_info"/>
+      <a-form-item label="状态" :labelCol="labelCol" :wrapperCol="wrapperCol">
+        <a-select :value="form.order_status" :filterOption="false" disabled>
+          <a-select-option v-for="d in orderStatus" :key="d.value">{{d.label}}</a-select-option>
+        </a-select>
       </a-form-item>
-      <a-form-item
-        label="联系方式"
-        :labelCol="labelCol"
-        :wrapperCol="wrapperCol"
-      >
-        <a-textarea v-model="form.customer_contact"/>
+      <a-form-item label="确认号" :labelCol="labelCol" :wrapperCol="wrapperCol">
+        <a-input v-model="form.confirmID" disabled></a-input>
       </a-form-item>
-      <a-form-item
-        label="备注"
-        :labelCol="labelCol"
-        :wrapperCol="wrapperCol"
-      >
-        <a-textarea v-model="form.remark"/>
+      <a-form-item label="联系人信息" :labelCol="labelCol" :wrapperCol="wrapperCol">
+        <a-textarea v-model="form.customer_info" />
+      </a-form-item>
+      <a-form-item label="联系方式" :labelCol="labelCol" :wrapperCol="wrapperCol">
+        <a-textarea v-model="form.customer_contact" />
+      </a-form-item>
+      <a-form-item label="备注" :labelCol="labelCol" :wrapperCol="wrapperCol">
+        <a-textarea v-model="form.remark" />
       </a-form-item>
       <a-form-item :wrapperCol="{span: 19, offset: 5}">
         <a-button type="primary" @click="submit">提交</a-button>
@@ -107,16 +78,24 @@
 </template>
 
 <script>
+const orderStatus = [
+  { value: 0, label: "新建" },
+  { value: 1, label: "订单已确认" },
+  { value: 2, label: "出票成功" },
+  { value: 3, label: "出票失败" },
+  { value: 4, label: "订单已取消" }
+];
 import { updateOrder } from "@/api/order";
 import { checkError } from "@/views/utils/error";
 export default {
-  name: 'OrderDetail',
-  data () {
+  name: "OrderDetail",
+  data() {
     return {
-      form: this.$route.query,
+      form: Object.assign({}, this.$route.query),
+      orderStatus,
       labelCol: { lg: { span: 5 }, sm: { span: 5 } },
-      wrapperCol: { lg: { span: 19 }, sm: { span: 19 } },
-    }
+      wrapperCol: { lg: { span: 19 }, sm: { span: 19 } }
+    };
   },
   methods: {
     submit() {
@@ -124,7 +103,7 @@ export default {
       updateOrder(this.form.id, this.form)
         .then(res => {
           const { result } = res;
-          this.$router.go(-1)
+          this.$router.go(-1);
         })
         .catch(error => {
           this.checkError(error);
@@ -134,7 +113,7 @@ export default {
         });
     },
     back() {
-      this.$router.go(-1)
+      this.$router.go(-1);
     },
     checkError(error) {
       var errors = checkError(
@@ -154,25 +133,28 @@ export default {
         }
       }
     },
+    handleOrderStatusChange(value) {
+      this.form.order_status = value;
+    }
   }
-}
+};
 </script>
 
 <style lang="less" scoped>
 .step-form-style-desc {
   padding: 0 56px;
-  color: rgba(0,0,0,.45);
+  color: rgba(0, 0, 0, 0.45);
 
   h3 {
     margin: 0 0 12px;
-    color: rgba(0,0,0,.45);
+    color: rgba(0, 0, 0, 0.45);
     font-size: 16px;
     line-height: 32px;
   }
 
   h4 {
     margin: 0 0 4px;
-    color: rgba(0,0,0,.45);
+    color: rgba(0, 0, 0, 0.45);
     font-size: 14px;
     line-height: 22px;
   }

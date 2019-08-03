@@ -183,9 +183,7 @@ export default {
         error,
       );
 
-      this.help = {
-
-      };
+      this.help = {};
 
       for (var key in errors) {
         if (errors[key]) {
@@ -199,8 +197,9 @@ export default {
     },
     initData(data) {
       if (this.isEdit) {
-        this.$route.meta.title = data.variant;
-        this.$emit("title");
+        // this.$route.meta.title = data.product;
+        // this.description = data.variant;
+        this.$emit("title", data);
       }
     },
     handleOrderStatusChange(value) {
