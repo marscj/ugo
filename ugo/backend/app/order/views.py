@@ -25,6 +25,7 @@ class OrderView(CustomModelViewSet):
         if checkout.is_valid(raise_exception=True):
             data = checkout.data
             data.update({
+                'total_price': checkout._get_total_price(checkout.data),
                 'product': checkout.variant.product.title,
                 'variant': checkout.variant.name
             })

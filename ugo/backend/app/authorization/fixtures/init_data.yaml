@@ -92,7 +92,7 @@
   fields:
     name: admin
     describe: super manager
-    permissions: [1, 2, 3, 4, 5]
+    permissions: [1, 2, 3, 4, 5, 6]
 
 - model: authorization.role
   pk: 2

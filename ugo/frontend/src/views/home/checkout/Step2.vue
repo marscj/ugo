@@ -8,7 +8,7 @@
         :required="true"
       >{{ form.product }}</a-form-item>
       <a-form-item
-        label="自产品名称"
+        label="子产品名称"
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
         :required="true"
@@ -53,6 +53,12 @@
         :required="true"
         v-if="form.child_quantity > 0"
       >{{ form.child_price }} $</a-form-item>
+      <a-form-item
+        label="总金额"
+        :labelCol="labelCol"
+        :wrapperCol="wrapperCol"
+        :required="true"
+      >{{ form.total_price }} $</a-form-item>
       <a-form-item
         label="联系人信息"
         :labelCol="labelCol"

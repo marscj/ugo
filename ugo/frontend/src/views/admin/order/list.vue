@@ -20,7 +20,7 @@
       :data="loadData"
       bordered
       fixed
-      :scroll="{ x: 3350}"
+      :scroll="{ x: 3450}"
     >
       <span slot="remark" slot-scope="text" style="word-warp:break-word;word-break:break-all">
         <ellipsis :length="200" tooltip>{{ text }}</ellipsis>
@@ -160,6 +160,12 @@ export default {
           key: "10",
           title: "Child Price",
           dataIndex: "child_price",
+          width: 100
+        },
+        {
+          key: "17",
+          title: "Total Price",
+          dataIndex: "total_price",
           width: 100
         },
         {

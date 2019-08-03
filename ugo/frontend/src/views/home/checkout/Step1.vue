@@ -70,6 +70,14 @@
         <a-input suffix="$" v-model="form.child_price" disabled/>
       </a-form-item>
       <a-form-item
+        label="总金额"
+        :labelCol="labelCol"
+        :wrapperCol="wrapperCol"
+        :required="true"
+      >
+        <a-input suffix="$" v-model="form.total_price" disabled/>
+      </a-form-item>
+      <a-form-item
         label="联系人信息"
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"

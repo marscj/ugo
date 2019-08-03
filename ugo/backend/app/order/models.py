@@ -40,6 +40,8 @@ class Order(models.Model):
 
     child_price = models.DecimalField(default=0.0, max_digits=10, decimal_places=2, validators=[MinValueValidator(0.0)])
 
+    total_price = models.DecimalField(default=0.0, max_digits=10, decimal_places=2, validators=[MinValueValidator(0.0)])
+
     remark = models.TextField(blank=True, null=True)
 
     variant = models.ForeignKey(ProductVariant, related_name='order', on_delete=models.SET_NULL, null=True)

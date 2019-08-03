@@ -22,6 +22,9 @@
             <a-form-item label="Child Price(儿童票总价格)">
               <a-input v-model="form.child_price" disabled></a-input>
             </a-form-item>
+            <a-form-item label="Total Price(总价格)">
+              <a-input v-model="form.total_price" disabled></a-input>
+            </a-form-item>
             <a-form-item label="Customer Info(客户信息)">
               <a-textarea v-model="form.customer_info" disabled></a-textarea>
             </a-form-item>

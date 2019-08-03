@@ -1,6 +1,9 @@
 from rest_framework import  serializers
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.models import AnonymousUser
+from django.db import transaction
+
+from decimal import Decimal
 
 from .models import Order
 from app.authorization.models import CustomUser
@@ -22,6 +25,8 @@ class CheckoutOrderSerializer(serializers.ModelSerializer):
 
     child_price = serializers.DecimalField(max_digits=10, decimal_places=2, min_value=0.0)
 
+    total_price = serializers.ReadOnlyField()
+
     variant_id = serializers.IntegerField()
 
     class Meta:
@@ -42,6 +47,12 @@ class CheckoutOrderSerializer(serializers.ModelSerializer):
 
     def _get_child_price(self, variant, quantity):
         return quantity * variant.child_price[self.get_user_price_lelve()]
+
+    def _get_total_price(self, validated_data):
+        if self.variant is not None:
+            adult_price = self._get_adult_price(self.variant, validated_data.get('adult_quantity', 0.0))
+            child_price = self._get_child_price(self.variant, validated_data.get('child_quantity', 0.0))
+            return Decimal(adult_price) + Decimal(child_price)
 
     def _get_variant(self, variant_id):
         try:
@@ -89,6 +100,7 @@ class CheckoutOrderSerializer(serializers.ModelSerializer):
         variant = self._get_variant(variant_id)
         _adult_price = self._get_adult_price(variant, adult_quantity)
         _child_price = self._get_child_price(variant, child_quantity)
+
         self.validate_balance(_adult_price, _child_price)
         self.validate_price(adult_price, child_price, _adult_price, _child_price)
 
@@ -122,16 +134,18 @@ class OrderSerializer(CheckoutOrderSerializer):
         model = Order 
         fields = '__all__'
 
+    @transaction.atomic
     def create(self, validated_data):
-        adult_price = self._get_adult_price(self.variant, validated_data.get('adult_quantity', 0.0))
-        child_price = self._get_child_price(self.variant, validated_data.get('child_quantity', 0.0))
+        # validated_data.pop('total_price')
         customer = self.get_current_user()
+        total_price = self._get_total_price(validated_data)
 
-        customer.balance -= adult_price + child_price
+        customer.balance -= total_price
         customer.save()
+ 
+        return Order.objects.create(**validated_data, total_price=total_price, customer=customer)
 
-        return Order.objects.create(**validated_data, adult_price=adult_price, child_price=child_price, customer=customer)
-
+    @transaction.atomic
     def update(self, instance, validated_data):
         if instance.operator is None:
             instance.operator = self.context['request'].user
