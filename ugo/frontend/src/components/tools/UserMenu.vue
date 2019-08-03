@@ -10,7 +10,7 @@
         </span>
         <a-menu v-if="nickname()" slot="overlay" class="user-dropdown-menu-wrapper">
           <a-menu-item key="0">
-            <router-link :to="{ name: 'center' }">
+            <router-link :to="{ name: 'UserAccount' }">
               <a-icon type="user"/>
               <span>Account</span>
             </router-link>
