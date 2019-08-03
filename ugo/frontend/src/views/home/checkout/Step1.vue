@@ -2,7 +2,15 @@
   <div>
     <a-form :form="form" style="max-width: 500px; margin: 40px auto 0;">
       <a-form-item
-        label="产品名称"
+        label="主产品名称"
+        :labelCol="labelCol"
+        :wrapperCol="wrapperCol"
+        :required="true"
+      >
+        <a-input v-model="form.product" disabled/>
+      </a-form-item>
+      <a-form-item
+        label="子产品名称"
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
         :required="true"

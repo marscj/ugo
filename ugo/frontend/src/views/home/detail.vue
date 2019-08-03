@@ -236,8 +236,7 @@ export default {
         adult_price: this.adult_price,
         child_quantity: this.child_quantity,
         child_price: this.child_price,
-        total_price: this.total_price,
-        variant_id: this.variant.id
+        variant_id: this.variant.id,
       }).then(res => {
         const { result } = res
         this.$router.push({name: 'Checkout', query: result})
@@ -253,6 +252,8 @@ export default {
         "customer",
         "adult_quantity",
         "child_quantity",
+        "adult_price",
+        "child_price",
         "variant"
       );
 
@@ -297,10 +298,10 @@ export default {
       this.handleCanBook();
     },
     adult_price(value) {
-      this.total_price = value + this.child_price;
+      this.total_price = this.toDecimal(value + this.child_price);
     },
     child_price(value) {
-      this.total_price = this.adult_price + value;
+      this.total_price = this.toDecimal(this.adult_price + value);
     },
     day(value) {
       this.handleCanBook();

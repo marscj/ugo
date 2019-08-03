@@ -66,7 +66,7 @@ class ProductVariant(models.Model):
         db_table = 'variant'
 
     def __str__(self):
-        return self.product.title + ' - ' + self.name
+        return self.name
 
     # @property
     # def category(self):

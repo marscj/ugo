@@ -6,6 +6,7 @@ from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from rest_framework_jwt.views import ObtainJSONWebToken
+from rest_framework_jwt.settings import api_settings
 
 from .import UserType
 from middleware.viewsets import CustomModelViewSet
@@ -24,7 +25,10 @@ class LoginJwtTokenView(ObtainJSONWebToken):
 class LogoutJwtTokenView(APIView):
 
     def post(self, request, *args, **kwargs):
-        return Response({'ok'})
+        response = Response({'ok'})
+        if api_settings.JWT_AUTH_COOKIE:
+            response.delete_cookie(api_settings.JWT_AUTH_COOKIE)
+        return response
 
 class UserView(CustomModelViewSet):
     serializer_class = UserSerializer
