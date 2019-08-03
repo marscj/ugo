@@ -351,7 +351,7 @@ export const constantRouterMap = [
           {
             path: 'account',
             name: 'UserAccount',
-            component: () => import('@/views/home/account/center/Index'),
+            component: () => import('@/views/home/account/account'),
             meta: { title: '订单列表', keepAlive: true, hiddenHeaderContent: true },
             hidden: true
           }

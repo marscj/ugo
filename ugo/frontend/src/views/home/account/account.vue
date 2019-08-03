@@ -10,17 +10,20 @@
         </a-card>
       </a-col>
       <a-col :md="24" :lg="17">
-        <order-list> </order-list>
+        <user-order/>
+        <order-list/>
       </a-col>
     </a-row>
   </div>
 </template>
 
 <script>
-import { OrderList } from "./page/OrderList"
+import { UserOrder } from "./page/UserOrder";
+import { OrderList } from "./page/OrderList";
 export default {
-  name: 'Account',
+  name: 'Account', 
   components: {
+    UserOrder,
     OrderList
   },
   data() {
