@@ -46,8 +46,14 @@ class OrderSerializer(serializers.ModelSerializer):
     variant_id = serializers.IntegerField()
 
     class Meta:
-        model = Order
+        model = Order 
         fields = '__all__'
+
+    def get_user_price_lelve(self):
+        if isinstance(self.context['request'].user, CustomUser):
+            return self.context['request'].user.price_level - 1
+        else:
+            return 4
 
     def get_info(self, validated_data):
         adult_quantity = validated_data.get('adult_quantity', 0)
@@ -58,8 +64,8 @@ class OrderSerializer(serializers.ModelSerializer):
         customer = self.context['request'].user
 
         return {
-            'adult_price': adult_quantity * variant.adult_price[customer.price_level - 1],
-            'child_price': child_quantity * variant.child_price[customer.price_level - 1],
+            'adult_price': adult_quantity * variant.adult_price[self.get_user_price_lelve()],
+            'child_price': child_quantity * variant.child_price[self.get_user_price_lelve()],
             'variant': variant,
         }
 

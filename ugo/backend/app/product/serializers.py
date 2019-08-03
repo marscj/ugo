@@ -5,6 +5,7 @@ from rest_framework.validators import UniqueValidator
 from .models import Category, Product, ProductVariant
 from app.source.models import ProductImage
 from app.source.serializers import ProductImageSerializer
+from app.authorization.models import CustomUser
 
 class ProductVariantSerializer(serializers.ModelSerializer):
 
@@ -106,7 +107,10 @@ class ProductVariantReadOnlySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def get_user_price_lelve(self):
-        return self.context['request'].user.price_level - 1
+        if isinstance(self.context['request'].user, CustomUser):
+            return self.context['request'].user.price_level - 1
+        else:
+            return 4
 
     def user_adult_price(self, obj):
         return obj.adult_price[self.get_user_price_lelve()]
