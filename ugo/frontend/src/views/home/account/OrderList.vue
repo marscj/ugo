@@ -20,7 +20,7 @@
       :data="loadData"
       bordered
       fixed
-      :scroll="{ x: 3200}"
+      :scroll="{ x: 3050}"
     >
       <span slot="remark" slot-scope="text" style="word-warp:break-word;word-break:break-all">
         <ellipsis :length="200" tooltip>{{ text }}</ellipsis>
@@ -60,14 +60,6 @@ const orderStatus = [
   { value: 4, label: "订单已取消" }
 ];
 
-const payStatus = [
-  { value: 0, label: "未支付" },
-  { value: 1, label: "部分支付" },
-  { value: 2, label: "全部付清" },
-  { value: 3, label: "部分退款" },
-  { value: 4, label: "全部退款" }
-];
-
 export default {
   name: "OrderList",
   components: {
@@ -77,8 +69,9 @@ export default {
   data() {
     return {
       orderStatus,
-      payStatus,
-      queryParam: {},
+      queryParam: {
+        customer_id: this.$store.getters.userInfo.id
+      },
       // 表头
       columns: [
         {
@@ -100,15 +93,6 @@ export default {
           width: 150,
           customRender: (text, row, index) => {
             return <span>{orderStatus[text].label}</span>;
-          }
-        },
-        {
-          key: "17",
-          title: "支付状态",
-          dataIndex: "pay_status",
-          width: 150,
-          customRender: (text, row, index) => {
-            return <span>{payStatus[text].label}</span>;
           }
         },
         {

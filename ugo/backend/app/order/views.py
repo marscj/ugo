@@ -6,18 +6,24 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from middleware.viewsets import CustomModelViewSet
 from .models import Order
-from .serializers import OrderSerializer, CheckoutOrderSerializer
+from .serializers import OrderCreateSerializer, OrderUpdateSerializer, CheckoutOrderSerializer
 from app.product.models import ProductVariant
 from app.authorization.models import CustomUser
 from app.authorization import UserType
 
 class OrderView(CustomModelViewSet):
-    serializer_class = OrderSerializer
+    serializer_class = OrderCreateSerializer
     queryset = Order.objects.all()
     permission_classes = [IsAuthenticated]
  
-    filterset_fields = ('day', )
-    search_fields = ('orderID', )
+    filterset_fields = ('day', 'customer_id')
+    search_fields = ('orderID', ) 
+
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return OrderCreateSerializer
+        else:
+            return OrderUpdateSerializer
 
     @action(detail=False, methods=['post'])
     def checkout(self, request):

@@ -106,7 +106,7 @@ class CheckoutOrderSerializer(serializers.ModelSerializer):
 
         return super().validate(data)
 
-class OrderSerializer(CheckoutOrderSerializer):
+class OrderCreateSerializer(CheckoutOrderSerializer):
 
     id = serializers.IntegerField(read_only=True)
 
@@ -150,6 +150,62 @@ class OrderSerializer(CheckoutOrderSerializer):
  
         return Order.objects.create(**validated_data, total_price=total_price, customer=customer)
 
+    @transaction.atomic
+    def update(self, instance, validated_data):
+        if instance.operator is None:
+            instance.operator = self.context['request'].user
+        return super().update(instance, validated_data)
+
+class OrderUpdateSerializer(serializers.ModelSerializer):
+
+    id = serializers.ReadOnlyField()
+
+    orderID = serializers.ReadOnlyField()
+
+    day = serializers.ReadOnlyField()
+
+    time = serializers.ReadOnlyField()
+
+    adult_quantity = serializers.ReadOnlyField()
+
+    child_quantity = serializers.ReadOnlyField()
+
+    adult_price = serializers.ReadOnlyField()
+
+    child_price = serializers.ReadOnlyField()
+
+    total_price = serializers.ReadOnlyField()
+
+    variant_id = serializers.ReadOnlyField()
+
+    confirmID = serializers.CharField(required=False, allow_null=True, max_length=64)
+
+    order_status = serializers.IntegerField(required=False)
+
+    pay_status = serializers.IntegerField(required=False)
+
+    customer_info = serializers.CharField(required=False, allow_null=True)
+
+    customer_contact = serializers.CharField(required=False, allow_null=True)
+
+    remark = serializers.CharField(required=False, allow_null=True)
+
+    variant = serializers.StringRelatedField(read_only=True)
+
+    customer = serializers.StringRelatedField(read_only=True)
+
+    operator = serializers.StringRelatedField(read_only=True)
+
+    product = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Order 
+        fields = '__all__'
+
+    def get_product(self, obj):
+        if obj.variant:
+            return obj.variant.product.title
+            
     @transaction.atomic
     def update(self, instance, validated_data):
         if instance.operator is None:

@@ -1,6 +1,9 @@
 <template>
   <a-card title="订单详情">
     <a-form :form="form" style="max-width: 500px; margin: 40px auto 0;">
+      <a-form-item label="订单号" :labelCol="labelCol" :wrapperCol="wrapperCol" >
+        <a-input v-model="form.orderID" disabled />
+      </a-form-item>
       <a-form-item label="主产品名称" :labelCol="labelCol" :wrapperCol="wrapperCol" >
         <a-input v-model="form.product" disabled />
       </a-form-item>
@@ -53,9 +56,7 @@
         <a-input suffix="$" v-model="form.total_price" disabled />
       </a-form-item>
       <a-form-item label="状态" :labelCol="labelCol" :wrapperCol="wrapperCol">
-        <a-select :value="form.order_status" :filterOption="false" disabled>
-          <a-select-option v-for="d in orderStatus" :key="d.value">{{d.label}}</a-select-option>
-        </a-select>
+        <a-input :defaultValue="orderStatus[form.order_status].label" disabled />
       </a-form-item>
       <a-form-item label="确认号" :labelCol="labelCol" :wrapperCol="wrapperCol">
         <a-input v-model="form.confirmID" disabled></a-input>
