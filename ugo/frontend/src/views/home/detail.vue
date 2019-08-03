@@ -242,6 +242,11 @@ export default {
         this.$router.push({name: 'Checkout', query: result})
       }).catch((error) => {
         this.checkError(error)
+        if (error && error.response) {
+          if (error.response.status == 401) {
+            // this.$router.push({name: 'UserLogin'})
+          }
+        }
       }).finally(() => {
         this.spinning = false
       });

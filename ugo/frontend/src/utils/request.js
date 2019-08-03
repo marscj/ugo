@@ -1,4 +1,5 @@
 import Vue from 'vue'
+
 import axios from 'axios'
 import store from '@/store'
 import {
@@ -8,6 +9,7 @@ import notification from 'ant-design-vue/es/notification'
 import {
   ACCESS_TOKEN
 } from '@/store/mutation-types'
+import router from '../router';
 
 // 创建 axios 实例
 const service = axios.create({
@@ -24,8 +26,9 @@ const err = (error) => {
         message: 'Forbidden',
         description: data.message
       })
+      router.push({name: 'UserLogin'})
     }
-    if (error.response.status === 401 && !(data.result && data.result.isLogin)) {
+    if (error.response.status === 401) {
       notification.error({
         message: 'Unauthorized',
         description: 'Authorization verification failed'
@@ -37,6 +40,7 @@ const err = (error) => {
           }, 1500)
         })
       }
+      router.push({name: 'UserLogin'})
     }
   }
   return Promise.reject(error)

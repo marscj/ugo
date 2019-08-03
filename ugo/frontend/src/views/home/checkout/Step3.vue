@@ -29,6 +29,7 @@ export default {
       this.$emit('finish')
     },
     toOrderList () {
+      this.$router.push({name: 'UserAccount'})
     }
   }
 }

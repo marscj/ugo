@@ -14,7 +14,7 @@ from app.authorization import UserType
 class OrderView(CustomModelViewSet):
     serializer_class = OrderSerializer
     queryset = Order.objects.all()
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
  
     filterset_fields = ('day', )
     search_fields = ('orderID', )

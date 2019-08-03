@@ -94,7 +94,7 @@ class CheckoutOrderSerializer(serializers.ModelSerializer):
         child_price = data.get('child_price', 0.0)
         variant_id = data.get('variant_id')
 
-        self.validate_customer()
+        # self.validate_customer()
         self.validate_quantity(adult_quantity, child_quantity)
 
         variant = self._get_variant(variant_id)
@@ -136,7 +136,6 @@ class OrderSerializer(CheckoutOrderSerializer):
 
     @transaction.atomic
     def create(self, validated_data):
-        # validated_data.pop('total_price')
         customer = self.get_current_user()
         total_price = self._get_total_price(validated_data)
 

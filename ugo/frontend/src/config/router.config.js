@@ -187,48 +187,48 @@ export const asyncRouterMap = [
             path: 'center',
             name: 'center',
             component: () => import('@/views/admin/account/center/Index'),
-            meta: { title: 'Account', keepAlive: true }
+            meta: { title: 'Account Center', keepAlive: true }
           },
-          {
-            path: 'settings',
-            name: 'settings',
-            component: () => import('@/views/admin/account/settings/Index'),
-            meta: { title: 'Profile', hideHeader: true },
-            redirect: '/admin/account/settings/base',
-            hideChildrenInMenu: true,
-            children: [
-              {
-                path: 'base',
-                name: 'BaseSettings',
-                component: () => import('@/views/admin/account/settings/BaseSetting'),
-                meta: { title: 'Base Settings', hidden: true }
-              },
-              {
-                path: 'security',
-                name: 'SecuritySettings',
-                component: () => import('@/views/admin/account/settings/Security'),
-                meta: { title: 'Security Settings', hidden: true, keepAlive: true }
-              },
-              {
-                path: 'custom',
-                name: 'CustomSettings',
-                component: () => import('@/views/admin/account/settings/Custom'),
-                meta: { title: 'Custom Settings', hidden: true, keepAlive: true }
-              },
-              {
-                path: 'binding',
-                name: 'BindingSettings',
-                component: () => import('@/views/admin/account/settings/Binding'),
-                meta: { title: 'Binding Settings', hidden: true, keepAlive: true }
-              },
-              {
-                path: 'notification',
-                name: 'NotificationSettings',
-                component: () => import('@/views/admin/account/settings/Notification'),
-                meta: { title: 'Notification Settings', hidden: true, keepAlive: true }
-              }
-            ]
-          }
+          // {
+          //   path: 'settings',
+          //   name: 'settings',
+          //   component: () => import('@/views/admin/account/settings/Index'),
+          //   meta: { title: 'Profile', hideHeader: true },
+          //   redirect: '/admin/account/settings/base',
+          //   hideChildrenInMenu: true,
+          //   children: [
+          //     {
+          //       path: 'base',
+          //       name: 'BaseSettings',
+          //       component: () => import('@/views/admin/account/settings/BaseSetting'),
+          //       meta: { title: 'Base Settings', hidden: true }
+          //     },
+          //     {
+          //       path: 'security',
+          //       name: 'SecuritySettings',
+          //       component: () => import('@/views/admin/account/settings/Security'),
+          //       meta: { title: 'Security Settings', hidden: true, keepAlive: true }
+          //     },
+          //     {
+          //       path: 'custom',
+          //       name: 'CustomSettings',
+          //       component: () => import('@/views/admin/account/settings/Custom'),
+          //       meta: { title: 'Custom Settings', hidden: true, keepAlive: true }
+          //     },
+          //     {
+          //       path: 'binding',
+          //       name: 'BindingSettings',
+          //       component: () => import('@/views/admin/account/settings/Binding'),
+          //       meta: { title: 'Binding Settings', hidden: true, keepAlive: true }
+          //     },
+          //     {
+          //       path: 'notification',
+          //       name: 'NotificationSettings',
+          //       component: () => import('@/views/admin/account/settings/Notification'),
+          //       meta: { title: 'Notification Settings', hidden: true, keepAlive: true }
+          //     }
+          //   ]
+          // }
         ]
       },
     ]
@@ -346,6 +346,13 @@ export const constantRouterMap = [
             name: 'Checkout',
             component: () => import('@/views/home/checkout/checkout'),
             meta: { title: '订单信息', keepAlive: true, hiddenHeaderContent: true },
+            hidden: true
+          },
+          {
+            path: 'account',
+            name: 'UserAccount',
+            component: () => import('@/views/admin/account/center/Index'),
+            meta: { title: '订单列表', keepAlive: true, hiddenHeaderContent: true },
             hidden: true
           }
         ]
