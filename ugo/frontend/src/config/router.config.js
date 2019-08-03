@@ -377,6 +377,11 @@ export const constantRouterMap = [
         name: 'UserLogin',
         component: () => import('@/views/home/user/Login')
       },
+      // {
+      //   path: 'change_password',
+      //   name: 'ChangePassword',
+      //   component: () => import('@/views/home/user/ChangePassword'),
+      // },
     ]
   },
   {
