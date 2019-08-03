@@ -1,5 +1,5 @@
 <template>
-  <a-card :bordered="false">
+  <a-card :bordered="true" title="订单列表">
     <div class="table-page-search-wrapper">
       <a-form layout="inline">
         <a-row :gutter="48">
@@ -20,7 +20,7 @@
       :data="loadData"
       bordered
       fixed
-      :scroll="{ x: 3450}"
+      :scroll="{ x: 3200}"
     >
       <span slot="remark" slot-scope="text" style="word-warp:break-word;word-break:break-all">
         <ellipsis :length="200" tooltip>{{ text }}</ellipsis>
@@ -41,7 +41,7 @@
       </span>
       <span slot="action" slot-scope="text, data">
         <template>
-          <router-link :to="{ name: 'OrderEdit', params: { id: data.id } }">Edit</router-link>
+          <router-link :to="{ name: 'OrderDetail', query: data }">详情</router-link>
         </template>
       </span>
     </s-table>
@@ -69,7 +69,7 @@ const payStatus = [
 ];
 
 export default {
-  name: "UserOrder",
+  name: "OrderList",
   components: {
     STable,
     Ellipsis
@@ -82,28 +82,20 @@ export default {
       // 表头
       columns: [
         {
-          key: "#",
-          title: "#",
-          dataIndex: "id",
-          fixed: 'left',
-          width: 100
-        },
-        {
           key: "1",
-          title: "OrderID",
+          title: "订单号",
           dataIndex: "orderID",
-          fixed: 'left',
           width: 150
         },
         {
           key: "2",
-          title: "ConfirmID",
+          title: "确认号",
           dataIndex: "confirmID",
           width: 150
         },
         {
           key: "3",
-          title: "OrderStatus",
+          title: "订单状态",
           dataIndex: "order_status",
           width: 150,
           customRender: (text, row, index) => {
@@ -112,7 +104,7 @@ export default {
         },
         {
           key: "17",
-          title: "PayStatus",
+          title: "支付状态",
           dataIndex: "pay_status",
           width: 150,
           customRender: (text, row, index) => {
@@ -121,89 +113,83 @@ export default {
         },
         {
           key: "4",
-          title: "Variant",
+          title: "产品",
           dataIndex: "variant",
           scopedSlots: { customRender: 'variant' },
           width: 250
         },
         {
           key: "5",
-          title: "Day",
+          title: "日期",
           dataIndex: "day",
           width: 150
         },
         {
           key: "6",
-          title: "Time",
+          title: "时间",
           dataIndex: "time",
           width: 150
         },
         {
           key: "7",
-          title: "Adult Quantity",
+          title: "成人数量",
           dataIndex: "adult_quantity",
           width: 50
         },
         {
           key: "8",
-          title: "Adult Price",
+          title: "成人价格",
           dataIndex: "adult_price",
           width: 100
         },
         {
           key: "9",
-          title: "Child Quantity",
+          title: "儿童数量",
           dataIndex: "child_quantity",
           width: 50
         },
         {
           key: "10",
-          title: "Child Price",
+          title: "儿童价格",
           dataIndex: "child_price",
           width: 100
         },
         {
-          key: "17",
-          title: "Total Price",
+          key: "18",
+          title: "总金额",
           dataIndex: "total_price",
           width: 100
         },
         {
           key: "11",
-          title: "Customer Info",
+          title: "客户信息",
           dataIndex: "customer_info",
           scopedSlots: { customRender: 'customer_info' },
           width: 400
         },
         {
           key: "12",
-          title: "Customer Contact",
+          title: "联系方式",
           dataIndex: "customer_contact",
           scopedSlots: { customRender: 'customer_contact' },
           width: 400
         },
         {
-          key: "13",
-          title: "Customer",
-          dataIndex: "customer",
-          width: 150
-        },
-        {
           key: "14",
-          title: "Operator",
+          title: "操作员",
           dataIndex: "operator",
           width: 150
         },
         {
           key: "15",
-          title: "Create at",
+          title: "创建",
           dataIndex: "create_at",
           scopedSlots: { customRender: 'create_at' },
           width: 200
         },
         {
           key: "16",
-          title: "Remark",
+          title: "备注",
           dataIndex: "remark",
           scopedSlots: { customRender: 'remark' },
           width: 400

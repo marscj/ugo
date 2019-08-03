@@ -130,9 +130,15 @@ class OrderSerializer(CheckoutOrderSerializer):
 
     operator = serializers.StringRelatedField(read_only=True)
 
+    product = serializers.SerializerMethodField()
+
     class Meta:
         model = Order 
         fields = '__all__'
+
+    def get_product(self, obj):
+        if obj.variant:
+            return obj.variant.product.title
 
     @transaction.atomic
     def create(self, validated_data):

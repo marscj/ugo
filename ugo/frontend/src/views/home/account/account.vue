@@ -10,7 +10,6 @@
         </a-card>
       </a-col>
       <a-col :md="24" :lg="17">
-        <user-order/>
         <order-list/>
       </a-col>
     </a-row>
@@ -18,12 +17,10 @@
 </template>
 
 <script>
-import { UserOrder } from "./page/UserOrder";
-import { OrderList } from "./page/OrderList";
+import OrderList from './OrderList'
 export default {
   name: 'Account', 
   components: {
-    UserOrder,
     OrderList
   },
   data() {

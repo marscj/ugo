@@ -163,7 +163,7 @@ export default {
           width: 100
         },
         {
-          key: "17",
+          key: "18",
           title: "Total Price",
           dataIndex: "total_price",
           width: 100

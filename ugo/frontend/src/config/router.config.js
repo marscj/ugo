@@ -354,6 +354,13 @@ export const constantRouterMap = [
             component: () => import('@/views/home/account/account'),
             meta: { title: '订单列表', keepAlive: true, hiddenHeaderContent: true },
             hidden: true
+          },
+          {
+            path: 'order/detail',
+            name: 'OrderDetail',
+            component: () => import('@/views/home/account/order_detail'),
+            meta: { title: '订单详情', keepAlive: true, hiddenHeaderContent: true },
+            hidden: true
           }
         ]
       },
