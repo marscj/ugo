@@ -2,7 +2,10 @@
   <div class="footer">
     <div class="copyright">
       Copyright
-      <a-icon type="copyright" /> 2019 <span>Mars.jinxing@gmail.com</span>
+      <a-icon type="copyright" /> 2019 <span>UGO Dubai</span>
+    </div>
+    <div class="copyright">
+      <span>Mars.jinxing@gmail.com</span>
     </div>
   </div>
 </template>
