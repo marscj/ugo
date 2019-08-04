@@ -318,10 +318,7 @@ export default {
       createProduct(data)
         .then(res => {
           const { result } = res;
-          this.$router.replace({
-            name: "ProductEdit",
-            params: { id: result.id }
-          });
+          this.handleGoBack()
         })
         .finally(() => {
           this.spinning = false;

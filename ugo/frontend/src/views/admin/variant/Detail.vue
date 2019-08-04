@@ -291,10 +291,7 @@ export default {
       createVariant(data)
         .then(res => {
           const { result } = res;
-          this.$router.replace({
-            name: "VariantEdit",
-            params: { id: result.id }
-          });
+          this.handleGoBack()
         })
         .catch(error => {
           this.checkError(error);
