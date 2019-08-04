@@ -108,10 +108,9 @@ export default {
     loginSuccess (res) {
       this.$router.push({ path: '/' })
     },
-    requestFailed (err) {
+    requestFailed (error) {
       this.$notification['error']({
-        message: 'error',
-        description: ((err.response || {}).data || {}).message || 'Unable to log in with provided credentials.',
+        message: error.response.data.message.detail,
         duration: 4
       })
     }

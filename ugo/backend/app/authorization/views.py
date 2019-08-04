@@ -21,7 +21,9 @@ class LoginJwtTokenView(ObtainJSONWebToken):
         if response.status_code == 200:
             return response
         else:
-            return Response({'message': 'Unable to log in with provided credentials.'}, status=response.status_code)
+            return Response({
+                'message': {'detail': '用户名或者密码错误.'}
+            }, status=response.status_code)
 
 class AdminLoginJwtTokenView(ObtainJSONWebToken):
     permission_classes = [MiddlewareLoginPermission]
@@ -30,11 +32,12 @@ class AdminLoginJwtTokenView(ObtainJSONWebToken):
 
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
-
         if response.status_code == 200:
             return response
         else:
-            return Response({'message': 'Unable to log in with provided credentials.'}, status=response.status_code)
+            return Response({
+                'message': {'detail': '用户名或者密码错误.'}
+            }, status=response.status_code)
 
 class LogoutJwtTokenView(APIView):
     def post(self, request, *args, **kwargs):

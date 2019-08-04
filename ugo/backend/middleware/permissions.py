@@ -32,6 +32,6 @@ class MiddlewareLoginPermission(BasePermission):
                 request.user = CustomUser.objects.get(username=username)
                 return has_permission(request, view.permissionId)
             except CustomUser.DoesNotExist:
-                raise exceptions.ValidationError({'username': '没有找到该用户'})
+                raise exceptions.ValidationError({'detail': '没有找到该用户'})
                 
         return True

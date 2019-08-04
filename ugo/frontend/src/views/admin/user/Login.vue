@@ -57,7 +57,7 @@
 import md5 from 'md5'
 import { mapActions } from 'vuex'
 import { timeFix } from '@/utils/util'
-// import { getSmsCaptcha, get2step } from '@/api/login'
+import { checkError } from "@/views/utils/error";
 
 export default {
   components: {
@@ -108,10 +108,9 @@ export default {
     loginSuccess (res) {
       this.$router.push({ path: '/admin/dashboard' })
     },
-    requestFailed (err) {
+    requestFailed (error) {
       this.$notification['error']({
-        message: 'error',
-        description: ((err.response || {}).data || {}).message || 'Unable to log in with provided credentials.',
+        message: error.response.data.message.detail,
         duration: 4
       })
     }

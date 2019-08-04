@@ -23,9 +23,8 @@ const err = (error) => {
     const token = Vue.ls.get(ACCESS_TOKEN)
     if (error.response.status === 403) {
       notification.error({
-        message: '登陆信息已过期',
+        message: '您没有权限',
       })
-      router.push({name: 'UserLogin'})
     }
     if (error.response.status === 401) {
       notification.error({
