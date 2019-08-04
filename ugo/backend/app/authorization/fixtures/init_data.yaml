@@ -9,36 +9,36 @@
 - model: authorization.permission
   pk: 1
   fields:
-    permissionId: Admin
-    permissionName: admin
+    permissionId: Staff
+    permissionName: Staff
     role: 1
 
 - model: authorization.permission
   pk: 2
   fields:
     permissionId: CustomUser
-    permissionName: user
+    permissionName: User
     role: 1
 
 - model: authorization.permission
   pk: 3
   fields:
     permissionId: Role
-    permissionName: role
+    permissionName: Role
     role: 1
 
 - model: authorization.permission
   pk: 4
   fields:
     permissionId: Product
-    permissionName: product
+    permissionName: Product
     role: 1
 
 - model: authorization.permission
   pk: 5
   fields:
     permissionId: Order
-    permissionName: order
+    permissionName: Order
     role: 1
 
 ###################################### actionentity ############################################
@@ -51,13 +51,13 @@
 # 'disable': { key: 'disable', label: '禁用' },
 # 'import': { key: 'import', label: '导入' },
 # 'export': { key: 'export', label: '导出' }
-# 'admin': { key: 'admin', label: '登陆到后台' },
+# 'staff': { key: 'admin', label: '登陆到后台' },
 
 # dashboard
 - model: authorization.actionentity
   pk: 1
   fields:
-    action: admin
+    action: staff
     describe: 登陆到后台
     permission: 1
 

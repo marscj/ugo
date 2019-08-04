@@ -6,7 +6,7 @@ export const asyncRouterMap = [
     path: '/admin',
     name: 'admin',
     component: BasicLayout,
-    meta: { title: 'Admin' , permission: [ 'Admin123' ]},
+    meta: { title: 'Admin' , permission: [ 'Staff' ]},
     redirect: '/admin/dashboard',
     children: [
       // dashboard

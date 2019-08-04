@@ -3,17 +3,15 @@ from rest_framework import exceptions
 from app.authorization.models import CustomUser
 
 def has_permission(request, permissionId):
-    perms_map = {
-        'GET': 'query',
-        'POST': 'add',
-        'PUT': 'edit',
-        'DELETE': 'delete'
-    }
-    
-    if request.method not in perms_map:
-        raise exceptions.MethodNotAllowed(request.method)
+    perms_map = [
+        'query',
+        'add',
+        'edit',
+        'delete',
+        'staff',
+    ]
 
-    return request.user.role.permissions.filter(permissionId=permissionId).filter(actionEntitySet__action=perms_map[request.method]).exists()
+    return request.user.role.permissions.filter(permissionId=permissionId).filter(actionEntitySet__action__in=perms_map).exists()
 
 class MiddlewarePermission(BasePermission):
 
@@ -23,3 +21,17 @@ class MiddlewarePermission(BasePermission):
                 return has_permission(request, view.permissionId)
                 
         return False
+
+class MiddlewareLoginPermission(BasePermission):
+
+    def has_permission(self, request, view):
+        username = request.data.get('username', None)
+ 
+        if username is not None:
+            try:
+                request.user = CustomUser.objects.get(username=username)
+                return has_permission(request, view.permissionId)
+            except CustomUser.DoesNotExist:
+                raise exceptions.ValidationError({'username': '没有找到该用户'})
+                
+        return True

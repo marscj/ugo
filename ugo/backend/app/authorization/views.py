@@ -9,7 +9,7 @@ from rest_framework_jwt.settings import api_settings
 
 from .import UserType
 from middleware.viewsets import CustomModelViewSet
-from middleware.permissions import MiddlewarePermission
+from middleware.permissions import MiddlewarePermission, MiddlewareLoginPermission
 from .models import CustomUser, Role, Permission, ActionEntity
 from .serializers import UserSerializer, UserCreateSerializer, ChangePasswordSerializer, UserSimpleSerializer, RoleSerializer, PermissionSerializer, ActionEntitySerializer
 
@@ -24,9 +24,9 @@ class LoginJwtTokenView(ObtainJSONWebToken):
             return Response({'message': 'Unable to log in with provided credentials.'}, status=response.status_code)
 
 class AdminLoginJwtTokenView(ObtainJSONWebToken):
-    permission_classes = [MiddlewarePermission]
+    permission_classes = [MiddlewareLoginPermission]
 
-    permissionId = 'Admin'
+    permissionId = 'Staff'
 
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
