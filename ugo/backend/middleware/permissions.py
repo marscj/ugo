@@ -19,7 +19,7 @@ class IsAuthenticated(BasePermission):
 
     def has_permission(self, request, view):
         if request.user and request.user.is_authenticated and isinstance(request.user, CustomUser): 
-            if request.user.role is not None:
+            if request.user.role is not None and request.user.role.status == 0:
                 return has_permission(request, view.get_queryset().model.__name__)
                 
         return False

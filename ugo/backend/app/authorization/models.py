@@ -54,8 +54,6 @@ class Role(models.Model):
     name = models.CharField(blank=True, null=True, max_length=32)
     describe = models.CharField(blank=True, null=True, max_length=128)
     status = models.IntegerField(default=0)
-    createTime = models.DateTimeField(default=timezone.now)
-    deleted = models.BooleanField(default=False)
     permissions = models.ManyToManyField('Permission', blank=True, related_name='role')
 
     class Meta:

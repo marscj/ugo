@@ -1,5 +1,5 @@
 <template>
-  <a-card :bordered="false" :style="{ height: '100%' }">
+  <a-card :bordered="false" :style="{ height: '100%' }" v-action:query>
     <a-row :gutter="24">
       <a-col :md="4">
         <a-list itemLayout="vertical" :dataSource="roles">
@@ -19,9 +19,8 @@
           </div>
           <a-form :form="form" :layout="isMobile() ? 'vertical' : 'horizontal'">
             <a-form-item label="Key">
-              <a-input v-decorator="[ 'id', {rules: [{ required: true, message: 'Please input unique key!' }]} ]" />
+              <a-input v-decorator="[ 'id', {rules: [{ required: true, message: 'Please input unique key!' }]} ]" disabled/>
             </a-form-item>
-
             <a-form-item label="Name:">
               <a-input v-decorator="[ 'name', {rules: [{ required: true, message: 'This field is required.' }]} ]" />
             </a-form-item>
