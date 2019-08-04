@@ -15,7 +15,7 @@ export const asyncRouterMap = [
         name: 'dashboard',
         redirect: '/admin/dashboard/workplace',
         component: RouteView,
-        meta: { title: 'Dashboard', keepAlive: true, icon: bxAnaalyse, permission: [ 'dashboard' ] },
+        meta: { title: 'Dashboard', keepAlive: true, icon: bxAnaalyse, permission: [ 'Dashboard' ] },
         children: [
           {
             path: 'analysis',
@@ -142,14 +142,14 @@ export const asyncRouterMap = [
         path: 'user',
         name: 'Users',
         component: PageView,
-        meta: { title: 'Users', keepAlive: true, permission: [ 'CustomUser' ] },
+        meta: { title: 'User', keepAlive: true, permission: [ 'CustomUser' ] },
         redirect: '/admin/user/users',
         children: [
           {
             path: 'users',
             name: 'UserList',
             component: () => import('@/views/admin/user/list'),
-            meta: { title: 'Users', keepAlive: true, permission: [ 'CustomUser' ] }
+            meta: { title: 'User', keepAlive: true, permission: [ 'CustomUser' ] }
           }
         ]
       },
@@ -158,14 +158,14 @@ export const asyncRouterMap = [
         path: 'role',
         name: 'Roles',
         component: PageView,
-        meta: { title: 'Roles', keepAlive: true, permission: [ 'Role' ] },
+        meta: { title: 'Role', keepAlive: true, permission: [ 'Role' ] },
         redirect: '/admin/role/roles',
         children: [
           {
             path: 'roles',
             name: 'RoleList',
             component: () => import('@/views/admin/role/RoleList'),
-            meta: { title: 'Roles', keepAlive: true, permission: [ 'Role' ] }
+            meta: { title: 'Role', keepAlive: true, permission: [ 'Role' ] }
           },
           // {
           //   path: 'permissions',

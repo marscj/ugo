@@ -9,7 +9,7 @@
 - model: authorization.permission
   pk: 1
   fields:
-    permissionId: dashboard
+    permissionId: Dashboard
     permissionName: dashboard
     role: 1
 
@@ -17,7 +17,7 @@
   pk: 2
   fields:
     permissionId: CustomUser
-    permissionName: customuser
+    permissionName: user
     role: 1
 
 - model: authorization.permission
@@ -26,13 +26,6 @@
     permissionId: Role
     permissionName: role
     role: 1
-
-# - model: authorization.permission
-#   pk: 4
-#   fields:
-#     permissionId: Permission
-#     permissionName: permission
-#     role: 1
 
 - model: authorization.permission
   pk: 4
@@ -43,13 +36,6 @@
 
 - model: authorization.permission
   pk: 5
-  fields:
-    permissionId: ProductVariant
-    permissionName: variant
-    role: 1
-
-- model: authorization.permission
-  pk: 6
   fields:
     permissionId: Order
     permissionName: order
@@ -161,7 +147,7 @@
     describe: 删除
     permission: 4
 
-#ProductVariant
+#Order
 - model: authorization.actionentity
   pk: 14
   fields:
@@ -189,32 +175,3 @@
     action: delete
     describe: 删除
     permission: 5
-
-#Order
-- model: authorization.actionentity
-  pk: 18
-  fields:
-    action: query
-    describe: 查询
-    permission: 6
-
-- model: authorization.actionentity
-  pk: 19
-  fields:
-    action: add
-    describe: 新增
-    permission: 6
-
-- model: authorization.actionentity
-  pk: 20
-  fields:
-    action: edit
-    describe: 编辑
-    permission: 6
-
-- model: authorization.actionentity
-  pk: 21
-  fields:
-    action: delete
-    describe: 删除
-    permission: 6
