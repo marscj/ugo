@@ -25,6 +25,33 @@ class RoleSerializer(serializers.ModelSerializer):
         model = Role
         fields = '__all__'
 
+    def create(self, validated_data):
+        permissions = validated_data.pop('permissions', None)
+        product = Role.objects.create(**validated_data)
+        
+        if permissions is not None:
+            for data in permissions:
+                _data = data.objects.create(**data)
+                product.permissions.add(_data)
+
+        return product
+
+    def update(self, instance, validated_data):
+        permissions = validated_data.pop('permissions', None)
+
+        for data in instance.permissions.all():
+            instance.permissions.remove(data)
+            data.delete()
+
+        if permissions is not None:
+            for data in permissions:
+                _data = data.objects.create(**data)
+                instance.permissions.add(_data)
+
+        super().update(instance, validated_data)
+
+        return instance
+
 class ChangePasswordSerializer(serializers.Serializer):
 
     old_password = serializers.CharField(required=True)

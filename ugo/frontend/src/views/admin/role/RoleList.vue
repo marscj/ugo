@@ -5,8 +5,15 @@
         <a-list itemLayout="vertical" :dataSource="roles">
           <a-list-item slot="renderItem" slot-scope="item, index" :key="index">
             <a-list-item-meta :style="{ marginBottom: '0' }">
-              <span slot="description" style="text-align: center; display: block">{{ item.describe }}</span>
-              <a slot="title" style="text-align: center; display: block" @click="edit(item)">{{ item.name }}</a>
+              <span
+                slot="description"
+                style="text-align: center; display: block"
+              >{{ item.describe }}</span>
+              <a
+                slot="title"
+                style="text-align: center; display: block"
+                @click="edit(item)"
+              >{{ item.name }}</a>
             </a-list-item-meta>
           </a-list-item>
         </a-list>
@@ -18,11 +25,10 @@
             <h3>Role：{{ mdl.name }}</h3>
           </div>
           <a-form :form="form" :layout="isMobile() ? 'vertical' : 'horizontal'">
-            <a-form-item label="Key">
-              <a-input v-decorator="[ 'id', {rules: [{ required: true, message: 'Please input unique key!' }]} ]" disabled/>
-            </a-form-item>
             <a-form-item label="Name:">
-              <a-input v-decorator="[ 'name', {rules: [{ required: true, message: 'This field is required.' }]} ]" />
+              <a-input
+                v-decorator="[ 'name', {rules: [{ required: true, message: 'This field is required.' }]} ]"
+              />
             </a-form-item>
 
             <a-form-item label="Status">
@@ -33,26 +39,38 @@
             </a-form-item>
 
             <a-form-item label="Describe">
-              <a-textarea :row="3" v-decorator="[ 'describe', {rules: [{ required: true, message: 'This field is required.' }]} ]" />
+              <a-textarea
+                :row="3"
+                v-decorator="[ 'describe', {rules: [{ required: true, message: 'This field is required.' }]} ]"
+              />
             </a-form-item>
 
             <a-form-item label="Permissions">
               <a-row :gutter="16" v-for="(permission, index) in permissions" :key="index">
-                <a-col :xl="4" :lg="24">
-                  {{ permission.permissionName }}：
-                </a-col>
+                <a-col :xl="4" :lg="24">{{ permission.permissionName }}：</a-col>
                 <a-col :xl="20" :lg="24">
                   <a-checkbox
                     v-if="permission.actionsOptions.length > 0"
                     :indeterminate="permission.indeterminate"
                     :checked="permission.checkedAll"
-                    @change="onChangeCheckAll($event, permission)">
-                    all
-                  </a-checkbox>
-                  <a-checkbox-group :options="permission.actionsOptions" v-model="permission.selected" @change="onChangeCheck(permission)" />
+                    @change="onChangeCheckAll($event, permission)"
+                  >all</a-checkbox>
+                  <a-checkbox-group
+                    :options="permission.actionsOptions"
+                    v-model="permission.selected"
+                    @change="onChangeCheck(permission)"
+                  />
                 </a-col>
               </a-row>
             </a-form-item>
+            <div style="position:relative; margin-top:20px">
+              <a-button
+                type="primary"
+                html-type="submit"
+                @click="handleSubmit"
+                style="margin-right:20px"
+              >Submit</a-button>
+            </div>
           </a-form>
         </div>
       </a-col>
@@ -61,102 +79,115 @@
 </template>
 
 <script>
-import { getRoleList, getPermissions } from '@/api/manage'
-import { mixinDevice } from '@/utils/mixin'
-import { actionToObject } from '@/utils/permissions'
-import pick from 'lodash.pick'
+import { getRoleList, getPermissions, createRole, updateRole } from "@/api/manage";
+import { mixinDevice } from "@/utils/mixin";
+import { actionToObject } from "@/utils/permissions";
+import pick from "lodash.pick";
 
 export default {
-  name: 'RoleList',
+  name: "RoleList",
   mixins: [mixinDevice],
   components: {},
-  data () {
+  data() {
     return {
       form: this.$form.createForm(this),
       mdl: {},
 
       roles: [],
       permissions: []
-    }
+    };
   },
-  created () {
-    getRoleList().then((res) => {
-      this.roles = res.result
+  created() {
+    getRoleList().then(res => {
+      this.roles = res.result;
       this.roles.push({
-        id: '-1',
-        name: 'Add Role',
-        describe: 'Add a role',
-        permissions: [
-
-        ]
-      }) 
-      this.loadPermissions()
-    })
+        name: "Add Role",
+        describe: "Add a role",
+        permissions: []
+      });
+      this.loadPermissions();
+    });
   },
   methods: {
-    callback (val) {
+    callback(val) {},
+
+    add() {
+      this.edit({});
     },
 
-    add () {
-      this.edit({ id: 0 })
-    },
-
-    edit (record) {
-      this.mdl = Object.assign({}, record)
+    edit(record) {
+      this.mdl = Object.assign({}, record);
       if (this.mdl.permissions && this.permissions) {
-        const permissionsAction = {}
+        const permissionsAction = {};
         this.mdl.permissions.forEach(permission => {
-          permissionsAction[permission.permissionId] = permission.actionEntitySet.map(entity => entity.action)
-        })
+          permissionsAction[
+            permission.permissionId
+          ] = permission.actionEntitySet.map(entity => entity.action);
+        });
         this.permissions.forEach(permission => {
-          const selected = permissionsAction[permission.permissionId]
-          permission.selected = selected || []
-          this.onChangeCheck(permission)
-        })
+          const selected = permissionsAction[permission.permissionId];
+          permission.selected = selected || [];
+          this.onChangeCheck(permission);
+        });
       }
 
       this.$nextTick(() => {
-        this.form.setFieldsValue(pick(this.mdl, 'id', 'name', 'status', 'describe'))
-      })
+        this.form.setFieldsValue(
+          pick(this.mdl, "id", "name", "status", "describe")
+        );
+      });
     },
 
-    onChangeCheck (permission) {
-      permission.indeterminate = !!permission.selected.length && (permission.selected.length < permission.actionsOptions.length)
-      permission.checkedAll = permission.selected.length === permission.actionsOptions.length
+    onChangeCheck(permission) {
+      permission.indeterminate =
+        !!permission.selected.length &&
+        permission.selected.length < permission.actionsOptions.length;
+      permission.checkedAll =
+        permission.selected.length === permission.actionsOptions.length;
     },
-    onChangeCheckAll (e, permission) {
+    onChangeCheckAll(e, permission) {
       Object.assign(permission, {
-        selected: e.target.checked ? permission.actionsOptions.map(obj => obj.value) : [],
+        selected: e.target.checked
+          ? permission.actionsOptions.map(obj => obj.value)
+          : [],
         indeterminate: false,
         checkedAll: e.target.checked
-      })
+      });
     },
-    loadPermissions () {
+    loadPermissions() {
       getPermissions().then(res => {
-        const result = res.result
+        const result = res.result;
         this.permissions = result.map(permission => {
-          const options = permission.actionEntitySet.map((f) => {
-            f.defaultCheck = false
+          const options = permission.actionEntitySet.map(f => {
+            f.defaultCheck = false;
             return f;
-          })
-          permission.checkedAll = false
-          permission.selected = []
-          permission.indeterminate = false
+          });
+          permission.checkedAll = false;
+          permission.selected = [];
+          permission.indeterminate = false;
           permission.actionsOptions = options.map(option => {
             return {
               label: option.describe,
               value: option.action
-            }
-          })
-          return permission
-        })
-        this.edit(this.roles[0])
+            };
+          });
+          return permission;
+        });
+        this.edit(this.roles[0]);
+      });
+    },
+    handleSubmit() {
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          console.log('values', values)
+          console.log(this.mdl, '------')
+          console.log(this.permissions, '++++++')
+        }
       })
     }
   }
-}
+};
 </script>
 
 <style scoped>
-
 </style>

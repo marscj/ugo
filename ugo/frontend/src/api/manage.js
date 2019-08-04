@@ -25,6 +25,22 @@ export function getRoleList (parameter) {
   })
 }
 
+export function createRole (pk, data) {
+  return axios({
+    url: api.role + `${pk}/`,
+    method: 'post',
+    data: data
+  })
+}
+
+export function updateRole (pk, data) {
+  return axios({
+    url: api.role + `${pk}/`,
+    method: 'put',
+    data: data
+  })
+}
+
 export function getPermissions (parameter) {
   return axios({
     url: api.permission,
