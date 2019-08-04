@@ -59,7 +59,7 @@ class Role(models.Model):
 class Permission(models.Model):
     permissionId = models.CharField(blank=True, null=True, max_length=32)
     permissionName = models.CharField(blank=True, null=True, max_length=32)
-    role = models.ForeignKey(Role, related_name='permission', on_delete=models.CASCADE)
+    role = models.ForeignKey(Role, related_name='permissions', on_delete=models.CASCADE)
     
     class Meta:
         db_table = 'permission'

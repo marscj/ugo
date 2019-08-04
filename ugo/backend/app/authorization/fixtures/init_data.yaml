@@ -1,3 +1,60 @@
+###################################### role ############################################
+- model: authorization.role
+  pk: 1
+  fields:
+    name: admin
+    describe: super manager
+
+###################################### permission ############################################
+- model: authorization.permission
+  pk: 1
+  fields:
+    permissionId: dashboard
+    permissionName: dashboard
+    role: 1
+
+- model: authorization.permission
+  pk: 2
+  fields:
+    permissionId: CustomUser
+    permissionName: customuser
+    role: 1
+
+- model: authorization.permission
+  pk: 3
+  fields:
+    permissionId: Role
+    permissionName: role
+    role: 1
+
+# - model: authorization.permission
+#   pk: 4
+#   fields:
+#     permissionId: Permission
+#     permissionName: permission
+#     role: 1
+
+- model: authorization.permission
+  pk: 4
+  fields:
+    permissionId: Product
+    permissionName: product
+    role: 1
+
+- model: authorization.permission
+  pk: 5
+  fields:
+    permissionId: ProductVariant
+    permissionName: variant
+    role: 1
+
+- model: authorization.permission
+  pk: 6
+  fields:
+    permissionId: Order
+    permissionName: order
+    role: 1
+
 ###################################### actionentity ############################################
 # 'add': { key: 'add', label: '新增' },
 #   'delete': { key: 'delete', label: '删除' },
@@ -8,95 +65,156 @@
 #   'disable': { key: 'disable', label: '禁用' },
 #   'import': { key: 'import', label: '导入' },
 #   'export': { key: 'export', label: '导出' }
+
+# dashboard
 - model: authorization.actionentity
   pk: 1
   fields:
     action: query
     describe: 查询
-    defaultCheck: true
+    permission: 1
 
+#CustomUser
 - model: authorization.actionentity
   pk: 2
+  fields:
+    action: query
+    describe: 查询
+    permission: 2
+
+- model: authorization.actionentity
+  pk: 3
   fields:
     action: add
     describe: 新增
-    defaultCheck: true
+    permission: 2
 
 - model: authorization.actionentity
-  pk: 3
+  pk: 4
   fields:
     action: edit
     describe: 编辑
-    defaultCheck: true
+    permission: 2
 
 - model: authorization.actionentity
-  pk: 4
+  pk: 5
   fields:
     action: delete
     describe: 删除
-    defaultCheck: true
+    permission: 2
 
+#Role
 - model: authorization.actionentity
-  pk: 5
-  fields:
-    action: get
-    describe: 详情
-    defaultCheck: true
-
-###################################### permission ############################################
-- model: authorization.permission
-  pk: 1
-  fields:
-    permissionId: dashboard
-    permissionName: dashboard
-    actionEntitySet: [1]
-
-- model: authorization.permission
-  pk: 2
-  fields:
-    permissionId: CustomUser
-    permissionName: customuser
-    actionEntitySet: [1, 2, 3, 4]
-
-- model: authorization.permission
-  pk: 3
-  fields:
-    permissionId: Role
-    permissionName: role
-    actionEntitySet: [1, 2, 3, 4]
-
-- model: authorization.permission
-  pk: 4
-  fields:
-    permissionId: Permission
-    permissionName: permission
-    actionEntitySet: [1]
-
-- model: authorization.permission
-  pk: 5
-  fields:
-    permissionId: Product
-    permissionName: product
-    actionEntitySet: [1, 2, 3, 4]
-
-- model: authorization.permission
   pk: 6
   fields:
-    permissionId: ProductVariant
-    permissionName: variant
-    actionEntitySet: [1, 2, 3, 4]
+    action: query
+    describe: 查询
+    permission: 3
 
-- model: authorization.permission
+- model: authorization.actionentity
   pk: 7
   fields:
-    permissionId: Order
-    permissionName: order
-    actionEntitySet: [1, 2, 3, 4]
+    action: add
+    describe: 新增
+    permission: 3
 
-###################################### role ############################################
-- model: authorization.role
-  pk: 1
+- model: authorization.actionentity
+  pk: 8
   fields:
-    name: admin
-    describe: super manager
-    permissions: [1, 2, 3, 4, 5, 6, 7]
+    action: edit
+    describe: 编辑
+    permission: 3
+
+- model: authorization.actionentity
+  pk: 9
+  fields:
+    action: delete
+    describe: 删除
+    permission: 3
+
+#Product
+- model: authorization.actionentity
+  pk: 10
+  fields:
+    action: query
+    describe: 查询
+    permission: 4
+
+- model: authorization.actionentity
+  pk: 11
+  fields:
+    action: add
+    describe: 新增
+    permission: 4
+
+- model: authorization.actionentity
+  pk: 12
+  fields:
+    action: edit
+    describe: 编辑
+    permission: 4
+
+- model: authorization.actionentity
+  pk: 13
+  fields:
+    action: delete
+    describe: 删除
+    permission: 4
+
+#ProductVariant
+- model: authorization.actionentity
+  pk: 14
+  fields:
+    action: query
+    describe: 查询
+    permission: 5
+
+- model: authorization.actionentity
+  pk: 15
+  fields:
+    action: add
+    describe: 新增
+    permission: 5
+
+- model: authorization.actionentity
+  pk: 16
+  fields:
+    action: edit
+    describe: 编辑
+    permission: 5
+
+- model: authorization.actionentity
+  pk: 17
+  fields:
+    action: delete
+    describe: 删除
+    permission: 5
+
+#Order
+- model: authorization.actionentity
+  pk: 18
+  fields:
+    action: query
+    describe: 查询
+    permission: 6
+
+- model: authorization.actionentity
+  pk: 19
+  fields:
+    action: add
+    describe: 新增
+    permission: 6
+
+- model: authorization.actionentity
+  pk: 20
+  fields:
+    action: edit
+    describe: 编辑
+    permission: 6
+
+- model: authorization.actionentity
+  pk: 21
+  fields:
+    action: delete
+    describe: 删除
+    permission: 6

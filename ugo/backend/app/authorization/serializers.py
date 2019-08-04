@@ -25,34 +25,34 @@ class RoleSerializer(serializers.ModelSerializer):
         model = Role
         fields = '__all__'
 
-    def create(self, validated_data):
-        permissions = validated_data.pop('permissions', None)
-        product = Role.objects.create(**validated_data)
+    # def create(self, validated_data):
+    #     permissions = validated_data.pop('permissions', None)
+    #     product = Role.objects.create(**validated_data)
         
-        if permissions is not None:
-            for permission in permissions:
-                for action in permission.actionEntitySet:
-                    ActionEntity.objects.create(**action)
-                _permission = data.objects.create(**permission)
-                product.permissions.add(_permission)
+    #     if permissions is not None:
+    #         for permission in permissions:
+    #             for action in permission.actionEntitySet:
+    #                 ActionEntity.objects.create(**action)
+    #             _permission = data.objects.create(**permission)
+    #             product.permissions.add(_permission)
 
-        return product
+    #     return product
 
-    def update(self, instance, validated_data):
-        permissions = validated_data.pop('permissions', None)
+    # def update(self, instance, validated_data):
+    #     permissions = validated_data.pop('permissions', None)
 
-        for data in instance.permissions.all():
-            instance.permissions.remove(data)
-            data.delete()
+    #     for data in instance.permissions.all():
+    #         instance.permissions.remove(data)
+    #         data.delete()
 
-        if permissions is not None:
-            for data in permissions:
-                _data = data.objects.create(**data)
-                instance.permissions.add(_data)
+    #     if permissions is not None:
+    #         for data in permissions:
+    #             _data = data.objects.create(**data)
+    #             instance.permissions.add(_data)
 
-        super().update(instance, validated_data)
+    #     super().update(instance, validated_data)
 
-        return instance
+    #     return instance
 
 class ChangePasswordSerializer(serializers.Serializer):
 
