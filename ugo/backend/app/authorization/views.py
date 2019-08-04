@@ -13,7 +13,6 @@ from middleware.viewsets import CustomModelViewSet
 from .models import CustomUser, Role, Permission, ActionEntity
 from .serializers import UserSerializer, UserCreateSerializer, ChangePasswordSerializer, UserSimpleSerializer, RoleSerializer, PermissionSerializer, ActionEntitySerializer
 # from .permissions import CustomerUserPermission
-from middleware.permission import IsAuthenticated
 
 class LoginJwtTokenView(ObtainJSONWebToken):
     def post(self, request, *args, **kwargs):
@@ -25,7 +24,6 @@ class LoginJwtTokenView(ObtainJSONWebToken):
             return Response({'message': 'Unable to log in with provided credentials.'}, status=response.status_code)
 
 class LogoutJwtTokenView(APIView):
-
     def post(self, request, *args, **kwargs):
         response = Response({'ok'})
         if api_settings.JWT_AUTH_COOKIE:
@@ -34,7 +32,6 @@ class LogoutJwtTokenView(APIView):
 
 class UserView(CustomModelViewSet):
     serializer_class = UserSerializer
-    permission_classes = [IsAuthenticated]
     queryset = CustomUser.objects.all().cache()
 
     def get_serializer_class(self):

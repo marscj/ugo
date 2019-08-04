@@ -1,5 +1,6 @@
 from rest_framework.permissions import BasePermission
 from rest_framework import exceptions
+from app.authorization.models import CustomUser
 
 def has_permission(request, permissionId):
     perms_map = {
@@ -16,10 +17,8 @@ def has_permission(request, permissionId):
 
 class IsAuthenticated(BasePermission):
 
-    permissionId = 'user'
-
     def has_permission(self, request, view):
-        if request.user and request.user.is_authenticated: 
+        if request.user and request.user.is_authenticated and isinstance(request.user, CustomUser): 
             if request.user.role is not None:
                 return has_permission(request, view.get_queryset().model.__name__)
                 

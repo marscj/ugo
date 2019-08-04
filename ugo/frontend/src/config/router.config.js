@@ -37,26 +37,26 @@ export const asyncRouterMap = [
         name: 'Product',
         redirect: '/admin/product/productList',
         component: PageView,
-        meta: { title: 'Product', keepAlive: true, permission: [ 'product' ] },
+        meta: { title: 'Product', keepAlive: true, permission: [ 'Product' ] },
         children: [
           {
             path: 'productList',
             name: 'ProductList',
             component: () => import('@/views/admin/product/list'),
-            meta: { title: 'Product', keepAlive: false, permission: [ 'product' ] },
+            meta: { title: 'Product', keepAlive: false, permission: [ 'Product' ] },
           },
           {
             path: 'productEdit/:id(\\d+)',
             name: 'ProductEdit',
             component: () => import('@/views/admin/product/edit'),
-            meta: { title: 'Product Edit', keepAlive: false, permission: [ 'product' ] },
+            meta: { title: 'Product Edit', keepAlive: false, permission: [ 'Product' ] },
             hidden: true
           },
           {
             path: 'productCreate',
             name: 'ProductCreate',
             component: () => import('@/views/admin/product/create'),
-            meta: { title: 'Product Create', keepAlive: false, permission: [ 'product' ] },
+            meta: { title: 'Product Create', keepAlive: false, permission: [ 'Product' ] },
             hidden: true
           },
         ]
@@ -67,26 +67,26 @@ export const asyncRouterMap = [
         name: 'Variant',
         redirect: '/admin/variant/variantList',
         component: PageView,
-        meta: { title: 'Variant', keepAlive: true, permission: [ 'product' ] },
+        meta: { title: 'Variant', keepAlive: true, permission: [ 'ProductVariant' ] },
         children: [
           {
             path: 'variantList',
             name: 'VariantList',
             component: () => import('@/views/admin/variant/list'),
-            meta: { title: 'Variant', keepAlive: false, permission: [ 'product' ] },
+            meta: { title: 'Variant', keepAlive: false, permission: [ 'ProductVariant' ] },
           },
           {
             path: 'variantEdit/:id(\\d+)',
             name: 'VariantEdit',
             component: () => import('@/views/admin/variant/edit'),
-            meta: { title: 'Edit', keepAlive: false, permission: [ 'product' ] },
+            meta: { title: 'Edit', keepAlive: false, permission: [ 'ProductVariant' ] },
             hidden: true
           },
           {
             path: 'variantCreate',
             name: 'VariantCreate',
             component: () => import('@/views/admin/variant/create'),
-            meta: { title: 'Create', keepAlive: false, permission: [ 'product' ] },
+            meta: { title: 'Create', keepAlive: false, permission: [ 'ProductVariant' ] },
             hidden: true
           },
         ]
@@ -97,59 +97,59 @@ export const asyncRouterMap = [
         name: 'Order',
         redirect: '/admin/order/orderList',
         component: PageView,
-        meta: { title: 'Order', keepAlive: true, permission: [ 'order' ] },
+        meta: { title: 'Order', keepAlive: true, permission: [ 'Order' ] },
         children: [
           {
             path: 'orderList',
             name: 'OrderList',
             component: () => import('@/views/admin/order/list'),
-            meta: { title: 'Order', keepAlive: false, permission: [ 'order' ] },
+            meta: { title: 'Order', keepAlive: false, permission: [ 'Order' ] },
           },
           {
             path: 'orderEdit/:id(\\d+)',
             name: 'OrderEdit',
             component: () => import('@/views/admin/order/edit'),
-            meta: { title: 'Edit', keepAlive: false, permission: [ 'order' ] },
+            meta: { title: 'Edit', keepAlive: false, permission: [ 'Order' ] },
             hidden: true
           },
           {
             path: 'orderCreate',
             name: 'OrderCreate',
             component: () => import('@/views/admin/order/create'),
-            meta: { title: 'Create', keepAlive: false, permission: [ 'order' ] },
+            meta: { title: 'Create', keepAlive: false, permission: [ 'Order' ] },
             hidden: true
           },
         ]
       },
       //source
-      {
-        path: 'source',
-        name: 'Source',
-        redirect: '/admin/source/sourceList',
-        component: PageView,
-        meta: { title: 'Source', keepAlive: true, permission: [ 'product' ] },
-        children: [
-          {
-            path: 'sourceList',
-            name: 'SourceList',
-            component: () => import('@/views/admin/source/list'),
-            meta: { title: 'Source', keepAlive: false, permission: [ 'product' ] }
-          }
-        ]
-      },
+      // {
+      //   path: 'source',
+      //   name: 'Source',
+      //   redirect: '/admin/source/sourceList',
+      //   component: PageView,
+      //   meta: { title: 'Source', keepAlive: true, permission: [ 'product' ] },
+      //   children: [
+      //     {
+      //       path: 'sourceList',
+      //       name: 'SourceList',
+      //       component: () => import('@/views/admin/source/list'),
+      //       meta: { title: 'Source', keepAlive: false, permission: [ 'product' ] }
+      //     }
+      //   ]
+      // },
       //users
       {
         path: 'user',
         name: 'Users',
         component: PageView,
-        meta: { title: 'Users', keepAlive: true, permission: [ 'user' ] },
+        meta: { title: 'Users', keepAlive: true, permission: [ 'CustomUser' ] },
         redirect: '/admin/user/users',
         children: [
           {
             path: 'users',
             name: 'UserList',
             component: () => import('@/views/admin/user/list'),
-            meta: { title: 'Users', keepAlive: true, permission: [ 'user' ] }
+            meta: { title: 'Users', keepAlive: true, permission: [ 'CustomUser' ] }
           }
         ]
       },
@@ -158,20 +158,20 @@ export const asyncRouterMap = [
         path: 'role',
         name: 'Roles',
         component: PageView,
-        meta: { title: 'Roles', keepAlive: true, permission: [ 'role', 'permission' ] },
+        meta: { title: 'Roles', keepAlive: true, permission: [ 'Role', 'Permission' ] },
         redirect: '/admin/role/roles',
         children: [
           {
             path: 'roles',
             name: 'RoleList',
             component: () => import('@/views/admin/role/RoleList'),
-            meta: { title: 'Roles', keepAlive: true, permission: [ 'role' ] }
+            meta: { title: 'Roles', keepAlive: true, permission: [ 'Role' ] }
           },
           {
             path: 'permissions',
             name: 'PermissionList',
             component: () => import('@/views/admin/role/PermissionList'),
-            meta: { title: 'Permission', keepAlive: true, permission: [ 'permission' ] }
+            meta: { title: 'Permission', keepAlive: true, permission: [ 'Permission' ] }
           }
         ]
       },
