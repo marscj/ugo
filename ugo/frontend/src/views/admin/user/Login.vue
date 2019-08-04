@@ -37,6 +37,10 @@
       </a-form-item>
 
       <a-form-item style="margin-top:24px">
+        <a href="/admin/login" style="position:relative; float:right;">前台登陆</a>
+      </a-form-item>
+
+      <a-form-item style="margin-top:24px">
         <a-button
           size="large"
           type="primary"
