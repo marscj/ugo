@@ -158,7 +158,7 @@ export const asyncRouterMap = [
         path: 'role',
         name: 'Roles',
         component: PageView,
-        meta: { title: 'Roles', keepAlive: true, permission: [ 'Role', 'Permission' ] },
+        meta: { title: 'Roles', keepAlive: true, permission: [ 'Role' ] },
         redirect: '/admin/role/roles',
         children: [
           {
@@ -167,12 +167,12 @@ export const asyncRouterMap = [
             component: () => import('@/views/admin/role/RoleList'),
             meta: { title: 'Roles', keepAlive: true, permission: [ 'Role' ] }
           },
-          {
-            path: 'permissions',
-            name: 'PermissionList',
-            component: () => import('@/views/admin/role/PermissionList'),
-            meta: { title: 'Permission', keepAlive: true, permission: [ 'Permission' ] }
-          }
+          // {
+          //   path: 'permissions',
+          //   name: 'PermissionList',
+          //   component: () => import('@/views/admin/role/PermissionList'),
+          //   meta: { title: 'Permission', keepAlive: true, permission: [ 'Permission' ] }
+          // }
         ]
       },
       // account

@@ -3,16 +3,15 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework.decorators import action
-# from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from rest_framework_jwt.views import ObtainJSONWebToken
 from rest_framework_jwt.settings import api_settings
 
 from .import UserType
 from middleware.viewsets import CustomModelViewSet
+from middleware.permissions import MiddlewarePermission
 from .models import CustomUser, Role, Permission, ActionEntity
 from .serializers import UserSerializer, UserCreateSerializer, ChangePasswordSerializer, UserSimpleSerializer, RoleSerializer, PermissionSerializer, ActionEntitySerializer
-# from .permissions import CustomerUserPermission
 
 class LoginJwtTokenView(ObtainJSONWebToken):
     def post(self, request, *args, **kwargs):
@@ -32,8 +31,11 @@ class LogoutJwtTokenView(APIView):
 
 class UserView(CustomModelViewSet):
     serializer_class = UserSerializer
+    permission_classes = [MiddlewarePermission]
     queryset = CustomUser.objects.all().cache()
 
+    permissionId = CustomUser.__name__
+    
     def get_serializer_class(self):
         if self.action == 'create':
             return UserCreateSerializer
@@ -61,12 +63,22 @@ class UserView(CustomModelViewSet):
 
 class RoleView(CustomModelViewSet):
     serializer_class = RoleSerializer
+    permission_classes = [MiddlewarePermission]
     queryset = Role.objects.all().cache()
+
+    permissionId = Role.__name__
 
 class PermissionView(CustomModelViewSet):
     serializer_class = PermissionSerializer
+    permission_classes = [MiddlewarePermission]
     queryset = Permission.objects.all().cache()
+
+    permissionId = Role.__name__
 
 class ActionEntityView(CustomModelViewSet):
     serializer_class = ActionEntitySerializer
     queryset = ActionEntity.objects.all().cache()
+
+    permission_classes = [MiddlewarePermission]
+
+    permissionId = Role.__name__

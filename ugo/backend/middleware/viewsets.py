@@ -2,6 +2,8 @@ from rest_framework.viewsets import ModelViewSet
 
 class ModelViewSetMixin(object):
 
+    permissionId = 'None'
+
     def list(self, request, *args, **kwargs):
         print(request)
         print(request.data)
