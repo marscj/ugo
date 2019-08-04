@@ -26,8 +26,6 @@ class CustomUser(AbstractBaseUser):
 
     name = models.CharField(blank=True, null=True, max_length=32)
     avatar = models.ImageField(blank=True, null=True, upload_to='avatars')
-    deleted = models.BooleanField(default=False)
-    status = models.IntegerField(default=0)
     user_type = models.IntegerField(default=UserType.Customer, choices=UserType.CHOISE)
     price_level = models.IntegerField(default=5, validators=[MinValueValidator(1), MaxValueValidator(5)])
     balance = models.DecimalField(default=0.0, max_digits=10, decimal_places=2, validators=[MinValueValidator(0.0)])
