@@ -54,7 +54,6 @@ class Role(models.Model):
     name = models.CharField(blank=True, null=True, max_length=32)
     describe = models.CharField(blank=True, null=True, max_length=128)
     status = models.IntegerField(default=0)
-    permissions = models.ManyToManyField('Permission', blank=True, related_name='role')
 
     class Meta:
         db_table = 'role'
@@ -62,7 +61,7 @@ class Role(models.Model):
 class Permission(models.Model):
     permissionId = models.CharField(blank=True, null=True, max_length=32)
     permissionName = models.CharField(blank=True, null=True, max_length=32)
-    actionEntitySet = models.ManyToManyField('ActionEntity', blank=True, related_name='permission')
+    role = models.ForeignKey(Role, related_name='permission', on_delete=models.CASCADE)
     
     class Meta:
         db_table = 'permission'
@@ -70,7 +69,7 @@ class Permission(models.Model):
 class ActionEntity(models.Model):
     action = models.CharField(blank=True, null=True, max_length=32)
     describe = models.CharField(blank=True, null=True, max_length=32)
-    defaultCheck = models.BooleanField(default=False)
+    permission = models.ForeignKey(Permission, related_name='actionEntitySet', on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'action'

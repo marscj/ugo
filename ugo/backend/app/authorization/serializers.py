@@ -30,9 +30,11 @@ class RoleSerializer(serializers.ModelSerializer):
         product = Role.objects.create(**validated_data)
         
         if permissions is not None:
-            for data in permissions:
-                _data = data.objects.create(**data)
-                product.permissions.add(_data)
+            for permission in permissions:
+                for action in permission.actionEntitySet:
+                    ActionEntity.objects.create(**action)
+                _permission = data.objects.create(**permission)
+                product.permissions.add(_permission)
 
         return product
 

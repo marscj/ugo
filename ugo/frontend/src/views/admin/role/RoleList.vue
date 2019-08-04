@@ -159,7 +159,6 @@ export default {
         const result = res.result;
         this.permissions = result.map(permission => {
           const options = permission.actionEntitySet.map(f => {
-            f.defaultCheck = false;
             return f;
           });
           permission.checkedAll = false;
