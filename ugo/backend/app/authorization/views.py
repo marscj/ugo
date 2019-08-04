@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated, AllowAny
+# from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from rest_framework_jwt.views import ObtainJSONWebToken
 from rest_framework_jwt.settings import api_settings
@@ -12,6 +12,8 @@ from .import UserType
 from middleware.viewsets import CustomModelViewSet
 from .models import CustomUser, Role, Permission, ActionEntity
 from .serializers import UserSerializer, UserCreateSerializer, ChangePasswordSerializer, UserSimpleSerializer, RoleSerializer, PermissionSerializer, ActionEntitySerializer
+# from .permissions import CustomerUserPermission
+from middleware.permission import IsAuthenticated
 
 class LoginJwtTokenView(ObtainJSONWebToken):
     def post(self, request, *args, **kwargs):
@@ -32,6 +34,7 @@ class LogoutJwtTokenView(APIView):
 
 class UserView(CustomModelViewSet):
     serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
     queryset = CustomUser.objects.all().cache()
 
     def get_serializer_class(self):
@@ -46,7 +49,7 @@ class UserView(CustomModelViewSet):
     @action(detail=False, methods=['get'])
     def info(self, request):
         serializer = self.get_serializer(request.user)
-        context = {
+        context = { 
             'result': serializer.data
         }
         return Response(context)

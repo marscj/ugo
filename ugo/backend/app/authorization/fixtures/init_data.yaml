@@ -54,35 +54,42 @@
 - model: authorization.permission
   pk: 2
   fields:
-    permissionId: user
+    permissionId: CustomerUser
     permissionName: user
     actionEntitySet: [1, 2, 3, 4]
 
 - model: authorization.permission
   pk: 3
   fields:
-    permissionId: role
+    permissionId: Role
     permissionName: role
     actionEntitySet: [1, 2, 3, 4]
 
 - model: authorization.permission
   pk: 4
   fields:
-    permissionId: permission
+    permissionId: Permission
     permissionName: permission
-    actionEntitySet: [1, 2, 3, 4]
+    actionEntitySet: [1]
 
 - model: authorization.permission
   pk: 5
   fields:
-    permissionId: product
+    permissionId: Product
     permissionName: product
-    actionEntitySet: [1, 3, 4]
+    actionEntitySet: [1, 2, 3, 4]
 
 - model: authorization.permission
   pk: 6
   fields:
-    permissionId: order
+    permissionId: ProductVariant
+    permissionName: variant
+    actionEntitySet: [1, 2, 3, 4]
+
+- model: authorization.permission
+  pk: 7
+  fields:
+    permissionId: Order
     permissionName: order
     actionEntitySet: [1, 2, 3, 4]
 
