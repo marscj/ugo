@@ -8,13 +8,19 @@ from rest_framework_jwt.views import ObtainJSONWebToken
 from rest_framework_jwt.settings import api_settings
 
 from .import UserType
-from middleware.viewsets import CustomModelViewSet, ModelViewSetMixin
+from middleware.viewsets import CustomModelViewSet
 from middleware.permissions import MiddlewarePermission
 from .models import CustomUser, Role, Permission, ActionEntity
 from .serializers import UserSerializer, UserCreateSerializer, ChangePasswordSerializer, UserSimpleSerializer, RoleSerializer, PermissionSerializer, ActionEntitySerializer
 
-class LoginJwtTokenView(ModelViewSetMixin, ObtainJSONWebToken):
-    pass
+class LoginJwtTokenView(ObtainJSONWebToken):
+    def post(self, request, *args, **kwargs):
+        response = super().post(request, *args, **kwargs)
+
+        if response.status_code == 200:
+            return response
+        else:
+            return Response({'message': 'Unable to log in with provided credentials.'}, status=response.status_code)
 
 class LogoutJwtTokenView(APIView):
     def post(self, request, *args, **kwargs):

@@ -9,8 +9,8 @@
 - model: authorization.permission
   pk: 1
   fields:
-    permissionId: Dashboard
-    permissionName: dashboard
+    permissionId: Admin
+    permissionName: admin
     role: 1
 
 - model: authorization.permission
@@ -43,21 +43,22 @@
 
 ###################################### actionentity ############################################
 # 'add': { key: 'add', label: '新增' },
-#   'delete': { key: 'delete', label: '删除' },
-#   'edit': { key: 'edit', label: '修改' },
-#   'query': { key: 'query', label: '查询' },
-#   'get': { key: 'get', label: '详情' },
-#   'enable': { key: 'enable', label: '启用' },
-#   'disable': { key: 'disable', label: '禁用' },
-#   'import': { key: 'import', label: '导入' },
-#   'export': { key: 'export', label: '导出' }
+# 'delete': { key: 'delete', label: '删除' },
+# 'edit': { key: 'edit', label: '修改' },
+# 'query': { key: 'query', label: '查询' },
+# 'get': { key: 'get', label: '详情' },
+# 'enable': { key: 'enable', label: '启用' },
+# 'disable': { key: 'disable', label: '禁用' },
+# 'import': { key: 'import', label: '导入' },
+# 'export': { key: 'export', label: '导出' }
+# 'admin': { key: 'admin', label: '登陆到后台' },
 
 # dashboard
 - model: authorization.actionentity
   pk: 1
   fields:
-    action: query
-    describe: 查询
+    action: admin
+    describe: 登陆到后台
     permission: 1
 
 #CustomUser

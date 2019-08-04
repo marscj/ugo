@@ -23,15 +23,13 @@ const err = (error) => {
     const token = Vue.ls.get(ACCESS_TOKEN)
     if (error.response.status === 403) {
       notification.error({
-        message: 'Forbidden',
-        description: data.message
+        message: '登陆信息已过期',
       })
       router.push({name: 'UserLogin'})
     }
     if (error.response.status === 401) {
       notification.error({
-        message: 'Unauthorized',
-        description: 'Authorization verification failed'
+        message: '您还没有登陆',
       })
       if (token) {
         store.dispatch('Logout').then(() => {

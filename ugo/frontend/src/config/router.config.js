@@ -6,7 +6,7 @@ export const asyncRouterMap = [
     path: '/admin',
     name: 'admin',
     component: BasicLayout,
-    meta: { title: 'Dashboard' },
+    meta: { title: 'Admin' , permission: [ 'Admin' ]},
     redirect: '/admin/dashboard',
     children: [
       // dashboard
@@ -15,7 +15,7 @@ export const asyncRouterMap = [
         name: 'dashboard',
         redirect: '/admin/dashboard/workplace',
         component: RouteView,
-        meta: { title: 'Dashboard', keepAlive: true, icon: bxAnaalyse, permission: [ 'Dashboard' ] },
+        meta: { title: 'Dashboard', keepAlive: true, icon: bxAnaalyse },
         children: [
           {
             path: 'analysis',
