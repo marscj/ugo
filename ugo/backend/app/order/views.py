@@ -5,6 +5,7 @@ from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from middleware.viewsets import CustomModelViewSet
+from middleware.permissions import MiddlewarePermission
 from .models import Order
 from .serializers import OrderCreateSerializer, OrderUpdateSerializer, CheckoutOrderSerializer
 from app.product.models import ProductVariant
@@ -13,8 +14,10 @@ from app.authorization import UserType
 
 class OrderView(CustomModelViewSet):
     serializer_class = OrderCreateSerializer
+    permission_classes = [MiddlewarePermission]
     queryset = Order.objects.all()
-    permission_classes = [IsAuthenticated]
+
+    permissionId = Order.__name__
  
     filterset_fields = ('day', 'customer_id')
     search_fields = ('orderID', ) 

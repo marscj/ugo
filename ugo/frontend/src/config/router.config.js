@@ -67,26 +67,26 @@ export const asyncRouterMap = [
         name: 'Variant',
         redirect: '/admin/variant/variantList',
         component: PageView,
-        meta: { title: 'Variant', keepAlive: true, permission: [ 'ProductVariant' ] },
+        meta: { title: 'Variant', keepAlive: true, permission: [ 'Product' ] },
         children: [
           {
             path: 'variantList',
             name: 'VariantList',
             component: () => import('@/views/admin/variant/list'),
-            meta: { title: 'Variant', keepAlive: false, permission: [ 'ProductVariant' ] },
+            meta: { title: 'Variant', keepAlive: false, permission: [ 'Product' ] },
           },
           {
             path: 'variantEdit/:id(\\d+)',
             name: 'VariantEdit',
             component: () => import('@/views/admin/variant/edit'),
-            meta: { title: 'Edit', keepAlive: false, permission: [ 'ProductVariant' ] },
+            meta: { title: 'Edit', keepAlive: false, permission: [ 'Product' ] },
             hidden: true
           },
           {
             path: 'variantCreate',
             name: 'VariantCreate',
             component: () => import('@/views/admin/variant/create'),
-            meta: { title: 'Create', keepAlive: false, permission: [ 'ProductVariant' ] },
+            meta: { title: 'Create', keepAlive: false, permission: [ 'Product' ] },
             hidden: true
           },
         ]

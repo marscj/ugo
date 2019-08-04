@@ -77,8 +77,7 @@ class PermissionView(CustomModelViewSet):
 
 class ActionEntityView(CustomModelViewSet):
     serializer_class = ActionEntitySerializer
-    queryset = ActionEntity.objects.all().cache()
-
     permission_classes = [MiddlewarePermission]
+    queryset = ActionEntity.objects.all().cache()
 
     permissionId = Role.__name__
