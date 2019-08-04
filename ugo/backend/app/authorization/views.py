@@ -14,6 +14,20 @@ from .models import CustomUser, Role, Permission, ActionEntity
 from .serializers import UserSerializer, UserCreateSerializer, ChangePasswordSerializer, UserSimpleSerializer, RoleSerializer, PermissionSerializer, ActionEntitySerializer
 
 class LoginJwtTokenView(ObtainJSONWebToken):
+
+    def post(self, request, *args, **kwargs):
+        response = super().post(request, *args, **kwargs)
+
+        if response.status_code == 200:
+            return response
+        else:
+            return Response({'message': 'Unable to log in with provided credentials.'}, status=response.status_code)
+
+class AdminLoginJwtTokenView(ObtainJSONWebToken):
+    permission_classes = [MiddlewarePermission]
+
+    permissionId = 'Admin'
+
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
 

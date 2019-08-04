@@ -73,13 +73,13 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['Login', 'Logout']),
+    ...mapActions(['AdminLogin', 'Logout']),
     handleSubmit (e) {
       e.preventDefault()
       const {
         form: { validateFields },
         state,
-        Login
+        AdminLogin
       } = this
 
       state.loginBtn = true
@@ -92,7 +92,7 @@ export default {
           delete loginParams.username
           loginParams.username = values.username
           loginParams.password = values.password
-          Login(loginParams)
+          AdminLogin(loginParams)
             .then((res) => this.loginSuccess(res))
             .catch(err => this.requestFailed(err))
             .finally(() => {

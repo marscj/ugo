@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { login, getInfo, logout } from '@/api/login'
+import { login, getInfo, logout, adminLogin } from '@/api/login'
 import { ACCESS_TOKEN } from '@/store/mutation-types'
 import { welcome } from '@/utils/util'
 
@@ -45,6 +45,19 @@ const user = {
         })
       })
     },
+
+    AdminLogin ({ commit }, userInfo) {
+      return new Promise((resolve, reject) => {
+        adminLogin(userInfo).then(response => {
+          Vue.ls.set(ACCESS_TOKEN, response.token, 30 * 24 * 60 * 60 * 1000)
+          commit('SET_TOKEN', response.token)
+          resolve()
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+
 
     // 获取用户信息
     GetInfo ({ commit }) {

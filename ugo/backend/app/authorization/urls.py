@@ -12,6 +12,7 @@ router.register(r'action', views.ActionEntityView, base_name='actions')
 urlpatterns = [
     url(r'auth/login', views.LoginJwtTokenView.as_view(), name='login'),
     url(r'auth/logout', views.LogoutJwtTokenView.as_view(), name='logout'),
+    url(r'admin/login', views.AdminLoginJwtTokenView.as_view(), name='adminlogin'),
 ]
 
 urlpatterns = urlpatterns + router.urls

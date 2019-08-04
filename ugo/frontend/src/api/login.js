@@ -9,6 +9,14 @@ export function login (parameter) {
   })
 }
 
+export function adminLogin (parameter) {
+  return axios({
+    url: api.adminlogin,
+    method: 'post',
+    data: parameter
+  })
+}
+
 export function getInfo () {
   return axios({
     url: api.userInfo,

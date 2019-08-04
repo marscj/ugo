@@ -1,5 +1,6 @@
 const api = {
   login: '/auth/login/',
+  adminlogin: '/admin/login/',
   logout: '/auth/logout/',
   userInfo: '/user/info/',
 
