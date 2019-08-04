@@ -8,7 +8,7 @@ from rest_framework_jwt.views import ObtainJSONWebToken
 from rest_framework_jwt.settings import api_settings
 
 from .import UserType
-from middleware.viewsets import CustomModelViewSet
+from middleware.viewsets import CustomModelViewSet, ModelViewSetMixin
 from middleware.permissions import MiddlewarePermission
 from .models import CustomUser, Role, Permission, ActionEntity
 from .serializers import UserSerializer, UserCreateSerializer, ChangePasswordSerializer, UserSimpleSerializer, RoleSerializer, PermissionSerializer, ActionEntitySerializer
