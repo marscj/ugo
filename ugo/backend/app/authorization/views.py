@@ -28,8 +28,6 @@ class LoginJwtTokenView(ObtainJSONWebToken):
 class AdminLoginJwtTokenView(ObtainJSONWebToken):
     permission_classes = [MiddlewareLoginPermission]
 
-    permissionId = 'Staff'
-
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
         if response.status_code == 200:
