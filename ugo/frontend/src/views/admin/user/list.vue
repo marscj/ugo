@@ -101,15 +101,7 @@
           :wrapperCol="wrapperCol"
           label="Status"
         >
-          <a-checkbox @change="handleChangeStatus" :checked="mdl.is_active"></a-checkbox>
-        </a-form-item>
-
-        <a-form-item
-          :labelCol="labelCol"
-          :wrapperCol="wrapperCol"
-          label="Staff"
-        >
-          <a-checkbox @change="handleChangeStaff" :checked="mdl.is_staff"></a-checkbox>
+          <a-switch v-model="mdl.is_active" checkedChildren="Enable" unCheckedChildren="Disable"></a-switch>
         </a-form-item>
       </a-form>
     </a-modal>
