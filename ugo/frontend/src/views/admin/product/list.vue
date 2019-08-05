@@ -37,9 +37,9 @@
         </template>
       </span>
       <span slot="action" slot-scope="text, data">
-        <template >
+        <div v-action:edit>
           <router-link :to="{ name: 'ProductEdit', params: { id: data.id } }">Edit</router-link>
-        </template>
+        </div>
       </span>
     </s-table>
   </a-card>
