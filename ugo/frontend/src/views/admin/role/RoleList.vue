@@ -187,6 +187,7 @@ export default {
               message: "创建成功"
             });
             this.form = res.result;
+            this.roles.unshift(this.form)
             this.isEdit = true;
           })
           .catch(error => {
