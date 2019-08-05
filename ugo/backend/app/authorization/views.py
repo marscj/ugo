@@ -80,7 +80,7 @@ class UserView(CustomModelViewSet):
 class RoleView(CustomModelViewSet):
     serializer_class = RoleSerializer
     permission_classes = [MiddlewarePermission]
-    queryset = Role.objects.all().order_by('-id').cache()
+    queryset = Role.objects.all().cache()
 
     permissionId = Role.__name__
 

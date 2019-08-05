@@ -55,6 +55,7 @@ class Role(models.Model):
 
     class Meta:
         db_table = 'role'
+        ordering = ['-id']
 
 class Permission(models.Model):
     permissionId = models.CharField(blank=True, null=True, max_length=32)
@@ -63,6 +64,7 @@ class Permission(models.Model):
     
     class Meta:
         db_table = 'permission'
+        ordering = ['id']
 
 class ActionEntity(models.Model):
     action = models.CharField(blank=True, null=True, max_length=32)
@@ -72,3 +74,4 @@ class ActionEntity(models.Model):
 
     class Meta:
         db_table = 'action'
+        ordering = ['id']

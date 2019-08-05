@@ -80,8 +80,11 @@ const user = {
               }
             })
             role.permissionList = role.permissions.map(permission => { 
-              if(permission.actionEntitySet)
-              return permission.permissionId
+              if(permission.actionEntitySet.find((f) => {
+                return f.action === 'query' && f.enable
+              }) != undefined) {
+                return permission.permissionId
+              }
             })
             commit('SET_ROLES', result.role)
             commit('SET_INFO', result)
