@@ -41,7 +41,7 @@ class MiddlewareLoginPermission(BasePermission):
         if username is not None:
             try:
                 user = CustomUser.objects.get(username=username)
-                return user.role.permissions.filter(permissionId='Staff').filter(actionEntitySet__action='staff').filter(actionEntitySet__enable=True).exists()
+                return user.role.permissions.filter(permissionId='Staff').filter(actionEntitySet__action='query').filter(actionEntitySet__enable=True).exists()
             except CustomUser.DoesNotExist:
                 raise exceptions.ValidationError({'detail': '没有找到该用户'})
                 

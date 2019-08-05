@@ -15,7 +15,7 @@ def role_model_post_save(sender, instance, created, **kwargs):
     if created:
         create_permission('Staff', 'Staff', [
             {
-                'action': 'staff',
+                'action': 'query',
                 'label': '登陆到后台'
             }
         ], instance)

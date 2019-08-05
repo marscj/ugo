@@ -3,7 +3,7 @@
   pk: 1
   fields:
     name: admin
-    label: super manager
+    describe: super manager
 
 ###################################### permission ############################################
 - model: authorization.permission
@@ -57,7 +57,7 @@
 - model: authorization.actionentity
   pk: 1
   fields:
-    action: staff
+    action: query
     label: 登陆到后台
     permission: 1
 
