@@ -1,5 +1,5 @@
 <template>
-  <a-spin :spinning="spinning">
+  <a-spin :spinning="spinning" v-action:query>
     <a-card :bordered="false" :style="{ height: '100%' }" v-action:query>
       <a-row :gutter="24">
         <a-col :md="4">
@@ -80,13 +80,23 @@
                   </a-col>
                 </a-row>
               </a-form-item>
-              <div style="position:relative; margin-top:20px">
+              <div v-action:edit style="position:relative; margin-top:20px">
                 <a-button
                   type="primary"
                   html-type="submit"
                   @click="handleSubmit"
                   style="margin-right:20px"
+                  v-if="isEdit"
                 >Submit</a-button>
+              </div>
+              <div v-action:add style="position:relative; margin-top:20px">
+                <a-button
+                  type="primary"
+                  html-type="submit"
+                  @click="handleSubmit"
+                  style="margin-right:20px"
+                  v-if="!isEdit"
+                >Create</a-button>
               </div>
             </a-form>
           </div>

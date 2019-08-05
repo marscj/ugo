@@ -1,5 +1,5 @@
 <template>
-  <a-card :bordered="false">
+  <a-card :bordered="false" v-action:query>
     <div class="table-page-search-wrapper">
       <a-form layout="inline">
         <a-row :gutter="48">
@@ -41,9 +41,9 @@
         <a-checkbox :checked="text" disabled />
       </span>
       <span slot="action" slot-scope="text, record">
-        <a @click="handleEdit(record)">编辑</a>
+        <a v-action:edit @click="handleEdit(record)">编辑</a>
         <a-divider type="vertical" />
-        <a @click="handleEdit(record)">修改密码</a>
+        <a v-action:edit @click="handleEdit(record)">修改密码</a>
       </span>
     </s-table>
 

@@ -2,7 +2,7 @@
 - model: authorization.role
   pk: 1
   fields:
-    name: admin
+    name: Admin
     describe: super manager
 
 ###################################### permission ############################################

@@ -1,5 +1,5 @@
 <template>
-  <a-card :bordered="false">
+  <a-card :bordered="false" v-action:query>
     <div class="table-page-search-wrapper">
       <a-form layout="inline">
         <a-row :gutter="48">
@@ -40,9 +40,9 @@
         </template>
       </span>
       <span slot="action" slot-scope="text, data">
-        <template>
+        <div v-action:edit> 
           <router-link :to="{ name: 'OrderEdit', params: { id: data.id } }">Edit</router-link>
-        </template>
+        </div>
       </span>
     </s-table>
   </a-card>

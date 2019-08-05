@@ -20,7 +20,7 @@
     </div>
 
     <div class="table-operator">
-      <a-button type="primary" icon="plus" @click="handleCreate">New</a-button>
+      <a-button v-action:add type="primary" icon="plus" @click="handleCreate">New</a-button>
     </div>
 
     <s-table
@@ -37,9 +37,9 @@
         </template>
       </span>
       <span slot="action" slot-scope="text, data">
-        <template>
+        <div v-action:edit>
           <router-link :to="{ name: 'VariantEdit', params: { id: data.id } }">Edit</router-link>
-        </template>
+        </div>
       </span>
     </s-table>
   </a-card>
