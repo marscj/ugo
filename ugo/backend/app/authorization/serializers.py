@@ -1,5 +1,6 @@
 from rest_framework import  serializers
 from django.contrib.auth import password_validation
+from rest_framework.validators import UniqueValidator
 
 from .models import CustomUser, Role, Permission, ActionEntity
 
@@ -25,7 +26,7 @@ class RoleSerializer(serializers.ModelSerializer):
 
     permissions = PermissionSerializer(many=True)
 
-    name = serializers.CharField(max_length=32)
+    name = serializers.CharField(max_length=32, validators=[UniqueValidator(queryset=Role.objects.all())])
 
     status = serializers.IntegerField() 
 
