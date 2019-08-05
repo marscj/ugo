@@ -25,22 +25,36 @@
               <h3>Role：{{ form.name }}</h3>
             </div>
             <a-form :form="form">
-              <a-form-item label="Name:" required>
+              <a-form-item
+                label="Name:"
+                required
+                :validate-status="help.name == null || help.name === '' ?  null : 'error'"
+                :help="help.name"
+              >
                 <a-input v-model="form.name" />
               </a-form-item>
 
-              <a-form-item label="Status" required>
+              <a-form-item
+                label="Status"
+                required
+                :validate-status="help.status == null || help.status === '' ?  null : 'error'"
+                :help="help.status"
+              >
                 <a-select v-model="form.status">
                   <a-select-option :value="0">Enable</a-select-option>
                   <a-select-option :value="1">Disable</a-select-option>
                 </a-select>
               </a-form-item>
 
-              <a-form-item label="Describe" required>
+              <a-form-item
+                label="Describe"
+                :validate-status="help.describe == null || help.describe === '' ?  null : 'error'"
+                :help="help.describe"
+              >
                 <a-textarea v-model="form.describe" />
               </a-form-item>
 
-              <a-form-item label="Permissions">
+              <a-form-item label="Permissions" v-if="isEdit">
                 <a-row :gutter="16" v-for="(permission, index) in form.permissions" :key="index">
                   <a-col :xl="4" :lg="24">{{ permission.permissionName }}：</a-col>
                   <a-col :xl="20" :lg="24">
@@ -83,9 +97,9 @@
 </template>
 
 <script>
+import { checkError } from "@/views/utils/error";
 import { getRoleList, createRole, updateRole } from "@/api/manage";
 import { mixinDevice } from "@/utils/mixin";
-import { actionToObject } from "@/utils/permissions";
 
 export default {
   name: "RoleList",
@@ -93,22 +107,24 @@ export default {
   components: {},
   data() {
     return {
+      isEdit: false,
       spinning: false,
       form: {},
-
       roles: [],
-      permissions: []
+      help: {}
     };
   },
   created() {
     this.fetch();
   },
   methods: {
-    add() {
-      this.edit({});
-    },
     edit(record) {
       this.form = Object.assign({}, record);
+      if(this.form.id != undefined) {
+        this.isEdit = true;
+      } else {
+        this.isEdit = false;
+      }
     },
     fetch() {
       this.spinning = true;
@@ -117,6 +133,7 @@ export default {
           const { result } = res;
           this.roles = result;
           this.roles.push({
+            id: undefined,
             name: "Add Role",
             describe: "Add a role",
             status: 0,
@@ -128,14 +145,57 @@ export default {
           this.spinning = false;
         });
     },
-    handleSubmit() {
-      this.spinning = true
-      console.log(this.form)
-      updateRole(this.form.id, this.form).then((res) => {
+    checkError(error) {
+      var errors = checkError(error, "name", "status", "describe");
 
-      }).finally(() => {
-        this.spinning = false
-      })
+      this.help = {
+        name: errors["name"],
+        status: errors["status"],
+        describe: errors["describe"]
+      };
+
+      for (var key in errors) {
+        if (errors[key]) {
+          this.$notification["error"]({
+            message: key,
+            description: errors[key],
+            duration: 4
+          });
+        }
+      }
+    },
+    handleSubmit() {
+      this.spinning = true;
+
+      if (this.isEdit) {
+        updateRole(this.form.id, this.form)
+          .then(res => {
+            this.$notification.success({
+              message: "修改成功"
+            });
+          })
+          .catch(error => {
+            this.checkError(error);
+          })
+          .finally(() => {
+            this.spinning = false;
+          });
+      } else {
+        createRole(this.form)
+          .then(res => {
+            this.$notification.success({
+              message: "创建成功"
+            });
+            this.form = res.result;
+            this.isEdit = true;
+          })
+          .catch(error => {
+            this.checkError(error);
+          })
+          .finally(() => {
+            this.spinning = false;
+          });
+      }
     }
   }
 };

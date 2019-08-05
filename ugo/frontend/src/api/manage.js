@@ -25,9 +25,9 @@ export function getRoleList (parameter) {
   })
 }
 
-export function createRole (pk, data) {
+export function createRole (data) {
   return axios({
-    url: api.role + `${pk}/`,
+    url: api.role,
     method: 'post',
     data: data
   })

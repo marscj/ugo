@@ -49,7 +49,7 @@ class CustomUser(AbstractBaseUser):
         self.email = self.__class__.objects.normalize_email(self.email)
 
 class Role(models.Model):
-    name = models.CharField(blank=True, null=True, max_length=32)
+    name = models.CharField(max_length=32)
     describe = models.CharField(blank=True, null=True, max_length=128)
     status = models.IntegerField(default=0)
 

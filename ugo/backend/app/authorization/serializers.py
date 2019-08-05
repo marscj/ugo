@@ -21,7 +21,15 @@ class PermissionSerializer(serializers.ModelSerializer):
 
 class RoleSerializer(serializers.ModelSerializer):
 
+    id = serializers.ReadOnlyField()
+
     permissions = PermissionSerializer(many=True)
+
+    name = serializers.CharField(max_length=32)
+
+    status = serializers.IntegerField() 
+
+    describe = serializers.CharField(required=False, allow_null=True, max_length=128)
 
     class Meta:
         model = Role
@@ -30,13 +38,11 @@ class RoleSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         permissions = validated_data.pop('permissions', None)
         role = Role.objects.create(**validated_data)
-        
-        if permissions is not None:
-            for permission in permissions:
-                _permission = Permission.objects.create(**permission, role=role)
-                for action in permission.actionEntitySet:
-                    ActionEntity.objects.create(**action, permission=_permission)
-
+        # if permissions is not None:
+        #     for permissionData in permissions:
+        #         permission = Permission.objects.create(**permissionData, role=role)
+        #         for actionData in permissionData.get('actionEntitySet'):
+        #             ActionEntity.objects.create(**actionData, permission=permission)
         return role
 
     def update(self, instance, validated_data):
@@ -46,14 +52,6 @@ class RoleSerializer(serializers.ModelSerializer):
                 action = ActionEntity.objects.get(pk=actionData.get('id'))
                 action.enable = actionData.get('enable')
                 action.save()
-
-        # instance.permissions.all().delete()
-
-        # if permissions is not None:
-        #     for permission in permissions:
-        #         _permission = Permission.objects.create(**permission, role=instance)
-        #         for action in permission.actionEntitySet:
-        #             ActionEntity.objects.create(**action, permission=_permission)
 
         super().update(instance, validated_data)
 
