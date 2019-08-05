@@ -107,7 +107,6 @@ const whiteList = ['index', 'UserLogin', 'AdminLogin', 'Home', 'HomePage', 'Tick
 router.beforeEach((to, from, next) => {
   NProgress.start() // start progress bar
   to.meta && (typeof to.meta.title !== 'undefined' && setDocumentTitle(`${to.meta.title} - ${domTitle}`))
-  console.log(to.path, from.path)
   if (Vue.ls.get(ACCESS_TOKEN)) {
     /* has token */
     if (to.path === '/user/login') {
@@ -154,7 +153,7 @@ router.beforeEach((to, from, next) => {
             })
             store.dispatch('Logout').then(() => {
               next({
-                path: '/user/login',
+                path: '/admin/login',
                 query: {
                   redirect: to.fullPath
                 }
