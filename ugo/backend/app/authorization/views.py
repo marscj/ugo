@@ -25,7 +25,7 @@ class LoginJwtTokenView(ObtainJSONWebToken):
                 'message': {'detail': '用户名或者密码错误.'}
             }, status=response.status_code)
 
-class AdminLoginJwtTokenView(ObtainJSONWebToken):
+class StaffLoginJwtTokenView(ObtainJSONWebToken):
     permission_classes = [MiddlewareLoginPermission]
 
     def post(self, request, *args, **kwargs):

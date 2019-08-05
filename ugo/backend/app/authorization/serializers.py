@@ -5,6 +5,8 @@ from .models import CustomUser, Role, Permission, ActionEntity
 
 class ActionEntitySerializer(serializers.ModelSerializer):
 
+    id = serializers.IntegerField(required=False)
+    
     class Meta:
         model = ActionEntity
         fields = '__all__'
@@ -25,34 +27,37 @@ class RoleSerializer(serializers.ModelSerializer):
         model = Role
         fields = '__all__'
 
-    # def create(self, validated_data):
-    #     permissions = validated_data.pop('permissions', None)
-    #     product = Role.objects.create(**validated_data)
+    def create(self, validated_data):
+        permissions = validated_data.pop('permissions', None)
+        role = Role.objects.create(**validated_data)
         
-    #     if permissions is not None:
-    #         for permission in permissions:
-    #             for action in permission.actionEntitySet:
-    #                 ActionEntity.objects.create(**action)
-    #             _permission = data.objects.create(**permission)
-    #             product.permissions.add(_permission)
+        if permissions is not None:
+            for permission in permissions:
+                _permission = Permission.objects.create(**permission, role=role)
+                for action in permission.actionEntitySet:
+                    ActionEntity.objects.create(**action, permission=_permission)
 
-    #     return product
+        return role
 
-    # def update(self, instance, validated_data):
-    #     permissions = validated_data.pop('permissions', None)
+    def update(self, instance, validated_data):
+        permissions = validated_data.pop('permissions', None)
+        for permissionData in permissions:
+            for actionData in permissionData.get('actionEntitySet'):
+                action = ActionEntity.objects.get(pk=actionData.get('id'))
+                action.enable = actionData.get('enable')
+                action.save()
 
-    #     for data in instance.permissions.all():
-    #         instance.permissions.remove(data)
-    #         data.delete()
+        # instance.permissions.all().delete()
 
-    #     if permissions is not None:
-    #         for data in permissions:
-    #             _data = data.objects.create(**data)
-    #             instance.permissions.add(_data)
+        # if permissions is not None:
+        #     for permission in permissions:
+        #         _permission = Permission.objects.create(**permission, role=instance)
+        #         for action in permission.actionEntitySet:
+        #             ActionEntity.objects.create(**action, permission=_permission)
 
-    #     super().update(instance, validated_data)
+        super().update(instance, validated_data)
 
-    #     return instance
+        return instance
 
 class ChangePasswordSerializer(serializers.Serializer):
 

@@ -66,7 +66,8 @@ class Permission(models.Model):
 
 class ActionEntity(models.Model):
     action = models.CharField(blank=True, null=True, max_length=32)
-    describe = models.CharField(blank=True, null=True, max_length=32)
+    label = models.CharField(blank=True, null=True, max_length=32)
+    enable = models.BooleanField(default=False)
     permission = models.ForeignKey(Permission, related_name='actionEntitySet', on_delete=models.CASCADE)
 
     class Meta:

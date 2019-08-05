@@ -2,7 +2,7 @@
   <a-card :bordered="false" v-action:query>
     <s-table :columns="columns" :data="loadData" :rowKey="(item) => item.id" bordered>
       <span slot="actions" slot-scope="text, record">
-        <a-tag v-for="(action, index) in record.actionList" :key="index">{{ action.describe }}</a-tag>
+        <a-tag v-for="(action, index) in record.actionList" :key="index">{{ action.label }}</a-tag>
       </span>
     </s-table>
   </a-card>

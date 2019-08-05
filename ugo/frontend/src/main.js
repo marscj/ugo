@@ -17,6 +17,8 @@ Vue.config.productionTip = false
 // mount axios Vue.$http and this.$http
 Vue.use(VueAxios)
 
+Vue.prototype.$log = console.log;
+
 new Vue({
   router,
   store,

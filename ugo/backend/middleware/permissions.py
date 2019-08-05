@@ -13,7 +13,7 @@ def has_permission(request, permissionId):
     if request.method not in ['GET', 'POST', 'PUT', 'DELETE']:
         raise exceptions.MethodNotAllowed(method)
 
-    return request.user.role.permissions.filter(permissionId=permissionId).filter(actionEntitySet__action=perms_map[request.method]).exists()
+    return request.user.role.permissions.filter(permissionId=permissionId).filter(actionEntitySet__action=perms_map[request.method]).filter(actionEntitySet__enable=True).exists()
 
 class MiddlewarePermission(BasePermission):
 
@@ -32,7 +32,7 @@ class MiddlewareLoginPermission(BasePermission):
         if username is not None:
             try:
                 user = CustomUser.objects.get(username=username)
-                return user.role.permissions.filter(permissionId='Staff').filter(actionEntitySet__action='staff').exists()
+                return user.role.permissions.filter(permissionId='Staff').filter(actionEntitySet__action='staff').filter(actionEntitySet__enable=True).exists()
             except CustomUser.DoesNotExist:
                 raise exceptions.ValidationError({'detail': '没有找到该用户'})
                 

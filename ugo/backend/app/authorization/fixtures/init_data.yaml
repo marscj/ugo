@@ -3,7 +3,7 @@
   pk: 1
   fields:
     name: admin
-    describe: super manager
+    label: super manager
 
 ###################################### permission ############################################
 - model: authorization.permission
@@ -58,7 +58,7 @@
   pk: 1
   fields:
     action: staff
-    describe: 登陆到后台
+    label: 登陆到后台
     permission: 1
 
 #CustomUser
@@ -66,28 +66,28 @@
   pk: 2
   fields:
     action: query
-    describe: 查询
+    label: 查询
     permission: 2
 
 - model: authorization.actionentity
   pk: 3
   fields:
     action: add
-    describe: 新增
+    label: 新增
     permission: 2
 
 - model: authorization.actionentity
   pk: 4
   fields:
     action: edit
-    describe: 编辑
+    label: 编辑
     permission: 2
 
 - model: authorization.actionentity
   pk: 5
   fields:
     action: delete
-    describe: 删除
+    label: 删除
     permission: 2
 
 #Role
@@ -95,28 +95,28 @@
   pk: 6
   fields:
     action: query
-    describe: 查询
+    label: 查询
     permission: 3
 
 - model: authorization.actionentity
   pk: 7
   fields:
     action: add
-    describe: 新增
+    label: 新增
     permission: 3
 
 - model: authorization.actionentity
   pk: 8
   fields:
     action: edit
-    describe: 编辑
+    label: 编辑
     permission: 3
 
 - model: authorization.actionentity
   pk: 9
   fields:
     action: delete
-    describe: 删除
+    label: 删除
     permission: 3
 
 #Product
@@ -124,28 +124,28 @@
   pk: 10
   fields:
     action: query
-    describe: 查询
+    label: 查询
     permission: 4
 
 - model: authorization.actionentity
   pk: 11
   fields:
     action: add
-    describe: 新增
+    label: 新增
     permission: 4
 
 - model: authorization.actionentity
   pk: 12
   fields:
     action: edit
-    describe: 编辑
+    label: 编辑
     permission: 4
 
 - model: authorization.actionentity
   pk: 13
   fields:
     action: delete
-    describe: 删除
+    label: 删除
     permission: 4
 
 #Order
@@ -153,26 +153,26 @@
   pk: 14
   fields:
     action: query
-    describe: 查询
+    label: 查询
     permission: 5
 
 - model: authorization.actionentity
   pk: 15
   fields:
     action: add
-    describe: 新增
+    label: 新增
     permission: 5
 
 - model: authorization.actionentity
   pk: 16
   fields:
     action: edit
-    describe: 编辑
+    label: 编辑
     permission: 5
 
 - model: authorization.actionentity
   pk: 17
   fields:
     action: delete
-    describe: 删除
+    label: 删除
     permission: 5
