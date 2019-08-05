@@ -3,6 +3,7 @@ from django.contrib.auth import password_validation
 from rest_framework.validators import UniqueValidator
 
 from .models import CustomUser, Role, Permission, ActionEntity
+from .utils import create_permission
 
 class ActionEntitySerializer(serializers.ModelSerializer):
 
@@ -39,11 +40,7 @@ class RoleSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         permissions = validated_data.pop('permissions', None)
         role = Role.objects.create(**validated_data)
-        # if permissions is not None:
-        #     for permissionData in permissions:
-        #         permission = Permission.objects.create(**permissionData, role=role)
-        #         for actionData in permissionData.get('actionEntitySet'):
-        #             ActionEntity.objects.create(**actionData, permission=permission)
+        create_permission(role)
         return role
 
     def update(self, instance, validated_data):

@@ -59,6 +59,7 @@
   fields:
     action: query
     label: 登陆到后台
+    enable: true
     permission: 1
 
 #CustomUser
@@ -67,6 +68,7 @@
   fields:
     action: query
     label: 查询
+    enable: true
     permission: 2
 
 - model: authorization.actionentity
@@ -74,6 +76,7 @@
   fields:
     action: add
     label: 新增
+    enable: true
     permission: 2
 
 - model: authorization.actionentity
@@ -81,6 +84,7 @@
   fields:
     action: edit
     label: 编辑
+    enable: true
     permission: 2
 
 - model: authorization.actionentity
@@ -88,6 +92,7 @@
   fields:
     action: delete
     label: 删除
+    enable: true
     permission: 2
 
 #Role
@@ -96,6 +101,7 @@
   fields:
     action: query
     label: 查询
+    enable: true
     permission: 3
 
 - model: authorization.actionentity
@@ -103,6 +109,7 @@
   fields:
     action: add
     label: 新增
+    enable: true
     permission: 3
 
 - model: authorization.actionentity
@@ -110,6 +117,7 @@
   fields:
     action: edit
     label: 编辑
+    enable: true
     permission: 3
 
 - model: authorization.actionentity
@@ -117,6 +125,7 @@
   fields:
     action: delete
     label: 删除
+    enable: true
     permission: 3
 
 #Product
@@ -125,6 +134,7 @@
   fields:
     action: query
     label: 查询
+    enable: true
     permission: 4
 
 - model: authorization.actionentity
@@ -132,6 +142,7 @@
   fields:
     action: add
     label: 新增
+    enable: true
     permission: 4
 
 - model: authorization.actionentity
@@ -139,6 +150,7 @@
   fields:
     action: edit
     label: 编辑
+    enable: true
     permission: 4
 
 - model: authorization.actionentity
@@ -146,6 +158,7 @@
   fields:
     action: delete
     label: 删除
+    enable: true
     permission: 4
 
 #Order
@@ -154,6 +167,7 @@
   fields:
     action: query
     label: 查询
+    enable: true
     permission: 5
 
 - model: authorization.actionentity
@@ -161,6 +175,7 @@
   fields:
     action: add
     label: 新增
+    enable: true
     permission: 5
 
 - model: authorization.actionentity
@@ -168,6 +183,7 @@
   fields:
     action: edit
     label: 编辑
+    enable: true
     permission: 5
 
 - model: authorization.actionentity
@@ -175,4 +191,5 @@
   fields:
     action: delete
     label: 删除
+    enable: true
     permission: 5
