@@ -37,7 +37,7 @@
         </template>
       </span>
       <span slot="action" slot-scope="text, data">
-        <template>
+        <template >
           <router-link :to="{ name: 'ProductEdit', params: { id: data.id } }">Edit</router-link>
         </template>
       </span>

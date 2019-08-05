@@ -3,6 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated
 
 from rest_framework_jwt.views import ObtainJSONWebToken
 from rest_framework_jwt.settings import api_settings
@@ -17,7 +18,7 @@ class LoginJwtTokenView(ObtainJSONWebToken):
 
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
-
+        
         if response.status_code == 200:
             return response
         else:
@@ -60,7 +61,7 @@ class UserView(CustomModelViewSet):
     def get_current_user(self):
         return self.request.user
 
-    @action(detail=False, methods=['get'])
+    @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated])
     def info(self, request):
         serializer = self.get_serializer(request.user)
         context = { 
@@ -68,7 +69,7 @@ class UserView(CustomModelViewSet):
         }
         return Response(context)
 
-    @action(detail=False, methods=['post'])
+    @action(detail=False, methods=['post'], permission_classes=[IsAuthenticated])
     def change_password(self, request):
         serializer = ChangePasswordSerializer(data=request.data, context={'request': request})
         if serializer.is_valid(raise_exception=True):

@@ -12,7 +12,6 @@ from .serializers import (ProductListSerializer, ProductDetailSerializer, Produc
 class ProductView(CustomModelViewSet):
     queryset = Product.objects.all()
     permission_classes = [MiddlewarePermission]
-    permission_classes = [AllowAny]
 
     permissionId = Product.__name__
 

@@ -1,3 +1,4 @@
+from django.db.models import Q
 from rest_framework.permissions import BasePermission
 from rest_framework import exceptions
 from app.authorization.models import CustomUser
@@ -12,8 +13,16 @@ def has_permission(request, permissionId):
 
     if request.method not in ['GET', 'POST', 'PUT', 'DELETE']:
         raise exceptions.MethodNotAllowed(method)
+    
+    query = request.user.role.permissions.filter(
+        Q(permissionId=permissionId) & 
+        Q(actionEntitySet__action=perms_map[request.method]) &
+        Q(actionEntitySet__enable=True)
+    )
 
-    return request.user.role.permissions.filter(permissionId=permissionId).filter(actionEntitySet__action=perms_map[request.method]).filter(actionEntitySet__enable=True).exists()
+    print(query, '========')
+
+    return query
 
 class MiddlewarePermission(BasePermission):
 
