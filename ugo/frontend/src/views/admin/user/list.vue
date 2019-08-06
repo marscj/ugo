@@ -65,22 +65,14 @@
           <a-input v-model="mdl.username" disabled />
         </a-form-item>
 
-        <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="Role">
-          <a-select
-            :value="mdl.role_id"
-            :defaultActiveFirstOption="false"
-            :showArrow="false"
-            :filterOption="false"
-            allowClear
-            @change="handleRoleChange"
-            notFoundContent="Not Found."
-          >
-            <a-select-option v-for="d in roleOption" :key="d.id" :value="d.id">{{d.name}}</a-select-option>
-          </a-select>
-        </a-form-item>
-
         <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="Price Level">
-          <a-input-number v-model="mdl.price_level" :min="1" :max="5" :precision="0"/>
+          <a-input-number
+            v-model="mdl.price_level"
+            :min="1"
+            :max="5"
+            :precision="0"
+            style="width:200px;"
+          />
         </a-form-item>
 
         <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="Balance">
@@ -90,11 +82,27 @@
             :defaultValue="0.0"
             :precision="2"
             :step="0.5"
+            style="width:200px;"
           />
         </a-form-item>
 
+        <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="Role">
+          <a-select
+            :value="mdl.role_id"
+            :defaultActiveFirstOption="false"
+            :showArrow="false"
+            :filterOption="false"
+            allowClear
+            @change="handleRoleChange"
+            notFoundContent="Not Found."
+            style="width:200px;"
+          >
+            <a-select-option v-for="d in roleOption" :key="d.id" :value="d.id">{{d.name}}</a-select-option>
+          </a-select>
+        </a-form-item>
+
         <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="Status">
-          <a-switch v-model="mdl.is_active" checkedChildren="Enable" unCheckedChildren="Disable"></a-switch>
+          <a-switch v-model="mdl.is_active" checkedChildren="Enable" unCheckedChildren="Disable(禁用登陆)"></a-switch>
         </a-form-item>
       </a-form>
     </a-modal>
