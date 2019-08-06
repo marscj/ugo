@@ -153,7 +153,7 @@ class ProductDetailSerializer(serializers.ModelSerializer):
 
     title = serializers.CharField(required=True, allow_null=False, max_length=128, validators=[UniqueValidator(queryset=Product.objects.all())])
 
-    subtitle = serializers.CharField(required=True, allow_null=False, max_length=128)
+    subtitle = serializers.CharField(required=True, allow_null=False, max_length=2048)
 
     special = serializers.CharField(required=True, allow_null=False, max_length=512)
 

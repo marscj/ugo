@@ -41,7 +41,7 @@
           :validate-status="subtitle.help == null || subtitle.help === '' ?  null : 'error'"
           :help="subtitle.help"
         >
-          <a-input v-model="subtitle.data"></a-input>
+          <a-textarea v-model="subtitle.data" :rows="5"></a-textarea>
         </a-form-item>
         <a-form-item
           label="Location"

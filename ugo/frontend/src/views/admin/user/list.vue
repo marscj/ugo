@@ -9,15 +9,6 @@
             </a-form-item>
           </a-col>
           <a-col :md="8" :sm="24">
-            <a-form-item label="状态">
-              <a-select placeholder="请选择" default-value="0">
-                <a-select-option value="0">全部</a-select-option>
-                <a-select-option value="1">关闭</a-select-option>
-                <a-select-option value="2">运行中</a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-          <a-col :md="8" :sm="24">
             <span class="table-page-search-submitButtons">
               <a-button type="primary">查询</a-button>
               <a-button style="margin-left: 8px">重置</a-button>
@@ -97,14 +88,21 @@
           :required="true"
           :validate-status="help.price_level == null || help.price_level === '' ?  null : 'error'"
           :help="help.price_level"
-        >
-          <a-input-number
+        > 
+        <a-select v-model="mdl.price_level">
+          <a-select-option key="0" :value="1">Level 1</a-select-option>
+          <a-select-option key="1" :value="2">Level 2</a-select-option>
+          <a-select-option key="2" :value="3">Level 3</a-select-option>
+          <a-select-option key="3" :value="4">Level 4</a-select-option>
+          <a-select-option key="4" :value="5">Level 5</a-select-option>
+        </a-select>
+          <!-- <a-input-number
             v-model="mdl.price_level"
             :min="1"
             :max="5"
             :precision="0"
             style="width:200px;"
-          />
+          /> -->
         </a-form-item>
 
         <a-form-item

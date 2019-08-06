@@ -16,7 +16,7 @@ class Product(models.Model):
 
     title = models.CharField(blank=True, null=True, max_length=128, unique=True)
 
-    subtitle = models.CharField(blank=True, null=True, max_length=128)
+    subtitle = models.CharField(blank=True, null=True, max_length=2048)
 
     special = models.TextField(blank=True, null=True)
 
