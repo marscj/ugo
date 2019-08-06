@@ -5,10 +5,10 @@
         <div class="header">
           <a href="/">
             <img src="~@/assets/logo.svg" class="logo" alt="logo">
-            <span class="title">UgoDubai</span>
           </a>
         </div>
         <div class="desc">
+          用户登陆
         </div>
       </div>
 
@@ -66,7 +66,7 @@ export default {
         text-align: center;
 
         .header {
-          height: 44px;
+          height: 144px;
           line-height: 44px;
 
           .badge {
@@ -80,7 +80,6 @@ export default {
           }
 
           .logo {
-            height: 44px;
             vertical-align: top;
             margin-right: 16px;
             border-style: none;
