@@ -11,7 +11,7 @@
         <a-input
           size="large"
           type="text"
-          placeholder="Username:"
+          placeholder="用户名:"
           v-decorator="[
             'username',
             {rules: [{ required: true, message: 'This field is require.' }], validateTrigger: 'change'}
@@ -26,7 +26,7 @@
           size="large"
           type="password"
           autocomplete="false"
-          placeholder="Password:"
+          placeholder="密码:"
           v-decorator="[
             'password',
             {rules: [{ required: true, message: 'This field is require.' }], validateTrigger: 'blur'}
@@ -47,7 +47,7 @@
           htmlType="submit"
           class="login-button"
           :loading="state.loginBtn"
-          :disabled="state.loginBtn">Login</a-button>
+          :disabled="state.loginBtn">登陆</a-button>
       </a-form-item>
     </a-form>
   </div>

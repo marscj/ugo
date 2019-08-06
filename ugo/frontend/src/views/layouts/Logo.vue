@@ -1,24 +1,24 @@
 <template>
-  <div class="logo">
+  <div >
     <router-link :to="{name:'Home'}">
-      <LogoSvg alt="logo" />
-      <h1 v-if="showTitle">{{ title }}</h1>
+      <!-- <LogoSvg alt="logo" class="logo"/> -->
+      <img src="~@/assets/logo.svg" class="logo" alt="logo">
     </router-link>
   </div>
 </template>
 
 <script>
-import LogoSvg from '@/assets/logo.svg?inline'
+import LogoSvg from "@/assets/logo.svg?inline";
 
 export default {
-  name: 'Logo',
+  name: "Logo",
   components: {
     LogoSvg
   },
   props: {
     title: {
       type: String,
-      default: 'UgoDubai',
+      default: "",
       required: false
     },
     showTitle: {
@@ -27,5 +27,25 @@ export default {
       required: false
     }
   }
-}
+};
 </script>
+
+<style>
+/* .logo {
+  height: 75px;
+  vertical-align: top;
+  margin-right: 16px;
+  padding-top: 10px;
+  border-style: none;
+} */
+.logo {
+  position: relative;
+  height: 58px;
+  padding-left: 24px;
+  overflow: hidden;
+  line-height: 58px;
+  background: white;
+  transition: all 0.3s;
+}
+</style>
+

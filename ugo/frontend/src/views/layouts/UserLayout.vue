@@ -80,6 +80,7 @@ export default {
           }
 
           .logo {
+            height: 144px;
             vertical-align: top;
             margin-right: 16px;
             border-style: none;

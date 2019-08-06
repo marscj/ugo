@@ -13,17 +13,6 @@
       </div>
 
       <route-view></route-view>
-
-      <!-- <div class="footer">
-        <div class="links">
-          <a href="_self">帮助</a>
-          <a href="_self">隐私</a>
-          <a href="_self">条款</a>
-        </div>
-        <div class="copyright">
-          Copyright &copy; 2018 mars.jinxing@gmail.com
-        </div>
-      </div> -->
     </div>
   </div>
 </template>
@@ -91,6 +80,7 @@ export default {
           }
 
           .logo {
+            height: 144px;
             vertical-align: top;
             margin-right: 16px;
             border-style: none;

@@ -1,15 +1,14 @@
 <template>
-  <div class="logo">
+  <div>
     <router-link :to="{name:'dashboard'}">
-      <LogoSvg alt="logo" />
-      <!-- <img src="~@/assets/logo.png" class="logo" alt="logo"/> -->
-      <h1 v-if="showTitle">{{ title }}</h1>
+      <!-- <LogoSvg alt="logo" /> -->
+      <img src="~@/assets/logo.svg" class="logo" alt="logo" />
     </router-link>
   </div>
 </template>
 
 <script>
-import LogoSvg from "@/assets/logo.png";
+import LogoSvg from "@/assets/logo.svg?inline";
 
 export default {
   name: "Logo",
@@ -31,10 +30,20 @@ export default {
 };
 </script>
 <style >
-.logo {
-  height: 144px;
+/* .logo {
+  height: 50px;
   vertical-align: top;
   margin-right: 16px;
+  padding-top: 10px;
   border-style: none;
+} */
+.logo {
+  position: relative;
+  height: 60px;
+  padding-left: 24px;
+  overflow: hidden;
+  line-height: 60px;
+  background: white;
+  transition: all 0.3s;
 }
 </style>
