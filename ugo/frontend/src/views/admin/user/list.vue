@@ -5,7 +5,7 @@
         <a-row :gutter="48">
           <a-col :md="8" :sm="24">
             <a-form-item label="角色ID">
-              <a-input placeholder="请输入"/>
+              <a-input placeholder="请输入" />
             </a-form-item>
           </a-col>
           <a-col :md="8" :sm="24">
@@ -27,13 +27,7 @@
       </a-form>
     </div>
 
-    <s-table
-      row-key="id"
-      size="default"
-      :columns="columns"
-      :data="loadData"
-      bordered
-    >
+    <s-table row-key="id" size="default" :columns="columns" :data="loadData" bordered>
       <span slot="active" slot-scope="text">
         <a-checkbox :checked="text" disabled />
       </span>
@@ -47,17 +41,10 @@
       </span>
     </s-table>
 
-    <a-modal
-      title="操作"
-      style="top: 20px;"
-      width="90%"
-      v-model="visible"
-    >
+    <a-modal title="操作" style="top: 20px;" width="90%" v-model="visible">
       <template slot="footer">
         <a-button key="back" @click="visible=false">Return</a-button>
-        <a-button key="submit" type="primary" :loading="loading" @click="handleOk">
-          Submit
-        </a-button>
+        <a-button key="submit" type="primary" :loading="loading" @click="handleOk">Submit</a-button>
       </template>
       <a-form :form="form">
         <a-form-item
@@ -75,14 +62,10 @@
           label="Username"
           validateStatus="success"
         >
-          <a-input v-model="mdl.username" disabled/>
+          <a-input v-model="mdl.username" disabled />
         </a-form-item>
 
-        <a-form-item
-          :labelCol="labelCol"
-          :wrapperCol="wrapperCol"
-          label="Role"
-        >
+        <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="Role">
           <a-select
             :value="mdl.role_id"
             :defaultActiveFirstOption="false"
@@ -96,30 +79,39 @@
           </a-select>
         </a-form-item>
 
-        <a-form-item
-          :labelCol="labelCol"
-          :wrapperCol="wrapperCol"
-          label="Status"
-        >
+        <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="Price Level">
+          <a-input-number v-model="mdl.price_level" :min="1" :max="5" :precision="0"/>
+        </a-form-item>
+
+        <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="Balance">
+          <a-input-number
+            v-model="mdl.balance"
+            :min="0.0"
+            :defaultValue="0.0"
+            :precision="2"
+            :step="0.5"
+          />
+        </a-form-item>
+
+        <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="Status">
           <a-switch v-model="mdl.is_active" checkedChildren="Enable" unCheckedChildren="Disable"></a-switch>
         </a-form-item>
       </a-form>
     </a-modal>
-
   </a-card>
 </template>
 
 <script>
-import { STable } from '@/components'
-import { getUserList, updateUser } from '@/api/manage'
-import { getRoleList } from '@/api/manage'
+import { STable } from "@/components";
+import { getUserList, updateUser } from "@/api/manage";
+import { getRoleList } from "@/api/manage";
 
 export default {
-  name: 'UserList',
+  name: "UserList",
   components: {
     STable
   },
-  data () {
+  data() {
     return {
       visible: false,
       labelCol: {
@@ -141,61 +133,56 @@ export default {
       // 表头
       columns: [
         {
-          title: 'ID',
-          dataIndex: 'id',
-          width: '100px'
+          title: "ID",
+          dataIndex: "id",
+          width: "100px"
         },
         {
-          title: 'Username',
-          dataIndex: 'username'
+          title: "Username",
+          dataIndex: "username"
         },
         {
-          title: 'Role',
-          dataIndex: 'role.name'
+          title: "Role",
+          dataIndex: "role.name"
         },
         {
-          title: 'Status',
-          dataIndex: 'is_active',
-          scopedSlots: { customRender: 'active' }
+          title: "Status",
+          dataIndex: "is_active",
+          scopedSlots: { customRender: "active" }
         },
         {
-          title: 'Staff',
-          dataIndex: 'is_staff',
-          scopedSlots: { customRender: 'staff' }
+          title: "Balance",
+          dataIndex: "balance"
         },
         {
-          title: 'Balance',
-          dataIndex: 'balance'
-        },
-        {
-          title: 'Price Levle',
-          dataIndex: 'price_level',
-          width: '120px',
+          title: "Price Levle",
+          dataIndex: "price_level",
+          width: "120px",
           customRender: (text, row, index) => {
-            return <span>Level {text}</span>
+            return <span>Level {text}</span>;
           }
         },
         {
-          title: '操作',
-          width: '150px',
-          dataIndex: 'action',
-          scopedSlots: { customRender: 'action' }
+          title: "操作",
+          width: "150px",
+          dataIndex: "action",
+          scopedSlots: { customRender: "action" }
         }
       ],
       // 加载数据方法 必须为 Promise 对象
-      loadData: (parameter) => {
+      loadData: parameter => {
         return getUserList(parameter).then(res => {
-          return res.result
-        })
+          return res.result;
+        });
       },
-      
+
       pagination: {},
       roleOption: [],
-      loading: false,
-    }
+      loading: false
+    };
   },
-  created () {
-    this.handleRoleSearch()
+  created() {
+    this.handleRoleSearch();
   },
   methods: {
     handleRoleSearch() {
@@ -211,24 +198,26 @@ export default {
         this.mdl.role_id = null;
       }
     },
-    handleEdit (record) {
-      this.mdl = Object.assign({}, record)
-      this.visible = true
+    handleEdit(record) {
+      this.mdl = Object.assign({}, record);
+      this.visible = true;
     },
     handleChangeStatus(e) {
-      this.mdl.is_active = e.target.checked
+      this.mdl.is_active = e.target.checked;
     },
     handleChangeStaff(e) {
-      this.mdl.is_staff = e.target.checked
+      this.mdl.is_staff = e.target.checked;
     },
-    handleOk () {
-      this.loading = true
-      updateUser(this.mdl.id, this.mdl).then((res) => {
-        this.visible = false
-      }).finally(() => {
-        this.loading = false
-      })
+    handleOk() {
+      this.loading = true;
+      updateUser(this.mdl.id, this.mdl)
+        .then(res => {
+          this.visible = false;
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     }
   }
-}
+};
 </script>

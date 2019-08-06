@@ -105,6 +105,7 @@
                             v-model="adult_quantity"
                             :min="0"
                             :max="9999"
+                            :precision="0"
                             :disabled="variant ? !variant.adult_status : true"
                           />
                         </div>
@@ -125,6 +126,7 @@
                             v-model="child_quantity"
                             :min="0"
                             :max="9999"
+                            :precision="0"
                             :disabled="variant ? !variant.child_status : true"
                           />
                         </div>
