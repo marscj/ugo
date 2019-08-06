@@ -44,7 +44,6 @@ export default {
   padding-left: 24px;
   overflow: hidden;
   line-height: 58px;
-  background: white;
   transition: all 0.3s;
 }
 </style>

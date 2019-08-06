@@ -43,7 +43,6 @@ export default {
   padding-left: 24px;
   overflow: hidden;
   line-height: 60px;
-  background: white;
   transition: all 0.3s;
 }
 </style>
