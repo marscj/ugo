@@ -17,6 +17,5 @@ def custom_exception_handler(exc, context):
         response.data = {
             'message': response.data
         }
-        print(response.data)
     
     return response 

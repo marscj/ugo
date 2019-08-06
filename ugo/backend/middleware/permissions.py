@@ -20,8 +20,6 @@ def has_permission(request, permissionId):
         Q(actionEntitySet__enable=True)
     )
 
-    print(query, '========')
-
     return query
 
 class MiddlewarePermission(BasePermission):
