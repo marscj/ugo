@@ -55,7 +55,7 @@ class RoleSerializer(serializers.ModelSerializer):
 
         return instance
 
-class ChangePasswordSerializer(serializers.Serializer):
+class SelfChangePasswordSerializer(serializers.Serializer):
 
     old_password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True)
@@ -69,6 +69,20 @@ class ChangePasswordSerializer(serializers.Serializer):
 
         if old_password is not None and not self.get_current_user().check_password(old_password):
             raise serializers.ValidationError({'old_password': 'Your old password was entered incorrectly. Please enter it again.'})
+                
+        if new_password is not None:
+            password_validation.validate_password(new_password)
+
+        return super().validate(data)
+
+class ChangePasswordSerializer(serializers.Serializer):
+
+    new_password = serializers.CharField(required=True)
+
+    def get_current_user(self):
+        return self.context['request'].user
+
+    def validate(self, data):
                 
         if new_password is not None:
             password_validation.validate_password(new_password)

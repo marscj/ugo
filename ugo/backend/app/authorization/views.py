@@ -12,7 +12,7 @@ from .import UserType
 from middleware.viewsets import CustomModelViewSet
 from middleware.permissions import MiddlewarePermission, MiddlewareLoginPermission
 from .models import CustomUser, Role, Permission, ActionEntity
-from .serializers import UserSerializer, UserCreateSerializer, ChangePasswordSerializer, UserSimpleSerializer, RoleSerializer, PermissionSerializer, ActionEntitySerializer
+from .serializers import UserSerializer, UserCreateSerializer, ChangePasswordSerializer, SelfChangePasswordSerializer, UserSimpleSerializer, RoleSerializer, PermissionSerializer, ActionEntitySerializer
 
 class LoginJwtTokenView(ObtainJSONWebToken):
 
@@ -71,6 +71,14 @@ class UserView(CustomModelViewSet):
 
     @action(detail=False, methods=['post'], permission_classes=[IsAuthenticated])
     def change_password(self, request):
+        serializer = SelfChangePasswordSerializer(data=request.data, context={'request': request})
+        if serializer.is_valid(raise_exception=True):
+            self.get_current_user().set_password(serializer.data.get('new_password'))
+            self.get_current_user().save()
+            return Response({'result': 'ok'})
+
+    @action(detail=True, methods=['post'], permission_classes=[MiddlewarePermission])
+    def admin_change_password(self, request, pk=None):
         serializer = ChangePasswordSerializer(data=request.data, context={'request': request})
         if serializer.is_valid(raise_exception=True):
             self.get_current_user().set_password(serializer.data.get('new_password'))

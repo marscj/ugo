@@ -41,10 +41,10 @@
       </span>
     </s-table>
 
-    <a-modal title="操作" style="top: 20px;" width="90%" v-model="visible">
+    <a-modal title="编辑" style="top: 20px;" width="90%" v-model="visible">
       <template slot="footer">
         <a-button key="back" @click="visible=false">Return</a-button>
-        <a-button key="submit" type="primary" :loading="loading" @click="handleOk">Submit</a-button>
+        <a-button key="submit" type="primary" :loading="loading" @click="updateForm">Submit</a-button>
       </template>
       <a-form :form="form">
         <a-form-item
@@ -104,6 +104,16 @@
         <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="Status">
           <a-switch v-model="mdl.is_active" checkedChildren="Enable" unCheckedChildren="Disable(禁用登陆)"></a-switch>
         </a-form-item>
+      </a-form>
+    </a-modal>
+
+    <a-modal title="修改密码" style="top: 20px;" width="90%" v-model="visible">
+      <template slot="footer">
+        <a-button key="back" @click="visible=false">Return</a-button>
+        <a-button key="submit" type="primary" :loading="loading" @click="handleOk">Submit</a-button>
+      </template>
+      <a-form :form="form">
+
       </a-form>
     </a-modal>
   </a-card>
@@ -216,7 +226,7 @@ export default {
     handleChangeStaff(e) {
       this.mdl.is_staff = e.target.checked;
     },
-    handleOk() {
+    updateForm() {
       this.loading = true;
       updateUser(this.mdl.id, this.mdl)
         .then(res => {
