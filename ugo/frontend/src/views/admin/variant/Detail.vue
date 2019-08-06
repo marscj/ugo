@@ -88,11 +88,13 @@
           v-if="form.adult_status"
         >
           <div>
-            <div v-for="(data, index) in form.adult_price" :key="index" style="display: inline-block; padding-left: 6px; padding-right: 6px" >
+            <div
+              v-for="(data, index) in form.adult_price"
+              :key="index"
+              style="display: inline-block; padding-left: 6px; padding-right: 6px"
+            >
               <div>
-                <span>
-                  {{'Level ' + (index + 1)}}
-                </span>
+                <span>{{'Level ' + (index + 1)}}</span>
               </div>
               <a-input-number
                 v-model="form.adult_price[index]"
@@ -162,11 +164,13 @@
           v-if="form.child_status"
         >
           <div>
-            <div v-for="(data, index) in form.child_price" :key="index" style="display: inline-block; padding-right: 8px" >
+            <div
+              v-for="(data, index) in form.child_price"
+              :key="index"
+              style="display: inline-block; padding-right: 8px"
+            >
               <div>
-                <span>
-                  {{'Level ' + (index + 1)}}
-                </span>
+                <span>{{'Level ' + (index + 1)}}</span>
               </div>
               <a-input-number
                 v-model="form.child_price[index]"
@@ -291,7 +295,7 @@ export default {
       createVariant(data)
         .then(res => {
           const { result } = res;
-          this.handleGoBack()
+          this.handleGoBack();
         })
         .catch(error => {
           this.checkError(error);

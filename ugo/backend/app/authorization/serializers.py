@@ -77,24 +77,26 @@ class SelfChangePasswordSerializer(serializers.Serializer):
 
 class ChangePasswordSerializer(serializers.Serializer):
 
-    new_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(max_length=128)
 
     def get_current_user(self):
         return self.context['request'].user
 
     def validate(self, data):
-                
+        new_password = data.get('new_password', None)
+
         if new_password is not None:
             password_validation.validate_password(new_password)
 
         return super().validate(data)
 
 class UserCreateSerializer(serializers.ModelSerializer):
-    
-    username = serializers.CharField(max_length=150)
+    username = serializers.CharField(min_length= 5, max_length=150, validators=[UniqueValidator(queryset=CustomUser.objects.all())])
     password = serializers.CharField(max_length=128)
-    
-    role_id = serializers.IntegerField(required=False)
+    price_level = serializers.IntegerField(min_value=1, max_value=5)
+    balance = serializers.DecimalField(max_digits=10, decimal_places=2, min_value=0.0)
+
+    role_id = serializers.IntegerField(required=False, allow_null=True)
 
     class Meta:
         model = CustomUser
@@ -102,6 +104,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         password = data.get('password', None)
+        username = data.get('username', None)
                 
         if password is not None:
             password_validation.validate_password(password)

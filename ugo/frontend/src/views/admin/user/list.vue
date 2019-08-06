@@ -27,6 +27,10 @@
       </a-form>
     </div>
 
+    <div class="table-operator">
+      <a-button v-action:add type="primary" icon="plus" @click="handleCreate">Add</a-button>
+    </div>
+
     <s-table row-key="id" size="default" :columns="columns" :data="loadData" bordered>
       <span slot="active" slot-scope="text">
         <a-checkbox :checked="text" disabled />
@@ -37,16 +41,21 @@
       <span slot="action" slot-scope="text, record">
         <a v-action:edit @click="handleEdit(record)">编辑</a>
         <a-divider type="vertical" />
-        <a v-action:edit @click="handleEdit(record)">修改密码</a>
+        <a v-action:edit @click="handleChangePassword(record)">修改密码</a>
       </span>
     </s-table>
 
-    <a-modal title="编辑" style="top: 20px;" width="90%" v-model="visible">
+    <a-modal :title="isEdit ? 'Edit' : 'Create'" style="top: 20px;" width="90%" v-model="visible">
       <template slot="footer">
         <a-button key="back" @click="visible=false">Return</a-button>
-        <a-button key="submit" type="primary" :loading="loading" @click="updateForm">Submit</a-button>
+        <a-button
+          key="submit"
+          type="primary"
+          :loading="loading"
+          @click="isEdit ? updateForm() : createForm()"
+        >Submit</a-button>
       </template>
-      <a-form :form="form">
+      <a-form :form="mdl">
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
@@ -60,12 +69,35 @@
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
           label="Username"
-          validateStatus="success"
+          :required="true"
+          :validate-status="help.username == null || help.username === '' ?  null : 'error'"
+          :help="help.username"
         >
-          <a-input v-model="mdl.username" disabled />
+          <a-input v-model="mdl.username" :disabled="isEdit" />
         </a-form-item>
 
-        <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="Price Level">
+        <a-form-item
+          v-if="!isEdit"
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+          label="Password"
+          :required="true"
+          :validate-status="help.password == null || help.password === '' ?  null : 'error'"
+          :help="help.password"
+        >
+          <a-input size="large" type="password" autocomplete="false" v-model="mdl.password">
+            <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }" />
+          </a-input>
+        </a-form-item>
+
+        <a-form-item
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+          label="Price Level"
+          :required="true"
+          :validate-status="help.price_level == null || help.price_level === '' ?  null : 'error'"
+          :help="help.price_level"
+        >
           <a-input-number
             v-model="mdl.price_level"
             :min="1"
@@ -75,7 +107,14 @@
           />
         </a-form-item>
 
-        <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="Balance">
+        <a-form-item
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+          label="Balance"
+          :required="true"
+          :validate-status="help.balance == null || help.balance === '' ?  null : 'error'"
+          :help="help.balance"
+        >
           <a-input-number
             v-model="mdl.balance"
             :min="0.0"
@@ -86,7 +125,13 @@
           />
         </a-form-item>
 
-        <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="Role">
+        <a-form-item
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+          label="Role"
+          :validate-status="help.role_id == null || help.role_id === '' ?  null : 'error'"
+          :help="help.role_id"
+        >
           <a-select
             :value="mdl.role_id"
             :defaultActiveFirstOption="false"
@@ -101,19 +146,41 @@
           </a-select>
         </a-form-item>
 
-        <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="Status">
-          <a-switch v-model="mdl.is_active" checkedChildren="Enable" unCheckedChildren="Disable(禁用登陆)"></a-switch>
+        <a-form-item
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+          label="Status"
+          :required="true"
+          :validate-status="help.is_active == null || help.is_active === '' ?  null : 'error'"
+          :help="help.is_active"
+        >
+          <a-switch
+            v-model="mdl.is_active"
+            checkedChildren="Enable"
+            unCheckedChildren="Disable(禁用登陆)"
+          ></a-switch>
         </a-form-item>
       </a-form>
     </a-modal>
 
-    <a-modal title="修改密码" style="top: 20px;" width="90%" v-model="visible">
+    <a-modal title="修改密码" width="600px" v-model="visible_password">
       <template slot="footer">
-        <a-button key="back" @click="visible=false">Return</a-button>
-        <a-button key="submit" type="primary" :loading="loading" @click="handleOk">Submit</a-button>
+        <a-button key="back" @click="visible_password=false">Return</a-button>
+        <a-button key="submit" type="primary" :loading="loading" @click="changePassword">Submit</a-button>
       </template>
-      <a-form :form="form">
-
+      <a-form :form="mdl">
+        <a-form-item
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+          label="New Password"
+          :required="true"
+          :validate-status="help.new_password == null || help.new_password === '' ?  null : 'error'"
+          :help="help.new_password"
+        >
+          <a-input size="large" type="password" autocomplete="false" v-model="mdl.new_password">
+            <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }" />
+          </a-input>
+        </a-form-item>
       </a-form>
     </a-modal>
   </a-card>
@@ -121,8 +188,14 @@
 
 <script>
 import { STable } from "@/components";
-import { getUserList, updateUser } from "@/api/manage";
+import {
+  getUserList,
+  updateUser,
+  createUser,
+  changePassword
+} from "@/api/manage";
 import { getRoleList } from "@/api/manage";
+import { checkError } from "@/views/utils/error";
 
 export default {
   name: "UserList",
@@ -131,7 +204,6 @@ export default {
   },
   data() {
     return {
-      visible: false,
       labelCol: {
         xs: { span: 24 },
         sm: { span: 5 }
@@ -140,11 +212,9 @@ export default {
         xs: { span: 24 },
         sm: { span: 16 }
       },
-      form: {
-        role_id: 0
-      },
       mdl: {
-        role: {}
+        role: {},
+        role_id: 0
       },
       // 查询参数
       queryParam: {},
@@ -194,6 +264,10 @@ export default {
         });
       },
 
+      visible: false,
+      visible_password: false,
+      isEdit: false,
+      help: {},
       pagination: {},
       roleOption: [],
       loading: false
@@ -219,12 +293,30 @@ export default {
     handleEdit(record) {
       this.mdl = Object.assign({}, record);
       this.visible = true;
+      this.isEdit = true;
+    },
+    handleCreate() {
+      this.mdl = {
+        id: undefined,
+        username: "",
+        password: "",
+        balance: 0.0,
+        price_level: 5,
+        role_id: null,
+        is_active: true
+      };
+      this.visible = true;
+      this.isEdit = false;
+    },
+    handleChangePassword(record) {
+      this.mdl = {
+        id: record.id,
+        new_password: ''
+      }
+      this.visible_password = true;
     },
     handleChangeStatus(e) {
       this.mdl.is_active = e.target.checked;
-    },
-    handleChangeStaff(e) {
-      this.mdl.is_staff = e.target.checked;
     },
     updateForm() {
       this.loading = true;
@@ -232,9 +324,75 @@ export default {
         .then(res => {
           this.visible = false;
         })
+        .catch(error => {
+          this.checkError(error);
+        })
         .finally(() => {
           this.loading = false;
         });
+    },
+    createForm() {
+      this.loading = true;
+      createUser(this.mdl)
+        .then(res => {
+          this.visible = false;
+        })
+        .catch(error => {
+          this.checkError(error);
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
+    changePassword() {
+      this.loading = true;
+      console.log(this.mdl, "===");
+      changePassword(this.mdl.id, {
+        new_password: this.mdl.new_password
+      })
+        .then(res => {
+          this.visible_password = false;
+        })
+        .catch(error => {
+          this.checkError(error);
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
+    checkError(error) {
+      var errors = checkError(
+        error,
+        "username",
+        "password",
+        "new_password",
+        "price_level",
+        "balance",
+        "role_id",
+        "is_active",
+        "non_field_errors"
+      );
+
+      this.help = {
+        username: errors["username"],
+        password: errors["password"],
+        new_password: errors["new_password"],
+        price_level: errors["price_level"],
+        balance: errors["balance"],
+        role_id: errors["role_id"],
+        is_active: errors["is_active"],
+        non_field_errors: errors["non_field_errors"]
+      };
+
+      for (var key in errors) {
+        if (errors[key]) {
+          this.$notification["error"]({
+            message: key,
+            description: errors[key],
+            duration: 4
+          });
+        }
+      }
     }
   }
 };

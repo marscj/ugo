@@ -17,6 +17,22 @@ export function updateUser (pk, data) {
   })
 }
 
+export function createUser (data) {
+  return axios({
+    url: api.user,
+    method: 'post',
+    data: data
+  })
+}
+
+export function changePassword (pk, data) {
+  return axios({
+    url: api.user + `${pk}/` + 'admin_change_password/',
+    method: 'post',
+    data: data
+  })
+}
+
 export function getRoleList (parameter) {
   return axios({
     url: api.role,
