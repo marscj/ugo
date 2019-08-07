@@ -4,7 +4,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-SESSION_COOKIE_DOMAIN = 'ugonew.com'
+SESSION_COOKIE_DOMAIN = 'ugodubai.com'
 
 DATABASES = {
     'default': {
