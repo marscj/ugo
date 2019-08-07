@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'app.authorization',
     'app.product',
     'app.order',
-    'app.source'
+    'app.source',
+    'app.notice'
 ]
 
 MIDDLEWARE = [
