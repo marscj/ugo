@@ -1,5 +1,9 @@
 <template>
   <a-card :bordered="false" v-action:query>
+    <div class="table-operator">
+      <a-button v-action:add type="primary" icon="plus" @click="handleCreate">Add</a-button>
+    </div>
+
     <s-table
       ref="table"
       size="default"
@@ -24,7 +28,7 @@
 
 <script>
 import { STable, Ellipsis } from "@/components";
-import { getNotice } from "@/api/notice";
+import { getNoticeList } from "@/api/notice";
 
 export default {
   name: "NoticeList",
@@ -44,25 +48,25 @@ export default {
         {
           key: "1",
           title: "Title",
-          dataIndex: "title",
+          dataIndex: "title"
         },
         {
           key: "2",
           title: "SubTitle",
-          dataIndex: "subtitle",
+          dataIndex: "subtitle"
         },
         {
           key: "3",
           title: "CreateTime",
           dataIndex: "create_at",
-          scopedSlots: { customRender: "create_at" },
+          scopedSlots: { customRender: "create_at" }
         },
         {
           key: "action",
           title: "操作",
           dataIndex: "action",
           scopedSlots: { customRender: "action" },
-          width: 100,
+          width: 100
         }
       ],
       loadData: parameter => {

@@ -46,11 +46,15 @@
 </template>
 
 <script>
+import Tinymce from "@/components/Tinymce";
 import { checkError } from "@/views/utils/error";
-import { getNotice, updateNotice, createNotice } from "@/api/order";
+import { getNotice, updateNotice, createNotice } from "@/api/notice";
 
 export default {
   name: "EditDetail",
+  components: {
+    Tinymce
+  },
   props: {
     isEdit: {
       type: Boolean,
@@ -139,18 +143,11 @@ export default {
     },
     initData(data) {
       if (this.isEdit) {
-        // this.$route.meta.title = data.product;
-        // this.description = data.variant;
         this.$emit("title", data);
       }
     },
-    handleOrderStatusChange(value) {
-      this.form.order_status = value;
-    },
-    handlePayStatusChange(value) {
-      this.form.pay_status = value;
-    },
     handleSubmit() {
+      console.log(this.form, '=======')
       if (this.isEdit) {
         this.updateForm(this.form);
       } else {

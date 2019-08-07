@@ -121,6 +121,36 @@ export const asyncRouterMap = [
           },
         ]
       },
+      // notice
+      {
+        path: 'notice',
+        name: 'Notice',
+        redirect: '/admin/notice/noticeList',
+        component: PageView,
+        meta: { title: 'Notice', keepAlive: true, permission: [ 'Notice' ] },
+        children: [
+          {
+            path: 'noticeList',
+            name: 'NoticeList',
+            component: () => import('@/views/admin/notice/list'),
+            meta: { title: 'Notice', keepAlive: false, permission: [ 'Notice' ] },
+          },
+          {
+            path: 'noticeEdit/:id(\\d+)',
+            name: 'NoticeEdit',
+            component: () => import('@/views/admin/notice/edit'),
+            meta: { title: 'Edit', keepAlive: false, permission: [ 'Notice' ] },
+            hidden: true
+          },
+          {
+            path: 'noticeCreate',
+            name: 'NoticeCreate',
+            component: () => import('@/views/admin/notice/create'),
+            meta: { title: 'Create', keepAlive: false, permission: [ 'Notice' ] },
+            hidden: true
+          },
+        ]
+      },
       //source
       // {
       //   path: 'source',

@@ -2,10 +2,9 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from middleware.viewsets import CustomModelViewSet
-from middleware.permissions import MiddlewarePermission
+from middleware.permissions import MiddlewarePermission, ReadOnlyPermission
 from .models import Category, Product, ProductVariant
 from .serializers import (ProductListSerializer, ProductDetailSerializer, ProductDetailReadOnlySerializer, ProductVariantSerializer, ProductVariantReadOnlySerializer)
 
@@ -26,7 +25,7 @@ class ProductView(CustomModelViewSet):
 
 class ProductReadOnlyView(CustomModelViewSet):
     queryset = Product.objects.all()
-    permission_classes = [AllowAny]
+    permission_classes = [ReadOnlyPermission]
 
     filterset_fields = ('category', 'status')
     search_fields = ('title', )
@@ -50,4 +49,4 @@ class ProductVariantView(CustomModelViewSet):
 class ProductVariantReadOnlyView(CustomModelViewSet): 
     serializer_class = ProductVariantReadOnlySerializer
     queryset = ProductVariant.objects.all()
-    permission_classes = [AllowAny]
+    permission_classes = [ReadOnlyPermission]

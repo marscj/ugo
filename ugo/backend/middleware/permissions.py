@@ -1,5 +1,5 @@
 from django.db.models import Q
-from rest_framework.permissions import BasePermission
+from rest_framework.permissions import BasePermission, SAFE_METHODS
 from rest_framework import exceptions
 from app.authorization.models import CustomUser
 
@@ -44,3 +44,8 @@ class MiddlewareLoginPermission(BasePermission):
                 raise exceptions.ValidationError({'detail': '没有找到该用户'})
                 
         return True
+
+class ReadOnlyPermission(BasePermission):
+
+    def has_permission(self, request, view):
+        return bool(request.method in SAFE_METHODS)
