@@ -16,7 +16,7 @@ class ProductView(CustomModelViewSet):
     permissionId = Product.__name__
 
     filterset_fields = ('category', 'status')
-    search_fields = ('title', )
+    search_fields = ('title', 'productID')
 
     def get_serializer_class(self):
         if self.action == 'list':
@@ -41,6 +41,9 @@ class ProductVariantView(CustomModelViewSet):
     serializer_class = ProductVariantSerializer
     permission_classes = [MiddlewarePermission]
     queryset = ProductVariant.objects.all()
+
+    filterset_fields = ('product__category', 'status')
+    search_fields = ('variantID', 'sku', 'name', 'product__title')
     
     permissionId = Product.__name__
 

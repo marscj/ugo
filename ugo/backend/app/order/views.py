@@ -19,8 +19,15 @@ class OrderView(CustomModelViewSet):
 
     permissionId = Order.__name__
  
-    filterset_fields = ('day', 'customer_id')
-    search_fields = ('orderID', ) 
+    filterset_fields = ('day', 'order_status', 'pay_status')
+    search_fields = (
+        'orderID',
+        'confirmID',
+        'variant__name',
+        'variant__product__title',
+        'customer__username',
+        'operator__username',
+    ) 
 
     def get_serializer_class(self):
         if self.action == 'create':

@@ -5,14 +5,12 @@
         <a-row :gutter="48">
           <a-col :md="8" :sm="16">
             <a-form-item label="Search">
-              <a-input v-model="queryParam.search" placeholder="Name or ID" />
+              <a-input v-model="queryParam.search" placeholder="Name, Product, VariantID, SKU" />
             </a-form-item>
           </a-col>
           <a-col :md="8" :sm="16">
-            <a-form-item label="Category" >
-              <a-select v-model="queryParam.category">
-                <a-select-option v-for="d in categoryData" :key="d.value">{{d.label}}</a-select-option>
-              </a-select>
+            <a-form-item label="Status" >
+              <a-checkbox :checked="queryParam.status" @change="queryParam.status=!queryParam.status">上架</a-checkbox>
             </a-form-item>
           </a-col>
         </a-row>
@@ -64,11 +62,24 @@ export default {
   components: {
     STable
   },
+  created: function () {
+    this.debouncedGetAnswer = _.debounce(() => {this.$refs.table.refresh(true)}, 1000)
+  },
+  watch: {
+    'queryParam.status': function (newQuestion, oldQuestion) {
+      this.$refs.table.refresh(true)
+    },
+    'queryParam.search': function (newQuestion, oldQuestion) {
+      this.debouncedGetAnswer()
+    },
+  },
   data () {
     return {
       categoryData,
-      // 查询参数
-      queryParam: {},
+      queryParam: {
+        search: undefined,
+        status: true,
+      },
       // 表头
       columns: [
         {
@@ -81,7 +92,7 @@ export default {
           dataIndex: 'name'
         },
         {
-          title: 'Product Name',
+          title: 'Product',
           dataIndex: 'product',
         },
         

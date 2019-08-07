@@ -2,7 +2,7 @@ from rest_framework.views import exception_handler
 
 def custom_exception_handler(exc, context):
     response = exception_handler(exc, context)
-
+    
     if response is not None and response.data is not None:
         for key, value in response.data.items():
             if isinstance(value, (list,)):
@@ -17,5 +17,6 @@ def custom_exception_handler(exc, context):
         response.data = {
             'message': response.data
         }
+        print(response.data)
     
     return response 

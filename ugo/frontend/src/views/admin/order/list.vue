@@ -8,6 +8,11 @@
               <a-input v-model="queryParam.search" placeholder="Name or ID" />
             </a-form-item>
           </a-col>
+          <a-col :md="8" :sm="16">
+            <a-form-item label="Day">
+              <a-range-picker :value="day" @change="(value) => day = value"></a-range-picker>
+            </a-form-item>
+          </a-col>
         </a-row>
       </a-form>
     </div>
@@ -28,10 +33,18 @@
       <span slot="variant" slot-scope="text" style="word-warp:break-word;word-break:break-all">
         <ellipsis :length="60" tooltip>{{ text }}</ellipsis>
       </span>
-      <span slot="customer_info" slot-scope="text" style="word-warp:break-word;word-break:break-all">
+      <span
+        slot="customer_info"
+        slot-scope="text"
+        style="word-warp:break-word;word-break:break-all"
+      >
         <ellipsis :length="160" tooltip>{{ text }}</ellipsis>
       </span>
-      <span slot="customer_contact" slot-scope="text" style="word-warp:break-word;word-break:break-all">
+      <span
+        slot="customer_contact"
+        slot-scope="text"
+        style="word-warp:break-word;word-break:break-all"
+      >
         <ellipsis :length="160" tooltip>{{ text }}</ellipsis>
       </span>
       <span slot="create_at" slot-scope="text">
@@ -40,7 +53,7 @@
         </template>
       </span>
       <span slot="action" slot-scope="text, data">
-        <div v-action:edit> 
+        <div v-action:edit>
           <router-link :to="{ name: 'OrderEdit', params: { id: data.id } }">Edit</router-link>
         </div>
       </span>
@@ -74,25 +87,60 @@ export default {
     STable,
     Ellipsis
   },
+  created: function() {
+    this.debouncedGetAnswer = _.debounce(() => {
+      this.$refs.table.refresh(true);
+    }, 1000);
+  },
+  watch: {
+    queryParam: {
+      deep: true,
+      handler: function(newQuestion, oldQuestion) {
+        this.debouncedGetAnswer();
+      }
+    },
+    day: function(newQuestion, oldQuestion) {
+      if (newQuestion != null && newQuestion != undefined && newQuestion.length > 0) {
+        this.queryParam.day__lte = newQuestion[0].format("YYYY-MM-DD")
+        this.queryParam.day__gte = newQuestion[1].format("YYYY-MM-DD")
+      } else {
+        this.queryParam.day__lte = undefined
+        this.queryParam.day__gte = undefined
+      }
+      this.$refs.table.refresh(true)
+    }
+  },
   data() {
     return {
       orderStatus,
       payStatus,
-      queryParam: {},
+      day: undefined,
+      queryParam: {
+        orderID: undefined,
+        confirmID: undefined,
+        order_status: undefined,
+        pay_status: undefined,
+        day__lte: undefined,
+        day__gte: undefined,
+        variant__name: undefined,
+        variant__product__title: undefined,
+        customer__username: undefined,
+        operator__username: undefined
+      },
       // 表头
       columns: [
         {
           key: "#",
           title: "#",
           dataIndex: "id",
-          fixed: 'left',
+          fixed: "left",
           width: 100
         },
         {
           key: "1",
           title: "OrderID",
           dataIndex: "orderID",
-          fixed: 'left',
+          fixed: "left",
           width: 150
         },
         {
@@ -123,7 +171,7 @@ export default {
           key: "4",
           title: "Variant",
           dataIndex: "variant",
-          scopedSlots: { customRender: 'variant' },
+          scopedSlots: { customRender: "variant" },
           width: 250
         },
         {
@@ -172,14 +220,14 @@ export default {
           key: "11",
           title: "Customer Info",
           dataIndex: "customer_info",
-          scopedSlots: { customRender: 'customer_info' },
+          scopedSlots: { customRender: "customer_info" },
           width: 400
         },
         {
           key: "12",
           title: "Customer Contact",
           dataIndex: "customer_contact",
-          scopedSlots: { customRender: 'customer_contact' },
+          scopedSlots: { customRender: "customer_contact" },
           width: 400
         },
         {
@@ -198,14 +246,14 @@ export default {
           key: "15",
           title: "Create at",
           dataIndex: "create_at",
-          scopedSlots: { customRender: 'create_at' },
+          scopedSlots: { customRender: "create_at" },
           width: 200
         },
         {
           key: "16",
           title: "Remark",
           dataIndex: "remark",
-          scopedSlots: { customRender: 'remark' },
+          scopedSlots: { customRender: "remark" },
           width: 400
         },
         {
@@ -214,7 +262,7 @@ export default {
           dataIndex: "action",
           scopedSlots: { customRender: "action" },
           width: 100,
-          fixed: 'right'
+          fixed: "right"
         }
       ],
       loadData: parameter => {
@@ -231,6 +279,9 @@ export default {
       this.$router.push({
         name: "VariantCreate"
       });
+    },
+    handleChangeDay(value) {
+      this.day = value.format("YYYY-MM-DD");
     }
   }
 };
