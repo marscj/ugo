@@ -1,6 +1,6 @@
-Dockerfile*
-docker-compose*
-.dockerignore
+# Dockerfile*
+# docker-compose*
+# .dockerignore
 .git
 .env
 */bin
@@ -10,5 +10,3 @@ LICENSE
 .vscode
 logfile
 .db.sqlite3
-
-ugo/backend/backend/db.sqlite3
