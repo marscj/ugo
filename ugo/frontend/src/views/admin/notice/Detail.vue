@@ -1,108 +1,56 @@
 <template>
   <a-spin :spinning="spinning">
-    <a-form :form="form">
-      <a-row :gutter="16">
-        <a-col :span="16">
-          <a-card>
-            <a-form-item label="Day(日期)">
-              <a-input v-model="form.day" disabled></a-input>
-            </a-form-item>
-            <a-form-item label="Time(时间)">
-              <a-input v-model="form.time" disabled></a-input>
-            </a-form-item>
-            <a-form-item label="Adult Quantity(成人票数量)">
-              <a-input v-model="form.adult_quantity" disabled></a-input>
-            </a-form-item>
-            <a-form-item label="Adult Price(成人票总价格)">
-              <a-input v-model="form.adult_price" disabled></a-input>
-            </a-form-item>
-            <a-form-item label="Child Quantity(儿童票数量)">
-              <a-input v-model="form.child_quantity" disabled></a-input>
-            </a-form-item>
-            <a-form-item label="Child Price(儿童票总价格)">
-              <a-input v-model="form.child_price" disabled></a-input>
-            </a-form-item>
-            <a-form-item label="Total Price(总价格)">
-              <a-input v-model="form.total_price" disabled></a-input>
-            </a-form-item>
-            <a-form-item label="Customer Info(客户信息)">
-              <a-textarea v-model="form.customer_info" disabled></a-textarea>
-            </a-form-item>
-            <a-form-item label="Customer Contact(客户联系方式)">
-              <a-textarea v-model="form.customer_contact" disabled></a-textarea>
-            </a-form-item>
-            <a-form-item label="ConfirmID">
-              <a-input v-model="form.confirmID"></a-input>
-            </a-form-item>
-            <a-form-item label="Remark">
-              <a-textarea v-model="form.remark"></a-textarea>
-            </a-form-item>
-          </a-card>
-          <div style="position:relative; margin-top:20px">
-            <a-button type="primary" html-type="submit" @click="handleSubmit" style="margin-right:20px">Submit</a-button>
-            <a-button @click="handleGoBack">Return</a-button>
+    <a-card>
+      <a-form :form="form">
+        <a-form-item
+          label="Title"
+          :required="true"
+          :validate-status="help.title == null || help.title === '' ?  null : 'error'"
+          :help="help.title"
+        >
+          <a-input v-model="form.title"></a-input>
+        </a-form-item>
+
+        <a-form-item
+          label="SubTitle"
+          :required="true"
+          :validate-status="help.subtitle == null || help.subtitle === '' ?  null : 'error'"
+          :help="help.subtitle"
+        >
+          <a-textarea v-model="form.subtitle" :rows="5"></a-textarea>
+        </a-form-item>
+
+        <a-form-item
+          label="Content"
+          :required="true"
+          :validate-status="help.content == null || help.content === '' ? null : 'error'"
+          :help="help.content"
+        >
+          <div class="components-container">
+            <div>
+              <tinymce v-model="form.content" :height="500" />
+            </div>
           </div>
+        </a-form-item>
+      </a-form>
+      <a-row>
+        <a-col span="2">
+          <a-button type="primary" html-type="submit" @click="handleSubmit">Submit</a-button>
         </a-col>
-        <a-col :span="8">
-          <a-card>
-            <a-form-item label="OrderID">
-              <a-input v-model="form.orderID" disabled></a-input>
-            </a-form-item>
-            <a-form-item label="Order Status">
-              <a-select :value="form.order_status"  @change="handleOrderStatusChange" :filterOption="false">
-                <a-select-option v-for="d in orderStatus" :key="d.value">{{d.label}}</a-select-option>
-              </a-select>
-            </a-form-item>
-            <a-form-item label="Pay Status">
-              <a-select :value="form.pay_status"  @change="handlePayStatusChange" :filterOption="false">
-                <a-select-option v-for="d in payStatus" :key="d.value">{{d.label}}</a-select-option>
-              </a-select>
-            </a-form-item>
-            <a-form-item label="Customer">
-              <a-input v-model="form.customer" disabled></a-input>
-            </a-form-item>
-            <a-form-item label="Operator">
-              <a-input v-model="form.operator" disabled></a-input>
-            </a-form-item>
-            <a-form-item label="Create at">
-              <template>
-                <span>{{form.create_at | moment('YYYY-MM-DD HH:mm')}}</span>
-              </template>
-            </a-form-item>
-            <a-form-item label="Change at">
-              <template>
-                <span>{{form.change_at | moment('YYYY-MM-DD HH:mm')}}</span>
-              </template>
-            </a-form-item>
-          </a-card>
+        <a-col span="2">
+          <a-button @click="handleGoBack">Return</a-button>
         </a-col>
       </a-row>
-    </a-form>
+    </a-card>
   </a-spin>
 </template>
 
 <script>
 import { checkError } from "@/views/utils/error";
-import { getOrder, updateOrder, createOrder } from "@/api/order";
-
-const orderStatus = [
-  { value: 0, label: "新建" },
-  { value: 1, label: "订单已确认" },
-  { value: 2, label: "出票成功" },
-  { value: 3, label: "出票失败" },
-  { value: 4, label: "订单已取消" }
-];
-
-const payStatus = [
-  { value: 0, label: "未支付" },
-  { value: 1, label: "部分支付" },
-  { value: 2, label: "全部付清" },
-  { value: 3, label: "部分退款" },
-  { value: 4, label: "全部退款" }
-];
+import { getNotice, updateNotice, createNotice } from "@/api/order";
 
 export default {
-  name: "OrderDetail",
+  name: "EditDetail",
   props: {
     isEdit: {
       type: Boolean,
@@ -111,15 +59,10 @@ export default {
   },
   data() {
     return {
-      orderStatus,
-      payStatus,
       form: {
-        order_status: 0,
-        pay_status: 0,
-        adult_quantity: undefined,
-        adult_price: undefined,
-        child_quantity: undefined,
-        child_price: undefined
+        title: '',
+        subtitle: '',
+        content: ''
       },
       help: {},
       spinning: false
@@ -137,7 +80,7 @@ export default {
     },
     fetch(id) {
       this.spinning = true;
-      getOrder(id)
+      getNotice(id)
         .then(res => {
           const { result } = res;
           this.form = result;
@@ -149,7 +92,7 @@ export default {
     },
     updateForm(data) {
       this.spinning = true;
-      updateOrder(this.$route.params.id, data)
+      updateNotice(this.$route.params.id, data)
         .then(res => {
           const { result } = res;
           this.handleGoBack();
@@ -163,13 +106,10 @@ export default {
     },
     createForm(data) {
       this.spinning = true;
-      createOrder(data)
+      createNotice(data)
         .then(res => {
           const { result } = res;
-          this.$router.replace({
-            name: "OrderEdit",
-            params: { id: result.id }
-          });
+          this.handleGoBack();
         })
         .catch(error => {
           this.checkError(error);
@@ -179,11 +119,13 @@ export default {
         });
     },
     checkError(error) {
-      var errors = checkError(
-        error,
-      );
+      var errors = checkError(error, 'title', 'subtitle', 'content');
 
-      this.help = {};
+      this.help = {
+        title: errors["title"],
+        subtitle: errors["subtitle"],
+        content: errors["content"]
+      };
 
       for (var key in errors) {
         if (errors[key]) {
@@ -203,10 +145,10 @@ export default {
       }
     },
     handleOrderStatusChange(value) {
-      this.form.order_status = value
+      this.form.order_status = value;
     },
     handlePayStatusChange(value) {
-      this.form.pay_status = value
+      this.form.pay_status = value;
     },
     handleSubmit() {
       if (this.isEdit) {

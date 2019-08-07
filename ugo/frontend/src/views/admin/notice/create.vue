@@ -10,7 +10,7 @@ export default {
   components: { Detail },
   data() {
     return {
-      description: '新建子产品',
+      description: '公告产品',
     }
   }
 }

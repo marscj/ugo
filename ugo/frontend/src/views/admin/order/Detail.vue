@@ -166,10 +166,7 @@ export default {
       createOrder(data)
         .then(res => {
           const { result } = res;
-          this.$router.replace({
-            name: "OrderEdit",
-            params: { id: result.id }
-          });
+          this.handleGoBack();
         })
         .catch(error => {
           this.checkError(error);

@@ -10,7 +10,7 @@ export default {
   components: { Detail },
   data() {
     return {
-      description: '编辑订单',
+      description: '编辑公告',
     }
   },
   methods: {

@@ -8,26 +8,6 @@
       :data="loadData"
       fixed
     >
-      <span slot="remark" slot-scope="text" style="word-warp:break-word;word-break:break-all">
-        <ellipsis :length="200" tooltip>{{ text }}</ellipsis>
-      </span>
-      <span slot="variant" slot-scope="text" style="word-warp:break-word;word-break:break-all">
-        <ellipsis :length="60" tooltip>{{ text }}</ellipsis>
-      </span>
-      <span
-        slot="customer_info"
-        slot-scope="text"
-        style="word-warp:break-word;word-break:break-all"
-      >
-        <ellipsis :length="160" tooltip>{{ text }}</ellipsis>
-      </span>
-      <span
-        slot="customer_contact"
-        slot-scope="text"
-        style="word-warp:break-word;word-break:break-all"
-      >
-        <ellipsis :length="160" tooltip>{{ text }}</ellipsis>
-      </span>
       <span slot="create_at" slot-scope="text">
         <template>
           <span>{{text | moment('YYYY-MM-DD HH:mm')}}</span>
@@ -35,7 +15,7 @@
       </span>
       <span slot="action" slot-scope="text, data">
         <div v-action:edit>
-          <router-link :to="{ name: 'OrderEdit', params: { id: data.id } }">Edit</router-link>
+          <router-link :to="{ name: 'NoticeEdit', params: { id: data.id } }">Edit</router-link>
         </div>
       </span>
     </s-table>
@@ -75,6 +55,7 @@ export default {
           key: "3",
           title: "CreateTime",
           dataIndex: "create_at",
+          scopedSlots: { customRender: "create_at" },
         },
         {
           key: "action",
