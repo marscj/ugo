@@ -3,7 +3,7 @@ from middleware.permissions import MiddlewarePermission
 from rest_framework.permissions import AllowAny
 
 from .models import Notice
-from .serializers import NoticeSerializer
+from .serializers import NoticeSerializer, NoticeReadOnlySerializer
 
 class NoticeView(CustomModelViewSet):
     serializer_class = NoticeSerializer
@@ -11,6 +11,6 @@ class NoticeView(CustomModelViewSet):
     queryset = Notice.objects.all()
 
 class NoticeReadOnlyView(CustomModelViewSet):
-    serializer_class = NoticeSerializer
+    serializer_class = NoticeReadOnlySerializer
     permission_classes = [AllowAny]
     queryset = Notice.objects.all()
