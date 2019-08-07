@@ -2,9 +2,9 @@ django
 django-cacheops
 django-cors-headers
 django-filter
-djangorestframework，
+djangorestframework
 djangorestframework-jwt
 django-versatileimagefield
 psycopg2
 uwsgi
-Pillow
+Pillow<6.0.0
