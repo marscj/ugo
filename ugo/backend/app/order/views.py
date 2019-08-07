@@ -3,6 +3,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated, AllowAny
+import django_filters
 
 from middleware.viewsets import CustomModelViewSet
 from middleware.permissions import MiddlewarePermission
@@ -12,6 +13,12 @@ from app.product.models import ProductVariant
 from app.authorization.models import CustomUser
 from app.authorization import UserType
 
+class OrderFilter(django_filters.FilterSet):
+    order_status = django_filters.NumberFilter('order_status')
+    pay_status = django_filters.NumberFilter('pay_status')
+    start_day = django_filters.DateFilter('day',lookup_expr=('gte'),) 
+    end_day = django_filters.DateFilter('day',lookup_expr=('lte'))
+
 class OrderView(CustomModelViewSet):
     serializer_class = OrderCreateSerializer
     permission_classes = [MiddlewarePermission]
@@ -20,6 +27,8 @@ class OrderView(CustomModelViewSet):
     permissionId = Order.__name__
  
     filterset_fields = ('day', 'order_status', 'pay_status')
+    filter_class = OrderFilter
+
     search_fields = (
         'orderID',
         'confirmID',
