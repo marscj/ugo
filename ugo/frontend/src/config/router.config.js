@@ -124,7 +124,7 @@ export const asyncRouterMap = [
       // notice
       {
         path: 'notice',
-        name: 'Notice',
+        name: 'NoticeBack',
         redirect: '/admin/notice/noticeList',
         component: PageView,
         meta: { title: 'Notice', keepAlive: true, permission: [ 'Notice' ] },
@@ -369,6 +369,19 @@ export const constantRouterMap = [
             name: 'GiftDetail',
             component: () => import('@/views/home/detail'),
             meta: { title: '伴手礼', keepAlive: true },
+            hidden: true
+          },
+          {
+            path: 'notice',
+            name: 'Notice',
+            component: () => import('@/views/home/notice'),
+            meta: { title: '公告', keepAlive: true },
+          },
+          {
+            path: 'notice/:id(\\d+)',
+            name: 'NoticeDetail',
+            component: () => import('@/views/home/noticeDetail'),
+            meta: { title: '公告详情', keepAlive: true },
             hidden: true
           },
           {
