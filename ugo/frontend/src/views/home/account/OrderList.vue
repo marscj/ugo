@@ -47,10 +47,18 @@
       <span slot="variant" slot-scope="text" style="word-warp:break-word;word-break:break-all">
         <ellipsis :length="60" tooltip>{{ text }}</ellipsis>
       </span>
-      <span slot="customer_info" slot-scope="text" style="word-warp:break-word;word-break:break-all">
+      <span
+        slot="customer_info"
+        slot-scope="text"
+        style="word-warp:break-word;word-break:break-all"
+      >
         <ellipsis :length="160" tooltip>{{ text }}</ellipsis>
       </span>
-      <span slot="customer_contact" slot-scope="text" style="word-warp:break-word;word-break:break-all">
+      <span
+        slot="customer_contact"
+        slot-scope="text"
+        style="word-warp:break-word;word-break:break-all"
+      >
         <ellipsis :length="160" tooltip>{{ text }}</ellipsis>
       </span>
       <span slot="create_at" slot-scope="text">
@@ -155,7 +163,7 @@ export default {
           key: "4",
           title: "产品",
           dataIndex: "variant",
-          scopedSlots: { customRender: 'variant' },
+          scopedSlots: { customRender: "variant" },
           width: 250
         },
         {
@@ -204,14 +212,14 @@ export default {
           key: "11",
           title: "客户信息",
           dataIndex: "customer_info",
-          scopedSlots: { customRender: 'customer_info' },
+          scopedSlots: { customRender: "customer_info" },
           width: 400
         },
         {
           key: "12",
           title: "联系方式",
           dataIndex: "customer_contact",
-          scopedSlots: { customRender: 'customer_contact' },
+          scopedSlots: { customRender: "customer_contact" },
           width: 400
         },
         {
@@ -224,14 +232,14 @@ export default {
           key: "15",
           title: "创建",
           dataIndex: "create_at",
-          scopedSlots: { customRender: 'create_at' },
+          scopedSlots: { customRender: "create_at" },
           width: 200
         },
         {
           key: "16",
           title: "备注",
           dataIndex: "remark",
-          scopedSlots: { customRender: 'remark' },
+          scopedSlots: { customRender: "remark" },
           width: 400
         },
         {
@@ -240,7 +248,7 @@ export default {
           dataIndex: "action",
           scopedSlots: { customRender: "action" },
           width: 100,
-          fixed: 'right'
+          fixed: "right"
         }
       ],
       loadData: parameter => {
