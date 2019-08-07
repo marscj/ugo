@@ -41,6 +41,13 @@
     permissionName: Order
     role: 1
 
+- model: authorization.permission
+  pk: 6
+  fields:
+    permissionId: Notice
+    permissionName: Notice
+    role: 1
+
 ###################################### actionentity ############################################
 # 'add': { key: 'add', label: '新增' },
 # 'delete': { key: 'delete', label: '删除' },
@@ -193,3 +200,36 @@
     label: 删除
     enable: true
     permission: 5
+
+#Notice
+- model: authorization.actionentity
+  pk: 18
+  fields:
+    action: query
+    label: 查询
+    enable: true
+    permission: 6
+
+- model: authorization.actionentity
+  pk: 19
+  fields:
+    action: add
+    label: 新增
+    enable: true
+    permission: 6
+
+- model: authorization.actionentity
+  pk: 20
+  fields:
+    action: edit
+    label: 编辑
+    enable: true
+    permission: 6
+
+- model: authorization.actionentity
+  pk: 21
+  fields:
+    action: delete
+    label: 删除
+    enable: true
+    permission: 6
