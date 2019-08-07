@@ -256,12 +256,12 @@ export const constantRouterMap = [
         redirect: '/home/ticket',
         meta: { title: '首页', keepAlive: true },
         children: [
-          {
-            path: 'index',
-            name: 'HomePage',
-            component: () => import('@/views/home/index'),
-            meta: { title: '首页', keepAlive: true },
-          },
+          // {
+          //   path: 'index',
+          //   name: 'HomePage',
+          //   component: () => import('@/views/home/index'),
+          //   meta: { title: '首页', keepAlive: true },
+          // },
           {
             path: 'ticket',
             name: 'Ticket',

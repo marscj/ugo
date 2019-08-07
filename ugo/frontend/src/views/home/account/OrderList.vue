@@ -3,9 +3,28 @@
     <div class="table-page-search-wrapper">
       <a-form layout="inline">
         <a-row :gutter="48">
-          <a-col :md="8" :sm="16">
+          <a-col :xs="6" :md="8" :sm="16">
             <a-form-item label="Search">
-              <a-input v-model="queryParam.search" placeholder="Name or ID" />
+              <a-input
+                v-model="queryParam.search"
+                placeholder="OrderID, ConfirmID, Variant, Customer, Operator"
+              />
+            </a-form-item>
+          </a-col>
+          <a-col :xs="6" :md="8" :sm="16">
+            <a-form-item label="Day">
+              <a-range-picker :value="day" @change="(value) => day = value"></a-range-picker>
+            </a-form-item>
+          </a-col>
+          <a-col :xs="6" :md="8" :sm="16">
+            <a-form-item label="Order Status">
+              <a-select
+                :value="queryParam.order_status"
+                @change="(value) => queryParam.order_status = value"
+                :filterOption="false"
+              >
+                <a-select-option v-for="d in orderStatus" :key="d.value">{{d.label}}</a-select-option>
+              </a-select>
             </a-form-item>
           </a-col>
         </a-row>
@@ -66,13 +85,50 @@ export default {
     STable,
     Ellipsis
   },
+  created: function() {
+    this.debouncedGetAnswer = _.debounce(() => {
+      this.$refs.table.refresh(true);
+    }, 1000);
+  },
+  watch: {
+    queryParam: {
+      deep: true,
+      handler: function(newQuestion, oldQuestion) {
+        this.debouncedGetAnswer();
+      }
+    },
+    day: function(newQuestion, oldQuestion) {
+      if (
+        newQuestion != null &&
+        newQuestion != undefined &&
+        newQuestion.length > 0
+      ) {
+        this.queryParam.start_day = newQuestion[0].format("YYYY-MM-DD");
+        this.queryParam.end_day = newQuestion[1].format("YYYY-MM-DD");
+      } else {
+        this.queryParam.start_day = undefined;
+        this.queryParam.end_day = undefined;
+      }
+      this.$refs.table.refresh(true);
+    }
+  },
   data() {
     return {
       orderStatus,
+      day: undefined,
       queryParam: {
+        orderID: undefined,
+        confirmID: undefined,
+        order_status: undefined,
+        pay_status: undefined,
+        start_day: undefined,
+        end_day: undefined,
+        variant__name: undefined,
+        variant__product__title: undefined,
+        customer__username: undefined,
+        operator__username: undefined,
         customer_id: this.$store.getters.userInfo.id
       },
-      // 表头
       columns: [
         {
           key: "1",

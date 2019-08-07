@@ -14,6 +14,7 @@ from app.authorization.models import CustomUser
 from app.authorization import UserType
 
 class OrderFilter(django_filters.FilterSet):
+    customer_id = django_filters.NumberFilter('customer__id')
     order_status = django_filters.NumberFilter('order_status')
     pay_status = django_filters.NumberFilter('pay_status')
     start_day = django_filters.DateFilter('day',lookup_expr=('gte'),) 
@@ -26,7 +27,7 @@ class OrderView(CustomModelViewSet):
 
     permissionId = Order.__name__
  
-    filterset_fields = ('day', 'order_status', 'pay_status')
+    filterset_fields = ('day', 'order_status', 'pay_status', 'customer_id')
     filter_class = OrderFilter
 
     search_fields = (
