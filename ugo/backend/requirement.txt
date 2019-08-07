@@ -1,3 +1,8 @@
 django
-Pillow
+django-cacheops
+django-cors-headers
+django-filter
+djangorestframework，
+djangorestframework-jwt
 django-versatileimagefield
+Pillow
