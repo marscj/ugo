@@ -4,8 +4,6 @@ from django.contrib.auth.models import AbstractBaseUser, UserManager, AbstractUs
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.core.validators import MinValueValidator, MaxValueValidator
 
-from jsonfield import JSONField,JSONCharField
-
 from .import UserType
 
 class CustomUser(AbstractBaseUser):
