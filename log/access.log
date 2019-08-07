@@ -55,3 +55,7 @@
 172.23.0.1 - - [30/Jun/2019:12:27:53 +0000] "GET / HTTP/1.1" 200 16348 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.90 Safari/537.36" "-"
 172.23.0.1 - - [30/Jun/2019:12:27:53 +0000] "GET /static/admin/css/fonts.css HTTP/1.1" 404 555 "http://ugonew.com/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.90 Safari/537.36" "-"
 172.23.0.1 - - [30/Jun/2019:12:31:03 +0000] "GET / HTTP/1.1" 502 559 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.90 Safari/537.36" "-"
+172.19.0.1 - - [07/Aug/2019:14:25:11 +0000] "GET / HTTP/1.1" 404 77 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36" "-"
+172.19.0.1 - - [07/Aug/2019:14:25:11 +0000] "GET /favicon.ico HTTP/1.1" 404 77 "http://localhost:8080/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36" "-"
+172.19.0.1 - - [07/Aug/2019:14:32:39 +0000] "GET / HTTP/1.1" 404 77 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36" "-"
+172.19.0.1 - - [07/Aug/2019:14:32:39 +0000] "GET /favicon.ico HTTP/1.1" 404 77 "http://127.0.0.1:8080/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36" "-"
