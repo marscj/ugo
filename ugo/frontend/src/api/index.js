@@ -18,5 +18,8 @@ const api = {
 
   order: '/order/',
   source: '/source/',
+
+  notice: '/notice/',
+  system_notice: '/system_notice/'
 }
 export default api
