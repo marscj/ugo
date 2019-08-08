@@ -130,6 +130,8 @@ CACHEOPS_DEFAULTS = {
     'timeout': 60*60
 }
 
+CACHEOPS_REDIS = "redis://redis:6379/0"
+
 CACHEOPS = {
     'auth.user': {'ops': 'get', 'timeout': 60*15},
     'auth.*': {'ops': ('fetch', 'get')},
