@@ -1,9 +1,8 @@
-FROM python:3.6.2
+FROM python:latest
 LABEL maintainer ugodubai
 ENV PYTHONUNBUFFERED 1
 RUN mkdir /docker_api
 WORKDIR /docker_api
 COPY . /docker_api
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
-# RUN pip install  -i  https://pypi.python.org/simple/  -r requirements.txt
+RUN apt-get update && apt-get install vim
+RUN pip install --upgrade pip && pip install -r requirements.txt
