@@ -1,4 +1,4 @@
-version: '3.3'
+version: '3.7'
 services:
 
     db:
@@ -52,6 +52,13 @@ services:
         depends_on:
         - db
         - redis
+
+    frontend:
+      build: ./frontend
+      ports:
+        - '8080:8080'
+      links:
+        - backend
 
 volumes:
     api_data:
