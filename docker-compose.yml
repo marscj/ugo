@@ -4,6 +4,7 @@ services:
     db:
       container_name: postgres
       image: postgres
+      hostname: db
       environment:
         POSTGRES_PASSWORD: password123
       # ports:
@@ -15,11 +16,14 @@ services:
     redis:
       image: redis
       container_name: redis
+      hostname: redis
       restart: always
-      ports:
-        - "6379:6379"
+      # ports:
+      #   - "6379:6379"
+      # extra_hosts:
+      #   - "redis:0.0.0.0"
       volumes:
-      - 'redisdata:/data'
+        - redisdata:/data
 
     nginx:
         container_name: nginx
@@ -42,6 +46,9 @@ services:
         command: uwsgi --ini uwsgi.ini
         volumes:
         - api_data:/docker_api
+        links:
+          - db
+          - redis
         depends_on:
         - db
         - redis
