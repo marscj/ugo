@@ -10,3 +10,5 @@ LICENSE
 .vscode
 logfile
 .db.sqlite3
+log
+.log
