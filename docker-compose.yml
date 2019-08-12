@@ -24,13 +24,12 @@ services:
       #   - "redis:0.0.0.0"
       volumes:
         - redisdata:/data
-
+        
     nginx:
         container_name: nginx
         build: ./nginx
         restart: always
         ports:
-        # - "8001:8001"
         - "8080:80"
         volumes:
         - api_data:/docker_api
@@ -52,12 +51,13 @@ services:
         - db
         - redis
 
-    frontend:
-      build: ./frontend
-      ports:
-        - '8080:8080'
-      links:
-        - backend
+    # frontend:
+    #   container_name: frontend
+    #   build: ./frontend
+    #   ports:
+    #     - '8080:8080'
+    #   links:
+    #     - backend
 
 volumes:
     api_data:
