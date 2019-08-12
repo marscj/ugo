@@ -130,8 +130,6 @@ CACHEOPS_DEFAULTS = {
     'timeout': 60*60
 }
 
-CACHEOPS_REDIS = "redis://redis:6379/0"
-
 CACHEOPS = {
     'auth.user': {'ops': 'get', 'timeout': 60*15},
     'auth.*': {'ops': ('fetch', 'get')},
@@ -156,4 +154,22 @@ VERSATILEIMAGEFIELD_RENDITION_KEY_SETS = {
         ('medium_square_crop', 'crop__200x200'),
         ('gallery_square_crop', 'crop__524x288'),
     ]
+}
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'filters': None,
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+    },
 }

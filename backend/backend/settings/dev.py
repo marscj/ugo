@@ -6,6 +6,8 @@ ALLOWED_HOSTS = ['*']
 
 SESSION_COOKIE_DOMAIN = 'ugodubai.com'
 
+CACHEOPS_REDIS = "redis://127.0.0.1:6379/0"
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -16,13 +18,6 @@ DATABASES = {
         'PORT': '5432',
     }
 }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
 
 JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1), 

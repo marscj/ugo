@@ -11,7 +11,7 @@ function resolve (dir) {
 module.exports = {
   publicPath: '/',
   outputDir: 'dist',
-  assetsDir: 'static',
+  // assetsDir: 'static',
   lintOnSave: false,
   productionSourceMap: false,
   transpileDependencies: [],
@@ -24,7 +24,7 @@ module.exports = {
     },
     proxy: {
       '/api': {
-        target: 'http://127.0.0.1:8000',
+        target: 'http://127.0.0.1:9000',
         ws: false,
         changeOrigin: true
       }

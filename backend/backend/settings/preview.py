@@ -8,16 +8,16 @@ SESSION_COOKIE_DOMAIN = 'ugodubai.com'
 
 CORS_ORIGIN_ALLOW_ALL = False
 
-CACHEOPS_REDIS = "redis://redis:6379/0"
+CACHEOPS_REDIS = "redis://127.0.0.1:6379/0"
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'password123',
-        'HOST': 'db',
-        'PORT': 5432,
+        'NAME': 'ugo',
+        'USER': 'admin',
+        'PASSWORD': 'admin123',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
