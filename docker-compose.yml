@@ -24,13 +24,15 @@ services:
       #   - "redis:0.0.0.0"
       volumes:
         - redisdata:/data
-        
+
     nginx:
         container_name: nginx
-        build: ./nginx
+        build: 
+          context: ./
+          dockerfile: ./nginx/Dockerfile
         restart: always
         ports:
-        - "8080:80"
+        - "8080:8001"
         volumes:
         - api_data:/docker_api
         - ./log:/var/log/nginx
