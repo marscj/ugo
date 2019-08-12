@@ -2,7 +2,7 @@ from .settings import *
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['ugodubai.com', '*']
 
 SESSION_COOKIE_DOMAIN = 'ugodubai.com'
 
