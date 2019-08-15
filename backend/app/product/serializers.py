@@ -12,7 +12,7 @@ class ProductVariantSerializer(serializers.ModelSerializer):
     status = serializers.BooleanField(required=True)
 
     variantID = serializers.CharField(required=True, allow_null=False, max_length=16, validators=[UniqueValidator(queryset=ProductVariant.objects.all())])
-
+ 
     name = serializers.CharField(required=False, allow_null=False, max_length=64)
 
     sku = serializers.CharField(required=True, allow_null=False, max_length=32, validators=[UniqueValidator(queryset=ProductVariant.objects.all())])
