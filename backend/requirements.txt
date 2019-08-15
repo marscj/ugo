@@ -1,4 +1,5 @@
 django
+Pillow<6.0.0
 pyyaml
 django-cacheops
 django-cors-headers
@@ -8,4 +9,3 @@ djangorestframework-jwt
 django-versatileimagefield
 psycopg2
 uwsgi
-Pillow<6.0.0

@@ -155,21 +155,3 @@ VERSATILEIMAGEFIELD_RENDITION_KEY_SETS = {
         ('gallery_square_crop', 'crop__524x288'),
     ]
 }
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'level': 'DEBUG',
-            'filters': None,
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-        },
-    },
-}
