@@ -14,7 +14,11 @@ import router from '../router';
 // 创建 axios 实例
 const service = axios.create({
   baseURL: '/api', // api base_url
-  timeout: 600000 // 请求超时时间
+  timeout: 600000, // 请求超时时间
+  proxy: {
+    host: 'localhost',
+    port: 8080
+  }
 })
 
 const err = (error) => {
