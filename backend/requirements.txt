@@ -9,3 +9,4 @@ djangorestframework-jwt
 django-versatileimagefield
 psycopg2
 uwsgi
+gunicorn
