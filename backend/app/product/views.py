@@ -23,6 +23,15 @@ class ProductView(CustomModelViewSet):
         else:
             return ProductDetailSerializer
 
+    # @action(methods=['delete'], detail=False)
+    # def multiple_delete(self, request,  *args, **kwargs):
+    #     delete_id = request.query_params.get('deleteid', None)
+    #     if not delete_id:
+    #         return Response(status=status.HTTP_404_NOT_FOUND)
+    #     for i in delete_id.split(','):
+    #         get_object_or_404(User, pk=int(i)).delete()
+    #     return Response(status=status.HTTP_204_NO_CONTENT)
+
 class ProductReadOnlyView(CustomModelViewSet):
     queryset = Product.objects.all()
     permission_classes = [ReadOnlyPermission]
