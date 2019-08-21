@@ -3,7 +3,6 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework.decorators import action
 
-from app.authorization import UserType
 from middleware.viewsets import CustomModelViewSet
 from middleware.permissions import MiddlewarePermission, ReadOnlyPermission
 from .models import Category, Product, ProductVariant
@@ -23,13 +22,13 @@ class ProductView(CustomModelViewSet):
     def get_serializer_class(self):
         if self.action == 'list':
             return ProductListSerializer
-        elif self.request.user.user_type == UserType.Staff:
+        elif self.request.user.is_staff:
                 return ProductBackendSerializer
         return ProductSerializer
 
     def get_permissions(self):
-        if self.request.user.user_type == UserType.Staff:
-            permission_classes = [IsAuthenticated]
+        if self.request.user.is_staff:
+            permission_classes = [MiddlewarePermission]
         else:
             permission_classes = [ReadOnlyPermission]
 
@@ -57,13 +56,13 @@ class ProductVariantView(CustomModelViewSet):
     permissionId = Product.__name__
 
     def get_serializer_class(self):
-        if self.request.user.user_type == UserType.Staff:
+        if self.request.user.is_staff:
             return ProductVariantBackendSerializer
         return ProductVariantSerializer
 
     def get_permissions(self):
-        if self.request.user.user_type == UserType.Staff:
-            permission_classes = [IsAuthenticated]
+        if self.request.user.is_staff:
+            permission_classes = [MiddlewarePermission]
         else:
             permission_classes = [ReadOnlyPermission]
 

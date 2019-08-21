@@ -8,7 +8,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.views import ObtainJSONWebToken
 from rest_framework_jwt.settings import api_settings
 
-from .import UserType
 from middleware.viewsets import CustomModelViewSet
 from middleware.permissions import MiddlewarePermission, MiddlewareLoginPermission
 from .models import CustomUser, Role, Permission, ActionEntity

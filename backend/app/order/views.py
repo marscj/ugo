@@ -10,7 +10,6 @@ from .models import Order
 from .serializers import OrderCreateSerializer, OrderUpdateSerializer, CheckoutOrderSerializer
 from app.product.models import ProductVariant
 from app.authorization.models import CustomUser
-from app.authorization import UserType
 
 class OrderFilter(django_filters.FilterSet):
     customer_id = django_filters.NumberFilter('customer__id')
