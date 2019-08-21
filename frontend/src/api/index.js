@@ -8,9 +8,6 @@ const api = {
   role: '/role/',
   permission: '/permission/',
 
-  system_product: '/system_product/',
-  system_variant: '/system_variant/',
-
   product: '/product/',
   variant: '/variant/',
 

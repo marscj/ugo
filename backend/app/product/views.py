@@ -6,7 +6,8 @@ from rest_framework.decorators import action
 from middleware.viewsets import CustomModelViewSet
 from middleware.permissions import MiddlewarePermission, ReadOnlyPermission
 from .models import Category, Product, ProductVariant
-from .serializers import (ProductListSerializer, ProductDetailSerializer, ProductDetailReadOnlySerializer, ProductVariantSerializer, ProductVariantReadOnlySerializer)
+from .serializers import (ProductListSerializer, ProductSerializer, ProductBackendSerializer, 
+    ProductVariantSerializer, ProductVariantBackendSerializer)
 
 class ProductView(CustomModelViewSet):
     queryset = Product.objects.all()
@@ -20,30 +21,21 @@ class ProductView(CustomModelViewSet):
     def get_serializer_class(self):
         if self.action == 'list':
             return ProductListSerializer
-        else:
-            return ProductDetailSerializer
+        elif self.request.user.user_type == UserType.Staff:
+                return ProductBackendSerializer
 
-    # @action(methods=['delete'], detail=False)
-    # def multiple_delete(self, request,  *args, **kwargs):
-    #     delete_id = request.query_params.get('deleteid', None)
-    #     if not delete_id:
-    #         return Response(status=status.HTTP_404_NOT_FOUND)
-    #     for i in delete_id.split(','):
-    #         get_object_or_404(User, pk=int(i)).delete()
-    #     return Response(status=status.HTTP_204_NO_CONTENT)
+        return ProductSerializer
 
-class ProductReadOnlyView(CustomModelViewSet):
-    queryset = Product.objects.all()
-    permission_classes = [ReadOnlyPermission]
+    @action(methods=['delete'], detail=False)
+    def multiple_delete(self, request,  *args, **kwargs):
+        delete_id = request.query_params.get('deleteid', None)
+        if not delete_id:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        for i in delete_id.split(','):
+            get_object_or_404(Product, pk=int(i)).delete()
 
-    filterset_fields = ('category', 'status')
-    search_fields = ('title', )
-
-    def get_serializer_class(self):
-        if self.action == 'list':
-            return ProductListSerializer
-        else:
-            return ProductDetailReadOnlySerializer
+        return Response(status=status.HTTP_204_NO_CONTENT)
  
 class ProductVariantView(CustomModelViewSet): 
     serializer_class = ProductVariantSerializer
@@ -55,7 +47,10 @@ class ProductVariantView(CustomModelViewSet):
     
     permissionId = Product.__name__
 
-class ProductVariantReadOnlyView(CustomModelViewSet): 
-    serializer_class = ProductVariantReadOnlySerializer
-    queryset = ProductVariant.objects.all()
-    permission_classes = [ReadOnlyPermission]
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return ProductVariantSerializer
+        elif self.request.user.user_type == UserType.Staff:
+            return ProductVariantBackendSerializer
+           
+        return ProductVariantSerializer

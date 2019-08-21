@@ -159,7 +159,7 @@
 </template>
 
 <script>
-import { getFrontProduct } from "@/api/product";
+import { getProduct } from "@/api/product";
 import { checkout } from "@/api/order";
 import { checkError } from "@/views/utils/error";
 import moment from "moment";
@@ -195,7 +195,7 @@ export default {
     },
     fetch(id) {
       this.spinning = true;
-      getFrontProduct(id)
+      getProduct(id)
         .then(res => {
           const { result } = res;
           this.data = result;
