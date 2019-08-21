@@ -85,7 +85,7 @@ class ProductVariantView(CustomModelViewSet):
 
     filterset_fields = ('product__category', 'status')
     search_fields = ('variantID', 'sku', 'name', 'product__title')
-    ordering_fields = ('id',)
+    ordering_fields = ('id', 'sort_by')
     
     permissionId = Product.__name__
 

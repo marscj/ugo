@@ -42,9 +42,11 @@
         </template>
       </span>
       <span slot="action" slot-scope="text, data">
-        <div v-action:edit>
-          <router-link :to="{ name: 'ProductEdit', params: { id: data.id } }">Edit</router-link>
-        </div>
+        <template>
+          <router-link v-action:edit :to="{ name: 'ProductEdit', params: { id: data.id } }">Edit</router-link>
+          <a-divider v-action:edit type="vertical" />
+          <a v-action:delete @click="handleDelete(data)">Delete</a>
+        </template>
       </span>
     </s-table>
   </a-card>
@@ -52,7 +54,7 @@
 
 <script>
 import { STable } from '@/components'
-import { getProductList } from '@/api/product'
+import { getProductList, updateProduct } from '@/api/product'
 
 const categoryData = [
   { value: 0, label: '全部' },
@@ -119,7 +121,8 @@ export default {
         },
         {
           title: 'Title',
-          dataIndex: 'title'
+          dataIndex: 'title',
+          width: 200,
         },
         {
           title: 'SubTitle',
@@ -128,6 +131,11 @@ export default {
         {
           title: 'Location',
           dataIndex: 'location',
+        },
+        {
+          title: 'Sort ID',
+          dataIndex: 'sort_by',
+          width: 100
         },
         {
           title: 'Photo',
@@ -149,7 +157,7 @@ export default {
         {
           title: '操作',
           dataIndex: 'action',
-          width: '80px',
+          width: '120px',
           scopedSlots: { customRender: 'action' }
         }
       ],
@@ -166,6 +174,9 @@ export default {
       this.$router.push({
         name: 'ProductCreate'
       })
+    },
+    handleDelete(data) {
+      
     }
   }
 }

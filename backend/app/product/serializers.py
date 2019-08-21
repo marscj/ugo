@@ -39,10 +39,13 @@ class ProductVariantSerializer(serializers.ModelSerializer):
 
     category = serializers.SerializerMethodField()
 
+    is_delete = serializers.HiddenField(default=False)
+
+    sort_by = serializers.ReadOnlyField()
+
     class Meta:
         model = ProductVariant
-        # fields = '__all__'
-        exclude = ['is_delete']
+        fields = '__all__'
 
     def get_user_price_lelve(self):
         if isinstance(self.context['request'].user, CustomUser):
@@ -93,9 +96,13 @@ class ProductVariantBackendSerializer(serializers.ModelSerializer):
 
     category = serializers.SerializerMethodField()
 
+    is_delete = serializers.BooleanField(write_only=True)
+
+    sort_by = serializers.CharField(required=False, allow_null=True, max_length=32)
+
     class Meta:
         model = ProductVariant
-        exclude = ['is_delete']
+        fields = '__all__'
 
     def get_category(self, obj):
         return obj.product.category
@@ -164,9 +171,11 @@ class ProductSerializer(ProductListSerializer):
 
     variant = ProductVariantSerializer(read_only=True, many=True)
 
+    is_delete = serializers.HiddenField(default=False)
+
     class Meta:
         model = Product
-        exclude = ['is_delete']
+        fields = '__all__'
 
 class ProductBackendSerializer(serializers.ModelSerializer):
 
@@ -198,11 +207,13 @@ class ProductBackendSerializer(serializers.ModelSerializer):
 
     variant = ProductVariantSerializer(read_only=True, many=True)
 
+    is_delete = serializers.BooleanField(write_only=True)
+
     sort_by = serializers.CharField(required=False, allow_null=True, max_length=32)
 
     class Meta:
         model = Product
-        exclude = ['is_delete']
+        fields = '__all__'
 
     def create(self, validated_data):
         gallery = validated_data.pop('gallery_id', None)

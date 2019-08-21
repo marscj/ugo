@@ -68,6 +68,8 @@ class ProductVariant(models.Model):
 
     is_delete = models.BooleanField(default=False)
 
+    sort_by = models.CharField(default='Z', max_length=32)
+
     class Meta:
         db_table = 'variant'
 
