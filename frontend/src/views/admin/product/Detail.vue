@@ -27,14 +27,6 @@
           <a-input v-model="productID.data"></a-input>
         </a-form-item>
         <a-form-item
-          label="Sort ID"
-          :required="true"
-          :validate-status="sort_by.help == null || sort_by.help === '' ?  null : 'error'"
-          :help="sort_by.help"
-        >
-          <a-input v-model="sort_by.data"></a-input>
-        </a-form-item>
-        <a-form-item
           label="Title"
           :required="true"
           :validate-status="title.help == null || title.help === '' ?  null : 'error'"
@@ -44,7 +36,6 @@
         </a-form-item>
         <a-form-item
           label="SubTitle"
-          :required="true"
           :validate-status="subtitle.help == null || subtitle.help === '' ?  null : 'error'"
           :help="subtitle.help"
         >
@@ -52,15 +43,20 @@
         </a-form-item>
         <a-form-item
           label="Location"
-          :required="true"
           :validate-status="location.help == null || location.help === '' ?  null : 'error'"
           :help="location.help"
         >
           <a-input v-model="location.data"></a-input>
         </a-form-item>
         <a-form-item
+          label="Sort ID"
+          :validate-status="sort_by.help == null || sort_by.help === '' ?  null : 'error'"
+          :help="sort_by.help"
+        >
+          <a-input v-model="sort_by.data"></a-input>
+        </a-form-item>
+        <a-form-item
           label="Photo"
-          :required="true"
           :validate-status="photo.help == null || photo.help === '' ?  null : 'error'"
           :help="photo.help"
           v-if="title.data"
@@ -81,7 +77,6 @@
         </a-form-item>
         <a-form-item
           label="Gallery"
-          :required="true"
           :validate-status="gallery.help == null || gallery.help === '' ?  null : 'error'"
           :help="gallery.help"
           v-if="title.data"
@@ -101,7 +96,6 @@
         </a-form-item>
         <a-form-item
           label="Special"
-          :required="true"
           :validate-status="special.help == null || special.help === '' ? null : 'error'"
           :help="special.help"
         >
@@ -113,7 +107,6 @@
         </a-form-item>
         <a-form-item
           label="Content"
-          :required="true"
           :validate-status="content.help == null || content.help === '' ? null : 'error'"
           :help="content.help"
         >
@@ -184,7 +177,7 @@ export default {
       form: this.$form.createForm(this),
       status: true,
       category: {
-        value: null,
+        value: 1,
         help: null,
         handleChange: (value) => {
           this.category.value = value;
@@ -450,11 +443,7 @@ export default {
         this.productID.help = null;
       }
 
-      if (this.sort_by.data == null || this.sort_by.data === "") {
-        this.sort_by.help = "This field is required.";
-      } else {
-        this.sort_by.help = null;
-      }
+      this.sort_by.help = null;
 
       if (this.title.data == null || this.title.data === "") {
         this.title.help = "This field is required.";
@@ -462,41 +451,12 @@ export default {
         this.title.help = null;
       }
 
-      if (this.subtitle.data == null || this.subtitle.data === "") {
-        this.subtitle.help = "This field is required.";
-      } else {
-        this.subtitle.help = null;
-      }
-
-      if (this.location.data == null || this.location.data === "") {
-        this.location.help = "This field is required.";
-      } else {
-        this.location.help = null;
-      }
-
-      if (this.photo.data == null) {
-        this.photo.help = "This field is required.";
-      } else {
-        this.photo.help = null;
-      }
-
-      if (this.gallery.data == null || this.gallery.data.length == 0) {
-        this.gallery.help = "This field is required.";
-      } else {
-        this.gallery.help = null;
-      }
-
-      if (this.special.data == null || this.special.data === "") {
-        this.special.help = "This field is required.";
-      } else {
-        this.special.help = null;
-      }
-
-      if (this.content.data == null || this.content.data === "") {
-        this.content.help = "This field is required.";
-      } else {
-        this.content.help = null;
-      }
+      this.subtitle.help = null;
+      this.location.help = null;
+      this.photo.help = null;
+      this.gallery.help = null;
+      this.special.help = null;
+      this.content.help = null;
 
       if (
         this.category.help ||
@@ -521,7 +481,7 @@ export default {
         title: this.title.data,
         subtitle: this.subtitle.data,
         location: this.location.data,
-        photo_id: this.photo.data.id,
+        photo_id: this.photo.data != null ? this.photo.data.id : null,
         gallery_id: this.gallery.data.map(f => {
           if (f) {
             return f.id;

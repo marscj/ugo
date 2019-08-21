@@ -96,7 +96,7 @@ class ProductVariantBackendSerializer(serializers.ModelSerializer):
 
     category = serializers.SerializerMethodField()
 
-    is_delete = serializers.BooleanField(write_only=True)
+    is_delete = serializers.BooleanField(default=False)
 
     sort_by = serializers.CharField(required=False, allow_null=True, max_length=32)
 
@@ -189,13 +189,13 @@ class ProductBackendSerializer(serializers.ModelSerializer):
 
     title = serializers.CharField(allow_null=False, max_length=128, validators=[UniqueValidator(queryset=Product.objects.all())])
 
-    subtitle = serializers.CharField(required=False, allow_null=True, max_length=2048)
+    subtitle = serializers.CharField(required=False, allow_null=True, allow_blank=True, max_length=2048)
 
-    special = serializers.CharField(required=False, allow_null=True, max_length=512)
+    special = serializers.CharField(required=False, allow_null=True, allow_blank=True, max_length=512)
 
-    location = serializers.CharField(required=False, allow_null=True, max_length=32)
+    location = serializers.CharField(required=False, allow_null=True, allow_blank=True, max_length=32)
 
-    content = serializers.CharField(required=False, allow_null=True)
+    content = serializers.CharField(required=False, allow_null=True, allow_blank=True)
 
     photo_id = serializers.IntegerField(required=False, allow_null=True, write_only=True)
 
@@ -207,9 +207,9 @@ class ProductBackendSerializer(serializers.ModelSerializer):
 
     variant = ProductVariantSerializer(read_only=True, many=True)
 
-    is_delete = serializers.BooleanField(write_only=True)
+    is_delete = serializers.BooleanField(default=False)
 
-    sort_by = serializers.CharField(required=False, allow_null=True, max_length=32)
+    sort_by = serializers.CharField(required=False, allow_null=True, allow_blank=True, max_length=32)
 
     class Meta:
         model = Product

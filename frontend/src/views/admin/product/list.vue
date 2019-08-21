@@ -176,7 +176,20 @@ export default {
       })
     },
     handleDelete(data) {
-      
+      var _this = this
+      this.$confirm({
+        title: 'alert',
+        content: `Are you sure delete ${data.title}?`,
+        okText: 'delete',
+        okType: 'danger',
+        cancelText: 'cancle',
+        onOk () {
+          data.is_delete = true
+          return updateProduct(data.id, data).then((res) => {
+            _this.$refs.table.refresh(true);
+          })
+        },
+      })
     }
   }
 }
