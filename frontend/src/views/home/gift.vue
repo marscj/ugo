@@ -26,7 +26,7 @@ export default {
   methods: {
     fetch(search) {
       this.loading = true
-      getProductList({category: 6, search: search, sorter:'-id,sort_by'}).then((res) => {
+      getProductList({category: 6, search: search, sorter:'sort_by'}).then((res) => {
         const { result } = res
         this.data = result
       }).finally(() => {
