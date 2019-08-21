@@ -490,7 +490,6 @@ export default {
         special: this.special.data,
         content: this.content.data
       };
-      console.log('ad')
       if (this.isEdit) {
         this.updateForm(values);
       } else {

@@ -30,7 +30,7 @@ class Product(models.Model):
 
     is_delete = models.BooleanField(default=False)
 
-    sort_by = models.CharField(default='Z', max_length=32)
+    sort_by = models.CharField(blank=True, null=True, max_length=32)
 
     class Meta:
         db_table = 'product'
@@ -68,7 +68,7 @@ class ProductVariant(models.Model):
 
     is_delete = models.BooleanField(default=False)
 
-    sort_by = models.CharField(default='Z', max_length=32)
+    sort_by = models.CharField(blank=True, null=True, max_length=32)
 
     class Meta:
         db_table = 'variant'
