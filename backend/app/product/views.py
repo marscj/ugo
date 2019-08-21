@@ -3,6 +3,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework.decorators import action
 
+from app.authorization import UserType
 from middleware.viewsets import CustomModelViewSet
 from middleware.permissions import MiddlewarePermission, ReadOnlyPermission
 from .models import Category, Product, ProductVariant
