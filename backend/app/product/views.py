@@ -11,7 +11,8 @@ from .serializers import (ProductListSerializer, ProductSerializer, ProductBacke
     ProductVariantSerializer, ProductVariantBackendSerializer)
 
 class ProductView(CustomModelViewSet):
-    queryset = Product.objects.all()
+    queryset = Product.objects.all().filter(is_delete=False).cache()
+    serializer_class = ProductSerializer
     permission_classes = [MiddlewarePermission]
 
     permissionId = Product.__name__
@@ -46,9 +47,9 @@ class ProductView(CustomModelViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
  
 class ProductVariantView(CustomModelViewSet): 
+    queryset = ProductVariant.objects.all().filter(is_delete=False).cache()
     serializer_class = ProductVariantSerializer
     permission_classes = [MiddlewarePermission]
-    queryset = ProductVariant.objects.all()
 
     filterset_fields = ('product__category', 'status')
     search_fields = ('variantID', 'sku', 'name', 'product__title')

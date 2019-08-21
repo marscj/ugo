@@ -28,6 +28,10 @@ class Product(models.Model):
 
     gallery = models.ManyToManyField(ProductImage, blank=True, related_name='gallery')
 
+    is_delete = models.BooleanField(default=False)
+
+    sort_by = models.CharField(default='Z', max_length=32)
+
     class Meta:
         db_table = 'product'
 
@@ -62,13 +66,11 @@ class ProductVariant(models.Model):
 
     product = models.ForeignKey(Product, blank=True, null=True, related_name='variant', on_delete=models.CASCADE)
 
+    is_delete = models.BooleanField(default=False)
+
     class Meta:
         db_table = 'variant'
 
     def __str__(self):
         return self.name
-
-    # @property
-    # def category(self):
-    #     return self.product.category
 

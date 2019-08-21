@@ -41,7 +41,8 @@ class ProductVariantSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProductVariant
-        fields = '__all__'
+        # fields = '__all__'
+        exclude = ['is_delete']
 
     def get_user_price_lelve(self):
         if isinstance(self.context['request'].user, CustomUser):
@@ -91,6 +92,8 @@ class ProductVariantBackendSerializer(serializers.ModelSerializer):
     product_id = serializers.IntegerField(required=True)
 
     category = serializers.SerializerMethodField()
+
+    is_delete = serializers.BooleanField(required=False)
 
     class Meta:
         model = ProductVariant

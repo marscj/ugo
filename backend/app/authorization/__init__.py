@@ -5,6 +5,6 @@ class UserType:
     Staff = 2
 
     CHOISE = [
-        (Customer, '个人用户'),
+        (Customer, '用户'),
         (Staff, '员工'),
     ]
