@@ -10,7 +10,7 @@ from .serializers import (ProductListSerializer, ProductSerializer, ProductBacke
     ProductVariantSerializer, ProductVariantBackendSerializer)
 
 class ProductView(CustomModelViewSet):
-    queryset = Product.objects.all().filter(is_delete=False).cache()
+    queryset = Product.objects.all().filter(is_delete=False)
     serializer_class = ProductSerializer
     permission_classes = [MiddlewarePermission]
 
@@ -18,6 +18,7 @@ class ProductView(CustomModelViewSet):
 
     filterset_fields = ('category', 'status')
     search_fields = ('title', 'productID')
+    ordering_fields = ('id', 'sort_by')
 
     def get_serializer_class(self):
         if self.action == 'list':
@@ -84,6 +85,7 @@ class ProductVariantView(CustomModelViewSet):
 
     filterset_fields = ('product__category', 'status')
     search_fields = ('variantID', 'sku', 'name', 'product__title')
+    ordering_fields = ('id',)
     
     permissionId = Product.__name__
 

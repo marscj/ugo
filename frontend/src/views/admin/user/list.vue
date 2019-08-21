@@ -96,13 +96,6 @@
           <a-select-option key="3" :value="4">Level 4</a-select-option>
           <a-select-option key="4" :value="5">Level 5</a-select-option>
         </a-select>
-          <!-- <a-input-number
-            v-model="mdl.price_level"
-            :min="1"
-            :max="5"
-            :precision="0"
-            style="width:200px;"
-          /> -->
         </a-form-item>
 
         <a-form-item

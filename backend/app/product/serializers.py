@@ -93,11 +93,9 @@ class ProductVariantBackendSerializer(serializers.ModelSerializer):
 
     category = serializers.SerializerMethodField()
 
-    is_delete = serializers.BooleanField(required=False)
-
     class Meta:
         model = ProductVariant
-        fields = '__all__'
+        exclude = ['is_delete']
 
     def get_category(self, obj):
         return obj.product.category
@@ -146,10 +144,12 @@ class ProductListSerializer(serializers.ModelSerializer):
 
     photo = ProductImageSerializer(read_only=True)
 
+    sort_by = serializers.ReadOnlyField()
+
     class Meta:
         model = Product
         fields = (
-            'id', 'status', 'category', 'productID', 'title', 'subtitle', 'location', 'photo'
+            'id', 'status', 'category', 'productID', 'title', 'subtitle', 'location', 'photo', 'sort_by'
         )
 
 class ProductSerializer(ProductListSerializer):
@@ -166,7 +166,7 @@ class ProductSerializer(ProductListSerializer):
 
     class Meta:
         model = Product
-        fields = '__all__'
+        exclude = ['is_delete']
 
 class ProductBackendSerializer(serializers.ModelSerializer):
 
@@ -198,9 +198,11 @@ class ProductBackendSerializer(serializers.ModelSerializer):
 
     variant = ProductVariantSerializer(read_only=True, many=True)
 
+    sort_by = serializers.CharField(required=False, allow_null=True, max_length=32)
+
     class Meta:
         model = Product
-        fields = '__all__'
+        exclude = ['is_delete']
 
     def create(self, validated_data):
         gallery = validated_data.pop('gallery_id', None)

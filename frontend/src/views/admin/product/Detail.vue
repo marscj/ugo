@@ -501,7 +501,7 @@ export default {
       if (
         this.category.help ||
         this.productID.help ||
-        this.sort_by ||
+        this.sort_by.help ||
         this.title.help ||
         this.subtitle.help ||
         this.location.help ||
@@ -530,6 +530,7 @@ export default {
         special: this.special.data,
         content: this.content.data
       };
+      console.log('ad')
       if (this.isEdit) {
         this.updateForm(values);
       } else {
