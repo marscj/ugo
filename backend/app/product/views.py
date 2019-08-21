@@ -24,8 +24,15 @@ class ProductView(CustomModelViewSet):
             return ProductListSerializer
         elif self.request.user.user_type == UserType.Staff:
                 return ProductBackendSerializer
-
         return ProductSerializer
+
+    def get_permissions(self):
+        if self.request.user.user_type == UserType.Staff:
+            permission_classes = [IsAuthenticated]
+        else:
+            permission_classes = [ReadOnlyPermission]
+
+        return [permission() for permission in permission_classes]
 
     @action(methods=['delete'], detail=False)
     def multiple_delete(self, request,  *args, **kwargs):
@@ -49,9 +56,14 @@ class ProductVariantView(CustomModelViewSet):
     permissionId = Product.__name__
 
     def get_serializer_class(self):
-        if self.action == 'list':
-            return ProductVariantSerializer
-        elif self.request.user.user_type == UserType.Staff:
+        if self.request.user.user_type == UserType.Staff:
             return ProductVariantBackendSerializer
-           
         return ProductVariantSerializer
+
+    def get_permissions(self):
+        if self.request.user.user_type == UserType.Staff:
+            permission_classes = [IsAuthenticated]
+        else:
+            permission_classes = [ReadOnlyPermission]
+
+        return [permission() for permission in permission_classes]
