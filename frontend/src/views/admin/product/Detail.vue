@@ -26,7 +26,14 @@
         >
           <a-input v-model="productID.data"></a-input>
         </a-form-item>
-
+        <a-form-item
+          label="Sort ID"
+          :required="true"
+          :validate-status="sort_by.help == null || sort_by.help === '' ?  null : 'error'"
+          :help="sort_by.help"
+        >
+          <a-input v-model="sort_by.data"></a-input>
+        </a-form-item>
         <a-form-item
           label="Title"
           :required="true"
@@ -263,6 +270,10 @@ export default {
         data: null,
         help: null
       },
+      sort_by: {
+        data: null,
+        help: null
+      },
       title: {
         data: null,
         help: null
@@ -329,6 +340,7 @@ export default {
         error,
         "category",
         "productID",
+        "sort_by",
         "title",
         "subtitle",
         "location",
@@ -340,6 +352,7 @@ export default {
 
       this.category.help = errors["category"];
       this.productID.help = errors["productID"];
+      this.sort_by.help = errors["sort_by"];
       this.title.help = errors["title"];
       this.subtitle.help = errors["subtitle"];
       this.location.help = errors["location"];
@@ -370,6 +383,11 @@ export default {
 
       this.productID = {
         data: data.productID,
+        help: null
+      };
+
+      this.sort_by = {
+        data: data.sort_by,
         help: null
       };
 
@@ -432,6 +450,12 @@ export default {
         this.productID.help = null;
       }
 
+      if (this.sort_by.data == null || this.sort_by.data === "") {
+        this.sort_by.help = "This field is required.";
+      } else {
+        this.sort_by.help = null;
+      }
+
       if (this.title.data == null || this.title.data === "") {
         this.title.help = "This field is required.";
       } else {
@@ -477,6 +501,7 @@ export default {
       if (
         this.category.help ||
         this.productID.help ||
+        this.sort_by ||
         this.title.help ||
         this.subtitle.help ||
         this.location.help ||
@@ -492,6 +517,7 @@ export default {
         status: this.status,
         category: this.category.value,
         productID: this.productID.data,
+        sort_by: this.sort_by.data,
         title: this.title.data,
         subtitle: this.subtitle.data,
         location: this.location.data,

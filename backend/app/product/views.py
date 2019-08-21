@@ -27,7 +27,7 @@ class ProductView(CustomModelViewSet):
         return ProductSerializer
 
     def get_permissions(self):
-        if self.request.user.is_staff:
+        if self.request.user.is_staff or self.request.user.is_superuser:
             permission_classes = [MiddlewarePermission]
         else:
             permission_classes = [ReadOnlyPermission]
@@ -35,15 +35,47 @@ class ProductView(CustomModelViewSet):
         return [permission() for permission in permission_classes]
 
     @action(methods=['delete'], detail=False)
-    def multiple_delete(self, request,  *args, **kwargs):
-        delete_id = request.query_params.get('deleteid', None)
-        if not delete_id:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+    def delete(self, request,  *args, **kwargs):
+        ids = request.query_params.get('ids', None)
         
-        for i in delete_id.split(','):
-            get_object_or_404(Product, pk=int(i)).delete()
+        if not ids:
+            return Response({
+                'message': 'Not Found!'
+            })
+        
+        for i in ids.split(','):
+            try:
+                product = Product.objects.get(pk=int(i))
+                product.is_delete = True
+                product.save()
+            except Product.DoesNotExist:
+                return Response({
+                'message': 'Not Found!'
+            })
 
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response({'message': 'ok'})
+
+    @action(methods=['delete'], detail=False)
+    def enable(self, request,  *args, **kwargs):
+        ids = request.query_params.get('ids', None)
+        enable = request.query_params.get('enable', True)
+        
+        if not ids:
+            return Response({
+                'message': 'Not Found!'
+            })
+        
+        for i in ids.split(','):
+            try:
+                product = Product.objects.get(pk=int(i))
+                product.status = enable
+                product.save()
+            except Product.DoesNotExist:
+                return Response({
+                'message': 'Not Found!'
+            })
+
+        return Response({'message': 'ok'})
  
 class ProductVariantView(CustomModelViewSet): 
     queryset = ProductVariant.objects.all().filter(is_delete=False).cache()
@@ -56,7 +88,7 @@ class ProductVariantView(CustomModelViewSet):
     permissionId = Product.__name__
 
     def get_serializer_class(self):
-        if self.request.user.is_staff:
+        if self.request.user.is_staff or self.request.user.is_superuser:
             return ProductVariantBackendSerializer
         return ProductVariantSerializer
 
@@ -67,3 +99,46 @@ class ProductVariantView(CustomModelViewSet):
             permission_classes = [ReadOnlyPermission]
 
         return [permission() for permission in permission_classes]
+
+    @action(methods=['delete'], detail=False)
+    def delete(self, request,  *args, **kwargs):
+        ids = request.query_params.get('ids', None)
+        
+        if not ids:
+            return Response({
+                'message': 'Not Found!'
+            })
+        
+        for i in ids.split(','):
+            try:
+                variant = ProductVariant.objects.get(pk=int(i))
+                variant.is_delete = True
+                variant.save()
+            except ProductVariant.DoesNotExist:
+                return Response({
+                'message': 'Not Found!'
+            })
+
+        return Response({'message': 'ok'})
+
+    @action(methods=['delete'], detail=False)
+    def enable(self, request,  *args, **kwargs):
+        ids = request.query_params.get('ids', None)
+        enable = request.query_params.get('enable', True)
+        
+        if not ids:
+            return Response({
+                'message': 'Not Found!'
+            })
+        
+        for i in ids.split(','):
+            try:
+                variant = ProductVariant.objects.get(pk=int(i))
+                variant.status = enable
+                variant.save()
+            except ProductVariant.DoesNotExist:
+                return Response({
+                    'message': 'Not Found!'
+                })
+
+        return Response({'message': 'ok'})
