@@ -27,9 +27,9 @@
     <div class="table-operator">
       <a-button v-action:add type="primary" icon="plus" @click="handleCreate">Add</a-button>
 
-      <a-button v-if="selectedRowKeys.length > 0" v-action:edit type="default" icon="unlock" @click="handleCreate">Unlock</a-button>
-      <a-button v-if="selectedRowKeys.length > 0" v-action:edit type="dashed" icon="lock" @click="handleCreate">Lock</a-button>
-      <a-button v-if="selectedRowKeys.length > 0" v-action:delete type="danger" icon="delete" @click="handleCreate">Delete</a-button>
+      <a-button v-if="selectedRowKeys.length > 0" v-action:edit type="default" icon="unlock" @click="handleCreate">上架</a-button>
+      <a-button v-if="selectedRowKeys.length > 0" v-action:edit type="default" icon="lock" @click="handleCreate">下架</a-button>
+      <a-button v-if="selectedRowKeys.length > 0" v-action:delete type="danger" icon="delete" @click="handleCreate">删除</a-button>
     </div>
 
     <s-table
@@ -42,17 +42,21 @@
       :rowSelection="options.rowSelection"
       bordered
     >
-      <span slot="photo" slot-scope="data">
-        <template>
-          <img v-if="data.photo" :src="data.photo.image.thumbnail" alt='photo'>
-        </template>
-      </span>
       <span slot="action" slot-scope="text, data">
         <template>
           <router-link v-action:edit :to="{ name: 'ProductEdit', params: { id: data.id } }">Edit</router-link>
           <a-divider v-action:edit type="vertical" />
-          <a v-action:delete @click="handleDelete(data)">Delete</a>
         </template>
+        <a-dropdown>
+          <a class="ant-dropdown-link">
+            More <a-icon type="down" />
+          </a>
+          <a-menu slot="overlay">
+            <a-menu-item>
+              <a v-action:delete @click="handleDelete(data)">Delete</a>
+            </a-menu-item>
+          </a-menu>
+        </a-dropdown>
       </span>
     </s-table>
   </a-card>
@@ -95,6 +99,9 @@ export default {
     'queryParam.search': function (newQuestion, oldQuestion) {
       this.debouncedGetAnswer()
     },
+    selectedRowKeys: function(_new, _old) {
+      this.options.alert.show = _new.length > 0 ? true : false
+    }
   },
   data () {
     return {
@@ -163,7 +170,7 @@ export default {
         {
           title: '操作',
           dataIndex: 'action',
-          width: '120px',
+          width: '140px',
           scopedSlots: { customRender: 'action' }
         }
       ],
@@ -176,7 +183,7 @@ export default {
       selectedRowKeys: [],
       selectedRows: [],
       options: {
-        alert: { show: true, clear: () => { this.selectedRowKeys = [] } },
+        alert: { show: false, clear: () => { this.selectedRowKeys = [] } },
         rowSelection: {
           selectedRowKeys: this.selectedRowKeys,
           onChange: this.onSelectChange

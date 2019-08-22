@@ -240,7 +240,7 @@ export default {
       // 绘制统计列数据
       const needTotalItems = this.needTotalList.map((item) => {
         return (<span style="margin-right: 12px">
-          {item.title}总计 <a style="font-weight: 600">{!item.customRender ? item.total : item.customRender(item.total)}</a>
+          {item.title}Total <a style="font-weight: 600">{!item.customRender ? item.total : item.customRender(item.total)}</a>
         </span>)
       })
 
@@ -305,7 +305,7 @@ export default {
 
     return (
       <div class="table-wrapper">
-        { showAlert ? this.renderAlert() : null }
+        { showAlert.show ? this.renderAlert() : null }
         { table }
       </div>
     )
