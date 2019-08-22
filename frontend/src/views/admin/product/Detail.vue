@@ -323,6 +323,8 @@ export default {
         .then(res => {
           const { result } = res;
           this.handleGoBack()
+        }).catch(error => {
+          this.checkError(error);
         })
         .finally(() => {
           this.spinning = false;
@@ -342,7 +344,6 @@ export default {
         "special",
         "content"
       );
-
       this.category.help = errors["category"];
       this.productID.help = errors["productID"];
       this.sort_by.help = errors["sort_by"];

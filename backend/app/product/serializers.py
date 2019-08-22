@@ -39,8 +39,6 @@ class ProductVariantSerializer(serializers.ModelSerializer):
 
     category = serializers.SerializerMethodField()
 
-    is_delete = serializers.HiddenField(default=False)
-
     sort_by = serializers.ReadOnlyField()
 
     class Meta:
@@ -95,8 +93,6 @@ class ProductVariantBackendSerializer(serializers.ModelSerializer):
     product_id = serializers.IntegerField(required=True)
 
     category = serializers.SerializerMethodField()
-
-    is_delete = serializers.BooleanField(default=False)
 
     sort_by = serializers.CharField(required=False, allow_null=True, max_length=32)
 
@@ -171,8 +167,6 @@ class ProductSerializer(ProductListSerializer):
 
     variant = ProductVariantSerializer(read_only=True, many=True)
 
-    is_delete = serializers.HiddenField(default=False)
-
     class Meta:
         model = Product
         fields = '__all__'
@@ -206,8 +200,6 @@ class ProductBackendSerializer(serializers.ModelSerializer):
     gallery = ProductImageSerializer(read_only=True, many=True)
 
     variant = ProductVariantSerializer(read_only=True, many=True)
-
-    is_delete = serializers.BooleanField(default=False)
 
     sort_by = serializers.CharField(required=False, allow_null=True, allow_blank=True, max_length=32)
 

@@ -10,7 +10,7 @@ from .serializers import (ProductListSerializer, ProductSerializer, ProductBacke
     ProductVariantSerializer, ProductVariantBackendSerializer)
 
 class ProductView(CustomModelViewSet):
-    queryset = Product.objects.all().filter(is_delete=False)
+    queryset = Product.objects.all().cache()
     serializer_class = ProductSerializer
     permission_classes = [MiddlewarePermission]
 
@@ -35,7 +35,7 @@ class ProductView(CustomModelViewSet):
 
         return [permission() for permission in permission_classes]
 
-    @action(methods=['delete'], detail=False)
+    @action(methods=['delete'], detail=False, permission_classes=[MiddlewarePermission])
     def delete(self, request,  *args, **kwargs):
         ids = request.query_params.get('ids', None)
         
@@ -46,9 +46,7 @@ class ProductView(CustomModelViewSet):
         
         for i in ids.split(','):
             try:
-                product = Product.objects.get(pk=int(i))
-                product.is_delete = True
-                product.save()
+                Product.objects.get(pk=int(i)).delete()
             except Product.DoesNotExist:
                 return Response({
                 'message': 'Not Found!'
@@ -56,7 +54,7 @@ class ProductView(CustomModelViewSet):
 
         return Response({'message': 'ok'})
 
-    @action(methods=['delete'], detail=False)
+    @action(methods=['post'], detail=False, permission_classes=[MiddlewarePermission])
     def enable(self, request,  *args, **kwargs):
         ids = request.query_params.get('ids', None)
         enable = request.query_params.get('enable', True)
@@ -79,7 +77,7 @@ class ProductView(CustomModelViewSet):
         return Response({'message': 'ok'})
  
 class ProductVariantView(CustomModelViewSet): 
-    queryset = ProductVariant.objects.all().filter(is_delete=False).cache()
+    queryset = ProductVariant.objects.all().cache()
     serializer_class = ProductVariantSerializer
     permission_classes = [MiddlewarePermission]
 
@@ -102,7 +100,7 @@ class ProductVariantView(CustomModelViewSet):
 
         return [permission() for permission in permission_classes]
 
-    @action(methods=['delete'], detail=False)
+    @action(methods=['delete'], detail=False, permission_classes=[MiddlewarePermission])
     def delete(self, request,  *args, **kwargs):
         ids = request.query_params.get('ids', None)
         
@@ -113,9 +111,7 @@ class ProductVariantView(CustomModelViewSet):
         
         for i in ids.split(','):
             try:
-                variant = ProductVariant.objects.get(pk=int(i))
-                variant.is_delete = True
-                variant.save()
+                ProductVariant.objects.get(pk=int(i)).delete()
             except ProductVariant.DoesNotExist:
                 return Response({
                 'message': 'Not Found!'
@@ -123,7 +119,7 @@ class ProductVariantView(CustomModelViewSet):
 
         return Response({'message': 'ok'})
 
-    @action(methods=['delete'], detail=False)
+    @action(methods=['post'], detail=False, permission_classes=[MiddlewarePermission])
     def enable(self, request,  *args, **kwargs):
         ids = request.query_params.get('ids', None)
         enable = request.query_params.get('enable', True)

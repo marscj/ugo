@@ -54,7 +54,7 @@
 
 <script>
 import { STable } from '@/components'
-import { getProductList, updateProduct } from '@/api/product'
+import { getProductList, deleteProduct } from '@/api/product'
 
 const categoryData = [
   { value: 0, label: '全部' },
@@ -184,8 +184,7 @@ export default {
         okType: 'danger',
         cancelText: 'cancle',
         onOk () {
-          data.is_delete = true
-          return updateProduct(data.id, data).then((res) => {
+          return deleteProduct(data.id).then((res) => {
             _this.$refs.table.refresh(true);
           })
         },

@@ -28,8 +28,6 @@ class Product(models.Model):
 
     gallery = models.ManyToManyField(ProductImage, blank=True, related_name='gallery')
 
-    is_delete = models.BooleanField(default=False)
-
     sort_by = models.CharField(blank=True, null=True, max_length=32)
 
     class Meta:
@@ -65,8 +63,6 @@ class ProductVariant(models.Model):
     child_price = ArrayField(models.DecimalField(max_digits=10, decimal_places=2), size=5)
 
     product = models.ForeignKey(Product, blank=True, null=True, related_name='variant', on_delete=models.CASCADE)
-
-    is_delete = models.BooleanField(default=False)
 
     sort_by = models.CharField(blank=True, null=True, max_length=32)
 
