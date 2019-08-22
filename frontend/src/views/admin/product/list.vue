@@ -26,6 +26,10 @@
 
     <div class="table-operator">
       <a-button v-action:add type="primary" icon="plus" @click="handleCreate">Add</a-button>
+
+      <a-button v-if="selectedRowKeys.length > 0" v-action:edit type="default" icon="unlock" @click="handleCreate">Unlock</a-button>
+      <a-button v-if="selectedRowKeys.length > 0" v-action:edit type="dashed" icon="lock" @click="handleCreate">Lock</a-button>
+      <a-button v-if="selectedRowKeys.length > 0" v-action:delete type="danger" icon="delete" @click="handleCreate">Delete</a-button>
     </div>
 
     <s-table
@@ -34,6 +38,8 @@
       :rowKey="(item) => item.id"
       :columns="columns"
       :data="loadData"
+      :alert="options.alert"
+      :rowSelection="options.rowSelection"
       bordered
     >
       <span slot="photo" slot-scope="data">
@@ -167,6 +173,15 @@ export default {
             return res.result
           })
       },
+      selectedRowKeys: [],
+      selectedRows: [],
+      options: {
+        alert: { show: true, clear: () => { this.selectedRowKeys = [] } },
+        rowSelection: {
+          selectedRowKeys: this.selectedRowKeys,
+          onChange: this.onSelectChange
+        }
+      }
     }
   },
   methods: {
@@ -189,7 +204,11 @@ export default {
           })
         },
       })
-    }
+    },
+    onSelectChange (selectedRowKeys, selectedRows) {
+      this.selectedRowKeys = selectedRowKeys
+      this.selectedRows = selectedRows
+    },
   }
 }
 </script>

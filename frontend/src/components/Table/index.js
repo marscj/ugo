@@ -233,7 +233,7 @@ export default {
         <a style="margin-left: 24px" onClick={() => {
           callback()
           this.clearSelected()
-        }}>清空</a>
+        }}>clear</a>
       )
     },
     renderAlert () {
@@ -255,7 +255,7 @@ export default {
       return (
         <a-alert showIcon={true} style="margin-bottom: 16px">
           <template slot="message">
-            <span style="margin-right: 12px">已选择: <a style="font-weight: 600">{this.selectedRows.length}</a></span>
+            <span style="margin-right: 12px">selected: <a style="font-weight: 600">{this.selectedRows.length}</a></span>
             {needTotalItems}
             {clearItem}
           </template>
