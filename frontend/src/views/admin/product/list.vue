@@ -191,11 +191,6 @@ export default {
           dataIndex: "location"
         },
         {
-          title: "Sort ID",
-          dataIndex: "sort_by",
-          width: 100
-        },
-        {
           title: "Photo",
           width: 100,
           scopedSlots: { customRender: "photo" }
