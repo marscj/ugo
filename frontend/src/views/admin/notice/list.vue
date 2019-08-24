@@ -18,9 +18,11 @@
         </template>
       </span>
       <span slot="action" slot-scope="text, data">
-        <div v-action:edit>
-          <router-link :to="{ name: 'NoticeEdit', params: { id: data.id } }">Edit</router-link>
-        </div>
+        <template>
+          <router-link v-action:edit :to="{ name: 'NoticeEdit', params: { id: data.id } }">Edit</router-link>
+          <a-divider v-action:edit type="vertical" />
+        </template>
+        <a v-action:delete @click="handleDelete(data)">Delete</a>
       </span>
     </s-table>
   </a-card>
@@ -28,7 +30,7 @@
 
 <script>
 import { STable, Ellipsis } from "@/components";
-import { getNoticeList } from "@/api/notice";
+import { getNoticeList, deleteNotice } from "@/api/notice";
 
 export default {
   name: "NoticeList",
@@ -66,7 +68,7 @@ export default {
           title: "操作",
           dataIndex: "action",
           scopedSlots: { customRender: "action" },
-          width: 100
+          width: '140px'
         }
       ],
       loadData: parameter => {
@@ -82,6 +84,27 @@ export default {
     handleCreate(data) {
       this.$router.push({
         name: "NoticeCreate"
+      });
+    },
+    handleDelete(data) {
+      var _this = this;
+
+      _this.$confirm({
+        title: "alert",
+        content: `Are you sure delete?`,
+        okText: "delete",
+        okType: "danger",
+        cancelText: "cancle",
+        onOk() {
+          _this.$refs.table.localLoading = true;
+          return deleteNotice(data.id)
+            .then(res => {
+              _this.$refs.table.refresh(true);
+            })
+            .finally(() => {
+              _this.$refs.table.localLoading = false;
+            });
+        }
       });
     }
   }
