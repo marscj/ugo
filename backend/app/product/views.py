@@ -124,6 +124,7 @@ class ProductVariantView(CustomModelViewSet):
             try:
                 product = ProductVariant.objects.get(pk=int(i))
                 product.adult_status = enable
+                product.status = enable
                 product.save()
             except ProductVariant.DoesNotExist:
                 return Response({'message': 'Not Found!'}, status=status.HTTP_400_BAD_REQUEST)

@@ -144,7 +144,6 @@ export default {
       this.debouncedGetAnswer();
     },
     selectedRowKeys: function(_new, _old) {
-      this.options.alert.show = _new.length > 0 ? true : false;
       this.ids = _new.join(",");
     }
   },

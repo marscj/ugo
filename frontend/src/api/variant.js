@@ -38,3 +38,19 @@ export function deleteVariant (pk) {
     method: 'delete',
   })
 }
+
+export function listVariantDelete (parameter) {
+  return axios({
+    url: api.variant + 'delete/',
+    method: 'delete',
+    params: parameter
+  })
+}
+
+export function listVariantEnable (parameter) {
+  return axios({
+    url: api.variant + 'enable/',
+    method: 'post',
+    params: parameter
+  })
+}
