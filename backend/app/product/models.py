@@ -28,7 +28,7 @@ class Product(models.Model):
 
     gallery = models.ManyToManyField(ProductImage, blank=True, related_name='gallery')
 
-    sort_by = models.IntegerField(default=0, blank=True, null=True)
+    # sort_by = models.IntegerField(default=0, blank=True, null=True)
 
     class Meta:
         db_table = 'product'
@@ -64,7 +64,7 @@ class ProductVariant(models.Model):
 
     product = models.ForeignKey(Product, blank=True, null=True, related_name='variant', on_delete=models.CASCADE)
 
-    sort_by = models.IntegerField(default=0, blank=True, null=True)
+    # sort_by = models.IntegerField(default=0, blank=True, null=True)
 
     class Meta:
         db_table = 'variant'
