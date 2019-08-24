@@ -179,7 +179,6 @@ export default {
         {
           title: "Title",
           dataIndex: "title",
-          width: 200
         },
         {
           title: "SubTitle",
