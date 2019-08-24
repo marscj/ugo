@@ -15,14 +15,16 @@
       :grid="{gutter: 24, lg: 3, md: 3, sm: 2, xs: 1}"
       :dataSource="data"
       :loading="loading"
+      :pagination="pagination"
     >
-      <a-list-item slot="renderItem" slot-scope="item" style="margin-bottom:20px;" @click="handleClick(item)">
-        <template >
-          <a-card 
-          :hoverable="true" 
-          style="width: 100%"
-          :bordered="false"
-          >
+      <a-list-item
+        slot="renderItem"
+        slot-scope="item"
+        style="margin-bottom:20px;"
+        @click="handleClick(item)"
+      >
+        <template>
+          <a-card :hoverable="true" style="width: 100%" :bordered="false">
             <img
               :alt="item.name"
               :src="item.photo.image.large_square_crop"
@@ -50,15 +52,21 @@ export default {
     data: {
       type: Array,
       default: false
+    },
+    pagination: {
+      onChange: page => {
+        console.log(page);
+      },
+      pageSize: 3
     }
   },
   methods: {
     handleClick(row) {
-      this.$emit('onClick', row)
+      this.$emit("onClick", row);
     },
     handleSearch(value) {
-      this.$emit('onSearch', value)
+      this.$emit("onSearch", value);
     }
-  },
-}
+  }
+};
 </script>

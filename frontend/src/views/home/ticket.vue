@@ -1,5 +1,8 @@
 <template>
-  <list-view :loading="loading" :data="data" align="center" @onClick="onClick" @onSearch="onSearch"/>
+  <div align="center">
+    <list-view :loading="loading" :data="data" align="center" @onClick="onClick" @onSearch="onSearch"/>
+  </div>
+  
 </template>
 
 <script>
@@ -17,7 +20,7 @@ export default {
       data: [],
       loading: false,
       description: ' ',
-      extraImage: require('@/assets/ticket.svg'),
+      extraImage: require('@/assets/ticket.svg')
     }
   },
   mounted() {
