@@ -1,5 +1,5 @@
 <template>
-  <list-view :loading="loading" :data="data" align="center" @onClick="onClick" @onSearch="onSearch"/>
+  <list-view :loading="loading" :data="data" @onClick="onClick" @onSearch="onSearch" align="center"/>
 </template>
 
 <script>
@@ -14,30 +14,30 @@ export default {
   },
   data() {
     return {
-      data: [],
+      data: {
+        data: []
+      },
       loading: false,
       description: ' ',
       extraImage: require('@/assets/car.svg'),
     }
   },
-  mounted() {
-    this.fetch(null)
-  },
   methods: {
-    fetch(search) {
+   onFetch(search, pagination) {
       this.loading = true
-      getProductList({category: 4, search: search, sorter:'sort_by'}).then((res) => {
+      getProductList({category: 4, search: search, sorter:'sort_by', pageNo: pagination.pageNo, pageSize:pagination.pageSize}).then((res) => {
         const { result } = res
         this.data = result
       }).finally(() => {
         this.loading = false
       })
     },
-    onClick(data) {
+    onSearch(value, pagination) {
+      this.onFetch(value, pagination)
     },
-    onSearch(value) {
-      this.fetch(value)
-    }
+    onClick(data) {
+      this.$router.push({name: 'CarDetail', params: { id: data.id }})
+    },
   },
 }
 </script>

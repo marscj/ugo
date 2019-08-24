@@ -7,20 +7,23 @@
           placeholder="请输入..."
           size="large"
           enterButton="搜索"
+          v-model="search"
           @search="handleSearch"
         />
       </div>
     </div>
     <a-list
       :grid="{gutter: 24, lg: 3, md: 3, sm: 2, xs: 1}"
-      :dataSource="data"
+      :dataSource="data.data"
       :loading="loading"
       :pagination="pagination"
+      size="large"
     >
       <a-list-item
         slot="renderItem"
         slot-scope="item"
         style="margin-bottom:20px;"
+        key="item.id"
         @click="handleClick(item)"
       >
         <template>
@@ -50,22 +53,39 @@ export default {
       default: false
     },
     data: {
-      type: Array,
-      default: false
-    },
-    pagination: {
-      onChange: page => {
-        console.log(page);
-      },
-      pageSize: 3
+      type: Object,
+      default: null
     }
+  },
+  mounted() {
+    this.$emit("onFetch", this.search, this.pagination);
+  },
+  watch: {
+    data: function(newValue, old) {
+      if (newValue) {
+        this.pagination.total = newValue.totalCount
+      }
+    }
+  },
+  data() {
+    return {
+      pagination: {
+        onChange: (page) => {
+          this.pagination.pageNo = page
+          this.$emit("onFetch", this.search, this.pagination);
+        },
+        pageNo: 1,
+        pageSize: 12
+      },
+      search: null,
+    };
   },
   methods: {
     handleClick(row) {
       this.$emit("onClick", row);
     },
     handleSearch(value) {
-      this.$emit("onSearch", value);
+      this.$emit("onSearch", value, this.pagination);
     }
   }
 };

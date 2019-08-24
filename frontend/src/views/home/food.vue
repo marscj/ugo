@@ -1,5 +1,5 @@
 <template>
-  <list-view :loading="loading" :data="data" align="center" @onClick="onClick" @onSearch="onSearch"/>
+  <list-view :loading="loading" :data="data" @onClick="onClick" @onSearch="onSearch" @onFetch="onFetch" align="center" />
 </template>
 
 <script>
@@ -14,31 +14,30 @@ export default {
   },
   data() {
     return {
-      data: [],
+      data: {
+        data: []
+      },
       loading: false,
       description: ' ',
       extraImage: require('@/assets/food.svg'),
     }
   },
-  mounted() {
-    this.fetch(null)
-  },
   methods: {
-    fetch(search) {
+    onFetch(search, pagination) {
       this.loading = true
-      getProductList({category: 1, search: search, sorter:'sort_by'}).then((res) => {
+      getProductList({category: 1, search: search, sorter:'sort_by', pageNo: pagination.pageNo, pageSize:pagination.pageSize}).then((res) => {
         const { result } = res
         this.data = result
       }).finally(() => {
         this.loading = false
       })
     },
+    onSearch(value, pagination) {
+      this.onFetch(value, pagination)
+    },
     onClick(data) {
       this.$router.push({name: 'FoodDetail', params: { id: data.id }})
     },
-    onSearch(value) {
-      this.fetch(value)
-    }
   },
 }
 </script>
