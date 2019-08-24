@@ -10,12 +10,14 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
+        migrations.AddField(
             model_name='product',
             name='sort_by',
+            field=models.IntegerField(blank=True, default=0, null=True),
         ),
-        migrations.RemoveField(
+        migrations.AddField(
             model_name='productvariant',
             name='sort_by',
+            field=models.IntegerField(blank=True, default=0, null=True),
         ),
     ]
