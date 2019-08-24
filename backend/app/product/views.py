@@ -1,3 +1,4 @@
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
@@ -40,9 +41,7 @@ class ProductView(CustomModelViewSet):
         ids = request.query_params.get('ids', None)
         
         if not ids:
-            return Response({
-                'message': 'Not Found!'
-            })
+            return Response({'message': 'Not Found!'}, status=status.HTTP_400_BAD_REQUEST)
         
         for i in ids.split(','):
             try:
@@ -52,17 +51,15 @@ class ProductView(CustomModelViewSet):
                 'message': 'Not Found!'
             })
 
-        return Response({'message': 'ok'})
+        return Response({'result': 'ok'})
 
     @action(methods=['post'], detail=False, permission_classes=[MiddlewarePermission])
     def enable(self, request,  *args, **kwargs):
         ids = request.query_params.get('ids', None)
-        enable = request.query_params.get('enable', True)
+        enable = request.query_params.get('enable', 0)
         
         if not ids:
-            return Response({
-                'message': 'Not Found!'
-            })
+            return Response({'message': 'Not Found!'}, status=status.HTTP_400_BAD_REQUEST)
         
         for i in ids.split(','):
             try:
@@ -70,11 +67,9 @@ class ProductView(CustomModelViewSet):
                 product.status = enable
                 product.save()
             except Product.DoesNotExist:
-                return Response({
-                'message': 'Not Found!'
-            })
+                return Response({'message': 'Not Found!'}, status=status.HTTP_400_BAD_REQUEST)
 
-        return Response({'message': 'ok'})
+        return Response({'result': 'ok'})
  
 class ProductVariantView(CustomModelViewSet): 
     queryset = ProductVariant.objects.all().cache()
@@ -105,9 +100,7 @@ class ProductVariantView(CustomModelViewSet):
         ids = request.query_params.get('ids', None)
         
         if not ids:
-            return Response({
-                'message': 'Not Found!'
-            })
+            return Response({'message': 'Not Found!'}, status=status.HTTP_400_BAD_REQUEST)
         
         for i in ids.split(','):
             try:
@@ -117,17 +110,15 @@ class ProductVariantView(CustomModelViewSet):
                 'message': 'Not Found!'
             })
 
-        return Response({'message': 'ok'})
+        return Response({'result': 'ok'})
 
     @action(methods=['post'], detail=False, permission_classes=[MiddlewarePermission])
     def enable(self, request,  *args, **kwargs):
         ids = request.query_params.get('ids', None)
-        enable = request.query_params.get('enable', True)
+        enable = request.query_params.get('enable', 0)
         
         if not ids:
-            return Response({
-                'message': 'Not Found!'
-            })
+            return Response({'message': 'Not Found!'}, status=status.HTTP_400_BAD_REQUEST)
         
         for i in ids.split(','):
             try:
@@ -135,8 +126,6 @@ class ProductVariantView(CustomModelViewSet):
                 variant.status = enable
                 variant.save()
             except ProductVariant.DoesNotExist:
-                return Response({
-                    'message': 'Not Found!'
-                })
+                return Response({'message': 'Not Found!'}, status=status.HTTP_400_BAD_REQUEST)
 
-        return Response({'message': 'ok'})
+        return Response({'result': 'ok'})

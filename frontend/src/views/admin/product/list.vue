@@ -17,7 +17,9 @@
           </a-col>
           <a-col :md="8" :sm="16">
             <a-form-item label="Status" >
-              <a-checkbox :checked="queryParam.status" @change="queryParam.status=!queryParam.status">上架</a-checkbox>
+              <a-select v-model="status">
+                <a-select-option v-for="d in statusData" :key="d.value">{{d.label}}</a-select-option>
+              </a-select>
             </a-form-item>
           </a-col>
         </a-row>
@@ -27,9 +29,9 @@
     <div class="table-operator">
       <a-button v-action:add type="primary" icon="plus" @click="handleCreate">Add</a-button>
 
-      <a-button v-if="selectedRowKeys.length > 0" v-action:edit type="default" icon="unlock" @click="handleCreate">上架</a-button>
-      <a-button v-if="selectedRowKeys.length > 0" v-action:edit type="default" icon="lock" @click="handleCreate">下架</a-button>
-      <a-button v-if="selectedRowKeys.length > 0" v-action:delete type="danger" icon="delete" @click="handleCreate">删除</a-button>
+      <a-button v-if="selectedRowKeys.length > 0" v-action:edit type="default" icon="unlock" @click="listProductEnable(true)">上架</a-button>
+      <a-button v-if="selectedRowKeys.length > 0" v-action:edit type="default" icon="lock" @click="listProductEnable(false)">下架</a-button>
+      <a-button v-if="selectedRowKeys.length > 0" v-action:delete type="danger" icon="delete" @click="listProductDelete">删除</a-button>
     </div>
 
     <s-table
@@ -47,13 +49,15 @@
           <router-link v-action:edit :to="{ name: 'ProductEdit', params: { id: data.id } }">Edit</router-link>
           <a-divider v-action:edit type="vertical" />
         </template>
-        <a-dropdown>
+        <a-dropdown v-if="$auth('Product.edit')|| $auth('Product.delete')">
           <a class="ant-dropdown-link">
-            More <a-icon type="down" />
+            More 
           </a>
           <a-menu slot="overlay">
             <a-menu-item>
-              <a v-action:delete @click="handleDelete(data)">Delete</a>
+              <a v-action:edit @click="updateProduct(data, true)">上架</a>
+              <a v-action:edit @click="updateProduct(data, false)">下架</a>
+              <a v-action:delete @click="handleDelete(data)">删除</a>
             </a-menu-item>
           </a-menu>
         </a-dropdown>
@@ -64,7 +68,7 @@
 
 <script>
 import { STable } from '@/components'
-import { getProductList, deleteProduct } from '@/api/product'
+import { getProductList, deleteProduct, listProductDelete, listProductEnable, updateProduct } from '@/api/product'
 
 const categoryData = [
   { value: 0, label: '全部' },
@@ -74,6 +78,12 @@ const categoryData = [
   { value: 4, label: '用车' },
   { value: 5, label: '酒店' },
   { value: 6, label: '伴手礼' },
+]
+
+const statusData = [
+  { value: 0, label: '全部' },
+  { value: 1, label: '上架' },
+  { value: 2, label: '下架' },
 ]
 
 export default {
@@ -93,7 +103,12 @@ export default {
       }
       this.$refs.table.refresh(true)
     },
-    'queryParam.status': function (newQuestion, oldQuestion) {
+    status: function (newQuestion, oldQuestion) {
+      if (newQuestion == 0) {
+        this.queryParam.status = undefined
+      } else {
+        this.queryParam.status = newQuestion == 1
+      }
       this.$refs.table.refresh(true)
     },
     'queryParam.search': function (newQuestion, oldQuestion) {
@@ -101,19 +116,20 @@ export default {
     },
     selectedRowKeys: function(_new, _old) {
       this.options.alert.show = _new.length > 0 ? true : false
+      this.ids = _new.join(',')
     }
   },
   data () {
     return {
       category: 0,
+      status: 0,
       categoryData,
-      // 查询参数
+      statusData,
       queryParam: {
         search: undefined,
         category: null,
-        status: true,
+        status: null,
       },
-      // 表头
       columns: [
         {
           title: '#',
@@ -188,7 +204,8 @@ export default {
           selectedRowKeys: this.selectedRowKeys,
           onChange: this.onSelectChange
         }
-      }
+      },
+      ids: null
     }
   },
   methods: {
@@ -199,15 +216,20 @@ export default {
     },
     handleDelete(data) {
       var _this = this
-      this.$confirm({
+      
+      _this.$confirm({
         title: 'alert',
         content: `Are you sure delete ${data.title}?`,
         okText: 'delete',
         okType: 'danger',
         cancelText: 'cancle',
         onOk () {
+          _this.$refs.table.localLoading = true
           return deleteProduct(data.id).then((res) => {
+            _this.onClear()
             _this.$refs.table.refresh(true);
+          }).finally(() => {
+            _this.$refs.table.localLoading = false
           })
         },
       })
@@ -216,6 +238,49 @@ export default {
       this.selectedRowKeys = selectedRowKeys
       this.selectedRows = selectedRows
     },
+    onClear() {
+      this.options.alert.clear()
+      this.$refs.table.clearSelected()
+    },
+    listProductDelete() {
+      var _this = this
+      
+      _this.$confirm({
+        title: 'alert',
+        content: `Are you sure delete?`,
+        okText: 'delete',
+        okType: 'danger',
+        cancelText: 'cancle',
+        onOk () {
+          _this.$refs.table.localLoading = true
+          listProductDelete({ids: _this.ids}).then((res) => {
+            _this.onClear()
+            return _this.$refs.table.refresh(true);
+          }).finally(() => {
+            _this.$refs.table.localLoading = false
+          })
+        },
+      })
+    },
+    listProductEnable(enable) {
+      this.$refs.table.localLoading = true
+      listProductEnable({ids: this.ids, enable: enable ? 1 : 0}).then((res) => {
+        this.onClear()
+        return this.$refs.table.refresh(true);
+      }).finally(() => {
+        this.$refs.table.localLoading = false
+      })
+    },
+    updateProduct(data, enable) {
+      var _data = Object.assign({}, data, {status: enable})
+      this.$refs.table.localLoading = true
+      updateProduct(data.id, _data).then((res) => {
+        this.onClear()
+        return this.$refs.table.refresh(true);
+      }).finally(() => {
+        this.$refs.table.localLoading = false
+      })
+    }
   }
 }
 </script>

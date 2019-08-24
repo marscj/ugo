@@ -38,3 +38,19 @@ export function deleteProduct (pk) {
     method: 'delete',
   })
 }
+
+export function listProductDelete (parameter) {
+  return axios({
+    url: api.product + 'delete/',
+    method: 'delete',
+    params: parameter
+  })
+}
+
+export function listProductEnable (parameter) {
+  return axios({
+    url: api.product + 'enable/',
+    method: 'post',
+    params: parameter
+  })
+}
