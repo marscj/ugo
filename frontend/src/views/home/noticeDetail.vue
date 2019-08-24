@@ -1,6 +1,7 @@
 
 <template>
   <a-spin :spinning="loading">
+    <a-back-top />
     <a-card>
       <div v-html="data.content" />
     </a-card>

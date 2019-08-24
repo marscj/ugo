@@ -1,5 +1,6 @@
 <template>
   <div>
+    <a-back-top />
     <div style="margin-bottom:25px;">
       <div class="page-menu-search">
         <a-input-search
@@ -72,6 +73,7 @@ export default {
       pagination: {
         onChange: (page) => {
           this.pagination.pageNo = page
+          window.scrollTo(0,0);
           this.$emit("onFetch", this.search, this.pagination);
         },
         pageNo: 1,

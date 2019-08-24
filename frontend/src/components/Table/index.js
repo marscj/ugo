@@ -179,6 +179,7 @@ export default {
         })
         .finally(() => {
           this.localLoading = false
+          window.scrollTo(0,0);
         })
       }
     },

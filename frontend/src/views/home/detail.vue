@@ -1,5 +1,6 @@
 <template>
   <a-spin :spinning="spinning">
+    <a-back-top />
     <div class="detail_main">
       <div class="detail_main_wrap">
         <div class="detail_main_left">
