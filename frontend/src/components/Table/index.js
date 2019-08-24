@@ -305,7 +305,7 @@ export default {
 
     return (
       <div class="table-wrapper">
-        { showAlert.show ? this.renderAlert() : null }
+        { showAlert ? this.renderAlert() : null }
         { table }
       </div>
     )

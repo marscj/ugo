@@ -39,7 +39,7 @@ class ProductVariantSerializer(serializers.ModelSerializer):
 
     category = serializers.SerializerMethodField()
 
-    sort_by = serializers.ReadOnlyField()
+    sort_by = serializers.HiddenField(default=0)
 
     class Meta:
         model = ProductVariant
@@ -74,7 +74,7 @@ class ProductVariantBackendSerializer(serializers.ModelSerializer):
 
     adult_status = serializers.BooleanField()
 
-    adult_desc = serializers.CharField(required=False, allow_null=True, max_length=64)
+    adult_desc = serializers.CharField(required=False, allow_null=True, allow_blank=True, max_length=64)
 
     adult_quantity = serializers.IntegerField(required=False, allow_null=True, min_value=0, max_value=9999)
 
@@ -82,7 +82,7 @@ class ProductVariantBackendSerializer(serializers.ModelSerializer):
 
     child_status = serializers.BooleanField()
 
-    child_desc = serializers.CharField(required=False, allow_null=True, max_length=64)
+    child_desc = serializers.CharField(required=False, allow_null=True, allow_blank=True, max_length=64)
 
     child_quantity = serializers.IntegerField(required=False, allow_null=True, min_value=0, max_value=9999)
 
@@ -94,7 +94,7 @@ class ProductVariantBackendSerializer(serializers.ModelSerializer):
 
     category = serializers.SerializerMethodField()
 
-    sort_by = serializers.CharField(required=False, allow_null=True, max_length=32)
+    sort_by = serializers.IntegerField(required=False, allow_null=True)
 
     class Meta:
         model = ProductVariant
@@ -147,12 +147,12 @@ class ProductListSerializer(serializers.ModelSerializer):
 
     photo = ProductImageSerializer(read_only=True)
 
-    sort_by = serializers.ReadOnlyField()
+    sort_by = serializers.HiddenField(default=0)
 
     class Meta:
         model = Product
         fields = (
-            'id', 'status', 'category', 'productID', 'title', 'subtitle', 'location', 'photo', 'sort_by'
+            'id', 'status', 'category', 'productID', 'title', 'subtitle', 'location', 'photo',
         )
 
 class ProductSerializer(ProductListSerializer):
@@ -201,7 +201,7 @@ class ProductBackendSerializer(serializers.ModelSerializer):
 
     variant = ProductVariantSerializer(read_only=True, many=True)
 
-    sort_by = serializers.CharField(required=False, allow_null=True, allow_blank=True, max_length=32)
+    sort_by = serializers.IntegerField(required=False, allow_null=True)
 
     class Meta:
         model = Product
