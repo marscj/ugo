@@ -48,14 +48,14 @@
         <ellipsis :length="60" tooltip>{{ text }}</ellipsis>
       </span>
       <span
-        slot="customer_info"
+        slot="guest_info"
         slot-scope="text"
         style="word-warp:break-word;word-break:break-all"
       >
         <ellipsis :length="160" tooltip>{{ text }}</ellipsis>
       </span>
       <span
-        slot="customer_contact"
+        slot="guest_contact"
         slot-scope="text"
         style="word-warp:break-word;word-break:break-all"
       >
@@ -211,15 +211,15 @@ export default {
         {
           key: "11",
           title: "客户信息",
-          dataIndex: "customer_info",
-          scopedSlots: { customRender: "customer_info" },
+          dataIndex: "guest_info",
+          scopedSlots: { customRender: "guest_info" },
           width: 400
         },
         {
           key: "12",
           title: "联系方式",
-          dataIndex: "customer_contact",
-          scopedSlots: { customRender: "customer_contact" },
+          dataIndex: "guest_contact",
+          scopedSlots: { customRender: "guest_contact" },
           width: 400
         },
         {

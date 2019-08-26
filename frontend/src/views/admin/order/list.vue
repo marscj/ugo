@@ -59,14 +59,14 @@
         <ellipsis :length="60" tooltip>{{ text }}</ellipsis>
       </span>
       <span
-        slot="customer_info"
+        slot="guest_info"
         slot-scope="text"
         style="word-warp:break-word;word-break:break-all"
       >
         <ellipsis :length="160" tooltip>{{ text }}</ellipsis>
       </span>
       <span
-        slot="customer_contact"
+        slot="guest_contact"
         slot-scope="text"
         style="word-warp:break-word;word-break:break-all"
       >
@@ -247,16 +247,16 @@ export default {
         },
         {
           key: "11",
-          title: "Customer Info",
-          dataIndex: "customer_info",
-          scopedSlots: { customRender: "customer_info" },
+          title: "Guest Info",
+          dataIndex: "guest_info",
+          scopedSlots: { customRender: "guest_info" },
           width: 400
         },
         {
           key: "12",
-          title: "Customer Contact",
-          dataIndex: "customer_contact",
-          scopedSlots: { customRender: "customer_contact" },
+          title: "Guest Contact",
+          dataIndex: "guest_contact",
+          scopedSlots: { customRender: "guest_contact" },
           width: 400
         },
         {

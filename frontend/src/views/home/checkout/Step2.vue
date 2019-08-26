@@ -63,12 +63,12 @@
         label="联系人信息"
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
-      >{{ form.customer_info }}</a-form-item>
+      >{{ form.guest_info }}</a-form-item>
       <a-form-item
         label="联系方式"
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
-      >{{ form.customer_contact }}</a-form-item>
+      >{{ form.guest_contact }}</a-form-item>
       <a-form-item label="备注" :labelCol="labelCol" :wrapperCol="wrapperCol">{{ form.remark }}</a-form-item>
       <a-form-item :wrapperCol="{span: 19, offset: 5}">
         <a-button :loading="loading" type="primary" @click="nextStep">提交</a-button>

@@ -118,9 +118,9 @@ class OrderCreateSerializer(CheckoutOrderSerializer):
 
     pay_status = serializers.IntegerField(required=False)
 
-    customer_info = serializers.CharField(required=False, allow_null=True)
+    guest_info = serializers.CharField(required=False, allow_null=True)
 
-    customer_contact = serializers.CharField(required=False, allow_null=True)
+    guest_contact = serializers.CharField(required=False, allow_null=True)
 
     remark = serializers.CharField(required=False, allow_null=True)
 
@@ -184,7 +184,7 @@ class OrderUpdateSerializer(serializers.ModelSerializer):
 
     pay_status = serializers.IntegerField(required=False)
 
-    customer_info = serializers.CharField(required=False, allow_null=True)
+    guest_info = serializers.CharField(required=False, allow_null=True)
 
     customer_contact = serializers.CharField(required=False, allow_null=True)
 

@@ -82,14 +82,14 @@
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
       >
-        <a-textarea v-model="form.customer_info"/>
+        <a-textarea v-model="form.guest_info"/>
       </a-form-item>
       <a-form-item
         label="联系方式"
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
       >
-        <a-textarea v-model="form.customer_contact"/>
+        <a-textarea v-model="form.guest_contact"/>
       </a-form-item>
       <a-form-item
         label="备注"

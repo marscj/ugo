@@ -25,11 +25,11 @@
             <a-form-item label="Total Price(总价格)">
               <a-input v-model="form.total_price" disabled></a-input>
             </a-form-item>
-            <a-form-item label="Customer Info(客户信息)">
-              <a-textarea v-model="form.customer_info" disabled></a-textarea>
+            <a-form-item label="Guest Info(客户信息)">
+              <a-textarea v-model="form.guest_info" disabled></a-textarea>
             </a-form-item>
-            <a-form-item label="Customer Contact(客户联系方式)">
-              <a-textarea v-model="form.customer_contact" disabled></a-textarea>
+            <a-form-item label="Guest Contact(客户联系方式)">
+              <a-textarea v-model="form.guest_contact" disabled></a-textarea>
             </a-form-item>
             <a-form-item label="ConfirmID">
               <a-input v-model="form.confirmID"></a-input>
