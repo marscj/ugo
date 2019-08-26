@@ -25,16 +25,16 @@ class OrderView(CustomModelViewSet):
 
     permissionId = Order.__name__
  
-    filterset_fields = ('day', 'order_status', 'pay_status', 'customer_id')
+    filterset_fields = ('day', 'order_status', 'pay_status', 'customer_id', 'operator_id', 'product_id' , 'variant_id')
     filter_class = OrderFilter
 
     search_fields = (
         'orderID',
         'confirmID',
-        'variant__name',
-        'variant__product__title',
-        'customer__username',
-        'operator__username',
+        'variant',
+        'product',
+        'customer',
+        'operator',
     ) 
 
     def get_serializer_class(self):
@@ -49,7 +49,7 @@ class OrderView(CustomModelViewSet):
         if checkout.is_valid(raise_exception=True):
             data = checkout.data
             data.update({
-                'total_price': checkout._get_total_price(checkout.data),
+                'total': checkout.get_total_price(checkout.data),
                 'product': checkout.variant.product.title,
                 'variant': checkout.variant.name
             })

@@ -55,7 +55,7 @@ class Order(models.Model):
     child_price = models.DecimalField(default=0.0, max_digits=10, decimal_places=2, validators=[MinValueValidator(0.0)])
 
     #总金额
-    total_price = models.DecimalField(default=0.0, max_digits=10, decimal_places=2, validators=[MinValueValidator(0.0)])
+    total = models.DecimalField(default=0.0, max_digits=10, decimal_places=2, validators=[MinValueValidator(0.0)])
 
     #备注
     remark = models.TextField(blank=True, null=True)
@@ -67,10 +67,10 @@ class Order(models.Model):
     variant = models.CharField(default=create_uuid, max_length=64)
 
     #主产品ID
-    productID = models.CharField(blank=True, null=True, max_length=16, unique=True)
+    product_id = models.IntegerField(blank=True, null=True)
 
     #子产品ID
-    variantID = models.CharField(blank=True, null=True, max_length=16, unique=True)
+    variant_id = models.IntegerField(blank=True, null=True)
 
     #sku
     models.CharField(max_length=32, unique=True)

@@ -145,7 +145,7 @@
                   <span>
                     <dfn>
                       $
-                      <i class="selling-price-text" style="font-style: inherit;">{{total_price}}</i>
+                      <i class="selling-price-text" style="font-style: inherit;">{{total}}</i>
                     </dfn>
                   </span>
                 </p>
@@ -179,7 +179,7 @@ export default {
       adult_price: 0.0,
       child_quantity: 0,
       child_price: 0.0,
-      total_price: 0.0,
+      total: 0.0,
       canbook: false
     };
   },
@@ -306,10 +306,10 @@ export default {
       this.handleCanBook();
     },
     adult_price(value) {
-      this.total_price = this.toDecimal(value + this.child_price);
+      this.total = this.toDecimal(value + this.child_price);
     },
     child_price(value) {
-      this.total_price = this.toDecimal(this.adult_price + value);
+      this.total = this.toDecimal(this.adult_price + value);
     },
     day(value) {
       this.handleCanBook();

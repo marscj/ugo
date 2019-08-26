@@ -58,7 +58,7 @@
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
         :required="true"
-      >{{ form.total_price }} $</a-form-item>
+      >{{ form.total }} $</a-form-item>
       <a-form-item
         label="联系人信息"
         :labelCol="labelCol"

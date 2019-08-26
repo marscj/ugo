@@ -23,7 +23,7 @@
               <a-input v-model="form.child_price" disabled></a-input>
             </a-form-item>
             <a-form-item label="Total Price(总价格)">
-              <a-input v-model="form.total_price" disabled></a-input>
+              <a-input v-model="form.total" disabled></a-input>
             </a-form-item>
             <a-form-item label="Guest Info(客户信息)">
               <a-textarea v-model="form.guest_info" disabled></a-textarea>

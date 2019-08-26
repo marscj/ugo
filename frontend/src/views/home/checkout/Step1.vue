@@ -75,7 +75,7 @@
         :wrapperCol="wrapperCol"
         :required="true"
       >
-        <a-input suffix="$" v-model="form.total_price" disabled/>
+        <a-input suffix="$" v-model="form.total" disabled/>
       </a-form-item>
       <a-form-item
         label="联系人信息"

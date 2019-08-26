@@ -25,7 +25,7 @@ class CheckoutOrderSerializer(serializers.ModelSerializer):
 
     child_price = serializers.DecimalField(max_digits=10, decimal_places=2, min_value=0.0)
 
-    total_price = serializers.ReadOnlyField()
+    total = serializers.ReadOnlyField()
 
     variant_id = serializers.IntegerField()
 
@@ -48,7 +48,7 @@ class CheckoutOrderSerializer(serializers.ModelSerializer):
     def _get_child_price(self, variant, quantity):
         return quantity * variant.child_price[self.get_user_price_lelve()]
 
-    def _get_total_price(self, validated_data):
+    def get_total_price(self, validated_data):
         if self.variant is not None:
             adult_price = self._get_adult_price(self.variant, validated_data.get('adult_quantity', 0.0))
             child_price = self._get_child_price(self.variant, validated_data.get('child_quantity', 0.0))
@@ -143,12 +143,12 @@ class OrderCreateSerializer(CheckoutOrderSerializer):
     @transaction.atomic
     def create(self, validated_data):
         customer = self.get_current_user()
-        total_price = self._get_total_price(validated_data)
+        total = self.get_total_price(validated_data)
 
-        customer.balance -= total_price
+        customer.balance -= total
         customer.save()
  
-        return Order.objects.create(**validated_data, total_price=total_price, customer=customer)
+        return Order.objects.create(**validated_data, total=total, customer=customer)
 
     @transaction.atomic
     def update(self, instance, validated_data):
@@ -174,7 +174,7 @@ class OrderUpdateSerializer(serializers.ModelSerializer):
 
     child_price = serializers.ReadOnlyField()
 
-    total_price = serializers.ReadOnlyField()
+    total = serializers.ReadOnlyField()
 
     variant_id = serializers.ReadOnlyField()
 

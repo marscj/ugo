@@ -205,7 +205,7 @@ export default {
         {
           key: "18",
           title: "总金额",
-          dataIndex: "total_price",
+          dataIndex: "total",
           width: 100
         },
         {

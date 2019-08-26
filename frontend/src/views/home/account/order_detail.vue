@@ -53,7 +53,7 @@
         <a-input suffix="$" v-model="form.child_price" disabled />
       </a-form-item>
       <a-form-item label="总金额" :labelCol="labelCol" :wrapperCol="wrapperCol" >
-        <a-input suffix="$" v-model="form.total_price" disabled />
+        <a-input suffix="$" v-model="form.total" disabled />
       </a-form-item>
       <a-form-item label="状态" :labelCol="labelCol" :wrapperCol="wrapperCol">
         <a-input :defaultValue="orderStatus[form.order_status].label" disabled />

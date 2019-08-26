@@ -241,8 +241,8 @@ export default {
         },
         {
           key: "18",
-          title: "Total Price",
-          dataIndex: "total_price",
+          title: "Total",
+          dataIndex: "total",
           width: 100
         },
         {
