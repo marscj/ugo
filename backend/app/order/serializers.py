@@ -122,7 +122,7 @@ class OrderCreateSerializer(CheckoutOrderSerializer):
 
     guest_contact = serializers.CharField(required=False, allow_null=True)
 
-    remark = serializers.CharField(required=False, allow_null=True)
+    guest_remark = serializers.CharField(required=False, allow_null=True)
 
     variant = serializers.StringRelatedField(read_only=True)
 
@@ -188,7 +188,7 @@ class OrderUpdateSerializer(serializers.ModelSerializer):
 
     customer_contact = serializers.CharField(required=False, allow_null=True)
 
-    remark = serializers.CharField(required=False, allow_null=True)
+    guest_remark = serializers.CharField(required=False, allow_null=True)
 
     variant = serializers.StringRelatedField(read_only=True)
 

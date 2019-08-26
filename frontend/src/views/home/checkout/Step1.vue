@@ -92,11 +92,11 @@
         <a-textarea v-model="form.guest_contact"/>
       </a-form-item>
       <a-form-item
-        label="备注"
+        label="客户备注"
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
       >
-        <a-textarea v-model="form.remark"/>
+        <a-textarea v-model="form.guest_remark"/>
       </a-form-item>
       <a-form-item :wrapperCol="{span: 19, offset: 5}">
         <a-button type="primary" @click="nextStep">下一步</a-button>

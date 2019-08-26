@@ -4,8 +4,7 @@ from django.db import models
 from django.core.validators import MinValueValidator
 
 from .import OrderStatus, PayStatus
-from app.product.models import ProductVariant
-from app.authorization.models import CustomUser
+from app.product import Category
 
 def create_uuid():
     return '%019d' % uuid.uuid4().__hash__()
@@ -42,6 +41,9 @@ class Order(models.Model):
     #客户联系方式
     guest_contact = models.TextField(blank=True, null=True)
 
+    #客户备注
+    guest_remark = models.TextField(blank=True, null=True)
+
     #成人票数量
     adult_quantity = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0)])
 
@@ -57,14 +59,14 @@ class Order(models.Model):
     #总金额
     total = models.DecimalField(default=0.0, max_digits=10, decimal_places=2, validators=[MinValueValidator(0.0)])
 
-    #备注
+    #订单备注
     remark = models.TextField(blank=True, null=True)
 
     #主产品名称
-    product = models.CharField(default=create_uuid, max_length=128)
+    product = models.CharField(blank=True, null=True, max_length=128)
 
     #子产品名称
-    variant = models.CharField(default=create_uuid, max_length=64)
+    variant = models.CharField(blank=True, null=True, max_length=64)
 
     #主产品ID
     product_id = models.IntegerField(blank=True, null=True)
@@ -72,8 +74,11 @@ class Order(models.Model):
     #子产品ID
     variant_id = models.IntegerField(blank=True, null=True)
 
+    #产品分类
+    category = models.IntegerField(default=Category.Food, choices=Category.CHOISE)
+
     #sku
-    models.CharField(max_length=32, unique=True)
+    sku = models.CharField(blank=True, null=True, max_length=32, unique=True)
 
     #客户username
     customer = models.CharField(blank=True, null=True, max_length=150)
@@ -86,6 +91,9 @@ class Order(models.Model):
 
     #操作ID
     operator_id = models.IntegerField(blank=True, null=True)
+
+    #逻辑删除
+    is_delete = models.BooleanField(default=False)
 
     class Meta:
         db_table = 'order'

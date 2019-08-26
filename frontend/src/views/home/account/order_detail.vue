@@ -67,8 +67,8 @@
       <a-form-item label="联系方式" :labelCol="labelCol" :wrapperCol="wrapperCol">
         <a-textarea v-model="form.guest_contact" />
       </a-form-item>
-      <a-form-item label="备注" :labelCol="labelCol" :wrapperCol="wrapperCol">
-        <a-textarea v-model="form.remark" />
+      <a-form-item label="客户备注" :labelCol="labelCol" :wrapperCol="wrapperCol">
+        <a-textarea v-model="form.guest_remark" />
       </a-form-item>
       <a-form-item :wrapperCol="{span: 19, offset: 5}">
         <a-button type="primary" @click="submit">提交</a-button>

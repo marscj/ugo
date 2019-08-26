@@ -34,8 +34,8 @@
             <a-form-item label="ConfirmID">
               <a-input v-model="form.confirmID"></a-input>
             </a-form-item>
-            <a-form-item label="Remark">
-              <a-textarea v-model="form.remark"></a-textarea>
+            <a-form-item label="Guest Remark">
+              <a-textarea v-model="form.guest_remark"></a-textarea>
             </a-form-item>
           </a-card>
           <div style="position:relative; margin-top:20px">

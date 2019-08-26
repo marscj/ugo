@@ -52,7 +52,7 @@
       fixed
       :scroll="{ x: 3450}"
     >
-      <span slot="remark" slot-scope="text" style="word-warp:break-word;word-break:break-all">
+      <span slot="guest_remark" slot-scope="text" style="word-warp:break-word;word-break:break-all">
         <ellipsis :length="200" tooltip>{{ text }}</ellipsis>
       </span>
       <span slot="variant" slot-scope="text" style="word-warp:break-word;word-break:break-all">
@@ -280,9 +280,9 @@ export default {
         },
         {
           key: "16",
-          title: "Remark",
-          dataIndex: "remark",
-          scopedSlots: { customRender: "remark" },
+          title: "Guest Remark",
+          dataIndex: "guest_remark",
+          scopedSlots: { customRender: "guest_remark" },
           width: 400
         },
         {

@@ -69,7 +69,7 @@
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
       >{{ form.guest_contact }}</a-form-item>
-      <a-form-item label="备注" :labelCol="labelCol" :wrapperCol="wrapperCol">{{ form.remark }}</a-form-item>
+      <a-form-item label="客户备注" :labelCol="labelCol" :wrapperCol="wrapperCol">{{ form.guest_remark }}</a-form-item>
       <a-form-item :wrapperCol="{span: 19, offset: 5}">
         <a-button :loading="loading" type="primary" @click="nextStep">提交</a-button>
         <a-button style="margin-left: 8px" @click="prevStep">上一步</a-button>
