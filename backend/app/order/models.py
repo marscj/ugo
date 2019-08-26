@@ -12,7 +12,7 @@ def create_uuid():
 class Order(models.Model):
     
     #订单ID
-    orderID = models.CharField(default=create_uuid, max_length=64)
+    orderID = models.CharField(default=create_uuid, blank=True, null=True, max_length=64)
 
     #确认号
     confirmID = models.CharField(blank=True, null=True, max_length=64)
