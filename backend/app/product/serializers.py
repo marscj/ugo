@@ -23,7 +23,7 @@ class ProductVariantSerializer(serializers.ModelSerializer):
 
     adult_desc = serializers.ReadOnlyField()
 
-    adult_quantity = serializers.ReadOnlyField()
+    adult_quantity = serializers.HiddenField(default=0)
 
     adult_price = serializers.SerializerMethodField('user_adult_price')
 
@@ -31,7 +31,7 @@ class ProductVariantSerializer(serializers.ModelSerializer):
 
     child_desc = serializers.ReadOnlyField()
 
-    child_quantity = serializers.ReadOnlyField()
+    child_quantity = serializers.HiddenField(default=0)
 
     child_price = serializers.SerializerMethodField('user_child_price')
 
@@ -76,7 +76,7 @@ class ProductVariantBackendSerializer(serializers.ModelSerializer):
 
     adult_desc = serializers.CharField(required=False, allow_null=True, allow_blank=True, max_length=64)
 
-    adult_quantity = serializers.IntegerField(required=False, allow_null=True, min_value=0, max_value=9999)
+    adult_quantity = serializers.HiddenField(default=0)
 
     adult_price = serializers.ListField(required=False, allow_null=True, allow_empty=False, min_length=5, max_length=5, child=serializers.DecimalField(max_digits=10, decimal_places=2, min_value=0.0))
 
@@ -84,7 +84,7 @@ class ProductVariantBackendSerializer(serializers.ModelSerializer):
 
     child_desc = serializers.CharField(required=False, allow_null=True, allow_blank=True, max_length=64)
 
-    child_quantity = serializers.IntegerField(required=False, allow_null=True, min_value=0, max_value=9999)
+    child_quantity = serializers.HiddenField(default=0)
 
     child_price = serializers.ListField(required=False, allow_null=True, allow_empty=False, min_length=5, max_length=5, child=serializers.DecimalField(max_digits=10, decimal_places=2, min_value=0.0))
 
@@ -105,11 +105,9 @@ class ProductVariantBackendSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         adult_status = data.get('adult_status', False)
-        adult_quantity = data.get('adult_quantity')
         adult_price = data.get('adult_price')
 
         child_status = data.get('child_status', False)
-        child_quantity = data.get('child_quantity')
         child_price = data.get('child_price')
 
         product_id = data.get('product_id')

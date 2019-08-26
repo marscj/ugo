@@ -151,6 +151,22 @@
             unCheckedChildren="Disable(禁用登陆)"
           ></a-switch>
         </a-form-item>
+
+        <a-form-item
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+          label="Staff"
+          :required="true"
+          :validate-status="help.is_staff == null || help.is_staff === '' ?  null : 'error'"
+          :help="help.is_staff"
+        >
+          <a-switch
+            v-model="mdl.is_staff"
+            checkedChildren="Enable"
+            unCheckedChildren="Disable"
+          ></a-switch>
+        </a-form-item>
+
       </a-form>
     </a-modal>
 
@@ -228,6 +244,11 @@ export default {
           title: "Status",
           dataIndex: "is_active",
           scopedSlots: { customRender: "active" }
+        },
+        {
+          title: "Staff",
+          dataIndex: "is_staff",
+          scopedSlots: { customRender: "staff" }
         },
         {
           title: "Balance",

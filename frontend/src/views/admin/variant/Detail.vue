@@ -49,6 +49,13 @@
         >
           <a-input v-model="form.sku"></a-input>
         </a-form-item>
+        <a-form-item
+          label="Sort ID"
+          :validate-status="help.sort_by == null || help.sort_by === '' ?  null : 'error'"
+          :help="help.sort_by"
+        >
+          <a-input v-model="form.sort_by"></a-input>
+        </a-form-item>
         <a-form-item label="Adult Status(成人票)" :required="true">
           <a-switch
             checkedChildren="上架"
@@ -328,6 +335,7 @@ export default {
         "variantID",
         "name",
         "sku",
+        "sort_by",
         "adult_status",
         "adult_desc",
         "adult_quantity",
@@ -344,6 +352,7 @@ export default {
         variantID: errors["variantID"],
         name: errors["name"],
         sku: errors["sku"],
+        sort_by: errors["sort_by"],
         adult_status: errors["adult_status"],
         adult_desc: errors["adult_desc"],
         adult_quantity: errors["adult_quantity"],
