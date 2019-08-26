@@ -279,7 +279,7 @@ export default {
         });
     },
     updateVariant(data, enable) {
-      var _data = Object.assign({}, data, { status: enable });
+      var _data = Object.assign({}, data, { status: enable, adult_status: enable });
       this.$refs.table.localLoading = true;
       updateVariant(data.id, _data)
         .then(res => {
