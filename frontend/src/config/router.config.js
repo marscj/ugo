@@ -1,12 +1,22 @@
-import { UserLayout, BasicLayout, RouteView, BlankLayout, PageView } from '@/layouts'
-import { bxAnaalyse } from '@/core/icons'
+import {
+  UserLayout,
+  BasicLayout,
+  RouteView,
+  BlankLayout,
+  PageView
+} from '@/layouts'
+import {
+  bxAnaalyse
+} from '@/core/icons'
 
-export const asyncRouterMap = [
-  {
+export const asyncRouterMap = [{
     path: '/admin',
     name: 'admin',
     component: BasicLayout,
-    meta: { title: 'Admin' , permission: [ 'Staff' ]},
+    meta: {
+      title: 'Admin',
+      permission: ['Staff']
+    },
     redirect: '/admin/dashboard',
     children: [
       // dashboard
@@ -15,19 +25,28 @@ export const asyncRouterMap = [
         name: 'dashboard',
         redirect: '/admin/dashboard/workplace',
         component: RouteView,
-        meta: { title: 'Dashboard', keepAlive: true, icon: bxAnaalyse },
-        children: [
-          {
+        meta: {
+          title: 'Dashboard',
+          keepAlive: true,
+          icon: bxAnaalyse
+        },
+        children: [{
             path: 'analysis',
             name: 'Analysis',
             component: () => import('@/views/admin/dashboard/Analysis'),
-            meta: { title: 'Analysis', keepAlive: false }
+            meta: {
+              title: 'Analysis',
+              keepAlive: false
+            }
           },
           {
             path: 'workplace',
             name: 'Workplace',
             component: () => import('@/views/admin/dashboard/Workplace'),
-            meta: { title: 'Workplace', keepAlive: true }
+            meta: {
+              title: 'Workplace',
+              keepAlive: true
+            }
           }
         ]
       },
@@ -37,26 +56,41 @@ export const asyncRouterMap = [
         name: 'Product',
         redirect: '/admin/product/productList',
         component: PageView,
-        meta: { title: 'Product', keepAlive: true, permission: [ 'Product' ] },
-        children: [
-          {
+        meta: {
+          title: 'Product',
+          keepAlive: true,
+          permission: ['Product']
+        },
+        children: [{
             path: 'productList',
             name: 'ProductList',
             component: () => import('@/views/admin/product/list'),
-            meta: { title: 'Product', keepAlive: false, permission: [ 'Product' ] },
+            meta: {
+              title: 'Product',
+              keepAlive: false,
+              permission: ['Product']
+            },
           },
           {
             path: 'productEdit/:id(\\d+)',
             name: 'ProductEdit',
             component: () => import('@/views/admin/product/edit'),
-            meta: { title: 'Product Edit', keepAlive: false, permission: [ 'Product' ] },
+            meta: {
+              title: 'Product Edit',
+              keepAlive: false,
+              permission: ['Product']
+            },
             hidden: true
           },
           {
             path: 'productCreate',
             name: 'ProductCreate',
             component: () => import('@/views/admin/product/create'),
-            meta: { title: 'Product Create', keepAlive: false, permission: [ 'Product' ] },
+            meta: {
+              title: 'Product Create',
+              keepAlive: false,
+              permission: ['Product']
+            },
             hidden: true
           },
 
@@ -64,20 +98,32 @@ export const asyncRouterMap = [
             path: 'variantList',
             name: 'VariantList',
             component: () => import('@/views/admin/variant/list'),
-            meta: { title: 'Variant', keepAlive: false, permission: [ 'Product' ] },
+            meta: {
+              title: 'Variant',
+              keepAlive: false,
+              permission: ['Product']
+            },
           },
           {
             path: 'variantEdit/:id(\\d+)',
             name: 'VariantEdit',
             component: () => import('@/views/admin/variant/edit'),
-            meta: { title: 'Edit', keepAlive: false, permission: [ 'Product' ] },
+            meta: {
+              title: 'Edit',
+              keepAlive: false,
+              permission: ['Product']
+            },
             hidden: true
           },
           {
             path: 'variantCreate',
             name: 'VariantCreate',
             component: () => import('@/views/admin/variant/create'),
-            meta: { title: 'Create', keepAlive: false, permission: [ 'Product' ] },
+            meta: {
+              title: 'Create',
+              keepAlive: false,
+              permission: ['Product']
+            },
             hidden: true
           },
         ]
@@ -118,26 +164,41 @@ export const asyncRouterMap = [
         name: 'Order',
         redirect: '/admin/order/orderList',
         component: PageView,
-        meta: { title: 'Order', keepAlive: true, permission: [ 'Order' ] },
-        children: [
-          {
+        meta: {
+          title: 'Order',
+          keepAlive: true,
+          permission: ['Order']
+        },
+        children: [{
             path: 'orderList',
             name: 'OrderList',
             component: () => import('@/views/admin/order/list'),
-            meta: { title: 'Order', keepAlive: false, permission: [ 'Order' ] },
+            meta: {
+              title: 'Order',
+              keepAlive: false,
+              permission: ['Order']
+            },
           },
           {
             path: 'orderEdit/:id(\\d+)',
             name: 'OrderEdit',
             component: () => import('@/views/admin/order/edit'),
-            meta: { title: 'Edit', keepAlive: false, permission: [ 'Order' ] },
+            meta: {
+              title: 'Edit',
+              keepAlive: false,
+              permission: ['Order']
+            },
             hidden: true
           },
           {
             path: 'orderCreate',
             name: 'OrderCreate',
             component: () => import('@/views/admin/order/create'),
-            meta: { title: 'Create', keepAlive: false, permission: [ 'Order' ] },
+            meta: {
+              title: 'Create',
+              keepAlive: false,
+              permission: ['Order']
+            },
             hidden: true
           },
         ]
@@ -148,26 +209,41 @@ export const asyncRouterMap = [
         name: 'NoticeBack',
         redirect: '/admin/notice/noticeList',
         component: PageView,
-        meta: { title: 'Notice', keepAlive: true, permission: [ 'Notice' ] },
-        children: [
-          {
+        meta: {
+          title: 'Notice',
+          keepAlive: true,
+          permission: ['Notice']
+        },
+        children: [{
             path: 'noticeList',
             name: 'NoticeList',
             component: () => import('@/views/admin/notice/list'),
-            meta: { title: 'Notice', keepAlive: false, permission: [ 'Notice' ] },
+            meta: {
+              title: 'Notice',
+              keepAlive: false,
+              permission: ['Notice']
+            },
           },
           {
             path: 'noticeEdit/:id(\\d+)',
             name: 'NoticeEdit',
             component: () => import('@/views/admin/notice/edit'),
-            meta: { title: 'Edit', keepAlive: false, permission: [ 'Notice' ] },
+            meta: {
+              title: 'Edit',
+              keepAlive: false,
+              permission: ['Notice']
+            },
             hidden: true
           },
           {
             path: 'noticeCreate',
             name: 'NoticeCreate',
             component: () => import('@/views/admin/notice/create'),
-            meta: { title: 'Create', keepAlive: false, permission: [ 'Notice' ] },
+            meta: {
+              title: 'Create',
+              keepAlive: false,
+              permission: ['Notice']
+            },
             hidden: true
           },
         ]
@@ -193,30 +269,43 @@ export const asyncRouterMap = [
         path: 'user',
         name: 'Users',
         component: PageView,
-        meta: { title: 'User', keepAlive: true, permission: [ 'CustomUser' ] },
+        meta: {
+          title: 'User',
+          keepAlive: true,
+          permission: ['CustomUser']
+        },
         redirect: '/admin/user/users',
-        children: [
-          {
-            path: 'users',
-            name: 'UserList',
-            component: () => import('@/views/admin/user/list'),
-            meta: { title: 'User', keepAlive: true, permission: [ 'CustomUser' ] }
+        children: [{
+          path: 'users',
+          name: 'UserList',
+          component: () => import('@/views/admin/user/list'),
+          meta: {
+            title: 'User',
+            keepAlive: true,
+            permission: ['CustomUser']
           }
-        ]
+        }]
       },
       //roles
       {
         path: 'role',
         name: 'Roles',
         component: PageView,
-        meta: { title: 'Role', keepAlive: true, permission: [ 'Role' ] },
+        meta: {
+          title: 'Role',
+          keepAlive: true,
+          permission: ['Role']
+        },
         redirect: '/admin/role/roles',
-        children: [
-          {
+        children: [{
             path: 'roles',
             name: 'RoleList',
             component: () => import('@/views/admin/role/RoleList'),
-            meta: { title: 'Role', keepAlive: true, permission: [ 'Role' ] }
+            meta: {
+              title: 'Role',
+              keepAlive: true,
+              permission: ['Role']
+            }
           },
           // {
           //   path: 'permissions',
@@ -285,7 +374,9 @@ export const asyncRouterMap = [
     ]
   },
   {
-    path: '*', redirect: '/404', hidden: true
+    path: '*',
+    redirect: '/404',
+    hidden: true
   }
 ]
 
@@ -293,150 +384,203 @@ export const asyncRouterMap = [
  * 基础路由
  * @type { *[] }
  */
-export const constantRouterMap = [
-  {
+export const constantRouterMap = [{
     path: '/',
     name: 'index',
     redirect: '/home',
     component: () => import('@/views/layouts/BasicLayout'),
-    children: [
-      {
-        path: 'home',
-        name: 'Home',
-        component: () => import('@/views/layouts/PageView'),
-        redirect: '/home/ticket',
-        meta: { title: '首页', keepAlive: true },
-        children: [
-          // {
-          //   path: 'index',
-          //   name: 'HomePage',
-          //   component: () => import('@/views/home/index'),
-          //   meta: { title: '首页', keepAlive: true },
-          // },
-          {
-            path: 'ticket',
-            name: 'Ticket',
-            component: () => import('@/views/home/ticket'),
-            meta: { title: '门票', keepAlive: true },
-            
-          },
-          {
-            path: 'ticket/:id(\\d+)',
-            name: 'TicketDetail',
-            component: () => import('@/views/home/detail'),
-            meta: { title: '门票', keepAlive: true },
-            hidden: true
-          },
-          {
-            path: 'food',
-            name: 'Food',
-            component: () => import('@/views/home/food'),
-            meta: { title: '美食', keepAlive: true },
-          },
-          {
-            path: 'food/:id(\\d+)',
-            name: 'FoodDetail',
-            component: () => import('@/views/home/detail'),
-            meta: { title: '美食', keepAlive: true },
-            hidden: true
-          },
-          {
-            path: 'trip',
-            name: 'Trip',
-            component: () => import('@/views/home/trip'),
-            meta: { title: '日游', keepAlive: true },
-          },
-          {
-            path: 'trip/:id(\\d+)',
-            name: 'TripDetail',
-            component: () => import('@/views/home/detail'),
-            meta: { title: '日游', keepAlive: true },
-            hidden: true
-          },
-          {
-            path: 'car',
-            name: 'Car',
-            component: () => import('@/views/home/car'),
-            meta: { title: '用车', keepAlive: true },
-          },
-          {
-            path: 'car/:id(\\d+)',
-            name: 'CarDetail',
-            component: () => import('@/views/home/detail'),
-            meta: { title: '用车', keepAlive: true },
-            hidden: true
-          },
-          {
-            path: 'hotel',
-            name: 'Hotel',
-            component: () => import('@/views/home/hotel'),
-            meta: { title: '酒店', keepAlive: true },
-          },
-          {
-            path: 'hotel/:id(\\d+)',
-            name: 'HotelDetail',
-            component: () => import('@/views/home/detail'),
-            meta: { title: '酒店', keepAlive: true },
-            hidden: true
-          },
-          {
-            path: 'gift',
-            name: 'Gift',
-            component: () => import('@/views/home/gift'),
-            meta: { title: '伴手礼', keepAlive: true },
-          },
-          {
-            path: 'gift/:id(\\d+)',
-            name: 'GiftDetail',
-            component: () => import('@/views/home/detail'),
-            meta: { title: '伴手礼', keepAlive: true },
-            hidden: true
-          },
-          {
-            path: 'notice',
-            name: 'Notice',
-            component: () => import('@/views/home/notice'),
-            meta: { title: '公告', keepAlive: true },
-          },
-          {
-            path: 'notice/:id(\\d+)',
-            name: 'NoticeDetail',
-            component: () => import('@/views/home/noticeDetail'),
-            meta: { title: '公告详情', keepAlive: true },
-            hidden: true
-          },
-          {
-            path: 'checkout',
-            name: 'Checkout',
-            component: () => import('@/views/home/checkout/checkout'),
-            meta: { title: '订单信息', keepAlive: true, hiddenHeaderContent: true },
-            hidden: true
-          },
-          {
-            path: 'account',
-            name: 'UserAccount',
-            component: () => import('@/views/home/account/account'),
-            meta: { title: '订单列表', keepAlive: true, hiddenHeaderContent: true },
-            hidden: true
-          },
-          {
-            path: 'order/detail',
-            name: 'OrderDetail',
-            component: () => import('@/views/home/account/order_detail'),
-            meta: { title: '订单详情', keepAlive: true, hiddenHeaderContent: true },
-            hidden: true
-          }
-        ]
+    children: [{
+      path: 'home',
+      name: 'Home',
+      component: () => import('@/views/layouts/PageView'),
+      redirect: '/home/ticket',
+      meta: {
+        title: '首页',
+        keepAlive: true
       },
-    ]
+      children: [
+        // {
+        //   path: 'index',
+        //   name: 'HomePage',
+        //   component: () => import('@/views/home/index'),
+        //   meta: { title: '首页', keepAlive: true },
+        // },
+        {
+          path: 'ticket',
+          name: 'Ticket',
+          component: () => import('@/views/home/ticket'),
+          meta: {
+            title: '门票',
+            keepAlive: true
+          },
+
+        },
+        {
+          path: 'ticket/:id(\\d+)',
+          name: 'TicketDetail',
+          component: () => import('@/views/home/detail'),
+          meta: {
+            title: '门票',
+            keepAlive: true
+          },
+          hidden: true
+        },
+        {
+          path: 'food',
+          name: 'Food',
+          component: () => import('@/views/home/food'),
+          meta: {
+            title: '美食',
+            keepAlive: true
+          },
+        },
+        {
+          path: 'food/:id(\\d+)',
+          name: 'FoodDetail',
+          component: () => import('@/views/home/detail'),
+          meta: {
+            title: '美食',
+            keepAlive: true
+          },
+          hidden: true
+        },
+        {
+          path: 'trip',
+          name: 'Trip',
+          component: () => import('@/views/home/trip'),
+          meta: {
+            title: '日游',
+            keepAlive: true
+          },
+        },
+        {
+          path: 'trip/:id(\\d+)',
+          name: 'TripDetail',
+          component: () => import('@/views/home/detail'),
+          meta: {
+            title: '日游',
+            keepAlive: true
+          },
+          hidden: true
+        },
+        {
+          path: 'car',
+          name: 'Car',
+          component: () => import('@/views/home/car'),
+          meta: {
+            title: '用车',
+            keepAlive: true
+          },
+        },
+        {
+          path: 'car/:id(\\d+)',
+          name: 'CarDetail',
+          component: () => import('@/views/home/detail'),
+          meta: {
+            title: '用车',
+            keepAlive: true
+          },
+          hidden: true
+        },
+        {
+          path: 'hotel',
+          name: 'Hotel',
+          component: () => import('@/views/home/hotel'),
+          meta: {
+            title: '酒店',
+            keepAlive: true
+          },
+        },
+        {
+          path: 'hotel/:id(\\d+)',
+          name: 'HotelDetail',
+          component: () => import('@/views/home/detail'),
+          meta: {
+            title: '酒店',
+            keepAlive: true
+          },
+          hidden: true
+        },
+        {
+          path: 'gift',
+          name: 'Gift',
+          component: () => import('@/views/home/gift'),
+          meta: {
+            title: '伴手礼',
+            keepAlive: true
+          },
+        },
+        {
+          path: 'gift/:id(\\d+)',
+          name: 'GiftDetail',
+          component: () => import('@/views/home/detail'),
+          meta: {
+            title: '伴手礼',
+            keepAlive: true
+          },
+          hidden: true
+        },
+        {
+          path: 'notice',
+          name: 'Notice',
+          component: () => import('@/views/home/notice'),
+          meta: {
+            title: '公告',
+            keepAlive: true
+          },
+        },
+        {
+          path: 'notice/:id(\\d+)',
+          name: 'NoticeDetail',
+          component: () => import('@/views/home/noticeDetail'),
+          meta: {
+            title: '公告详情',
+            keepAlive: true
+          },
+          hidden: true
+        },
+        {
+          path: 'checkout',
+          name: 'Checkout',
+          component: () => import('@/views/home/checkout/checkout'),
+          meta: {
+            title: '订单信息',
+            keepAlive: true,
+            hiddenHeaderContent: true
+          },
+          hidden: true
+        },
+        {
+          path: 'account',
+          name: 'UserAccount',
+          component: () => import('@/views/home/account/account'),
+          meta: {
+            title: '订单列表',
+            keepAlive: true,
+            hiddenHeaderContent: true
+          },
+          hidden: true
+        },
+        {
+          path: 'order/detail',
+          name: 'OrderDetail',
+          component: () => import('@/views/home/account/order_detail'),
+          meta: {
+            title: '订单详情',
+            keepAlive: true,
+            hiddenHeaderContent: true
+          },
+          hidden: true
+        }
+      ]
+    }, ]
   },
   {
     path: '/user',
     component: () => import('@/views/layouts/UserLayout'),
     redirect: '/user/login',
     hidden: true,
-    children: [
-      {
+    children: [{
         path: 'login',
         name: 'UserLogin',
         component: () => import('@/views/home/user/Login')
@@ -453,13 +597,11 @@ export const constantRouterMap = [
     component: UserLayout,
     hidden: true,
     redirect: '/admin/login',
-    children: [
-      {
-        path: 'login',
-        name: 'AdminLogin',
-        component: () => import('@/views/admin/user/Login')
-      }
-    ]
+    children: [{
+      path: 'login',
+      name: 'AdminLogin',
+      component: () => import('@/views/admin/user/Login')
+    }]
   },
 
   {

@@ -147,7 +147,6 @@ export default {
       }
     },
     handleSubmit() {
-      console.log(this.form, '=======')
       if (this.isEdit) {
         this.updateForm(this.form);
       } else {

@@ -337,7 +337,6 @@ export default {
     },
     changePassword() {
       this.loading = true;
-      console.log(this.mdl, "===");
       changePassword(this.mdl.id, {
         new_password: this.mdl.new_password
       })
