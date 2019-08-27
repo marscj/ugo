@@ -7,7 +7,7 @@ import django_filters
 from middleware.viewsets import CustomModelViewSet
 from middleware.permissions import MiddlewarePermission
 from .models import Order
-from .serializers import OrderCreateSerializer, OrderUpdateSerializer, CheckoutSerializer
+from .serializers import OrderCreateSerializer, OrderUpdateSerializer, OrderBackendUpdateSerializer, CheckoutSerializer
 from app.product.models import ProductVariant
 from app.authorization.models import CustomUser
 
@@ -38,24 +38,22 @@ class OrderView(CustomModelViewSet):
         'product',
         'customer',
         'operator',
-    ) 
+    )
 
     def get_serializer_class(self):
         if self.action == 'create':
             return OrderCreateSerializer
         else:
-            return OrderUpdateSerializer
+            if self.request.user.is_staff:
+                return OrderBackendUpdateSerializer
+            else:
+                return OrderUpdateSerializer
 
     @action(detail=False, methods=['post'], permission_classes=[MiddlewarePermission])
     def checkout(self, request):
         checkout = CheckoutSerializer(data=request.data, context={'request': request})
         if checkout.is_valid(raise_exception=True):
             data = checkout.data
-            # data.update({
-            #     'total': checkout.get_total_price(checkout.data),
-            #     'product': checkout.variant.product.title,
-            #     'variant': checkout.variant.name
-            # })
             return Response({
                 'result': data
             })

@@ -5,6 +5,7 @@ from django.db import transaction
 
 from decimal import Decimal
 
+from .import OrderStatus, PayStatus
 from .models import Order
 from app.authorization.models import CustomUser
 from app.product.models import ProductVariant, Product
@@ -177,25 +178,17 @@ class OrderCreateSerializer(CheckoutSerializer):
             adult_price=adult_price,
             child_price=child_price,
             total=total,
-            product=product
-            variant=variant
-            category=category
-            sku=sku
-            customer=customer
+            product=product,
+            variant=variant,
+            category=category,
+            sku=sku,
+            customer=customer,
             customer_id=customer_id
         )
 
-    @transaction.atomic
-    def update(self, instance, validated_data):
-        if instance.operator is None:
-            instance.operator = self.context['request'].user
-        return super().update(instance, validated_data)
-
-class OrderUpdateSerializer(serializers.ModelSerializer):
+class OrderUpdateSerializer(CheckoutSerializer):
 
     id = serializers.ReadOnlyField()
-
-    orderID = serializers.ReadOnlyField()
 
     day = serializers.ReadOnlyField()
 
@@ -205,44 +198,84 @@ class OrderUpdateSerializer(serializers.ModelSerializer):
 
     child_quantity = serializers.ReadOnlyField()
 
+    productID = serializers.ReadOnlyField()
+
+    variantID = serializers.ReadOnlyField()
+
+    orderID = serializers.ReadOnlyField()
+
+    confirmID = serializers.ReadOnlyField()
+
+    order_status = serializers.ReadOnlyField()
+
+    pay_status = serializers.ReadOnlyField()
+
+    create_at = serializers.ReadOnlyField()
+
+    change_at = serializers.ReadOnlyField()
+
     adult_price = serializers.ReadOnlyField()
 
     child_price = serializers.ReadOnlyField()
 
     total = serializers.ReadOnlyField()
 
-    variant_id = serializers.ReadOnlyField()
+    remark = serializers.ReadOnlyField()
 
-    confirmID = serializers.CharField(required=False, allow_null=True, max_length=64)
+    product = serializers.ReadOnlyField()
 
-    order_status = serializers.IntegerField(required=False)
+    variant = serializers.ReadOnlyField()
 
-    pay_status = serializers.IntegerField(required=False)
+    category = serializers.ReadOnlyField()
 
-    guest_info = serializers.CharField(required=False, allow_null=True)
+    sku = serializers.ReadOnlyField()
 
-    customer_contact = serializers.CharField(required=False, allow_null=True)
+    customer = serializers.ReadOnlyField()
 
-    guest_remark = serializers.CharField(required=False, allow_null=True)
+    customer_id = serializers.ReadOnlyField()
 
-    variant = serializers.StringRelatedField(read_only=True)
+    operator = serializers.ReadOnlyField()
 
-    customer = serializers.StringRelatedField(read_only=True)
+    operator_id = serializers.ReadOnlyField()
 
-    operator = serializers.StringRelatedField(read_only=True)
+    is_delete = serializers.ReadOnlyField()
 
-    product = serializers.SerializerMethodField()
+    order_from = serializers.ReadOnlyField()
+
+    guest_info = serializers.CharField(required=False, allow_null=True, allow_blank=True)
+
+    guest_contact = serializers.CharField(required=False, allow_null=True, allow_blank=True)
+
+    guest_remark = serializers.CharField(required=False, allow_null=True, allow_blank=True)
 
     class Meta:
         model = Order 
         fields = '__all__'
 
-    def get_product(self, obj):
-        if obj.variant:
-            return obj.variant.product.title
-            
+class OrderBackendUpdateSerializer(OrderUpdateSerializer):
+    
+    guest_info = serializers.ReadOnlyField()
+
+    guest_contact = serializers.ReadOnlyField()
+
+    guest_remark = serializers.ReadOnlyField()
+
+    remark = serializers.CharField(required=False, allow_null=True, allow_blank=True)
+
+    confirmID = serializers.CharField(required=False, allow_null=True, allow_blank=True)
+
+    order_status = serializers.IntegerField(required=False, allow_null=False)
+
+    pay_status = serializers.IntegerField(required=False, allow_null=False)
+
+    class Meta:
+        model = Order 
+        fields = '__all__'
+
     @transaction.atomic
     def update(self, instance, validated_data):
-        if instance.operator is None:
-            instance.operator = self.context['request'].user
+        if instance.operator is None or instance.operator_id is None:
+            if self.get_user().is_staff:
+                instance.operator = self.get_user().username
+                instance.operator_id = self.get_user().id
         return super().update(instance, validated_data)
