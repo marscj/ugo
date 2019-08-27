@@ -202,12 +202,6 @@ class OrderUpdateSerializer(CheckoutSerializer):
 
     orderID = serializers.ReadOnlyField()
 
-    confirmID = serializers.ReadOnlyField()
-
-    order_status = serializers.ReadOnlyField()
-
-    pay_status = serializers.ReadOnlyField()
-
     create_at = serializers.ReadOnlyField()
 
     change_at = serializers.ReadOnlyField()
@@ -217,8 +211,6 @@ class OrderUpdateSerializer(CheckoutSerializer):
     child_price = serializers.ReadOnlyField()
 
     total = serializers.ReadOnlyField()
-
-    remark = serializers.ReadOnlyField()
 
     product = serializers.ReadOnlyField()
 
@@ -238,25 +230,11 @@ class OrderUpdateSerializer(CheckoutSerializer):
 
     is_delete = serializers.ReadOnlyField()
 
-    order_from = serializers.ReadOnlyField()
-
     guest_info = serializers.CharField(required=False, allow_null=True, allow_blank=True)
 
     guest_contact = serializers.CharField(required=False, allow_null=True, allow_blank=True)
 
     guest_remark = serializers.CharField(required=False, allow_null=True, allow_blank=True)
-
-    class Meta:
-        model = Order 
-        fields = '__all__'
-
-class OrderBackendUpdateSerializer(OrderUpdateSerializer):
-    
-    guest_info = serializers.ReadOnlyField()
-
-    guest_contact = serializers.ReadOnlyField()
-
-    guest_remark = serializers.ReadOnlyField()
 
     remark = serializers.CharField(required=False, allow_null=True, allow_blank=True)
 
@@ -265,6 +243,8 @@ class OrderBackendUpdateSerializer(OrderUpdateSerializer):
     order_status = serializers.IntegerField(required=False, allow_null=False)
 
     pay_status = serializers.IntegerField(required=False, allow_null=False)
+
+    order_from = serializers.CharField(default='ugodubai')
 
     class Meta:
         model = Order 

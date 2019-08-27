@@ -7,15 +7,15 @@ import django_filters
 from middleware.viewsets import CustomModelViewSet
 from middleware.permissions import MiddlewarePermission
 from .models import Order
-from .serializers import OrderCreateSerializer, OrderUpdateSerializer, OrderBackendUpdateSerializer, CheckoutSerializer
+from .serializers import OrderCreateSerializer, OrderUpdateSerializer, CheckoutSerializer
 from app.product.models import ProductVariant
 from app.authorization.models import CustomUser
 
 class OrderFilter(django_filters.FilterSet):
+    productID = django_filters.NumberFilter('productID')
+    variantID = django_filters.NumberFilter('variantID')
     customer_id = django_filters.NumberFilter('customer_id')
     operator_id = django_filters.NumberFilter('operator_id')
-    product_id = django_filters.NumberFilter('product_id')
-    variant_id = django_filters.NumberFilter('variant_id')
     order_status = django_filters.NumberFilter('order_status')
     pay_status = django_filters.NumberFilter('pay_status')
     start_day = django_filters.DateFilter('day',lookup_expr=('gte'),) 
@@ -28,7 +28,7 @@ class OrderView(CustomModelViewSet):
 
     permissionId = Order.__name__
  
-    filterset_fields = ('day', 'order_status', 'pay_status', 'customer_id', 'operator_id', 'product_id' , 'variant_id')
+    filterset_fields = ('day', 'order_status', 'pay_status', 'productID', 'variantID', 'customer_id' , 'operator_id')
     filter_class = OrderFilter
 
     search_fields = (
@@ -44,10 +44,7 @@ class OrderView(CustomModelViewSet):
         if self.action == 'create':
             return OrderCreateSerializer
         else:
-            if self.request.user.is_staff:
-                return OrderBackendUpdateSerializer
-            else:
-                return OrderUpdateSerializer
+            return OrderUpdateSerializer
 
     @action(detail=False, methods=['post'], permission_classes=[MiddlewarePermission])
     def checkout(self, request):
