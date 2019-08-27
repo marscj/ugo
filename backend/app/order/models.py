@@ -78,7 +78,7 @@ class Order(models.Model):
     category = models.IntegerField(default=Category.Food, choices=Category.CHOISE)
 
     #sku
-    sku = models.CharField(blank=True, null=True, max_length=32, unique=True)
+    sku = models.CharField(blank=True, null=True, max_length=32)
 
     #客户username
     customer = models.CharField(blank=True, null=True, max_length=150)

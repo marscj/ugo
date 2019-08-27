@@ -7,7 +7,7 @@ from app.source.models import ProductImage
 from app.source.serializers import ProductImageSerializer
 from app.authorization.models import CustomUser
 
-class ProductVariantSerializer(serializers.ModelSerializer):
+class VariantSerializer(serializers.ModelSerializer):
 
     id = serializers.ReadOnlyField()
 
@@ -73,6 +73,54 @@ class ProductVariantSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({'product_id': 'Not Found.'})
 
         return super().validate(data)
+
+class ProductVariantSerializer(serializers.ModelSerializer):
+
+    status = serializers.ReadOnlyField()
+
+    variantID = serializers.ReadOnlyField()
+ 
+    name = serializers.ReadOnlyField()
+
+    sku = serializers.ReadOnlyField()
+
+    adult_status = serializers.ReadOnlyField()
+
+    adult_desc = serializers.ReadOnlyField()
+
+    adult_quantity = serializers.HiddenField(default=0)
+
+    child_status = serializers.ReadOnlyField()
+
+    child_desc = serializers.ReadOnlyField()
+
+    child_quantity = serializers.HiddenField(default=0)
+
+    sort_by = serializers.ReadOnlyField()
+
+    adult_price = serializers.SerializerMethodField()
+
+    child_price = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ProductVariant
+        fields = '__all__'
+
+    def get_user(self):
+        return self.context['request'].user
+
+    def get_price_lelve(self):
+        if isinstance(self.get_user(), CustomUser):
+            return self.get_user().price_level - 1
+        else:
+            return 4
+
+    def get_adult_price(self, obj):
+        return obj.adult_price[self.get_price_lelve()]
+
+    def get_child_price(self, obj):
+        return obj.child_price[self.get_price_lelve()]
+
 
 class ProductListSerializer(serializers.ModelSerializer):
 

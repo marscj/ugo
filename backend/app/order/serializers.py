@@ -22,8 +22,6 @@ class CheckoutSerializer(serializers.Serializer):
 
     child_quantity = serializers.IntegerField(default=0, min_value=0, max_value=9999)
 
-    productID = serializers.IntegerField()
-
     variantID = serializers.IntegerField()
 
     adult_price = serializers.SerializerMethodField()
@@ -54,7 +52,7 @@ class CheckoutSerializer(serializers.Serializer):
         return ProductVariant.objects.get(variantID=validate_data['variantID'])
 
     def get_product(self, validate_data):
-        return Product.objects.get(productID=validate_data['productID'])
+        return ProductVariant.objects.get(variantID=validate_data['variantID']).product
 
     def validate_day(self, value):
         return value
@@ -69,20 +67,11 @@ class CheckoutSerializer(serializers.Serializer):
     
     def validate_child_quantity(self, value):
         return value
-    
-    def validate_productID(self, value):
-        try:
-            product = Product.objects.get(productID=value)
-            if not product.status:
-                raise serializers.ValidationError('此产品已下架')
-            return value
-        except Product.DoesNotExist:
-            raise serializers.ValidationError('产品不存在')
 
     def validate_variantID(self, value):
         try:
             variant = ProductVariant.objects.get(variantID=value)
-            if not variant.status:
+            if not variant.status or not variant.product.status:
                 raise serializers.ValidationError('此产品已下架')
             return value
         except ProductVariant.DoesNotExist:
@@ -123,6 +112,8 @@ class OrderCreateSerializer(CheckoutSerializer):
     remark = serializers.ReadOnlyField()
 
     product = serializers.ReadOnlyField()
+
+    productID = serializers.ReadOnlyField()
 
     variant = serializers.ReadOnlyField()
 
@@ -166,6 +157,7 @@ class OrderCreateSerializer(CheckoutSerializer):
         child_price = self.get_child_price(validate_data)
         total = self.get_total(validate_data)
         product = self.get_product(validate_data)
+        productID = product.productID
         variant = self.get_variant(validate_data)
         customer=self.get_user().username
         customer_id=self.get_user().id
@@ -177,6 +169,7 @@ class OrderCreateSerializer(CheckoutSerializer):
             child_price=child_price,
             total=total,
             product=product.title,
+            productID=productID,
             variant=variant.name,
             category=product.category,
             sku=variant.sku,

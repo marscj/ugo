@@ -5,9 +5,9 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 
 from middleware.viewsets import CustomModelViewSet
-from middleware.permissions import BackendOrSafePermission
+from middleware.permissions import BackendOrSafePermission, BackendPermission
 from .models import Category, Product, ProductVariant
-from .serializers import ProductListSerializer, ProductSerializer, ProductVariantSerializer
+from .serializers import ProductListSerializer, ProductSerializer, ProductVariantSerializer, VariantSerializer
 
 class ProductView(CustomModelViewSet):
     queryset = Product.objects.all().cache()
@@ -61,10 +61,10 @@ class ProductView(CustomModelViewSet):
 
         return Response({'result': 'ok'})
  
-class ProductVariantView(CustomModelViewSet): 
+class VariantView(CustomModelViewSet): 
     queryset = ProductVariant.objects.all().cache()
-    serializer_class = ProductVariantSerializer
-    permission_classes = [BackendOrSafePermission]
+    serializer_class = VariantSerializer
+    permission_classes = [BackendPermission]
 
     filterset_fields = ('product__category', 'status')
     search_fields = ('variantID', 'sku', 'name', 'product__title')
@@ -72,7 +72,7 @@ class ProductVariantView(CustomModelViewSet):
     
     permissionId = Product.__name__
 
-    @action(methods=['delete'], detail=False, permission_classes=[BackendOrSafePermission])
+    @action(methods=['delete'], detail=False, permission_classes=[BackendPermission])
     def delete(self, request,  *args, **kwargs):
         ids = request.query_params.get('ids', None)
         
@@ -89,7 +89,7 @@ class ProductVariantView(CustomModelViewSet):
 
         return Response({'result': 'ok'})
 
-    @action(methods=['post'], detail=False, permission_classes=[BackendOrSafePermission])
+    @action(methods=['post'], detail=False, permission_classes=[BackendPermission])
     def enable(self, request,  *args, **kwargs):
         ids = request.query_params.get('ids', None)
         enable = request.query_params.get('enable', 0)
