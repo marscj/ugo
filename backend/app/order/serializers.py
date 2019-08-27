@@ -43,18 +43,18 @@ class CheckoutSerializer(serializers.Serializer):
             return 4
 
     def get_adult_price(self, obj):
-        variant = self.get_variant(obj['variantID'])
+        variant = self.get_variant(obj)
         return variant.adult_price[self.get_price_lelve()] * obj['adult_quantity']
 
     def get_child_price(self, obj):
-        variant = self.get_variant(obj['variantID'])
+        variant = self.get_variant(obj)
         return variant.child_price[self.get_price_lelve()] * obj['child_quantity']
 
-    def get_variant(self, value):
-        return ProductVariant.objects.get(variantID=value)
+    def get_variant(self, validate_data):
+        return ProductVariant.objects.get(variantID=validate_data['variantID'])
 
-    def get_product(self, value):
-        return Product.objects.get(productID=value)
+    def get_product(self, validate_data):
+        return Product.objects.get(productID=validate_data['productID'])
 
     def validate_day(self, value):
         return value
@@ -152,7 +152,7 @@ class OrderCreateSerializer(CheckoutSerializer):
         model = Order 
         fields = '__all__'
 
-    def get_total(self, validated_data):
+    def get_total(self, validate_data):
         return Decimal(self.get_adult_price(validate_data)) + Decimal(self.get_child_price(validate_data))
 
     def payment(self, total):
@@ -161,27 +161,25 @@ class OrderCreateSerializer(CheckoutSerializer):
         customer.save()
 
     @transaction.atomic
-    def create(self, validated_data):
+    def create(self, validate_data):
         adult_price = self.get_adult_price(validate_data)
         child_price = self.get_child_price(validate_data)
-        total = self.get_total(validated_data)
-        product = self.get_product(validated_data).title
-        variant = self.get_variant(validated_data).name
-        category = product.category
-        sku = variant.sku
+        total = self.get_total(validate_data)
+        product = self.get_product(validate_data)
+        variant = self.get_variant(validate_data)
         customer=self.get_user().username
         customer_id=self.get_user().id
 
         self.payment(total)
 
-        return Order.objects.create(**validated_data,
+        return Order.objects.create(**validate_data,
             adult_price=adult_price,
             child_price=child_price,
             total=total,
-            product=product,
-            variant=variant,
-            category=category,
-            sku=sku,
+            product=product.title,
+            variant=variant.name,
+            category=product.category,
+            sku=variant.sku,
             customer=customer,
             customer_id=customer_id
         )
@@ -273,9 +271,9 @@ class OrderBackendUpdateSerializer(OrderUpdateSerializer):
         fields = '__all__'
 
     @transaction.atomic
-    def update(self, instance, validated_data):
+    def update(self, instance, validate_data):
         if instance.operator is None or instance.operator_id is None:
             if self.get_user().is_staff:
                 instance.operator = self.get_user().username
                 instance.operator_id = self.get_user().id
-        return super().update(instance, validated_data)
+        return super().update(instance, validate_data)
