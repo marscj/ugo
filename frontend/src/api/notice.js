@@ -3,7 +3,7 @@ import { axios } from '@/utils/request'
 
 export function getNoticeList (parameter) {
   return axios({
-    url: api.system_notice,
+    url: api.notice,
     method: 'get',
     params: parameter
   })
@@ -11,14 +11,14 @@ export function getNoticeList (parameter) {
 
 export function getNotice (pk) {
   return axios({
-    url: api.system_notice + `${pk}/`,
+    url: api.notice + `${pk}/`,
     method: 'get',
   })
 }
 
 export function updateNotice (pk, data) {
   return axios({
-    url: api.system_notice + `${pk}/`,
+    url: api.notice + `${pk}/`,
     method: 'put',
     data: data
   })
@@ -26,7 +26,7 @@ export function updateNotice (pk, data) {
 
 export function createNotice (data) {
   return axios({
-    url: api.system_notice,
+    url: api.notice,
     method: 'post',
     data: data
   })
@@ -34,22 +34,7 @@ export function createNotice (data) {
 
 export function deleteNotice (pk) {
   return axios({
-    url: api.system_notice + `${pk}/`,
-    method: 'delete',
-  })
-}
-
-export function getFrontNoticeList (parameter) {
-  return axios({
-    url: api.notice,
-    method: 'get',
-    params: parameter
-  })
-}
-
-export function getFrontNotice (pk) {
-  return axios({
     url: api.notice + `${pk}/`,
-    method: 'get',
+    method: 'delete',
   })
 }

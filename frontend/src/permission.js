@@ -17,7 +17,7 @@ NProgress.configure({
   showSpinner: false
 }) // NProgress Configuration
 
-const whiteList = ['index', 'UserLogin', 'AdminLogin', 'Home', 'HomePage', 'Ticket', 'TicketDetail', 'Food', 'FoodDetail', 'Trip', 'TripDetail', 'Car', 'CarDetail', 'Hotel', 'HotelDetail', 'Gift', 'GiftDetail']
+const whiteList = ['index', 'UserLogin', 'AdminLogin', 'Home', 'HomePage', 'Ticket', 'TicketDetail', 'Food', 'FoodDetail', 'Trip', 'TripDetail', 'Car', 'CarDetail', 'Hotel', 'HotelDetail', 'Gift', 'GiftDetail', 'Notice', 'NoticeDetail']
 
 // router.beforeEach((to, from, next) => {
 //   NProgress.start() // start progress bar

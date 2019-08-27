@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { getFrontNoticeList } from "@/api/notice";
+import { getNoticeList } from "@/api/notice";
 
 export default {
   loading: false,
@@ -46,7 +46,7 @@ export default {
   methods: {
     fetch() {
       this.loading = true;
-      getFrontNoticeList({
+      getNoticeList({
         pageNo: this.pageNo,
         pageSize: this.pageSize
       })
