@@ -69,10 +69,10 @@ class Order(models.Model):
     variant = models.CharField(blank=True, null=True, max_length=64)
 
     #主产品ID
-    product_id = models.IntegerField(blank=True, null=True)
+    productID = models.IntegerField(blank=True, null=True)
 
     #子产品ID
-    variant_id = models.IntegerField(blank=True, null=True)
+    variantID = models.IntegerField(blank=True, null=True)
 
     #产品分类
     category = models.IntegerField(default=Category.Food, choices=Category.CHOISE)
@@ -94,6 +94,9 @@ class Order(models.Model):
 
     #逻辑删除
     is_delete = models.BooleanField(default=False)
+
+    #来自于
+    order_from = models.CharField(default='ugodubai', blank=True, null=True, max_length=64)
 
     class Meta:
         db_table = 'order'

@@ -7,12 +7,15 @@ import django_filters
 from middleware.viewsets import CustomModelViewSet
 from middleware.permissions import MiddlewarePermission
 from .models import Order
-from .serializers import OrderCreateSerializer, OrderUpdateSerializer, CheckoutOrderSerializer
+from .serializers import OrderCreateSerializer, OrderUpdateSerializer, CheckoutSerializer
 from app.product.models import ProductVariant
 from app.authorization.models import CustomUser
 
 class OrderFilter(django_filters.FilterSet):
-    customer_id = django_filters.NumberFilter('customer__id')
+    customer_id = django_filters.NumberFilter('customer_id')
+    operator_id = django_filters.NumberFilter('operator_id')
+    product_id = django_filters.NumberFilter('product_id')
+    variant_id = django_filters.NumberFilter('variant_id')
     order_status = django_filters.NumberFilter('order_status')
     pay_status = django_filters.NumberFilter('pay_status')
     start_day = django_filters.DateFilter('day',lookup_expr=('gte'),) 
@@ -43,16 +46,16 @@ class OrderView(CustomModelViewSet):
         else:
             return OrderUpdateSerializer
 
-    @action(detail=False, methods=['post'])
+    @action(detail=False, methods=['post'], permission_classes=[MiddlewarePermission])
     def checkout(self, request):
-        checkout = CheckoutOrderSerializer(data=request.data, context={'request': request})
+        checkout = CheckoutSerializer(data=request.data, context={'request': request})
         if checkout.is_valid(raise_exception=True):
             data = checkout.data
-            data.update({
-                'total': checkout.get_total_price(checkout.data),
-                'product': checkout.variant.product.title,
-                'variant': checkout.variant.name
-            })
+            # data.update({
+            #     'total': checkout.get_total_price(checkout.data),
+            #     'product': checkout.variant.product.title,
+            #     'variant': checkout.variant.name
+            # })
             return Response({
                 'result': data
             })

@@ -7,148 +7,183 @@ from decimal import Decimal
 
 from .models import Order
 from app.authorization.models import CustomUser
-from app.product.models import ProductVariant
+from app.product.models import ProductVariant, Product
 from app.product.serializers import ProductVariantSerializer
 from app.authorization.serializers import UserSimpleSerializer, UserSerializer
 
-class CheckoutOrderSerializer(serializers.ModelSerializer):
-    
+class CheckoutSerializer(serializers.Serializer):
+
     day = serializers.DateField()
 
     time = serializers.TimeField()
 
-    adult_quantity = serializers.IntegerField(min_value=0, max_value=9999)
+    adult_quantity = serializers.IntegerField(default=0, min_value=0, max_value=9999)
 
-    child_quantity = serializers.IntegerField(min_value=0, max_value=9999)
+    child_quantity = serializers.IntegerField(default=0, min_value=0, max_value=9999)
 
-    adult_price = serializers.DecimalField(max_digits=10, decimal_places=2, min_value=0.0)
+    productID = serializers.IntegerField()
 
-    child_price = serializers.DecimalField(max_digits=10, decimal_places=2, min_value=0.0)
+    variantID = serializers.IntegerField()
+
+    adult_price = serializers.SerializerMethodField()
+
+    child_price = serializers.SerializerMethodField()
+
+    def get_user(self):
+        return self.context['request'].user
+
+    def get_balance(self):
+        return self.get_user().balance
+
+    def get_price_lelve(self):
+        if isinstance(self.get_user(), CustomUser):
+            return self.get_user().price_level - 1
+        else:
+            return 4
+
+    def get_adult_price(self, obj):
+        variant = self.get_variant(obj['variantID'])
+        return variant.adult_price[self.get_price_lelve()] * obj['adult_quantity']
+
+    def get_child_price(self, obj):
+        variant = self.get_variant(obj['variantID'])
+        return variant.child_price[self.get_price_lelve()] * obj['child_quantity']
+
+    def get_variant(self, value):
+        return ProductVariant.objects.get(variantID=value)
+
+    def get_product(self, value):
+        return Product.objects.get(productID=value)
+
+    def validate_day(self, value):
+        return value
+    
+    def validate_time(self, value):
+        return value
+ 
+    def validate_adult_quantity(self, value):
+        if value <= 0:
+            raise serializers.ValidationError('成人数量或者儿童数量至少为1')
+        return value
+    
+    def validate_child_quantity(self, value):
+        return value
+    
+    def validate_productID(self, value):
+        try:
+            product = Product.objects.get(productID=value)
+            if not product.status:
+                raise serializers.ValidationError('此产品已下架')
+            return value
+        except Product.DoesNotExist:
+            raise serializers.ValidationError('产品不存在')
+
+    def validate_variantID(self, value):
+        try:
+            variant = ProductVariant.objects.get(variantID=value)
+            if not variant.status:
+                raise serializers.ValidationError('此产品已下架')
+            return value
+        except ProductVariant.DoesNotExist:
+            raise serializers.ValidationError('产品不存在')
+
+    def validate(self, validate_data):
+        balance = self.get_balance()
+        adult_price = self.get_adult_price(validate_data)
+        child_price = self.get_child_price(validate_data)
+
+        if balance < adult_price + child_price:
+            raise serializers.ValidationError({'customer': '账户余额不足'})
+
+        return validate_data
+
+class OrderCreateSerializer(CheckoutSerializer):
+
+    id = serializers.ReadOnlyField()
+
+    orderID = serializers.ReadOnlyField()
+
+    confirmID = serializers.ReadOnlyField()
+
+    order_status = serializers.ReadOnlyField()
+
+    pay_status = serializers.ReadOnlyField()
+
+    create_at = serializers.ReadOnlyField()
+
+    change_at = serializers.ReadOnlyField()
+
+    adult_price = serializers.ReadOnlyField()
+
+    child_price = serializers.ReadOnlyField()
 
     total = serializers.ReadOnlyField()
 
-    variant_id = serializers.IntegerField()
+    remark = serializers.ReadOnlyField()
+
+    product = serializers.ReadOnlyField()
+
+    variant = serializers.ReadOnlyField()
+
+    category = serializers.ReadOnlyField()
+
+    sku = serializers.ReadOnlyField()
+
+    customer = serializers.ReadOnlyField()
+
+    customer_id = serializers.ReadOnlyField()
+
+    operator = serializers.ReadOnlyField()
+
+    operator_id = serializers.ReadOnlyField()
+
+    is_delete = serializers.ReadOnlyField()
+
+    guest_info = serializers.CharField(required=False, allow_null=True, allow_blank=True)
+
+    guest_contact = serializers.CharField(required=False, allow_null=True, allow_blank=True)
+
+    guest_remark = serializers.CharField(required=False, allow_null=True, allow_blank=True)
+
+    order_from = serializers.CharField(default='ugodubai')
 
     class Meta:
         model = Order 
         fields = '__all__'
 
-    def get_current_user(self):
-        return self.context['request'].user
+    def get_total(self, validated_data):
+        return Decimal(self.get_adult_price(validate_data)) + Decimal(self.get_child_price(validate_data))
 
-    def get_user_price_lelve(self):
-        if isinstance(self.context['request'].user, CustomUser):
-            return self.context['request'].user.price_level - 1
-        else:
-            return 4
-        
-    def _get_adult_price(self, variant, quantity):
-        return quantity * variant.adult_price[self.get_user_price_lelve()]
-
-    def _get_child_price(self, variant, quantity):
-        return quantity * variant.child_price[self.get_user_price_lelve()]
-
-    def get_total_price(self, validated_data):
-        if self.variant is not None:
-            adult_price = self._get_adult_price(self.variant, validated_data.get('adult_quantity', 0.0))
-            child_price = self._get_child_price(self.variant, validated_data.get('child_quantity', 0.0))
-            return Decimal(adult_price) + Decimal(child_price)
-
-    def _get_variant(self, variant_id):
-        try:
-            self.variant = ProductVariant.objects.get(pk=variant_id)
-            if not self.variant.status or not self.variant.product.status:
-                raise serializers.ValidationError({'variant': '此产品已下架'})
-            return self.variant
-        except ProductVariant.DoesNotExist:
-            raise serializers.ValidationError({'variant': '产品不存在'})
-
-    def validate_quantity(self, adult_quantity, child_quantity):
-        if adult_quantity == 0 and child_quantity == 0:
-            raise serializers.ValidationError({'adult_quantity': '成人数量或者儿童数量至少为1', 'child_quantity': '成人数量或者儿童数量至少为1'})
-
-    def validate_price(self, adult_price, child_price, _adult_price, _child_price):
-        if adult_price != _adult_price:
-            raise serializers.ValidationError({'adult_price': '价格已发生变化'})
-
-        if child_price != _child_price:
-            raise serializers.ValidationError({'adult_price': '价格已发生变化'})
-
-    def validate_balance(self, adult_price, child_price):
-        customer = self.get_current_user()
-
-        if isinstance(customer, CustomUser):
-            if customer.balance < adult_price + child_price: 
-                raise serializers.ValidationError({'customer': '账户余额不足'})
-
-    def validate_customer(self):
-        customer = self.get_current_user()
-
-        if isinstance(customer, AnonymousUser):
-            raise serializers.ValidationError({'customer': '请登陆用户'})
-
-    def validate(self, data):
-        adult_quantity = data.get('adult_quantity', 0)
-        child_quantity = data.get('child_quantity', 0)
-        adult_price = data.get('adult_price', 0.0)
-        child_price = data.get('child_price', 0.0)
-        variant_id = data.get('variant_id')
-
-        # self.validate_customer()
-        self.validate_quantity(adult_quantity, child_quantity)
-
-        variant = self._get_variant(variant_id)
-        _adult_price = self._get_adult_price(variant, adult_quantity)
-        _child_price = self._get_child_price(variant, child_quantity)
-
-        self.validate_balance(_adult_price, _child_price)
-        self.validate_price(adult_price, child_price, _adult_price, _child_price)
-
-        return super().validate(data)
-
-class OrderCreateSerializer(CheckoutOrderSerializer):
-
-    id = serializers.IntegerField(read_only=True)
-
-    orderID = serializers.CharField(read_only=True)
-
-    confirmID = serializers.CharField(required=False, allow_null=True, max_length=64)
-
-    order_status = serializers.IntegerField(required=False)
-
-    pay_status = serializers.IntegerField(required=False)
-
-    guest_info = serializers.CharField(required=False, allow_null=True)
-
-    guest_contact = serializers.CharField(required=False, allow_null=True)
-
-    guest_remark = serializers.CharField(required=False, allow_null=True)
-
-    variant = serializers.StringRelatedField(read_only=True)
-
-    customer = serializers.StringRelatedField(read_only=True)
-
-    operator = serializers.StringRelatedField(read_only=True)
-
-    product = serializers.SerializerMethodField()
-
-    class Meta:
-        model = Order 
-        fields = '__all__'
-
-    def get_product(self, obj):
-        if obj.variant:
-            return obj.variant.product.title
+    def payment(self, total):
+        customer = self.get_user()
+        customer.balance -= total
+        customer.save()
 
     @transaction.atomic
     def create(self, validated_data):
-        customer = self.get_current_user()
-        total = self.get_total_price(validated_data)
+        adult_price = self.get_adult_price(validate_data)
+        child_price = self.get_child_price(validate_data)
+        total = self.get_total(validated_data)
+        product = self.get_product(validated_data).title
+        variant = self.get_variant(validated_data).name
+        category = product.category
+        sku = variant.sku
+        customer=self.get_user().username
+        customer_id=self.get_user().id
 
-        customer.balance -= total
-        customer.save()
- 
-        return Order.objects.create(**validated_data, total=total, customer=customer)
+        self.payment(total)
+
+        return Order.objects.create(**validated_data,
+            adult_price=adult_price,
+            child_price=child_price,
+            total=total,
+            product=product
+            variant=variant
+            category=category
+            sku=sku
+            customer=customer
+            customer_id=customer_id
+        )
 
     @transaction.atomic
     def update(self, instance, validated_data):
