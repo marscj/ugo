@@ -22,11 +22,17 @@ class CheckoutSerializer(serializers.Serializer):
 
     child_quantity = serializers.IntegerField(default=0, min_value=0, max_value=9999)
 
-    variantID = serializers.IntegerField()
+    variantID = serializers.CharField(max_length=16)
 
     adult_price = serializers.SerializerMethodField()
 
     child_price = serializers.SerializerMethodField()
+
+    total = serializers.SerializerMethodField()
+
+    product = serializers.SerializerMethodField(method_name='get_product_name')
+
+    variant = serializers.SerializerMethodField(method_name='get_variant_name')
 
     def get_user(self):
         return self.context['request'].user
@@ -47,6 +53,15 @@ class CheckoutSerializer(serializers.Serializer):
     def get_child_price(self, obj):
         variant = self.get_variant(obj)
         return variant.child_price[self.get_price_lelve()] * obj['child_quantity']
+
+    def get_total(self, obj):
+        return Decimal(self.get_adult_price(obj)) + Decimal(self.get_child_price(obj))
+
+    def get_product_name(self, obj):
+        return self.get_product(obj).title
+
+    def get_variant_name(self, obj):
+        return self.get_variant(obj).name
 
     def get_variant(self, validate_data):
         return ProductVariant.objects.get(variantID=validate_data['variantID'])
@@ -142,9 +157,6 @@ class OrderCreateSerializer(CheckoutSerializer):
     class Meta:
         model = Order 
         fields = '__all__'
-
-    def get_total(self, validate_data):
-        return Decimal(self.get_adult_price(validate_data)) + Decimal(self.get_child_price(validate_data))
 
     def payment(self, total):
         customer = self.get_user()

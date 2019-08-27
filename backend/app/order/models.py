@@ -69,10 +69,10 @@ class Order(models.Model):
     variant = models.CharField(blank=True, null=True, max_length=64)
 
     #主产品ID
-    productID = models.IntegerField(blank=True, null=True)
+    productID = models.CharField(blank=True, null=True, max_length=16)
 
     #子产品ID
-    variantID = models.IntegerField(blank=True, null=True)
+    variantID = models.CharField(blank=True, null=True, max_length=16)
 
     #产品分类
     category = models.IntegerField(default=Category.Food, choices=Category.CHOISE)

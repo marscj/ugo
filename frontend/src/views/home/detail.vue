@@ -236,10 +236,8 @@ export default {
         day: this.day.format("YYYY-MM-DD"),
         time: this.time.format("HH:mm:ss"),
         adult_quantity: this.adult_quantity,
-        adult_price: this.adult_price,
         child_quantity: this.child_quantity,
-        child_price: this.child_price,
-        variant_id: this.variant.id,
+        variantID: this.variant.variantID,
       }).then(res => {
         const { result } = res
         this.$router.push({name: 'Checkout', query: result})
