@@ -31,11 +31,14 @@
             <a-form-item label="Guest Contact(客户联系方式)">
               <a-textarea v-model="form.guest_contact" disabled></a-textarea>
             </a-form-item>
+            <a-form-item label="Guest Remark">
+              <a-textarea v-model="form.guest_remark" disabled></a-textarea>
+            </a-form-item>
             <a-form-item label="ConfirmID">
               <a-input v-model="form.confirmID"></a-input>
             </a-form-item>
-            <a-form-item label="Guest Remark">
-              <a-textarea v-model="form.guest_remark"></a-textarea>
+            <a-form-item label="Order Remark">
+              <a-input v-model="form.remark"></a-input>
             </a-form-item>
           </a-card>
           <div style="position:relative; margin-top:20px">
@@ -207,6 +210,7 @@ export default {
     },
     handleSubmit() {
       if (this.isEdit) {
+        console.log(this.form, '==========')
         this.updateForm(this.form);
       } else {
         this.createForm(this.form);

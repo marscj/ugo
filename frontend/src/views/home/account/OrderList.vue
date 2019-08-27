@@ -131,10 +131,10 @@ export default {
         pay_status: undefined,
         start_day: undefined,
         end_day: undefined,
-        variant__name: undefined,
-        variant__product__title: undefined,
-        customer__username: undefined,
-        operator__username: undefined,
+        variant: undefined,
+        product: undefined,
+        customer: undefined,
+        operator: undefined,
         customer_id: this.$store.getters.userInfo.id
       },
       columns: [

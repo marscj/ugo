@@ -50,12 +50,15 @@
       :data="loadData"
       bordered
       fixed
-      :scroll="{ x: 3450}"
+      :scroll="{ x: 3700}"
     >
       <span slot="guest_remark" slot-scope="text" style="word-warp:break-word;word-break:break-all">
         <ellipsis :length="200" tooltip>{{ text }}</ellipsis>
       </span>
       <span slot="variant" slot-scope="text" style="word-warp:break-word;word-break:break-all">
+        <ellipsis :length="60" tooltip>{{ text }}</ellipsis>
+      </span>
+      <span slot="product" slot-scope="text" style="word-warp:break-word;word-break:break-all">
         <ellipsis :length="60" tooltip>{{ text }}</ellipsis>
       </span>
       <span
@@ -151,10 +154,10 @@ export default {
         pay_status: undefined,
         start_day: undefined,
         end_day: undefined,
-        variant__name: undefined,
-        variant__product__title: undefined,
-        customer__username: undefined,
-        operator__username: undefined
+        variant: undefined,
+        product: undefined,
+        customer: undefined,
+        operator: undefined
       },
       // 表头
       columns: [
@@ -166,20 +169,17 @@ export default {
           width: 100
         },
         {
-          key: "1",
           title: "OrderID",
           dataIndex: "orderID",
           fixed: "left",
           width: 150
         },
         {
-          key: "2",
           title: "ConfirmID",
           dataIndex: "confirmID",
           width: 150
         },
         {
-          key: "3",
           title: "OrderStatus",
           dataIndex: "order_status",
           width: 150,
@@ -188,7 +188,6 @@ export default {
           }
         },
         {
-          key: "17",
           title: "PayStatus",
           dataIndex: "pay_status",
           width: 150,
@@ -197,63 +196,59 @@ export default {
           }
         },
         {
-          key: "4",
+          title: "Product",
+          dataIndex: "product",
+          scopedSlots: { customRender: "product" },
+          width: 250
+        },
+        {
           title: "Variant",
           dataIndex: "variant",
           scopedSlots: { customRender: "variant" },
           width: 250
         },
         {
-          key: "5",
           title: "Day",
           dataIndex: "day",
           width: 150
         },
         {
-          key: "6",
           title: "Time",
           dataIndex: "time",
           width: 150
         },
         {
-          key: "7",
           title: "Adult Quantity",
           dataIndex: "adult_quantity",
           width: 50
         },
         {
-          key: "8",
           title: "Adult Price",
           dataIndex: "adult_price",
           width: 100
         },
         {
-          key: "9",
           title: "Child Quantity",
           dataIndex: "child_quantity",
           width: 50
         },
         {
-          key: "10",
           title: "Child Price",
           dataIndex: "child_price",
           width: 100
         },
         {
-          key: "18",
           title: "Total",
           dataIndex: "total",
           width: 100
         },
         {
-          key: "11",
           title: "Guest Info",
           dataIndex: "guest_info",
           scopedSlots: { customRender: "guest_info" },
           width: 400
         },
         {
-          key: "12",
           title: "Guest Contact",
           dataIndex: "guest_contact",
           scopedSlots: { customRender: "guest_contact" },
@@ -266,27 +261,23 @@ export default {
           width: 150
         },
         {
-          key: "14",
           title: "Operator",
           dataIndex: "operator",
           width: 150
         },
         {
-          key: "15",
           title: "Create at",
           dataIndex: "create_at",
           scopedSlots: { customRender: "create_at" },
           width: 200
         },
         {
-          key: "16",
           title: "Guest Remark",
           dataIndex: "guest_remark",
           scopedSlots: { customRender: "guest_remark" },
           width: 400
         },
         {
-          key: "action",
           title: "操作",
           dataIndex: "action",
           scopedSlots: { customRender: "action" },

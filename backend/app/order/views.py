@@ -50,7 +50,6 @@ class OrderView(CustomModelViewSet):
     def checkout(self, request):
         checkout = CheckoutSerializer(data=request.data, context={'request': request})
         if checkout.is_valid(raise_exception=True):
-            data = checkout.data
             return Response({
-                'result': data
+                'result': checkout.data
             })

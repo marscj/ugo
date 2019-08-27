@@ -98,7 +98,6 @@ export default {
   methods: {
     nextStep() {
       this.loading = true;
-      console.log(this.form, '-------')
       createOrder(this.form)
         .then(res => {
           const { result } = res;

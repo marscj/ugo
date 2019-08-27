@@ -12,7 +12,7 @@ from app.product.models import ProductVariant, Product
 from app.product.serializers import ProductVariantSerializer
 from app.authorization.serializers import UserSimpleSerializer, UserSerializer
 
-class CheckoutSerializer(serializers.Serializer):
+class CheckoutSerializer(serializers.ModelSerializer):
 
     day = serializers.DateField()
 
@@ -33,6 +33,12 @@ class CheckoutSerializer(serializers.Serializer):
     product = serializers.SerializerMethodField(method_name='get_product_name')
 
     variant = serializers.SerializerMethodField(method_name='get_variant_name')
+
+    class Meta:
+        model = Order 
+        fields = (
+            'day', 'time', 'adult_quantity', 'child_quantity', 'variantID', 'adult_price', 'child_price', 'total', 'product', 'variant'
+        )
 
     def get_user(self):
         return self.context['request'].user
@@ -189,76 +195,18 @@ class OrderCreateSerializer(CheckoutSerializer):
             customer_id=customer_id
         )
 
-class OrderUpdateSerializer(CheckoutSerializer):
-
-    id = serializers.ReadOnlyField()
-
-    day = serializers.ReadOnlyField()
-
-    time = serializers.ReadOnlyField()
-
-    adult_quantity = serializers.ReadOnlyField()
-
-    child_quantity = serializers.ReadOnlyField()
-
-    productID = serializers.ReadOnlyField()
-
-    variantID = serializers.ReadOnlyField()
-
-    orderID = serializers.ReadOnlyField()
-
-    create_at = serializers.ReadOnlyField()
-
-    change_at = serializers.ReadOnlyField()
-
-    adult_price = serializers.ReadOnlyField()
-
-    child_price = serializers.ReadOnlyField()
-
-    total = serializers.ReadOnlyField()
-
-    product = serializers.ReadOnlyField()
-
-    variant = serializers.ReadOnlyField()
-
-    category = serializers.ReadOnlyField()
-
-    sku = serializers.ReadOnlyField()
-
-    customer = serializers.ReadOnlyField()
-
-    customer_id = serializers.ReadOnlyField()
-
-    operator = serializers.ReadOnlyField()
-
-    operator_id = serializers.ReadOnlyField()
-
-    is_delete = serializers.ReadOnlyField()
-
-    guest_info = serializers.CharField(required=False, allow_null=True, allow_blank=True)
-
-    guest_contact = serializers.CharField(required=False, allow_null=True, allow_blank=True)
-
-    guest_remark = serializers.CharField(required=False, allow_null=True, allow_blank=True)
-
-    remark = serializers.CharField(required=False, allow_null=True, allow_blank=True)
-
-    confirmID = serializers.CharField(required=False, allow_null=True, allow_blank=True)
-
-    order_status = serializers.IntegerField(required=False, allow_null=False)
-
-    pay_status = serializers.IntegerField(required=False, allow_null=False)
-
-    order_from = serializers.CharField(default='ugodubai')
+class OrderUpdateSerializer(OrderCreateSerializer):
 
     class Meta:
         model = Order 
         fields = '__all__'
-
+        
     @transaction.atomic
-    def update(self, instance, validate_data):
+    def update(self, instance, validated_data):
         if instance.operator is None or instance.operator_id is None:
             if self.get_user().is_staff:
                 instance.operator = self.get_user().username
                 instance.operator_id = self.get_user().id
-        return super().update(instance, validate_data)
+                instance.save()
+
+        return super().update(instance, validated_data)
