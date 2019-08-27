@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 
 from middleware.viewsets import CustomModelViewSet
-from middleware.permissions import MiddlewarePermission, ReadOnlyPermission
+from middleware.permissions import BackendOrSafePermission
 from .models import Category, Product, ProductVariant
 from .serializers import (ProductListSerializer, ProductSerializer, ProductBackendSerializer, 
     ProductVariantSerializer, ProductVariantBackendSerializer)
@@ -13,7 +13,7 @@ from .serializers import (ProductListSerializer, ProductSerializer, ProductBacke
 class ProductView(CustomModelViewSet):
     queryset = Product.objects.all().cache()
     serializer_class = ProductSerializer
-    permission_classes = [MiddlewarePermission]
+    permission_classes = [BackendOrSafePermission]
 
     permissionId = Product.__name__
 
@@ -28,15 +28,7 @@ class ProductView(CustomModelViewSet):
                 return ProductBackendSerializer
         return ProductSerializer
 
-    def get_permissions(self):
-        if self.request.user.is_staff or self.request.user.is_superuser:
-            permission_classes = [MiddlewarePermission]
-        else:
-            permission_classes = [ReadOnlyPermission]
-
-        return [permission() for permission in permission_classes]
-
-    @action(methods=['delete'], detail=False, permission_classes=[MiddlewarePermission])
+    @action(methods=['delete'], detail=False, permission_classes=[BackendOrSafePermission])
     def delete(self, request,  *args, **kwargs):
         ids = request.query_params.get('ids', None)
         
@@ -53,7 +45,7 @@ class ProductView(CustomModelViewSet):
 
         return Response({'result': 'ok'})
 
-    @action(methods=['post'], detail=False, permission_classes=[MiddlewarePermission])
+    @action(methods=['post'], detail=False, permission_classes=[BackendOrSafePermission])
     def enable(self, request,  *args, **kwargs):
         ids = request.query_params.get('ids', None)
         enable = request.query_params.get('enable', 0)
@@ -74,7 +66,7 @@ class ProductView(CustomModelViewSet):
 class ProductVariantView(CustomModelViewSet): 
     queryset = ProductVariant.objects.all().cache()
     serializer_class = ProductVariantSerializer
-    permission_classes = [MiddlewarePermission]
+    permission_classes = [BackendOrSafePermission]
 
     filterset_fields = ('product__category', 'status')
     search_fields = ('variantID', 'sku', 'name', 'product__title')
@@ -87,15 +79,7 @@ class ProductVariantView(CustomModelViewSet):
             return ProductVariantBackendSerializer
         return ProductVariantSerializer
 
-    def get_permissions(self):
-        if self.request.user.is_staff:
-            permission_classes = [MiddlewarePermission]
-        else:
-            permission_classes = [ReadOnlyPermission]
-
-        return [permission() for permission in permission_classes]
-
-    @action(methods=['delete'], detail=False, permission_classes=[MiddlewarePermission])
+    @action(methods=['delete'], detail=False, permission_classes=[BackendOrSafePermission])
     def delete(self, request,  *args, **kwargs):
         ids = request.query_params.get('ids', None)
         
@@ -112,7 +96,7 @@ class ProductVariantView(CustomModelViewSet):
 
         return Response({'result': 'ok'})
 
-    @action(methods=['post'], detail=False, permission_classes=[MiddlewarePermission])
+    @action(methods=['post'], detail=False, permission_classes=[BackendOrSafePermission])
     def enable(self, request,  *args, **kwargs):
         ids = request.query_params.get('ids', None)
         enable = request.query_params.get('enable', 0)

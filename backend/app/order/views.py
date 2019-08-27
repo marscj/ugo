@@ -5,7 +5,7 @@ from rest_framework.decorators import action
 import django_filters
 
 from middleware.viewsets import CustomModelViewSet
-from middleware.permissions import MiddlewarePermission
+from middleware.permissions import BackendPermission
 from .models import Order
 from .serializers import OrderCreateSerializer, OrderUpdateSerializer, CheckoutSerializer
 from app.product.models import ProductVariant
@@ -23,7 +23,7 @@ class OrderFilter(django_filters.FilterSet):
 
 class OrderView(CustomModelViewSet):
     serializer_class = OrderCreateSerializer
-    permission_classes = [MiddlewarePermission]
+    permission_classes = [BackendPermission]
     queryset = Order.objects.all()
 
     permissionId = Order.__name__
@@ -46,7 +46,7 @@ class OrderView(CustomModelViewSet):
         else:
             return OrderUpdateSerializer
 
-    @action(detail=False, methods=['post'], permission_classes=[MiddlewarePermission])
+    @action(detail=False, methods=['post'], permission_classes=[BackendPermission])
     def checkout(self, request):
         checkout = CheckoutSerializer(data=request.data, context={'request': request})
         if checkout.is_valid(raise_exception=True):

@@ -9,7 +9,7 @@ from rest_framework_jwt.views import ObtainJSONWebToken
 from rest_framework_jwt.settings import api_settings
 
 from middleware.viewsets import CustomModelViewSet
-from middleware.permissions import MiddlewarePermission, MiddlewareLoginPermission
+from middleware.permissions import BackendPermission, BackendLoginPermission
 from .models import CustomUser, Role, Permission, ActionEntity
 from .serializers import UserSerializer, UserCreateSerializer, ChangePasswordSerializer, SelfChangePasswordSerializer, UserSimpleSerializer, RoleSerializer, PermissionSerializer, ActionEntitySerializer
 
@@ -26,7 +26,7 @@ class LoginJwtTokenView(ObtainJSONWebToken):
             }, status=response.status_code)
 
 class StaffLoginJwtTokenView(ObtainJSONWebToken):
-    permission_classes = [MiddlewareLoginPermission]
+    permission_classes = [BackendLoginPermission]
 
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
@@ -46,7 +46,7 @@ class LogoutJwtTokenView(APIView):
 
 class UserView(CustomModelViewSet):
     serializer_class = UserSerializer
-    permission_classes = [MiddlewarePermission]
+    permission_classes = [BackendPermission]
     queryset = CustomUser.objects.all().cache()
 
     permissionId = CustomUser.__name__
@@ -76,7 +76,7 @@ class UserView(CustomModelViewSet):
             self.get_current_user().save()
             return Response({'result': 'ok'})
 
-    @action(detail=True, methods=['post'], permission_classes=[MiddlewarePermission])
+    @action(detail=True, methods=['post'], permission_classes=[BackendPermission])
     def admin_change_password(self, request, pk=None):
         serializer = ChangePasswordSerializer(data=request.data, context={'request': request})
         if serializer.is_valid(raise_exception=True):
@@ -86,21 +86,21 @@ class UserView(CustomModelViewSet):
 
 class RoleView(CustomModelViewSet):
     serializer_class = RoleSerializer
-    permission_classes = [MiddlewarePermission]
+    permission_classes = [BackendPermission]
     queryset = Role.objects.all().cache()
 
     permissionId = Role.__name__
 
 class PermissionView(CustomModelViewSet):
     serializer_class = PermissionSerializer
-    permission_classes = [MiddlewarePermission]
+    permission_classes = [BackendPermission]
     queryset = Permission.objects.all().cache()
 
     permissionId = Role.__name__
 
 class ActionEntityView(CustomModelViewSet):
     serializer_class = ActionEntitySerializer
-    permission_classes = [MiddlewarePermission]
+    permission_classes = [BackendPermission]
     queryset = ActionEntity.objects.all().cache()
 
     permissionId = Role.__name__
