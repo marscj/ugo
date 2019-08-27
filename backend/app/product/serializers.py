@@ -11,59 +11,6 @@ class ProductVariantSerializer(serializers.ModelSerializer):
 
     id = serializers.ReadOnlyField()
 
-    status = serializers.ReadOnlyField()
-
-    variantID = serializers.ReadOnlyField()
-
-    name = serializers.ReadOnlyField()
-
-    sku = serializers.ReadOnlyField()
-
-    adult_status = serializers.ReadOnlyField()
-
-    adult_desc = serializers.ReadOnlyField()
-
-    adult_quantity = serializers.HiddenField(default=0)
-
-    adult_price = serializers.SerializerMethodField('user_adult_price')
-
-    child_status = serializers.ReadOnlyField()
-
-    child_desc = serializers.ReadOnlyField()
-
-    child_quantity = serializers.HiddenField(default=0)
-
-    child_price = serializers.SerializerMethodField('user_child_price')
-
-    product = serializers.StringRelatedField(read_only=True)
-
-    category = serializers.SerializerMethodField()
-
-    sort_by = serializers.HiddenField(default=0)
-
-    class Meta:
-        model = ProductVariant
-        fields = '__all__'
-
-    def get_user_price_lelve(self):
-        if isinstance(self.context['request'].user, CustomUser):
-            return self.context['request'].user.price_level - 1
-        else:
-            return 4
-
-    def user_adult_price(self, obj):
-        return obj.adult_price[self.get_user_price_lelve()]
-
-    def user_child_price(self, obj):
-        return obj.child_price[self.get_user_price_lelve()]
-
-    def get_category(self, obj):
-        return obj.product.category
-
-class ProductVariantBackendSerializer(serializers.ModelSerializer):
-
-    id = serializers.ReadOnlyField()
-
     status = serializers.BooleanField()
 
     variantID = serializers.CharField(allow_null=False, max_length=16, validators=[UniqueValidator(queryset=ProductVariant.objects.all())])
@@ -153,23 +100,7 @@ class ProductListSerializer(serializers.ModelSerializer):
             'id', 'status', 'category', 'productID', 'title', 'subtitle', 'location', 'photo', 'sort_by'
         )
 
-class ProductSerializer(ProductListSerializer):
-
-    location = serializers.ReadOnlyField()
-
-    special = serializers.ReadOnlyField()
-
-    content = serializers.ReadOnlyField()
-
-    gallery = ProductImageSerializer(read_only=True, many=True)
-
-    variant = ProductVariantSerializer(read_only=True, many=True)
-
-    class Meta:
-        model = Product
-        fields = '__all__'
-
-class ProductBackendSerializer(serializers.ModelSerializer):
+class ProductSerializer(serializers.ModelSerializer):
 
     id = serializers.ReadOnlyField()
 

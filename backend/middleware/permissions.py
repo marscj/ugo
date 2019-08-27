@@ -30,7 +30,6 @@ def custom_permission(request, view):
     return False
 
 class BackendPermission(BasePermission):
-
     def has_permission(self, request, view):
         return custom_permission(request, view)
 

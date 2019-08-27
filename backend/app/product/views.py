@@ -7,8 +7,7 @@ from rest_framework.decorators import action
 from middleware.viewsets import CustomModelViewSet
 from middleware.permissions import BackendOrSafePermission
 from .models import Category, Product, ProductVariant
-from .serializers import (ProductListSerializer, ProductSerializer, ProductBackendSerializer, 
-    ProductVariantSerializer, ProductVariantBackendSerializer)
+from .serializers import ProductListSerializer, ProductSerializer, ProductVariantSerializer
 
 class ProductView(CustomModelViewSet):
     queryset = Product.objects.all().cache()
@@ -24,8 +23,7 @@ class ProductView(CustomModelViewSet):
     def get_serializer_class(self):
         if self.action == 'list':
             return ProductListSerializer
-        elif self.request.user.is_staff:
-                return ProductBackendSerializer
+
         return ProductSerializer
 
     @action(methods=['delete'], detail=False, permission_classes=[BackendOrSafePermission])
@@ -73,11 +71,6 @@ class ProductVariantView(CustomModelViewSet):
     ordering_fields = ('id', 'sort_by')
     
     permissionId = Product.__name__
-
-    def get_serializer_class(self):
-        if self.request.user.is_staff or self.request.user.is_superuser:
-            return ProductVariantBackendSerializer
-        return ProductVariantSerializer
 
     @action(methods=['delete'], detail=False, permission_classes=[BackendOrSafePermission])
     def delete(self, request,  *args, **kwargs):
