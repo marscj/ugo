@@ -197,6 +197,14 @@ class OrderCreateSerializer(CheckoutSerializer):
 
 class OrderUpdateSerializer(OrderCreateSerializer):
 
+    remark = serializers.CharField(required=False, allow_null=True, allow_blank=True)
+
+    confirmID = serializers.CharField(required=False, allow_null=True, allow_blank=True)
+
+    order_status = serializers.IntegerField(required=False)
+
+    pay_status = serializers.IntegerField(required=False)
+
     class Meta:
         model = Order 
         fields = '__all__'
