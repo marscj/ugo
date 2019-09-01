@@ -100,6 +100,7 @@ class Order(models.Model):
 
     class Meta:
         db_table = 'order'
+        ordering = ['-id']
 
     def __str__(self):
         return self.orderID

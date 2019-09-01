@@ -44,6 +44,7 @@ class Product(models.Model):
 
     class Meta:
         db_table = 'product'
+        ordering = ['-id']
 
     def __str__(self):
         return self.title
@@ -95,6 +96,7 @@ class ProductVariant(models.Model):
 
     class Meta:
         db_table = 'variant'
+        ordering = ['-id']
 
     def __str__(self):
         return self.name

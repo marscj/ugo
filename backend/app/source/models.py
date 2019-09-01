@@ -21,6 +21,7 @@ class ProductImage(models.Model):
 
     class Meta:
         db_table = 'source'
+        ordering = ['-id']
 
 class HomeContent(models.Model):
 

@@ -8,6 +8,7 @@ class Notice(models.Model):
 
     class Meta:
         db_table = 'notice'
+        ordering = ['-id']
     
     def __str__(self):
         return self.title
