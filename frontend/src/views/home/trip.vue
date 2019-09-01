@@ -1,5 +1,5 @@
 <template>
-  <list-view :loading="loading" :data="data" @onClick="onClick" @onSearch="onSearch" align="center"/>
+  <list-view :loading="loading" :data="data" @onClick="onClick" @onSearch="onSearch" @onFetch="onFetch" align="center"/>
 </template>
 
 <script>
