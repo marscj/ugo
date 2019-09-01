@@ -1,4 +1,4 @@
-from django.db.models import Min, Max, Avg
+from django.db.models import Min, Max, Avg, Q
 from rest_framework import  serializers
 from rest_framework.validators import UniqueValidator
 
@@ -175,14 +175,19 @@ class ProductSerializer(serializers.ModelSerializer):
     photo = ProductImageSerializer(read_only=True)
 
     gallery = ProductImageSerializer(read_only=True, many=True)
-
-    variant = ProductVariantSerializer(read_only=True, many=True)
+    
+    variant = serializers.SerializerMethodField()
 
     sort_by = serializers.IntegerField(required=False, allow_null=True)
 
     class Meta:
         model = Product
         fields = '__all__'
+
+    def get_variant(self, obj):
+        variant_queryset = ProductVariant.objects.all().filter(status=True).filter(product=obj.id).order_by('sort_by')
+        serializer = ProductVariantSerializer(instance=variant_queryset, many=True, context=self.context)
+        return serializer.data
 
     def create(self, validated_data):
         gallery = validated_data.pop('gallery_id', None)
@@ -199,14 +204,15 @@ class ProductSerializer(serializers.ModelSerializer):
         gallery = validated_data.pop('gallery_id', None)
         photo = validated_data.pop('photo_id', None)
 
-        for data in instance.gallery.all():
-            instance.gallery.remove(data)
-
         if gallery is not None:
+            for data in instance.gallery.all():
+                instance.gallery.remove(data)
+
             for data in gallery:
                 instance.gallery.add(data)
 
-        instance.photo_id = photo
+        if photo is not None:
+            instance.photo_id = photo
 
         super().update(instance, validated_data)
 
