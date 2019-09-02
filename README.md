@@ -1,9 +1,26 @@
 # /ect/nginx/conf.d/nginx.conf
+
 server {
         listen 80;
-        server_name ugodubai.tk www.ugodubai.tk;
+        server_name ugodubai.com;
         location / {
-                proxy_pass http://localhost:8080;
+                proxy_pass http://193.112.55.69:8080;
+        }
+}
+
+server {
+        listen 80;
+        server_name test.ugodubai.com;
+        location / {
+                proxy_pass http://193.112.55.69:8080;
+        }
+}
+
+server {
+        listen 80;
+        server_name order.ugodubai.com;
+        location / {
+                proxy_pass http://193.112.55.69:8080;
         }
 }
 
