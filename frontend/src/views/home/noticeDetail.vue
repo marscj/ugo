@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { getFrontNotice } from "@/api/notice";
+import { getNotice } from "@/api/notice";
 
 export default {
   loading: false,
@@ -28,7 +28,7 @@ export default {
   methods: {
     fetch(id) {
       this.loading = true;
-      getFrontNotice(id)
+      getNotice(id)
         .then(res => {
           this.data = res.result;
         })
