@@ -39,7 +39,7 @@
       :data="loadData"
       bordered
       fixed
-      :scroll="{ x: 3050}"
+      :scroll="{ x: 2900}"
     >
       <span slot="guest_remark" slot-scope="text" style="word-warp:break-word;word-break:break-all">
         <ellipsis :length="200" tooltip>{{ text }}</ellipsis>
@@ -126,7 +126,6 @@ export default {
       day: undefined,
       queryParam: {
         orderID: undefined,
-        confirmID: undefined,
         order_status: undefined,
         pay_status: undefined,
         start_day: undefined,
@@ -142,12 +141,6 @@ export default {
           key: "1",
           title: "订单号",
           dataIndex: "orderID",
-          width: 150
-        },
-        {
-          key: "2",
-          title: "确认号",
-          dataIndex: "confirmID",
           width: 150
         },
         {

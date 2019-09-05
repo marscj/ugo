@@ -135,7 +135,7 @@ import Tinymce from "@/components/Tinymce";
 
 import { checkError } from "@/views/utils/error";
 import { upload } from "@/api/source";
-import { getProduct, updateProduct, createProduct } from "@/api/product";
+import { getProduct, updateProduct, createProduct } from "@/api/backend";
 
 const categoryData = [
   { value: 1, label: "美食" },

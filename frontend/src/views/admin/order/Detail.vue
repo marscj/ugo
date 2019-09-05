@@ -34,9 +34,6 @@
             <a-form-item label="Guest Remark">
               <a-textarea v-model="form.guest_remark" disabled></a-textarea>
             </a-form-item>
-            <a-form-item label="ConfirmID">
-              <a-input v-model="form.confirmID"></a-input>
-            </a-form-item>
             <a-form-item label="Order Remark">
               <a-input v-model="form.remark"></a-input>
             </a-form-item>

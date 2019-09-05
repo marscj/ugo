@@ -82,7 +82,7 @@ import {
   listVariantDelete,
   listVariantEnable,
   updateVariant
-} from "@/api/variant";
+} from "@/api/backend";
 
 const categoryData = [
   { value: 0, label: "全部" },

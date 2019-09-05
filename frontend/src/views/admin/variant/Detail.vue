@@ -207,8 +207,8 @@
 
 <script>
 import { checkError } from "@/views/utils/error";
-import { getVariant, updateVariant, createVariant } from "@/api/variant";
-import { getProductList } from "@/api/product";
+import { getVariant, updateVariant, createVariant } from "@/api/backend";
+import { getProductList } from "@/api/backend";
 
 export default {
   name: "ProductDetail",

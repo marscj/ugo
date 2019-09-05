@@ -95,7 +95,7 @@ import {
   listProductDelete,
   listProductEnable,
   updateProduct
-} from "@/api/product";
+} from "@/api/backend";
 
 const categoryData = [
   { value: 0, label: "全部" },

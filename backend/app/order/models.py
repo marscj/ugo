@@ -14,9 +14,6 @@ class Order(models.Model):
     #订单ID
     orderID = models.CharField(default=create_uuid, blank=True, null=True, max_length=64)
 
-    #确认号
-    confirmID = models.CharField(blank=True, null=True, max_length=64)
-
     #订单状态
     order_status = models.IntegerField(default=OrderStatus.CREATE, choices=OrderStatus.CHOICE)
 

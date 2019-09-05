@@ -25,6 +25,14 @@ class ProductView(CustomModelViewSet):
             return ProductListSerializer
 
         return ProductSerializer
+    
+    def get_queryset(self):
+        backend = self.request.query_params.get('backend')
+
+        if backend is not None:
+            return Product.objects.all().cache()
+        
+        return Product.objects.filter(status=True).cache()
 
     @action(methods=['delete'], detail=False, permission_classes=[BackendOrSafePermission])
     def delete(self, request,  *args, **kwargs):
@@ -71,6 +79,14 @@ class VariantView(CustomModelViewSet):
     ordering_fields = ('id', 'sort_by')
     
     permissionId = Product.__name__
+
+    def get_queryset(self):
+        backend = self.request.query_params.get('backend')
+
+        if backend is not None:
+            return ProductVariant.objects.all().cache()
+        
+        return ProductVariant.objects.filter(status=True).cache()
 
     @action(methods=['delete'], detail=False, permission_classes=[BackendPermission])
     def delete(self, request,  *args, **kwargs):

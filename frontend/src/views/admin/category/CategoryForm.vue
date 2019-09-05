@@ -38,7 +38,7 @@
 <script>
 import pick from 'lodash.pick'
 import { checkError } from '@/views/utils/error'
-import { createCategory, updateCategory, deleteCategory } from '@/api/product'
+import { createCategory, updateCategory, deleteCategory } from '@/api/backend'
 export default {
   name: 'CreateForm',
   data () {

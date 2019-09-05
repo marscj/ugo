@@ -33,7 +33,6 @@ class OrderView(CustomModelViewSet):
 
     search_fields = (
         'orderID',
-        'confirmID',
         'variant',
         'product',
         'customer',

@@ -58,9 +58,6 @@
       <a-form-item label="状态" :labelCol="labelCol" :wrapperCol="wrapperCol">
         <a-input :defaultValue="orderStatus[form.order_status].label" disabled />
       </a-form-item>
-      <a-form-item label="确认号" :labelCol="labelCol" :wrapperCol="wrapperCol">
-        <a-input v-model="form.confirmID" disabled></a-input>
-      </a-form-item>
       <a-form-item label="联系人信息" :labelCol="labelCol" :wrapperCol="wrapperCol">
         <a-textarea v-model="form.guest_info" />
       </a-form-item>

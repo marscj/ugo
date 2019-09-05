@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { getCategoryList } from '@/api/product'
+import { getCategoryList } from '@/api/backend'
 import CategoryForm from './CategoryForm'
 
 export default {

@@ -50,7 +50,7 @@
       :data="loadData"
       bordered
       fixed
-      :scroll="{ x: 3700}"
+      :scroll="{ x: 3550}"
     >
       <span slot="guest_remark" slot-scope="text" style="word-warp:break-word;word-break:break-all">
         <ellipsis :length="200" tooltip>{{ text }}</ellipsis>
@@ -149,7 +149,6 @@ export default {
       day: undefined,
       queryParam: {
         orderID: undefined,
-        confirmID: undefined,
         order_status: undefined,
         pay_status: undefined,
         start_day: undefined,
@@ -172,11 +171,6 @@ export default {
           title: "OrderID",
           dataIndex: "orderID",
           fixed: "left",
-          width: 150
-        },
-        {
-          title: "ConfirmID",
-          dataIndex: "confirmID",
           width: 150
         },
         {
