@@ -26,16 +26,16 @@
               <a-input v-model="form.total" disabled></a-input>
             </a-form-item>
             <a-form-item label="Guest Info(客户信息)">
-              <a-textarea v-model="form.guest_info" disabled></a-textarea>
+              <a-textarea v-model="form.guest_info" autosize disabled></a-textarea>
             </a-form-item>
             <a-form-item label="Guest Contact(客户联系方式)">
-              <a-textarea v-model="form.guest_contact" disabled></a-textarea>
+              <a-textarea v-model="form.guest_contact" autosize disabled></a-textarea>
             </a-form-item>
             <a-form-item label="Guest Remark">
-              <a-textarea v-model="form.guest_remark" disabled></a-textarea>
+              <a-textarea v-model="form.guest_remark" autosize disabled></a-textarea>
             </a-form-item>
             <a-form-item label="Order Remark">
-              <a-input v-model="form.remark"></a-input>
+              <a-textarea v-model="form.remark" :autosize="{minRows: 5}"></a-textarea>
             </a-form-item>
           </a-card>
           <div style="position:relative; margin-top:20px">
