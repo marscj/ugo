@@ -56,7 +56,7 @@ export default {
           scopedSlots: { customRender: 'image' }
         },
         {
-          title: '操作',
+          title: 'Action',
           dataIndex: 'action',
           width: '150px',
           scopedSlots: { customRender: 'action' }

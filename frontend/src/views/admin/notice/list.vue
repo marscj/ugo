@@ -65,7 +65,7 @@ export default {
         },
         {
           key: "action",
-          title: "操作",
+          title: "Action",
           dataIndex: "action",
           scopedSlots: { customRender: "action" },
           width: '140px'
