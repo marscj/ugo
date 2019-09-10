@@ -123,7 +123,6 @@ export default {
         flex: auto;
         color: rgba(0, 0, 0, 0.45);
         line-height: 22px;
-
         .link {
           margin-top: 16px;
           line-height: 24px;

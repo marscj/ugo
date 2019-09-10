@@ -1,12 +1,12 @@
 <template>
-  <page-view :title="`单号：` + form.orderID">
+  <page-view v-if="form.orderID" :title="`单号：` + form.orderID">
     <div>
       <a-card :bordered="false" title="订单详情">
         <template slot="extra">
           <a-button-group>
             <a-button>确认</a-button>
             <a-button>取消</a-button>
-            <a-button>备注</a-button>
+            <a-button @click="remarkModal.handle">备注</a-button>
           </a-button-group>
         </template>
 
@@ -36,9 +36,11 @@
           <detail-list-item term="联系方式">{{form.guest_contact}}</detail-list-item>
         </detail-list>
 
-        <detail-list :col="2" class="detail-layout">
+        <detail-list :col="1" class="detail-layout">
           <detail-list-item term="客户备注">{{form.guest_remark}}</detail-list-item>
-          <detail-list-item term="订单备注">{{form.guest_remark}}</detail-list-item>
+        </detail-list>
+        <detail-list :col="1" class="detail-layout">
+          <detail-list-item term="订单备注">{{form.remark}}</detail-list-item>
         </detail-list>
         <detail-list :col="1" class="detail-layout">
           <detail-list-item term="操作">{{form.operator}}</detail-list-item>
@@ -50,14 +52,8 @@
           <a-button-group>
             <a-dropdown>
               <a-menu slot="overlay" @click="handleMenuClick">
-                <a-menu-item key="1">
-                  <icon-font type="iconticket" />门票
-                </a-menu-item>
-                <a-menu-item key="2">
-                  <icon-font type="iconf-30" />餐厅
-                </a-menu-item>
-                <a-menu-item key="3">
-                  <icon-font type="iconhotel" />酒店
+                <a-menu-item v-for="data in categoryData" :key="data.value">
+                  <icon-font :type="data.type" />{{data.label}}
                 </a-menu-item>
               </a-menu>
               <a-button style="margin-left: 8px">
@@ -71,12 +67,21 @@
       </a-card>
     </div>
 
-    <a-modal :visible="remarkModal.visible" title="订单备注">
+    <a-modal v-model="remarkModal.visible" title="订单备注">
       <a-form>
         <a-form-item>
-          <a-textarea v-model="form.remark" :autosize="{minRows: 5}"></a-textarea>
+          <a-textarea v-model="remarkModal.remark" :autosize="{minRows: 5}"></a-textarea>
         </a-form-item>
       </a-form>
+      <template slot="footer">
+        <a-button key="back" @click="remarkModal.visible=false">Return</a-button>
+        <a-button
+          key="submit"
+          type="primary"
+          :loading="remarkModal.loading"
+          @click="remarkModal.submit"
+        >Submit</a-button>
+      </template>
     </a-modal>
   </page-view>
 </template>
@@ -92,7 +97,7 @@ import { getOrder, updateOrder, createOrder } from "@/api/order";
 const DetailListItem = DetailList.Item;
 
 const IconFont = Icon.createFromIconfontCN({
-  scriptUrl: "//at.alicdn.com/t/font_1402881_73blisfnqzo.js"
+  scriptUrl: "//at.alicdn.com/t/font_1402881_gsh78a0lnya.js"
 });
 
 const orderStatus = [
@@ -109,6 +114,15 @@ const payStatus = [
   { value: 2, label: "全部付清" },
   { value: 3, label: "部分退款" },
   { value: 4, label: "全部退款" }
+];
+
+const categoryData = [
+  { value: 1, label: "美食", type: 'iconf-30' },
+  { value: 2, label: "门票", type: 'iconticket' },
+  { value: 3, label: "日游", type: 'iconlvyou' },
+  { value: 4, label: "用车", type: 'iconche' },
+  { value: 5, label: "酒店", type: 'iconhotel' },
+  { value: 6, label: "伴手礼", type: 'iconliwu1' }
 ];
 
 export default {
@@ -130,6 +144,7 @@ export default {
     return {
       orderStatus,
       payStatus,
+      categoryData,
       form: {
         order_status: 0,
         pay_status: 0,
@@ -139,7 +154,26 @@ export default {
         child_price: undefined
       },
       remarkModal: {
-        visible: false
+        visible: false,
+        loading: false,
+        remark: '',
+        handle: () => {
+          this.remarkModal.visible = true;
+          this.remarkModal.loading = false;
+          this.remarkModal.remark = this.form.remark;
+        },
+        submit: () => {
+          this.remarkModal.loading = true;
+          updateOrder(this.form.id, Object.assign({}, this.form, {remark: this.remarkModal.remark}))
+            .then(res => {
+              const { result } = res;
+              this.form = result;
+              this.remarkModal.visible = false;
+            })
+            .finally(() => {
+              this.remarkModal.loading = false;
+            });
+        }
       },
       help: {},
       spinning: false
@@ -163,9 +197,7 @@ export default {
           this.spinning = false;
         });
     },
-    handleMenuClick(e) {
-
-    }
+    handleMenuClick(e) {}
   }
 };
 </script>

@@ -111,6 +111,8 @@ export default {
       line-height: 22px;
       padding-bottom: 16px;
       width: 100%;
+      word-break:break-all;
+       
       &:empty {
         content: ' ';
         height: 38px;
