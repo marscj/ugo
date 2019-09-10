@@ -5,7 +5,7 @@
         <template slot="extra">
           <a-button-group>
             <a-button v-if="form.order_status == 0" @click="changeOrderStatus(1)">确认</a-button>
-            <a-button v-if="form.order_status == 0" @click="changeOrderStatus(3)">取消</a-button>
+            <a-button v-if="form.order_status <= 1" @click="changeOrderStatus(3)">取消</a-button>
             <a-button v-if="form.order_status == 1" @click="changeOrderStatus(2)">完成</a-button>
             <a-button v-if="form.order_status == 3" @click="changeOrderStatus(4)">申请退款</a-button>
             <a-button v-if="form.order_status == 4" @click="changeOrderStatus(5)">审核通过</a-button>
