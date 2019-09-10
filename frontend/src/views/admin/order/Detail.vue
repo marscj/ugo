@@ -48,25 +48,41 @@
       <a-card title="预定详情">
         <template slot="extra">
           <a-button-group>
-            <a-button>添加预定</a-button>
-            <a-button>出票完成</a-button>
+            <a-dropdown>
+              <a-menu slot="overlay" @click="handleMenuClick">
+                <a-menu-item key="1">
+                  <icon-font type="iconticket" />门票
+                </a-menu-item>
+                <a-menu-item key="2">
+                  <icon-font type="iconf-30" />餐厅
+                </a-menu-item>
+                <a-menu-item key="3">
+                  <icon-font type="iconhotel" />酒店
+                </a-menu-item>
+              </a-menu>
+              <a-button style="margin-left: 8px">
+                添加
+                <a-icon type="down" />
+              </a-button>
+            </a-dropdown>
+            <a-button>完成</a-button>
           </a-button-group>
         </template>
       </a-card>
     </div>
 
-    <a-modal visible="" title="订单备注">
+    <a-modal :visible="remarkModal.visible" title="订单备注">
       <a-form>
         <a-form-item>
           <a-textarea v-model="form.remark" :autosize="{minRows: 5}"></a-textarea>
         </a-form-item>
       </a-form>
     </a-modal>
-
   </page-view>
 </template>
 
 <script>
+import { Icon } from "ant-design-vue";
 import { mixinDevice } from "@/utils/mixin";
 import { PageView } from "@/layouts";
 import DetailList from "@/components/tools/DetailList";
@@ -74,6 +90,10 @@ import { checkError } from "@/views/utils/error";
 import { getOrder, updateOrder, createOrder } from "@/api/order";
 
 const DetailListItem = DetailList.Item;
+
+const IconFont = Icon.createFromIconfontCN({
+  scriptUrl: "//at.alicdn.com/t/font_1402881_73blisfnqzo.js"
+});
 
 const orderStatus = [
   { value: 0, label: "新建" },
@@ -102,7 +122,8 @@ export default {
   components: {
     PageView,
     DetailList,
-    DetailListItem
+    DetailListItem,
+    IconFont
   },
   mixins: [mixinDevice],
   data() {
@@ -116,6 +137,9 @@ export default {
         adult_price: undefined,
         child_quantity: undefined,
         child_price: undefined
+      },
+      remarkModal: {
+        visible: false
       },
       help: {},
       spinning: false
@@ -138,6 +162,9 @@ export default {
         .finally(() => {
           this.spinning = false;
         });
+    },
+    handleMenuClick(e) {
+
     }
   }
 };
@@ -170,6 +197,10 @@ export default {
   }
 }
 
+.status-list {
+  text-align: right;
+}
+
 .mobile {
   .detail-layout {
     margin-left: unset;
@@ -180,5 +211,10 @@ export default {
   .status-list {
     text-align: right;
   }
+}
+
+.icons-list .anticon {
+  margin-right: 6px;
+  font-size: 24px;
 }
 </style>
