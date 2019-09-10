@@ -89,8 +89,9 @@ const orderStatus = [
   { value: 0, label: "新建" },
   { value: 1, label: "订单已确认" },
   { value: 2, label: "出票成功" },
-  { value: 3, label: "出票失败" },
-  { value: 4, label: "订单已取消" }
+  { value: 3, label: "订单已取消" },
+  { value: 4, label: "退款中" },
+  { value: 5, label: "已退款" }
 ];
 
 const payStatus = [

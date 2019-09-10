@@ -185,7 +185,7 @@ export const asyncRouterMap = [{
             component: () => import('@/views/admin/order/edit'),
             meta: {
               title: 'Edit',
-              keepAlive: true,
+              keepAlive: false,
               permission: ['Order']
             },
             hidden: true
@@ -196,7 +196,7 @@ export const asyncRouterMap = [{
             component: () => import('@/views/admin/order/create'),
             meta: {
               title: 'Create',
-              keepAlive: true,
+              keepAlive: false,
               permission: ['Order']
             },
             hidden: true

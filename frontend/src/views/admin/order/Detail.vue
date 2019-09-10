@@ -4,20 +4,32 @@
       <a-card :bordered="false" title="订单详情">
         <template slot="extra">
           <a-button-group>
-            <a-button>确认</a-button>
-            <a-button>取消</a-button>
+            <a-button v-if="form.order_status === 0" @click="changeOrderStatus(1)">确认</a-button>
+            <a-button v-if="form.order_status == 1" @click="changeOrderStatus(2)">完成</a-button>
+            <a-button v-if="form.order_status == 0" @click="changeOrderStatus(4)">取消</a-button>
             <a-button @click="remarkModal.handle">备注</a-button>
           </a-button-group>
         </template>
 
         <a-steps
+          v-if="form.order_status < 2"
           style="margin: 24px 0px 40px 0px;"
-          :direction="isMobile() && 'vertical' || 'horizontal'"
-          :current="form.orderStatus"
+          direction='horizontal'
+          :current="form.order_status"
         >
           <a-step title="新建" />
           <a-step title="订单已确认,正在出票中" />
           <a-step title="出票完成" />
+        </a-steps>
+        <a-steps
+          v-else
+          style="margin: 24px 0px 40px 0px;"
+          direction='horizontal'
+          :current="form.order_status"
+        >
+          <a-step title="订单已取消" />
+          <a-step title="退款中" />
+          <a-step title="已退款" />
         </a-steps>
 
         <detail-list :col="4">
@@ -53,7 +65,8 @@
             <a-dropdown>
               <a-menu slot="overlay" @click="handleMenuClick">
                 <a-menu-item v-for="data in categoryData" :key="data.value">
-                  <icon-font :type="data.type" />{{data.label}}
+                  <icon-font :type="data.type" />
+                  {{data.label}}
                 </a-menu-item>
               </a-menu>
               <a-button style="margin-left: 8px">
@@ -61,7 +74,6 @@
                 <a-icon type="down" />
               </a-button>
             </a-dropdown>
-            <a-button>完成</a-button>
           </a-button-group>
         </template>
       </a-card>
@@ -104,8 +116,9 @@ const orderStatus = [
   { value: 0, label: "新建" },
   { value: 1, label: "订单已确认" },
   { value: 2, label: "出票成功" },
-  { value: 3, label: "出票失败" },
-  { value: 4, label: "订单已取消" }
+  { value: 3, label: "订单已取消" },
+  { value: 4, label: "退款中" },
+  { value: 5, label: "已退款" }
 ];
 
 const payStatus = [
@@ -117,12 +130,12 @@ const payStatus = [
 ];
 
 const categoryData = [
-  { value: 1, label: "美食", type: 'iconf-30' },
-  { value: 2, label: "门票", type: 'iconticket' },
-  { value: 3, label: "日游", type: 'iconlvyou' },
-  { value: 4, label: "用车", type: 'iconche' },
-  { value: 5, label: "酒店", type: 'iconhotel' },
-  { value: 6, label: "伴手礼", type: 'iconliwu1' }
+  { value: 1, label: "美食", type: "iconf-30" },
+  { value: 2, label: "门票", type: "iconticket" },
+  { value: 3, label: "日游", type: "iconlvyou" },
+  { value: 4, label: "用车", type: "iconche" },
+  { value: 5, label: "酒店", type: "iconhotel" },
+  { value: 6, label: "伴手礼", type: "iconliwu1" }
 ];
 
 export default {
@@ -156,7 +169,7 @@ export default {
       remarkModal: {
         visible: false,
         loading: false,
-        remark: '',
+        remark: "",
         handle: () => {
           this.remarkModal.visible = true;
           this.remarkModal.loading = false;
@@ -164,7 +177,10 @@ export default {
         },
         submit: () => {
           this.remarkModal.loading = true;
-          updateOrder(this.form.id, Object.assign({}, this.form, {remark: this.remarkModal.remark}))
+          updateOrder(
+            this.form.id,
+            Object.assign({}, this.form, { remark: this.remarkModal.remark })
+          )
             .then(res => {
               const { result } = res;
               this.form = result;
@@ -179,7 +195,7 @@ export default {
       spinning: false
     };
   },
-  created() {
+  mounted() {
     if (this.isEdit) {
       const id = this.$route.params && this.$route.params.id;
       this.fetch(id);
@@ -189,6 +205,20 @@ export default {
     fetch(id) {
       this.spinning = true;
       getOrder(id)
+        .then(res => {
+          const { result } = res;
+          this.form = result;
+        })
+        .finally(() => {
+          this.spinning = false;
+        });
+    },
+    changeOrderStatus(status) {
+      this.spinning = true;
+      updateOrder(
+        this.form.id,
+        Object.assign({}, this.form, { order_status: status })
+      )
         .then(res => {
           const { result } = res;
           this.form = result;
