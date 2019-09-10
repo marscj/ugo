@@ -77,7 +77,7 @@ export const asyncRouterMap = [{
             component: () => import('@/views/admin/product/edit'),
             meta: {
               title: 'Product Edit',
-              keepAlive: true,
+              keepAlive: false,
               permission: ['Product']
             },
             hidden: true
@@ -88,7 +88,7 @@ export const asyncRouterMap = [{
             component: () => import('@/views/admin/product/create'),
             meta: {
               title: 'Product Create',
-              keepAlive: true,
+              keepAlive: false,
               permission: ['Product']
             },
             hidden: true
@@ -110,7 +110,7 @@ export const asyncRouterMap = [{
             component: () => import('@/views/admin/variant/edit'),
             meta: {
               title: 'Edit',
-              keepAlive: true,
+              keepAlive: false,
               permission: ['Product']
             },
             hidden: true
@@ -121,7 +121,7 @@ export const asyncRouterMap = [{
             component: () => import('@/views/admin/variant/create'),
             meta: {
               title: 'Create',
-              keepAlive: true,
+              keepAlive: false,
               permission: ['Product']
             },
             hidden: true
@@ -231,7 +231,7 @@ export const asyncRouterMap = [{
             component: () => import('@/views/admin/notice/edit'),
             meta: {
               title: 'Edit',
-              keepAlive: true,
+              keepAlive: false,
               permission: ['Notice']
             },
             hidden: true
@@ -242,7 +242,7 @@ export const asyncRouterMap = [{
             component: () => import('@/views/admin/notice/create'),
             meta: {
               title: 'Create',
-              keepAlive: true,
+              keepAlive: false,
               permission: ['Notice']
             },
             hidden: true
@@ -282,7 +282,7 @@ export const asyncRouterMap = [{
           component: () => import('@/views/admin/user/list'),
           meta: {
             title: 'User',
-            keepAlive: true,
+            keepAlive: false,
             permission: ['CustomUser']
           }
         }]
@@ -304,7 +304,7 @@ export const asyncRouterMap = [{
             component: () => import('@/views/admin/role/RoleList'),
             meta: {
               title: 'Role',
-              keepAlive: true,
+              keepAlive: false,
               permission: ['Role']
             }
           },

@@ -1,20 +1,22 @@
 <template>
   <page-view v-if="form.orderID" :title="`单号：` + form.orderID">
     <div>
-      <a-card :bordered="false" title="订单详情">
+      <a-card title="订单详情">
         <template slot="extra">
           <a-button-group>
-            <a-button v-if="form.order_status === 0" @click="changeOrderStatus(1)">确认</a-button>
+            <a-button v-if="form.order_status == 0" @click="changeOrderStatus(1)">确认</a-button>
+            <a-button v-if="form.order_status == 0" @click="changeOrderStatus(3)">取消</a-button>
             <a-button v-if="form.order_status == 1" @click="changeOrderStatus(2)">完成</a-button>
-            <a-button v-if="form.order_status == 0" @click="changeOrderStatus(4)">取消</a-button>
+            <a-button v-if="form.order_status == 3" @click="changeOrderStatus(4)">申请退款</a-button>
+            <a-button v-if="form.order_status == 4" @click="changeOrderStatus(5)">审核通过</a-button>
             <a-button @click="remarkModal.handle">备注</a-button>
           </a-button-group>
         </template>
 
         <a-steps
-          v-if="form.order_status < 2"
+          v-if="form.order_status < 3"
           style="margin: 24px 0px 40px 0px;"
-          direction='horizontal'
+          direction="horizontal"
           :current="form.order_status"
         >
           <a-step title="新建" />
@@ -24,8 +26,8 @@
         <a-steps
           v-else
           style="margin: 24px 0px 40px 0px;"
-          direction='horizontal'
-          :current="form.order_status"
+          direction="horizontal"
+          :current="form.order_status - 3"
         >
           <a-step title="订单已取消" />
           <a-step title="退款中" />
