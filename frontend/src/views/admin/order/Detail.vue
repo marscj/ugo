@@ -4,8 +4,8 @@
       <a-card :bordered="false" title="订单详情">
         <template slot="extra">
           <a-button-group>
-            <a-button>确认订单</a-button>
-            <a-button>取消订单</a-button>
+            <a-button>确认</a-button>
+            <a-button>取消</a-button>
             <a-button>备注</a-button>
           </a-button-group>
         </template>
@@ -54,6 +54,15 @@
         </template>
       </a-card>
     </div>
+
+    <a-modal visible="" title="订单备注">
+      <a-form>
+        <a-form-item>
+          <a-textarea v-model="form.remark" :autosize="{minRows: 5}"></a-textarea>
+        </a-form-item>
+      </a-form>
+    </a-modal>
+
   </page-view>
 </template>
 
