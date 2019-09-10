@@ -59,6 +59,17 @@
         <detail-list :col="1" class="detail-layout">
           <detail-list-item term="操作">{{form.operator}}</detail-list-item>
         </detail-list>
+
+        <template>
+          <div class="status-list" >
+            <div class="text">成人</div>
+            <div class="heading">{{form.adult_price}} $</div>
+          </div>
+          <div class="status-list">
+            <div class="text">儿童</div>
+            <div class="heading">{{form.child_price}} $</div>
+          </div>
+        </template>
       </a-card>
 
       <a-card title="预定详情">
@@ -263,6 +274,8 @@ export default {
 
 .status-list {
   text-align: right;
+  float: right;
+  width: 160px;
 }
 
 .mobile {
