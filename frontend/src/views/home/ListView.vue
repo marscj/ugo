@@ -87,6 +87,7 @@ export default {
       this.$emit("onClick", row);
     },
     handleSearch(value) {
+      this.pagination.pageNo = 1
       this.$emit("onSearch", value, this.pagination);
     }
   }
