@@ -1,89 +1,70 @@
 <template>
-  <a-spin :spinning="spinning">
-    <a-form :form="form">
-      <a-row :gutter="16">
-        <a-col :span="16">
-          <a-card>
-            <a-form-item label="Day(日期)">
-              <a-input v-model="form.day" disabled></a-input>
-            </a-form-item>
-            <a-form-item label="Time(时间)">
-              <a-input v-model="form.time" disabled></a-input>
-            </a-form-item>
-            <a-form-item label="Adult Quantity(成人票数量)">
-              <a-input v-model="form.adult_quantity" disabled></a-input>
-            </a-form-item>
-            <a-form-item label="Adult Price(成人票总价格)">
-              <a-input v-model="form.adult_price" disabled></a-input>
-            </a-form-item>
-            <a-form-item label="Child Quantity(儿童票数量)">
-              <a-input v-model="form.child_quantity" disabled></a-input>
-            </a-form-item>
-            <a-form-item label="Child Price(儿童票总价格)">
-              <a-input v-model="form.child_price" disabled></a-input>
-            </a-form-item>
-            <a-form-item label="Total Price(总价格)">
-              <a-input v-model="form.total" disabled></a-input>
-            </a-form-item>
-            <a-form-item label="Guest Info(客户信息)">
-              <a-textarea v-model="form.guest_info" autosize disabled></a-textarea>
-            </a-form-item>
-            <a-form-item label="Guest Contact(客户联系方式)">
-              <a-textarea v-model="form.guest_contact" autosize disabled></a-textarea>
-            </a-form-item>
-            <a-form-item label="Guest Remark">
-              <a-textarea v-model="form.guest_remark" autosize disabled></a-textarea>
-            </a-form-item>
-            <a-form-item label="Order Remark">
-              <a-textarea v-model="form.remark" :autosize="{minRows: 5}"></a-textarea>
-            </a-form-item>
-          </a-card>
-          <div style="position:relative; margin-top:20px">
-            <a-button type="primary" html-type="submit" @click="handleSubmit" style="margin-right:20px">Submit</a-button>
-            <a-button @click="handleGoBack">Return</a-button>
-          </div>
-        </a-col>
-        <a-col :span="8">
-          <a-card>
-            <a-form-item label="OrderID">
-              <a-input v-model="form.orderID" disabled></a-input>
-            </a-form-item>
-            <a-form-item label="Order Status">
-              <a-select :value="form.order_status"  @change="handleOrderStatusChange" :filterOption="false">
-                <a-select-option v-for="d in orderStatus" :key="d.value">{{d.label}}</a-select-option>
-              </a-select>
-            </a-form-item>
-            <a-form-item label="Pay Status">
-              <a-select :value="form.pay_status"  @change="handlePayStatusChange" :filterOption="false">
-                <a-select-option v-for="d in payStatus" :key="d.value">{{d.label}}</a-select-option>
-              </a-select>
-            </a-form-item>
-            <a-form-item label="Customer">
-              <a-input v-model="form.customer" disabled></a-input>
-            </a-form-item>
-            <a-form-item label="Operator">
-              <a-input v-model="form.operator" disabled></a-input>
-            </a-form-item>
-            <a-form-item label="Create at">
-              <template>
-                <span>{{form.create_at | moment('YYYY-MM-DD HH:mm')}}</span>
-              </template>
-            </a-form-item>
-            <a-form-item label="Change at">
-              <template>
-                <span>{{form.change_at | moment('YYYY-MM-DD HH:mm')}}</span>
-              </template>
-            </a-form-item>
-          </a-card>
-        </a-col>
-      </a-row>
-    </a-form>
-  </a-spin>
+  <page-view :title="`单号：` + form.orderID">
+    <div>
+      <a-card :bordered="false" title="订单详情">
+        <template slot="extra">
+          <a-button-group>
+            <a-button>确认订单</a-button>
+            <a-button>取消订单</a-button>
+            <a-button>备注</a-button>
+          </a-button-group>
+        </template>
+
+        <a-steps
+          style="margin: 24px 0px 40px 0px;"
+          :direction="isMobile() && 'vertical' || 'horizontal'"
+          :current="form.orderStatus"
+        >
+          <a-step title="新建" />
+          <a-step title="订单已确认,正在出票中" />
+          <a-step title="出票完成" />
+        </a-steps>
+
+        <detail-list :col="4">
+          <detail-list-item term="创建人">{{form.customer}}</detail-list-item>
+          <detail-list-item term="执行时间">{{form.time}}</detail-list-item>
+          <detail-list-item term="主产品">{{form.product}}</detail-list-item>
+          <detail-list-item term="成人数量">{{form.adult_quantity}}</detail-list-item>
+          <detail-list-item term="创建时间">{{form.create_at | moment()}}</detail-list-item>
+          <detail-list-item term="执行日期">{{form.day}}</detail-list-item>
+          <detail-list-item term="子产品">{{form.variant}}</detail-list-item>
+          <detail-list-item term="儿童数量">{{form.child_quantity}}</detail-list-item>
+        </detail-list>
+
+        <detail-list :col="2" class="detail-layout">
+          <detail-list-item term="客户信息">{{form.guest_info}}</detail-list-item>
+          <detail-list-item term="联系方式">{{form.guest_contact}}</detail-list-item>
+        </detail-list>
+
+        <detail-list :col="2" class="detail-layout">
+          <detail-list-item term="客户备注">{{form.guest_remark}}</detail-list-item>
+          <detail-list-item term="订单备注">{{form.guest_remark}}</detail-list-item>
+        </detail-list>
+        <detail-list :col="1" class="detail-layout">
+          <detail-list-item term="操作">{{form.operator}}</detail-list-item>
+        </detail-list>
+      </a-card>
+
+      <a-card title="预定详情">
+        <template slot="extra">
+          <a-button-group>
+            <a-button>添加预定</a-button>
+            <a-button>出票完成</a-button>
+          </a-button-group>
+        </template>
+      </a-card>
+    </div>
+  </page-view>
 </template>
 
 <script>
+import { mixinDevice } from "@/utils/mixin";
+import { PageView } from "@/layouts";
+import DetailList from "@/components/tools/DetailList";
 import { checkError } from "@/views/utils/error";
 import { getOrder, updateOrder, createOrder } from "@/api/order";
+
+const DetailListItem = DetailList.Item;
 
 const orderStatus = [
   { value: 0, label: "新建" },
@@ -109,6 +90,12 @@ export default {
       default: false
     }
   },
+  components: {
+    PageView,
+    DetailList,
+    DetailListItem
+  },
+  mixins: [mixinDevice],
   data() {
     return {
       orderStatus,
@@ -132,87 +119,57 @@ export default {
     }
   },
   methods: {
-    handleGoBack() {
-      this.$router.go(-1);
-    },
     fetch(id) {
       this.spinning = true;
       getOrder(id)
         .then(res => {
           const { result } = res;
           this.form = result;
-          this.initData(result);
         })
         .finally(() => {
           this.spinning = false;
         });
-    },
-    updateForm(data) {
-      this.spinning = true;
-      updateOrder(this.$route.params.id, data)
-        .then(res => {
-          const { result } = res;
-          this.handleGoBack();
-        })
-        .catch(error => {
-          this.checkError(error);
-        })
-        .finally(() => {
-          this.spinning = false;
-        });
-    },
-    createForm(data) {
-      this.spinning = true;
-      createOrder(data)
-        .then(res => {
-          const { result } = res;
-          this.handleGoBack();
-        })
-        .catch(error => {
-          this.checkError(error);
-        })
-        .finally(() => {
-          this.spinning = false;
-        });
-    },
-    checkError(error) {
-      var errors = checkError(
-        error,
-      );
-
-      this.help = {};
-
-      for (var key in errors) {
-        if (errors[key]) {
-          this.$notification["error"]({
-            message: key,
-            description: errors[key],
-            duration: 4
-          });
-        }
-      }
-    },
-    initData(data) {
-      if (this.isEdit) {
-        // this.$route.meta.title = data.product;
-        // this.description = data.variant;
-        this.$emit("title", data);
-      }
-    },
-    handleOrderStatusChange(value) {
-      this.form.order_status = value
-    },
-    handlePayStatusChange(value) {
-      this.form.pay_status = value
-    },
-    handleSubmit() {
-      if (this.isEdit) {
-        console.log(this.form, '==========')
-        this.updateForm(this.form);
-      } else {
-        this.createForm(this.form);
-      }
     }
   }
 };
 </script>
+
+<style lang="less" scoped>
+.detail-layout {
+  margin-left: 0px;
+}
+.text {
+  color: rgba(0, 0, 0, 0.45);
+}
+
+.heading {
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 20px;
+}
+
+.no-data {
+  color: rgba(0, 0, 0, 0.25);
+  text-align: center;
+  line-height: 64px;
+  font-size: 16px;
+
+  i {
+    font-size: 24px;
+    margin-right: 16px;
+    position: relative;
+    top: 3px;
+  }
+}
+
+.mobile {
+  .detail-layout {
+    margin-left: unset;
+  }
+  .text {
+    text-align: right;
+  }
+  .status-list {
+    text-align: right;
+  }
+}
+</style>
