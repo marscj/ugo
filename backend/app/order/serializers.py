@@ -195,6 +195,16 @@ class OrderCreateSerializer(CheckoutSerializer):
 
 class OrderUpdateSerializer(OrderCreateSerializer):
 
+    day = serializers.ReadOnlyField()
+
+    time = serializers.ReadOnlyField()
+
+    adult_quantity = serializers.ReadOnlyField()
+
+    child_quantity = serializers.ReadOnlyField()
+
+    variantID = serializers.ReadOnlyField()
+
     remark = serializers.CharField(required=False, allow_null=True, allow_blank=True)
 
     order_status = serializers.IntegerField(required=False)
