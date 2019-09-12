@@ -204,6 +204,9 @@ class OrderUpdateSerializer(OrderCreateSerializer):
     class Meta:
         model = Order 
         fields = '__all__'
+
+    def validate(self, validate_data):
+        return validate_data
         
     @transaction.atomic
     def update(self, instance, validated_data):
