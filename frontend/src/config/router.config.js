@@ -27,7 +27,6 @@ export const asyncRouterMap = [{
         component: RouteView,
         meta: {
           title: 'Dashboard',
-          keepAlive: true,
           icon: bxAnaalyse
         },
         children: [{
@@ -58,7 +57,6 @@ export const asyncRouterMap = [{
         component: PageView,
         meta: {
           title: 'Product',
-          keepAlive: true,
           permission: ['Product']
         },
         children: [{
@@ -67,7 +65,7 @@ export const asyncRouterMap = [{
             component: () => import('@/views/admin/product/list'),
             meta: {
               title: 'Product',
-              keepAlive: true,
+              keepAlive: false,
               permission: ['Product']
             },
           },
@@ -100,7 +98,7 @@ export const asyncRouterMap = [{
             component: () => import('@/views/admin/variant/list'),
             meta: {
               title: 'Variant',
-              keepAlive: true,
+              keepAlive: false,
               permission: ['Product']
             },
           },
@@ -166,7 +164,6 @@ export const asyncRouterMap = [{
         component: RouteView,
         meta: {
           title: 'Order',
-          keepAlive: true,
           permission: ['Order']
         },
         children: [{
@@ -175,7 +172,7 @@ export const asyncRouterMap = [{
             component: () => import('@/views/admin/order/list'),
             meta: {
               title: 'Order',
-              keepAlive: true,
+              keepAlive: false,
               permission: ['Order']
             },
           },
@@ -212,7 +209,6 @@ export const asyncRouterMap = [{
         component: PageView,
         meta: {
           title: 'Notice',
-          keepAlive: true,
           permission: ['Notice']
         },
         children: [{
@@ -221,7 +217,7 @@ export const asyncRouterMap = [{
             component: () => import('@/views/admin/notice/list'),
             meta: {
               title: 'Notice',
-              keepAlive: true,
+              keepAlive: false,
               permission: ['Notice']
             },
           },
@@ -272,7 +268,6 @@ export const asyncRouterMap = [{
         component: PageView,
         meta: {
           title: 'User',
-          keepAlive: true,
           permission: ['CustomUser']
         },
         redirect: '/admin/user/users',
@@ -294,7 +289,7 @@ export const asyncRouterMap = [{
         component: PageView,
         meta: {
           title: 'Role',
-          keepAlive: true,
+          keepAlive: false,
           permission: ['Role']
         },
         redirect: '/admin/role/roles',
@@ -397,7 +392,6 @@ export const constantRouterMap = [{
       redirect: '/home/ticket',
       meta: {
         title: '首页',
-        keepAlive: true
       },
       children: [
         // {
