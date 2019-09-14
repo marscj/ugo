@@ -205,6 +205,10 @@ class OrderUpdateSerializer(OrderCreateSerializer):
 
     variantID = serializers.ReadOnlyField()
 
+    order_from = serializers.ReadOnlyField()
+
+    is_delete = serializers.BooleanField(required=False, default=False)
+
     remark = serializers.CharField(required=False, allow_null=True, allow_blank=True)
 
     order_status = serializers.IntegerField(required=False)
