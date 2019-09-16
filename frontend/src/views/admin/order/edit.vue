@@ -10,14 +10,13 @@ export default {
   components: { Detail },
   data() {
     return {
-      description: '编辑订单',
+      description: '',
     }
   },
   methods: {
     onTitle(data) {
-      this.description = data.variant;
-      this.$route.meta.title = data.product;
-      this.$parent.getPageMeta()
+      this.$route.meta.title = data.orderID;
+      // this.$parent.getPageMeta()
     }
   },
 }

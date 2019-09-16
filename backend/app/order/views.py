@@ -12,14 +12,16 @@ from app.product.models import ProductVariant
 from app.authorization.models import CustomUser
 
 class OrderFilter(django_filters.FilterSet):
-    productID = django_filters.NumberFilter('productID')
-    variantID = django_filters.NumberFilter('variantID')
-    customer_id = django_filters.NumberFilter('customer_id')
-    operator_id = django_filters.NumberFilter('operator_id')
     order_status = django_filters.NumberFilter('order_status')
     pay_status = django_filters.NumberFilter('pay_status')
     start_day = django_filters.DateFilter('day',lookup_expr=('gte'),) 
     end_day = django_filters.DateFilter('day',lookup_expr=('lte'))
+    
+    orderID = django_filters.CharFilter('orderID')
+    variant = django_filters.CharFilter('variant')
+    product = django_filters.CharFilter('product')
+    customer = django_filters.CharFilter('customer')
+    operator = django_filters.CharFilter('operator')
 
 class OrderView(CustomModelViewSet):
     serializer_class = OrderCreateSerializer
@@ -28,16 +30,8 @@ class OrderView(CustomModelViewSet):
 
     permissionId = Order.__name__
  
-    filterset_fields = ('day', 'order_status', 'pay_status', 'productID', 'variantID', 'customer_id' , 'operator_id')
+    filterset_fields = ('day', 'order_status', 'pay_status', 'orderID', 'variant', 'product', 'customer', 'operator')
     filter_class = OrderFilter
-
-    search_fields = (
-        'orderID',
-        'variant',
-        'product',
-        'customer',
-        'operator',
-    )
 
     def get_serializer_class(self):
         if self.action == 'create':

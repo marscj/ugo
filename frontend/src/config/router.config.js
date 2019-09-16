@@ -161,7 +161,7 @@ export const asyncRouterMap = [{
         path: 'order',
         name: 'Order',
         redirect: '/admin/order/orderList',
-        component: RouteView,
+        component: PageView,
         meta: {
           title: 'Order',
           permission: ['Order']

@@ -1,5 +1,5 @@
 <template>
-  <page-view v-if="form.orderID" :title="`单号：` + form.orderID">
+  <div>
     <div>
       <a-card title="订单详情">
         <template slot="extra">
@@ -108,7 +108,7 @@
         >Submit</a-button>
       </template>
     </a-modal>
-  </page-view>
+  </div>
 </template>
 
 <script>
@@ -221,10 +221,16 @@ export default {
         .then(res => {
           const { result } = res;
           this.form = result;
+          this.initData(result)
         })
         .finally(() => {
           this.spinning = false;
         });
+    },
+    initData(data) {
+      if (this.isEdit) {
+        this.$emit("title", data);
+      }
     },
     changeOrderStatus(status) {
       this.spinning = true;
