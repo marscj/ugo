@@ -82,7 +82,7 @@ class UserView(CustomModelViewSet):
     def admin_change_password(self, request, pk=None):
         serializer = ChangePasswordSerializer(data=request.data, context={'request': request})
         if serializer.is_valid(raise_exception=True):
-            user = self.get_object(pk)
+            user = self.get_object(pk=pk)
             user.set_password(serializer.data.get('new_password'))
             user.save()
             return Response({'result': 'ok'})
