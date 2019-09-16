@@ -62,10 +62,24 @@
                   </a-form-item>
                 </a-col>
               </a-row>
+              <a-button type="primary" @click="exportModal.visible = true">Export</a-button>
             </a-collapse-panel>
           </a-collapse>
         </div>
       </a-form>
+
+      <a-modal v-model="exportModal.visible" title="Export Order">
+        <template slot="footer">
+          <a-button key="back" @click="exportModal.visible=false">Return</a-button>
+          <a-button key="submit" type="primary" @click="exportExcel">Export</a-button>
+        </template>
+        <a-checkbox-group :options="formFiled" :defaultValue="formFiled.map((f)=> f.checked)"></a-checkbox-group>
+        <!-- <a-row>
+          <a-col :span="12" v-for="data in formFiled" :key="data.value">
+            <a-checkbox :checked="data.checked">{{data.label}}</a-checkbox>
+          </a-col>
+        </a-row> -->
+      </a-modal>
     </div>
 
     <s-table
@@ -156,7 +170,7 @@ export default {
       if (newQuestion == -1) {
         this.queryParam.order_status = undefined;
       } else {
-        this.queryParam.order_status = newQuestion
+        this.queryParam.order_status = newQuestion;
       }
       // this.$refs.table.refresh(true);
     },
@@ -164,7 +178,7 @@ export default {
       if (newQuestion == -1) {
         this.queryParam.pay_status = undefined;
       } else {
-        this.queryParam.pay_status = newQuestion
+        this.queryParam.pay_status = newQuestion;
       }
       // this.$refs.table.refresh(true);
     },
@@ -187,6 +201,27 @@ export default {
     return {
       orderStatus,
       payStatus,
+      formFiled: [
+        { value: "orderID", label: "OrderID", checked: 'orderID' },
+        { value: "customer", label: "Customer", checked: 'customer' },
+        { value: "product", label: "Product", checked: 'product' },
+        { value: "variant", label: "Variant", checked: 'variant' },
+        { value: "day", label: "ActionDay", checked: 'day' },
+        { value: "time", label: "ActionTime", checked: 'time' },
+        { value: "adult_quantity", label: "AdultQuantity", checked: 'adult_quantity' },
+        { value: "adult_price", label: "AdultPrice", checked: 'adult_price' },
+        { value: "child_quantity", label: "ChildQuantity", checked: 'child_quantity' },
+        { value: "child_price", label: "ChildPrice", checked: 'child_price' },
+        { value: "total", label: "Total", checked: 'total' },
+        { value: "order_status", label: "OrderStatus", checked: 'order_status' },
+        { value: "pay_status", label: "PayStatus", checked: 'pay_status' },
+        { value: "guest_info", label: "GuestInfo", checked: 'guest_info' },
+        { value: "guest_contact", label: "GuestContact", checked: 'guest_contact' },
+        { value: "guest_remark", label: "GuestRemark", checked: 'guest_remark' },
+        { value: "remark", label: "OrderRemark", checked: 'remark' },
+        { value: "create_at", label: "CreateAt", checked: 'create_at' },
+        { value: "operator", label: "Operator", checked: 'operator' }
+      ],
       day: undefined,
       order_status: -1,
       pay_status: -1,
@@ -200,6 +235,14 @@ export default {
         product: undefined,
         customer: undefined,
         operator: undefined
+      },
+      exportModal: {
+        visible: false,
+        data: undefined,
+        header: [],
+        filename: "order-list",
+        autoWidth: true,
+        bookType: "xlsx"
       },
       // 表头
       columns: [
@@ -266,7 +309,9 @@ export default {
           dataIndex: "order_status",
           width: 150,
           customRender: (text, row, index) => {
-            return <span>{orderStatus.find((res)=> res.value == text).label}</span>;
+            return (
+              <span>{orderStatus.find(res => res.value == text).label}</span>
+            );
           }
         },
         {
@@ -274,7 +319,9 @@ export default {
           dataIndex: "pay_status",
           width: 150,
           customRender: (text, row, index) => {
-            return <span>{payStatus.find((res)=> res.value == text).label}</span>;
+            return (
+              <span>{payStatus.find(res => res.value == text).label}</span>
+            );
           }
         },
         {
@@ -317,10 +364,12 @@ export default {
       loadData: parameter => {
         return getOrderList(Object.assign(parameter, this.queryParam)).then(
           res => {
+            this.listData = res.result;
             return res.result;
           }
         );
-      }
+      },
+      listData: []
     };
   },
   methods: {
@@ -331,6 +380,28 @@ export default {
     },
     handleChangeDay(value) {
       this.day = value.format("YYYY-MM-DD");
+    },
+    exportExcel() {
+      import("@/vendor/Export2Excel").then(excel => {
+        const header = this.formFiled.map((f) => f.label);
+        const filterVal = this.formFiled.map((f) => f.checked);
+        const list = this.listData.data;
+        const data = this.formatJson(filterVal, list);
+        excel.export_json_to_excel({
+          header: header,
+          data,
+          filename: "excel-list",
+          autoWidth: true,
+          bookType: "xlsx"
+        });
+      });
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v =>
+        filterVal.map(j => {
+          return v[j];
+        })
+      );
     }
   }
 };

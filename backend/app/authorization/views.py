@@ -60,6 +60,8 @@ class UserView(CustomModelViewSet):
     def get_current_user(self):
         return self.request.user
 
+    
+
     @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated])
     def info(self, request):
         serializer = self.get_serializer(request.user)
@@ -80,8 +82,9 @@ class UserView(CustomModelViewSet):
     def admin_change_password(self, request, pk=None):
         serializer = ChangePasswordSerializer(data=request.data, context={'request': request})
         if serializer.is_valid(raise_exception=True):
-            self.get_current_user().set_password(serializer.data.get('new_password'))
-            self.get_current_user().save()
+            user = self.get_object(pk)
+            user.set_password(serializer.data.get('new_password'))
+            user.save()
             return Response({'result': 'ok'})
 
 class RoleView(CustomModelViewSet):

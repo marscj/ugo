@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :spinning="spinning">
     <div>
       <a-card title="订单详情">
         <template slot="extra">
