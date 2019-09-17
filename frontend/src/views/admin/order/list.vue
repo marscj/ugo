@@ -108,6 +108,14 @@
         </template>
       </span> 
 
+      <span slot="price" slot-scope="text, data">
+        <template>
+          <p class="order-info">成人：{{data['adult_price']}}$</p>
+          <p class="order-info">儿童：{{data['child_price']}}$</p>
+          <p class="order-info">总价：{{data['total']}}$</p>
+        </template>
+      </span> 
+
       <span slot="create_at" slot-scope="text">
         <template>
           <span>{{text | moment('YYYY-MM-DD HH:mm')}}</span>
@@ -422,11 +430,23 @@ export default {
           scopedSlots: { customRender: "info" },
         },
         {
+          title: "Price",
+          scopedSlots: { customRender: "price" },
+          width: 120
+        },
+        {
           title: "Create at",
           dataIndex: "create_at",
           scopedSlots: { customRender: "create_at" },
           width: 162
         },
+        {
+          title: "Action",
+          dataIndex: "action",
+          scopedSlots: { customRender: "action" },
+          width: 100,
+          fixed: "right"
+        }
       ],
       loadData: parameter => {
         return getOrderList(Object.assign(parameter, this.queryParam)).then(
