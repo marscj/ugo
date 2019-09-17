@@ -74,11 +74,6 @@
           <a-button key="submit" type="primary" @click="exportExcel">Export</a-button>
         </template>
         <a-checkbox-group :options="formFiled" :defaultValue="formFiled.map((f)=> f.checked)"></a-checkbox-group>
-        <!-- <a-row>
-          <a-col :span="12" v-for="data in formFiled" :key="data.value">
-            <a-checkbox :checked="data.checked">{{data.label}}</a-checkbox>
-          </a-col>
-        </a-row> -->
       </a-modal>
     </div>
 
@@ -238,8 +233,7 @@ export default {
       },
       exportModal: {
         visible: false,
-        data: undefined,
-        header: [],
+        loading: false,
         filename: "order-list",
         autoWidth: true,
         bookType: "xlsx"
@@ -390,11 +384,12 @@ export default {
         excel.export_json_to_excel({
           header: header,
           data,
-          filename: "excel-list",
+          filename: "order-list",
           autoWidth: true,
           bookType: "xlsx"
         });
       });
+      this.exportModal.visible = false;
     },
     formatJson(filterVal, jsonData) {
       return jsonData.map(v =>
