@@ -73,18 +73,11 @@
           <a-button key="back" @click="exportModal.visible=false">Return</a-button>
           <a-button key="submit" type="primary" @click="exportExcel">Export</a-button>
         </template>
-        <a-checkbox-group
-          v-model="formFiledValue"
-          :options="formFiled"
-        ></a-checkbox-group>
+        <a-checkbox-group v-model="formFiledValue" :options="formFiled"></a-checkbox-group>
       </a-modal>
     </div>
 
-    <div align="center" style="padding: 20px;">
-      <a-switch checkedChildren="BookModel" unCheckedChildren="ListModel" defaultChecked @change="display = !display"/>
-    </div>
-
-     <s-table
+    <s-table
       ref="table"
       size="default"
       :rowKey="(item) => item.id"
@@ -92,29 +85,32 @@
       :data="loadData"
       bordered
       fixed
-      v-if="display"
     >
       <span slot="info" slot-scope="text, data">
         <template>
-          <p class="order-info">产品名称：{{data['product']}} - {{data['variant']}}</p>
-          <p class="order-info">执行日期：{{data['day']}}  {{data['time']}}</p>
-          <p class="order-info">成人：{{data['adult_quantity']}} </p>
-          <p class="order-info" v-if="data['child_quantity'] > 0">儿童：{{data['adult_quantity']}} </p>
-          <p class="order-info">
-            客人信息：{{data['guest_info']}} {{data['guest_contact']}}
-          </p>
-          <p class="order-info">客户备注：{{data['guest_remark']}}</p>
-          <p class="order-info" v-if="data['remark'] != null && data['remark'].length > 0">订单备注：{{data['remark']}}</p>
+          <p class="order-info">产品名称：<span class="bold ligth-blue">{{data['product']}} - {{data['variant']}}</span></p> 
+          <p class="order-info">执行日期：<span class="bold">{{data['day']}} {{data['time']}}</span></p>
+          <p class="order-info">成人数量：<span class="bold">{{data['adult_quantity']}}</span></p>
+          <p class="order-info" v-if="data['child_quantity'] > 0">儿童数量：<span class="bold">{{data['adult_quantity']}}</span></p>
+          <p class="order-info">客人信息：<span class="bold">{{data['guest_info']}} {{data['guest_contact']}}</span></p>
+          <p class="order-info">客户备注：<span class="bold">{{data['guest_remark']}}</span></p>
+          <p
+            class="order-info"
+            v-if="data['remark'] != null && data['remark'].length > 0"
+          >订单备注：{{data['remark']}}</p>
         </template>
-      </span> 
+      </span>
 
       <span slot="price" slot-scope="text, data">
         <template>
-          <p class="order-info">成人：{{data['adult_price']}}$</p>
-          <p class="order-info">儿童：{{data['child_price']}}$</p>
-          <p class="order-info">总价：{{data['total']}}$</p>
+          <p class="order-info">成人：<span class="bold">{{data['adult_price']}}$</span></p>
+          <p class="order-info" v-if="data['child_quantity'] > 0">儿童：<span class="bold">{{data['child_price']}}$</span></p>
+          <p class="order-info">总价：<span class="bold">{{data['total']}}$</span></p>
+          <br>
+          <p class="order-info">成人单价：<span class="bold">{{data['adult_unit_price']}}$</span></p>
+          <p class="order-info" v-if="data['child_quantity'] > 0">儿童单价：<span class="bold">{{data['child_unit_price']}}$</span></p>
         </template>
-      </span> 
+      </span>
 
       <span slot="create_at" slot-scope="text">
         <template>
@@ -127,49 +123,6 @@
         </div>
       </span>
     </s-table>
-
-    <s-table
-      ref="table"
-      size="default"
-      :rowKey="(item) => item.id"
-      :columns="list_columns"
-      :data="loadData"
-      bordered
-      fixed
-      :scroll="{ x: 3450}"
-      v-else
-    >
-      <span slot="guest_remark" slot-scope="text" style="word-warp:break-word;word-break:break-all">
-        <ellipsis :length="200" tooltip>{{ text }}</ellipsis>
-      </span>
-      <span slot="variant" slot-scope="text" style="word-warp:break-word;word-break:break-all">
-        <ellipsis :length="60" tooltip>{{ text }}</ellipsis>
-      </span>
-      <span slot="product" slot-scope="text" style="word-warp:break-word;word-break:break-all">
-        <ellipsis :length="60" tooltip>{{ text }}</ellipsis>
-      </span>
-      <span slot="guest_info" slot-scope="text" style="word-warp:break-word;word-break:break-all">
-        <ellipsis :length="160" tooltip>{{ text }}</ellipsis>
-      </span>
-      <span
-        slot="guest_contact"
-        slot-scope="text"
-        style="word-warp:break-word;word-break:break-all"
-      >
-        <ellipsis :length="160" tooltip>{{ text }}</ellipsis>
-      </span>
-      <span slot="create_at" slot-scope="text">
-        <template>
-          <span>{{text | moment('YYYY-MM-DD HH:mm')}}</span>
-        </template>
-      </span>
-      <span slot="action" slot-scope="text, data">
-        <div v-action:edit>
-          <router-link :to="{ name: 'OrderEdit', params: { id: data.id } }">Edit</router-link>
-        </div>
-      </span>
-    </s-table>
-
   </div>
 </template>
 
@@ -197,25 +150,33 @@ const payStatus = [
 ];
 
 const formFiled = [
-  { value: "orderID", label: "OrderID", checked: 'orderID' },
-  { value: "customer", label: "Customer", checked: 'customer' },
-  { value: "product", label: "Product", checked: 'product' },
-  { value: "variant", label: "Variant", checked: 'variant' },
-  { value: "day", label: "ActionDay", checked: 'day' },
-  { value: "time", label: "ActionTime", checked: 'time' },
-  { value: "adult_quantity", label: "AdultQuantity", checked: 'adult_quantity' },
-  { value: "adult_price", label: "AdultPrice", checked: 'adult_price' },
-  { value: "child_quantity", label: "ChildQuantity", checked: 'child_quantity' },
-  { value: "child_price", label: "ChildPrice", checked: 'child_price' },
-  { value: "total", label: "Total", checked: 'total' },
-  { value: "order_status", label: "OrderStatus", checked: 'order_status' },
-  { value: "pay_status", label: "PayStatus", checked: 'pay_status' },
-  { value: "guest_info", label: "GuestInfo", checked: 'guest_info' },
-  { value: "guest_contact", label: "GuestContact", checked: 'guest_contact' },
-  { value: "guest_remark", label: "GuestRemark", checked: 'guest_remark' },
-  { value: "remark", label: "OrderRemark", checked: 'remark' },
-  { value: "create_at", label: "CreateAt", checked: 'create_at' },
-  { value: "operator", label: "Operator", checked: 'operator' }
+  { value: "orderID", label: "OrderID", checked: "orderID" },
+  { value: "customer", label: "Customer", checked: "customer" },
+  { value: "product", label: "Product", checked: "product" },
+  { value: "variant", label: "Variant", checked: "variant" },
+  { value: "day", label: "ActionDay", checked: "day" },
+  { value: "time", label: "ActionTime", checked: "time" },
+  {
+    value: "adult_quantity",
+    label: "AdultQuantity",
+    checked: "adult_quantity"
+  },
+  { value: "adult_price", label: "AdultPrice", checked: "adult_price" },
+  {
+    value: "child_quantity",
+    label: "ChildQuantity",
+    checked: "child_quantity"
+  },
+  { value: "child_price", label: "ChildPrice", checked: "child_price" },
+  { value: "total", label: "Total", checked: "total" },
+  { value: "order_status", label: "OrderStatus", checked: "order_status" },
+  { value: "pay_status", label: "PayStatus", checked: "pay_status" },
+  { value: "guest_info", label: "GuestInfo", checked: "guest_info" },
+  { value: "guest_contact", label: "GuestContact", checked: "guest_contact" },
+  { value: "guest_remark", label: "GuestRemark", checked: "guest_remark" },
+  { value: "remark", label: "OrderRemark", checked: "remark" },
+  { value: "create_at", label: "CreateAt", checked: "create_at" },
+  { value: "operator", label: "Operator", checked: "operator" }
 ];
 
 export default {
@@ -229,7 +190,7 @@ export default {
       this.$refs.table.refresh(true);
     }, 1000);
 
-    this.formFiledValue = this.formFiled.map((f)=> f.checked);
+    this.formFiledValue = this.formFiled.map(f => f.checked);
   },
   watch: {
     queryParam: {
@@ -274,7 +235,6 @@ export default {
       orderStatus,
       payStatus,
       formFiled,
-      display: true,
       formFiledValue: [],
       day: undefined,
       order_status: -1,
@@ -298,122 +258,6 @@ export default {
         bookType: "xlsx"
       },
       // 表头
-      list_columns: [
-        {
-          title: "OrderID",
-          dataIndex: "orderID",
-          fixed: "left",
-          width: 150
-        },
-        {
-          title: "Customer",
-          dataIndex: "customer",
-          width: 150
-        },
-        {
-          title: "Product",
-          dataIndex: "product",
-          scopedSlots: { customRender: "product" },
-          width: 250
-        },
-        {
-          title: "Variant",
-          dataIndex: "variant",
-          scopedSlots: { customRender: "variant" },
-          width: 250
-        },
-        {
-          title: "ActionDay",
-          dataIndex: "day",
-          width: 150
-        },
-        {
-          title: "ActionTime",
-          dataIndex: "time",
-          width: 150
-        },
-        {
-          title: "AdultQuantity",
-          dataIndex: "adult_quantity",
-          width: 50
-        },
-        {
-          title: "AdultPrice",
-          dataIndex: "adult_price",
-          width: 100
-        },
-        {
-          title: "ChildQuantity",
-          dataIndex: "child_quantity",
-          width: 50
-        },
-        {
-          title: "ChildPrice",
-          dataIndex: "child_price",
-          width: 100
-        },
-        {
-          title: "Total",
-          dataIndex: "total",
-          width: 100
-        },
-        {
-          title: "OrderStatus",
-          dataIndex: "order_status",
-          width: 150,
-          customRender: (text, row, index) => {
-            return (
-              <span>{orderStatus.find(res => res.value == text).label}</span>
-            );
-          }
-        },
-        {
-          title: "PayStatus",
-          dataIndex: "pay_status",
-          width: 150,
-          customRender: (text, row, index) => {
-            return (
-              <span>{payStatus.find(res => res.value == text).label}</span>
-            );
-          }
-        },
-        {
-          title: "GuestInfo",
-          dataIndex: "guest_info",
-          scopedSlots: { customRender: "guest_info" },
-          width: 400
-        },
-        {
-          title: "GuestContact",
-          dataIndex: "guest_contact",
-          scopedSlots: { customRender: "guest_contact" },
-          width: 400
-        },
-        {
-          title: "Create at",
-          dataIndex: "create_at",
-          scopedSlots: { customRender: "create_at" },
-          width: 200
-        },
-        {
-          title: "Guest Remark",
-          dataIndex: "guest_remark",
-          scopedSlots: { customRender: "guest_remark" },
-          width: 400
-        },
-        {
-          title: "Operator",
-          dataIndex: "operator",
-          width: 150
-        },
-        {
-          title: "Action",
-          dataIndex: "action",
-          scopedSlots: { customRender: "action" },
-          width: 100,
-          fixed: "right"
-        }
-      ],
       book_columns: [
         {
           title: "OrderID",
@@ -427,12 +271,12 @@ export default {
         },
         {
           title: "Order Info",
-          scopedSlots: { customRender: "info" },
+          scopedSlots: { customRender: "info" }
         },
         {
           title: "Price",
           scopedSlots: { customRender: "price" },
-          width: 120
+          width: 160
         },
         {
           title: "Create at",
@@ -492,10 +336,12 @@ export default {
       );
     },
     formatHeader() {
-      return this.formFiled.filter((f) => {
-        return this.formFiledValue.find((f1) => f.value == f1)
-      }).map((f) => f.value)
-    },
+      return this.formFiled
+        .filter(f => {
+          return this.formFiledValue.find(f1 => f.value == f1);
+        })
+        .map(f => f.value);
+    }
   }
 };
 </script>
@@ -504,6 +350,11 @@ export default {
 .order-info {
   margin: 0;
 }
+
+.bold {
+  font-weight:bold;
+}
+
 .ant-collapse > .ant-collapse-item > .ant-collapse-header {
   line-height: 22px;
   padding: 12px 0 12px 40px;

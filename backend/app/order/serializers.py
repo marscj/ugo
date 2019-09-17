@@ -56,9 +56,17 @@ class CheckoutSerializer(serializers.ModelSerializer):
         variant = self.get_variant(obj)
         return variant.adult_price[self.get_price_lelve()] * obj['adult_quantity']
 
+    def get_adult_unit_price(self, obj):
+        variant = self.get_variant(obj)
+        return variant.adult_price[self.get_price_lelve()]
+
     def get_child_price(self, obj):
         variant = self.get_variant(obj)
         return variant.child_price[self.get_price_lelve()] * obj['child_quantity']
+
+    def get_child_unit_price(self, obj):
+        variant = self.get_variant(obj)
+        return variant.child_price[self.get_price_lelve()]
 
     def get_total(self, obj):
         return Decimal(self.get_adult_price(obj)) + Decimal(self.get_child_price(obj))
@@ -124,7 +132,11 @@ class OrderCreateSerializer(CheckoutSerializer):
 
     adult_price = serializers.ReadOnlyField()
 
+    adult_unit_price = serializers.ReadOnlyField()
+
     child_price = serializers.ReadOnlyField()
+
+    child_unit_price = serializers.ReadOnlyField()
 
     total = serializers.ReadOnlyField()
 
@@ -170,7 +182,9 @@ class OrderCreateSerializer(CheckoutSerializer):
     @transaction.atomic
     def create(self, validate_data):
         adult_price = self.get_adult_price(validate_data)
+        adult_unit_price = self.get_adult_unit_price(validate_data)
         child_price = self.get_child_price(validate_data)
+        child_unit_price = self.get_child_unit_price(validate_data)
         total = self.get_total(validate_data)
         product = self.get_product(validate_data)
         productID = product.productID
@@ -182,7 +196,9 @@ class OrderCreateSerializer(CheckoutSerializer):
 
         return Order.objects.create(**validate_data,
             adult_price=adult_price,
+            adult_unit_price=adult_unit_price,
             child_price=child_price,
+            child_unit_price=child_unit_price,
             total=total,
             product=product.title,
             productID=productID,

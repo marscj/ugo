@@ -111,7 +111,7 @@
                           />
                         </div>
                       </div>
-                      <div class="instruction-item">
+                      <div class="instruction-item" v-if="variant ? variant.child_status : true">
                         <div class="item-left">
                           <p style="margin-bottom:0px">
                             儿童

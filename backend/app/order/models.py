@@ -47,8 +47,14 @@ class Order(models.Model):
     #成人票金额
     adult_price = models.DecimalField(default=0.0, max_digits=10, decimal_places=2, validators=[MinValueValidator(0.0)])
 
+    #成人单价
+    adult_unit_price = models.DecimalField(default=0.0, max_digits=10, decimal_places=2, validators=[MinValueValidator(0.0)])
+
     #儿童票数量
     child_quantity = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0)])
+
+    #儿童单价
+    child_unit_price = models.DecimalField(default=0.0, max_digits=10, decimal_places=2, validators=[MinValueValidator(0.0)])
 
     #儿童票金额
     child_price = models.DecimalField(default=0.0, max_digits=10, decimal_places=2, validators=[MinValueValidator(0.0)])
