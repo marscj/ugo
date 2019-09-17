@@ -73,7 +73,10 @@
           <a-button key="back" @click="exportModal.visible=false">Return</a-button>
           <a-button key="submit" type="primary" @click="exportExcel">Export</a-button>
         </template>
-        <a-checkbox-group :options="formFiled" :defaultValue="formFiled.map((f)=> f.checked)"></a-checkbox-group>
+        <a-checkbox-group
+          v-model="formFiledValue"
+          :options="formFiled"
+        ></a-checkbox-group>
       </a-modal>
     </div>
 
@@ -143,6 +146,28 @@ const payStatus = [
   { value: 4, label: "全部退款" }
 ];
 
+const formFiled = [
+  { value: "orderID", label: "OrderID", checked: 'orderID' },
+  { value: "customer", label: "Customer", checked: 'customer' },
+  { value: "product", label: "Product", checked: 'product' },
+  { value: "variant", label: "Variant", checked: 'variant' },
+  { value: "day", label: "ActionDay", checked: 'day' },
+  { value: "time", label: "ActionTime", checked: 'time' },
+  { value: "adult_quantity", label: "AdultQuantity", checked: 'adult_quantity' },
+  { value: "adult_price", label: "AdultPrice", checked: 'adult_price' },
+  { value: "child_quantity", label: "ChildQuantity", checked: 'child_quantity' },
+  { value: "child_price", label: "ChildPrice", checked: 'child_price' },
+  { value: "total", label: "Total", checked: 'total' },
+  { value: "order_status", label: "OrderStatus", checked: 'order_status' },
+  { value: "pay_status", label: "PayStatus", checked: 'pay_status' },
+  { value: "guest_info", label: "GuestInfo", checked: 'guest_info' },
+  { value: "guest_contact", label: "GuestContact", checked: 'guest_contact' },
+  { value: "guest_remark", label: "GuestRemark", checked: 'guest_remark' },
+  { value: "remark", label: "OrderRemark", checked: 'remark' },
+  { value: "create_at", label: "CreateAt", checked: 'create_at' },
+  { value: "operator", label: "Operator", checked: 'operator' }
+];
+
 export default {
   name: "OrderList",
   components: {
@@ -153,6 +178,8 @@ export default {
     this.debouncedGetAnswer = _.debounce(() => {
       this.$refs.table.refresh(true);
     }, 1000);
+
+    this.formFiledValue = this.formFiled.map((f)=> f.checked);
   },
   watch: {
     queryParam: {
@@ -196,27 +223,8 @@ export default {
     return {
       orderStatus,
       payStatus,
-      formFiled: [
-        { value: "orderID", label: "OrderID", checked: 'orderID' },
-        { value: "customer", label: "Customer", checked: 'customer' },
-        { value: "product", label: "Product", checked: 'product' },
-        { value: "variant", label: "Variant", checked: 'variant' },
-        { value: "day", label: "ActionDay", checked: 'day' },
-        { value: "time", label: "ActionTime", checked: 'time' },
-        { value: "adult_quantity", label: "AdultQuantity", checked: 'adult_quantity' },
-        { value: "adult_price", label: "AdultPrice", checked: 'adult_price' },
-        { value: "child_quantity", label: "ChildQuantity", checked: 'child_quantity' },
-        { value: "child_price", label: "ChildPrice", checked: 'child_price' },
-        { value: "total", label: "Total", checked: 'total' },
-        { value: "order_status", label: "OrderStatus", checked: 'order_status' },
-        { value: "pay_status", label: "PayStatus", checked: 'pay_status' },
-        { value: "guest_info", label: "GuestInfo", checked: 'guest_info' },
-        { value: "guest_contact", label: "GuestContact", checked: 'guest_contact' },
-        { value: "guest_remark", label: "GuestRemark", checked: 'guest_remark' },
-        { value: "remark", label: "OrderRemark", checked: 'remark' },
-        { value: "create_at", label: "CreateAt", checked: 'create_at' },
-        { value: "operator", label: "Operator", checked: 'operator' }
-      ],
+      formFiled,
+      formFiledValue: [],
       day: undefined,
       order_status: -1,
       pay_status: -1,
@@ -377,8 +385,8 @@ export default {
     },
     exportExcel() {
       import("@/vendor/Export2Excel").then(excel => {
-        const header = this.formFiled.map((f) => f.label);
-        const filterVal = this.formFiled.map((f) => f.checked);
+        const header = this.formatHeader();
+        const filterVal = this.formFiledValue;
         const list = this.listData.data;
         const data = this.formatJson(filterVal, list);
         excel.export_json_to_excel({
@@ -397,7 +405,12 @@ export default {
           return v[j];
         })
       );
-    }
+    },
+    formatHeader() {
+      return this.formFiled.filter((f) => {
+        return this.formFiledValue.find((f1) => f.value == f1)
+      }).map((f) => f.value)
+    },
   }
 };
 </script>
