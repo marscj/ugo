@@ -66,7 +66,9 @@ class CheckoutSerializer(serializers.ModelSerializer):
 
     def get_child_unit_price(self, obj):
         variant = self.get_variant(obj)
-        return variant.child_price[self.get_price_lelve()]
+        if variant.child_status:
+            return variant.child_price[self.get_price_lelve()]
+        return Decimal(0.0)
 
     def get_total(self, obj):
         return Decimal(self.get_adult_price(obj)) + Decimal(self.get_child_price(obj))
