@@ -1,5 +1,5 @@
 <template>
-  <a-card :bordered="false" v-action:query>
+  <div v-action:query>
     <div class="table-page-search-wrapper">
       <a-form layout="inline">
         <a-row :gutter="12">
@@ -80,15 +80,56 @@
       </a-modal>
     </div>
 
+    <div align="center" style="padding: 20px;">
+      <a-switch checkedChildren="BookModel" unCheckedChildren="ListModel" defaultChecked @change="display = !display"/>
+    </div>
+
+     <s-table
+      ref="table"
+      size="default"
+      :rowKey="(item) => item.id"
+      :columns="book_columns"
+      :data="loadData"
+      bordered
+      fixed
+      v-if="display"
+    >
+      <span slot="info" slot-scope="text, data">
+        <template>
+          <p class="order-info">产品名称：{{data['product']}} - {{data['variant']}}</p>
+          <p class="order-info">执行日期：{{data['day']}}  {{data['time']}}</p>
+          <p class="order-info">成人：{{data['adult_quantity']}} </p>
+          <p class="order-info" v-if="data['child_quantity'] > 0">儿童：{{data['adult_quantity']}} </p>
+          <p class="order-info">
+            客人信息：{{data['guest_info']}} {{data['guest_contact']}}
+          </p>
+          <p class="order-info">客户备注：{{data['guest_remark']}}</p>
+          <p class="order-info" v-if="data['remark'] != null && data['remark'].length > 0">订单备注：{{data['remark']}}</p>
+        </template>
+      </span> 
+
+      <span slot="create_at" slot-scope="text">
+        <template>
+          <span>{{text | moment('YYYY-MM-DD HH:mm')}}</span>
+        </template>
+      </span>
+      <span slot="action" slot-scope="text, data">
+        <div v-action:edit>
+          <router-link :to="{ name: 'OrderEdit', params: { id: data.id } }">Edit</router-link>
+        </div>
+      </span>
+    </s-table>
+
     <s-table
       ref="table"
       size="default"
       :rowKey="(item) => item.id"
-      :columns="columns"
+      :columns="list_columns"
       :data="loadData"
       bordered
       fixed
       :scroll="{ x: 3450}"
+      v-else
     >
       <span slot="guest_remark" slot-scope="text" style="word-warp:break-word;word-break:break-all">
         <ellipsis :length="200" tooltip>{{ text }}</ellipsis>
@@ -120,7 +161,8 @@
         </div>
       </span>
     </s-table>
-  </a-card>
+
+  </div>
 </template>
 
 <script>
@@ -224,6 +266,7 @@ export default {
       orderStatus,
       payStatus,
       formFiled,
+      display: true,
       formFiledValue: [],
       day: undefined,
       order_status: -1,
@@ -247,7 +290,7 @@ export default {
         bookType: "xlsx"
       },
       // 表头
-      columns: [
+      list_columns: [
         {
           title: "OrderID",
           dataIndex: "orderID",
@@ -363,6 +406,28 @@ export default {
           fixed: "right"
         }
       ],
+      book_columns: [
+        {
+          title: "OrderID",
+          dataIndex: "orderID",
+          width: 50
+        },
+        {
+          title: "Customer",
+          dataIndex: "customer",
+          width: 120
+        },
+        {
+          title: "Order Info",
+          scopedSlots: { customRender: "info" },
+        },
+        {
+          title: "Create at",
+          dataIndex: "create_at",
+          scopedSlots: { customRender: "create_at" },
+          width: 162
+        },
+      ],
       loadData: parameter => {
         return getOrderList(Object.assign(parameter, this.queryParam)).then(
           res => {
@@ -416,6 +481,9 @@ export default {
 </script>
 
 <style >
+.order-info {
+  margin: 0;
+}
 .ant-collapse > .ant-collapse-item > .ant-collapse-header {
   line-height: 22px;
   padding: 12px 0 12px 40px;
