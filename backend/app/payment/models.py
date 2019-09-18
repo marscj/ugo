@@ -9,7 +9,7 @@ class Payment(models.Model):
     currency = models.CharField(max_length=10, default='USD')
     status = models.CharField(max_length=10, choices=PaymentStatus.CHOICES, default=PaymentStatus.FULLY_PAID)
     extra_data = models.TextField(blank=True, default='')
-    token = models.CharField(max_length=36, blank=True, default=uuid.uuid4())
+    token = models.UUIDField(default=uuid.uuid4, blank=True, null=True)
     create_at = models.DateTimeField(auto_now_add=True)
     change_at = models.DateTimeField(auto_now=True)
     description = models.TextField(blank=True, default='')
