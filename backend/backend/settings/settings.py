@@ -35,7 +35,6 @@ INSTALLED_APPS = [
     'versatileimagefield',
 
     'app.payment',
-
     'app.authorization',
     'app.product',
     'app.order',
