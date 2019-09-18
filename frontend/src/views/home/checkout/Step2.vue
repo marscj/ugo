@@ -6,70 +6,92 @@
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
         :required="true"
-      >{{ form.product }}</a-form-item>
+        class="stepFormText"
+      ><span class="bold">{{ form.product }}</span></a-form-item>
       <a-form-item
         label="子产品名称"
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
         :required="true"
-      >{{ form.variant }}</a-form-item>
+        class="stepFormText"
+      ><span class="bold">{{ form.variant }}</span></a-form-item>
       <a-form-item
         label="日期"
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
         :required="true"
-      >{{ form.day }}</a-form-item>
+        class="stepFormText"
+      ><span class="bold">{{ form.day }}</span></a-form-item>
       <a-form-item
         label="时间"
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
         :required="true"
-      >{{ form.time }}</a-form-item>
+        class="stepFormText"
+      ><span class="bold">{{ form.time }}</span></a-form-item>
       <a-form-item
         label="成人数量"
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
         :required="true"
+        class="stepFormText"
         v-if="form.adult_quantity > 0"
-      >{{ form.adult_quantity }}</a-form-item>
+      ><span class="bold">{{ form.adult_quantity }}</span></a-form-item>
       <a-form-item
         label="成人金额"
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
         :required="true"
+        class="stepFormText"
         v-if="form.adult_quantity > 0"
-      >{{ form.adult_price }} $</a-form-item>
+      ><span class="bold">{{ form.adult_price }} $</span></a-form-item>
       <a-form-item
         label="儿童数量"
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
         :required="true"
+        class="stepFormText"
         v-if="form.child_quantity > 0"
-      >{{ form.child_quantity }}</a-form-item>
+      ><span class="bold">{{ form.child_quantity }}</span></a-form-item>
       <a-form-item
         label="儿童金额"
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
         :required="true"
+        class="stepFormText"
         v-if="form.child_quantity > 0"
-      >{{ form.child_price }} $</a-form-item>
+      ><span class="bold">{{ form.child_price }} $</span></a-form-item>
       <a-form-item
         label="总金额"
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
         :required="true"
-      >{{ form.total }} $</a-form-item>
+        class="stepFormText"
+      ><span class="bold">{{ form.total }} $</span></a-form-item>
+      <a-form-item
+        label="关联单号"
+        :labelCol="labelCol"
+        :wrapperCol="wrapperCol"
+        class="stepFormText"
+      ><span class="bold">{{ form.relatedID }}</span></a-form-item>
       <a-form-item
         label="联系人信息"
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
-      >{{ form.guest_info }}</a-form-item>
+        class="stepFormText"
+      ><span class="bold">{{ form.guest_info }}</span></a-form-item>
       <a-form-item
         label="联系方式"
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
-      >{{ form.guest_contact }}</a-form-item>
-      <a-form-item label="客户备注" :labelCol="labelCol" :wrapperCol="wrapperCol">{{ form.guest_remark }}</a-form-item>
+        class="stepFormText"
+      ><span class="bold">{{ form.guest_contact }}</span></a-form-item>
+      <a-form-item
+        label="客户备注"
+        :labelCol="labelCol"
+        :wrapperCol="wrapperCol"
+        class="stepFormText"
+      ><span class="bold">{{ form.guest_remark }}</span></a-form-item>
       <a-form-item :wrapperCol="{span: 19, offset: 5}">
         <a-button :loading="loading" type="primary" @click="nextStep">提交</a-button>
         <a-button style="margin-left: 8px" @click="prevStep">上一步</a-button>
@@ -84,8 +106,14 @@ import { checkError } from "@/views/utils/error";
 export default {
   name: "Step2",
   props: {
-    form: Object,
-    default: {}
+    form: {
+      type: Object,
+      default: {}
+    },
+    result: {
+      type: Object,
+      default: {}
+    }
   },
   data() {
     return {
@@ -101,6 +129,7 @@ export default {
       createOrder(this.form)
         .then(res => {
           const { result } = res;
+          this.result.data = result;
           this.$emit("nextStep");
         })
         .catch(error => {
@@ -116,7 +145,8 @@ export default {
         "customer",
         "adult_quantity",
         "child_quantity",
-        "variant"
+        "variant",
+        "relatedID"
       );
 
       for (var key in errors) {
@@ -140,11 +170,22 @@ export default {
 
 <style lang="less" scoped>
 .stepFormText {
-  margin-bottom: 24px;
+  margin-bottom: 0px;
 
   .ant-form-item-label,
   .ant-form-item-control {
     line-height: 22px;
   }
+}
+
+.bold {
+  font-weight:bold;
+}
+
+.money {
+  font-family: "Helvetica Neue", sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 14px;
 }
 </style>

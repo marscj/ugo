@@ -6,9 +6,9 @@
       <a-step title="完成" />
     </a-steps>
     <div class="content">
-      <step1 v-if="currentTab === 0" @nextStep="nextStep" :form="form"/>
-      <step2 v-if="currentTab === 1" @nextStep="nextStep" @prevStep="prevStep" :form="form"/>
-      <step3 v-if="currentTab === 2" @prevStep="prevStep" @finish="finish" :form="form"/>
+      <step1 v-if="currentTab === 0" @nextStep="nextStep" :form="form" :result="result"/>
+      <step2 v-if="currentTab === 1" @nextStep="nextStep" @prevStep="prevStep" :form="form" :result="result"/>
+      <step3 v-if="currentTab === 2" @prevStep="prevStep" @finish="finish" :result="result"/>
     </div>
   </a-card>
 </template>
@@ -27,6 +27,7 @@ export default {
     return {
       form: this.$route.query,
       currentTab: 0,
+      result: {}
     };
   },
   methods: {

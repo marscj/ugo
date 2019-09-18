@@ -170,9 +170,17 @@ class OrderCreateSerializer(CheckoutSerializer):
 
     order_from = serializers.CharField(default='ugodubai')
 
+    relatedID = serializers.CharField(required=False, allow_null=True, allow_blank=True, max_length=64)
+
     class Meta:
         model = Order 
         fields = '__all__'
+
+    def validate_relatedID(self, value):
+        if value is not None:
+            if not Order.objects.filter(orderID=value).exists():
+                raise serializers.ValidationError('关联单号不存在')
+        return value
 
     def payment(self, total):
         customer = self.get_user()
@@ -222,6 +230,8 @@ class OrderUpdateSerializer(OrderCreateSerializer):
     variantID = serializers.ReadOnlyField()
 
     order_from = serializers.ReadOnlyField()
+
+    relatedID = serializers.ReadOnlyField()
 
     is_delete = serializers.BooleanField(required=False, default=False)
 

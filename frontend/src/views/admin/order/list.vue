@@ -29,6 +29,11 @@
           <a-collapse :bordered="false">
             <a-collapse-panel key="1" style="border: 0; overflow: hidden; margin-bottom: 15px;">
               <a-row :gutter="12">
+                <a-col :xs="6" :md="6" :sm="24">
+                  <a-form-item label="RelatedID">
+                    <a-input v-model="queryParam.relatedID" placeholder />
+                  </a-form-item>
+                </a-col>
                 <a-col :xs="8" :md="6" :sm="24">
                   <a-form-item label="Product">
                     <a-input v-model="queryParam.product" placeholder />
@@ -77,12 +82,30 @@
     >
       <span slot="info" slot-scope="text, data">
         <template>
-          <p class="order-info">产品名称：<span class="bold ligth-blue">{{data['product']}} - {{data['variant']}}</span></p> 
-          <p class="order-info">执行日期：<span class="bold">{{data['day']}} {{data['time']}}</span></p>
-          <p class="order-info">成人数量：<span class="bold">{{data['adult_quantity']}}</span></p>
-          <p class="order-info" v-if="data['child_quantity'] > 0">儿童数量：<span class="bold">{{data['adult_quantity']}}</span></p>
-          <p class="order-info">客人信息：<span class="bold">{{data['guest_info']}} {{data['guest_contact']}}</span></p>
-          <p class="order-info">客户备注：<span class="bold">{{data['guest_remark']}}</span></p>
+          <p class="order-info">
+            产品名称：
+            <span class="bold ligth-blue">{{data['product']}} - {{data['variant']}}</span>
+          </p>
+          <p class="order-info">
+            执行日期：
+            <span class="bold">{{data['day']}} {{data['time']}}</span>
+          </p>
+          <p class="order-info">
+            成人数量：
+            <span class="bold">{{data['adult_quantity']}}</span>
+          </p>
+          <p class="order-info" v-if="data['child_quantity'] > 0">
+            儿童数量：
+            <span class="bold">{{data['adult_quantity']}}</span>
+          </p>
+          <p class="order-info">
+            客人信息：
+            <span class="bold">{{data['guest_info']}} {{data['guest_contact']}}</span>
+          </p>
+          <p class="order-info">
+            客户备注：
+            <span class="bold">{{data['guest_remark']}}</span>
+          </p>
           <p
             class="order-info"
             v-if="data['remark'] != null && data['remark'].length > 0"
@@ -92,12 +115,27 @@
 
       <span slot="price" slot-scope="text, data">
         <template>
-          <p class="order-info">成人：<span class="bold">{{data['adult_price']}}$</span></p>
-          <p class="order-info" v-if="data['child_quantity'] > 0">儿童：<span class="bold">{{data['child_price']}}$</span></p>
-          <p class="order-info">总价：<span class="bold">{{data['total']}}$</span></p>
-          <br>
-          <p class="order-info">成人单价：<span class="bold">{{data['adult_unit_price']}}$</span></p>
-          <p class="order-info" v-if="data['child_quantity'] > 0">儿童单价：<span class="bold">{{data['child_unit_price']}}$</span></p>
+          <p class="order-info">
+            成人：
+            <span class="bold">{{data['adult_price']}}$</span>
+          </p>
+          <p class="order-info" v-if="data['child_quantity'] > 0">
+            儿童：
+            <span class="bold">{{data['child_price']}}$</span>
+          </p>
+          <p class="order-info">
+            总价：
+            <span class="bold">{{data['total']}}$</span>
+          </p>
+          <br />
+          <p class="order-info">
+            成人单价：
+            <span class="bold">{{data['adult_unit_price']}}$</span>
+          </p>
+          <p class="order-info" v-if="data['child_quantity'] > 0">
+            儿童单价：
+            <span class="bold">{{data['child_unit_price']}}$</span>
+          </p>
         </template>
       </span>
 
@@ -208,6 +246,7 @@ export default {
       order_status: -1,
       queryParam: {
         orderID: undefined,
+        relatedID: undefined,
         order_status: undefined,
         start_day: undefined,
         end_day: undefined,
@@ -228,6 +267,11 @@ export default {
         {
           title: "OrderID",
           dataIndex: "orderID",
+          width: 50
+        },
+        {
+          title: "RelatedID",
+          dataIndex: "relatedID",
           width: 50
         },
         {
@@ -318,7 +362,7 @@ export default {
 }
 
 .bold {
-  font-weight:bold;
+  font-weight: bold;
 }
 
 .ant-collapse > .ant-collapse-item > .ant-collapse-header {

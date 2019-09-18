@@ -78,6 +78,13 @@
         <a-input suffix="$" v-model="form.total" disabled/>
       </a-form-item>
       <a-form-item
+        label="关联单号"
+        :labelCol="labelCol"
+        :wrapperCol="wrapperCol"
+      >
+        <a-input v-model="form.relatedID"/>
+      </a-form-item>
+      <a-form-item
         label="联系人信息"
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
@@ -110,8 +117,14 @@
 export default {
   name: 'Step1',
   props: {
-    form: Object,
-    default: {}
+    form: {
+      type: Object,
+      default: {}
+    },
+    result: {
+      type: Object,
+      default: {}
+    }
   },
   data () {
     return {
@@ -126,30 +139,3 @@ export default {
   }
 }
 </script>
-
-<style lang="less" scoped>
-.step-form-style-desc {
-  padding: 0 56px;
-  color: rgba(0,0,0,.45);
-
-  h3 {
-    margin: 0 0 12px;
-    color: rgba(0,0,0,.45);
-    font-size: 16px;
-    line-height: 32px;
-  }
-
-  h4 {
-    margin: 0 0 4px;
-    color: rgba(0,0,0,.45);
-    font-size: 14px;
-    line-height: 22px;
-  }
-
-  p {
-    margin-top: 0;
-    margin-bottom: 12px;
-    line-height: 22px;
-  }
-}
-</style>

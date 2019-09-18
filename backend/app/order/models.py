@@ -98,9 +98,12 @@ class Order(models.Model):
     #来自于
     order_from = models.CharField(default='ugodubai', blank=True, null=True, max_length=64)
 
+    #关联订单号
+    relatedID = models.CharField(blank=True, null=True, max_length=64)
+
     class Meta:
         db_table = 'order'
-        ordering = ['-id']
+        ordering = ['-id', 'relatedID']
 
     def __str__(self):
         return self.orderID
