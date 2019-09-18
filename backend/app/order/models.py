@@ -3,7 +3,7 @@ import hashlib
 from django.db import models
 from django.core.validators import MinValueValidator
 
-from .import OrderStatus, PayStatus
+from .import OrderStatus
 from app.product import Category
 
 def create_uuid():
@@ -16,9 +16,6 @@ class Order(models.Model):
 
     #订单状态
     order_status = models.IntegerField(default=OrderStatus.CREATE, choices=OrderStatus.CHOICE)
-
-    #支付状态
-    pay_status = models.IntegerField(default=PayStatus.UNPAID, choices=PayStatus.CHOICE)
 
     #日期
     day = models.DateField()

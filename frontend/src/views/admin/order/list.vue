@@ -50,17 +50,6 @@
                     </a-select>
                   </a-form-item>
                 </a-col>
-                <a-col :xs="8" :md="6" :sm="24">
-                  <a-form-item label="PayStatus">
-                    <a-select
-                      :value="pay_status"
-                      @change="(value) => pay_status = value"
-                      :filterOption="false"
-                    >
-                      <a-select-option v-for="d in payStatus" :key="d.value">{{d.label}}</a-select-option>
-                    </a-select>
-                  </a-form-item>
-                </a-col>
               </a-row>
               <a-button type="primary" @click="exportModal.visible = true">Export</a-button>
             </a-collapse-panel>
@@ -140,15 +129,6 @@ const orderStatus = [
   { value: 5, label: "已退款" }
 ];
 
-const payStatus = [
-  { value: -1, label: "全部" },
-  { value: 0, label: "未支付" },
-  { value: 1, label: "部分支付" },
-  { value: 2, label: "全部付清" },
-  { value: 3, label: "部分退款" },
-  { value: 4, label: "全部退款" }
-];
-
 const formFiled = [
   { value: "orderID", label: "OrderID", checked: "orderID" },
   { value: "customer", label: "Customer", checked: "customer" },
@@ -170,7 +150,6 @@ const formFiled = [
   { value: "child_price", label: "ChildPrice", checked: "child_price" },
   { value: "total", label: "Total", checked: "total" },
   { value: "order_status", label: "OrderStatus", checked: "order_status" },
-  { value: "pay_status", label: "PayStatus", checked: "pay_status" },
   { value: "guest_info", label: "GuestInfo", checked: "guest_info" },
   { value: "guest_contact", label: "GuestContact", checked: "guest_contact" },
   { value: "guest_remark", label: "GuestRemark", checked: "guest_remark" },
@@ -205,15 +184,6 @@ export default {
       } else {
         this.queryParam.order_status = newQuestion;
       }
-      // this.$refs.table.refresh(true);
-    },
-    pay_status: function(newQuestion, oldQuestion) {
-      if (newQuestion == -1) {
-        this.queryParam.pay_status = undefined;
-      } else {
-        this.queryParam.pay_status = newQuestion;
-      }
-      // this.$refs.table.refresh(true);
     },
     day: function(newQuestion, oldQuestion) {
       if (
@@ -227,22 +197,18 @@ export default {
         this.queryParam.start_day = undefined;
         this.queryParam.end_day = undefined;
       }
-      // this.$refs.table.refresh(true);
     }
   },
   data() {
     return {
       orderStatus,
-      payStatus,
       formFiled,
       formFiledValue: [],
       day: undefined,
       order_status: -1,
-      pay_status: -1,
       queryParam: {
         orderID: undefined,
         order_status: undefined,
-        pay_status: undefined,
         start_day: undefined,
         end_day: undefined,
         variant: undefined,

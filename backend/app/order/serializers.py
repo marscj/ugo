@@ -5,7 +5,7 @@ from django.db import transaction
 
 from decimal import Decimal
 
-from .import OrderStatus, PayStatus
+from .import OrderStatus
 from .models import Order
 from app.authorization.models import CustomUser
 from app.product.models import ProductVariant, Product
@@ -126,8 +126,6 @@ class OrderCreateSerializer(CheckoutSerializer):
 
     order_status = serializers.ReadOnlyField()
 
-    pay_status = serializers.ReadOnlyField()
-
     create_at = serializers.ReadOnlyField()
 
     change_at = serializers.ReadOnlyField()
@@ -230,8 +228,6 @@ class OrderUpdateSerializer(OrderCreateSerializer):
     remark = serializers.CharField(required=False, allow_null=True, allow_blank=True)
 
     order_status = serializers.IntegerField(required=False)
-
-    pay_status = serializers.IntegerField(required=False)
 
     class Meta:
         model = Order 

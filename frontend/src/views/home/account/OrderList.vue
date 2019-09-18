@@ -128,7 +128,6 @@ export default {
       queryParam: {
         orderID: undefined,
         order_status: undefined,
-        pay_status: undefined,
         start_day: undefined,
         end_day: undefined,
         variant: undefined,

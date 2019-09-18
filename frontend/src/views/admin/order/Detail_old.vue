@@ -53,11 +53,6 @@
                 <a-select-option v-for="d in orderStatus" :key="d.value">{{d.label}}</a-select-option>
               </a-select>
             </a-form-item>
-            <a-form-item label="Pay Status">
-              <a-select :value="form.pay_status"  @change="handlePayStatusChange" :filterOption="false">
-                <a-select-option v-for="d in payStatus" :key="d.value">{{d.label}}</a-select-option>
-              </a-select>
-            </a-form-item>
             <a-form-item label="Customer">
               <a-input v-model="form.customer" disabled></a-input>
             </a-form-item>
@@ -94,14 +89,6 @@ const orderStatus = [
   { value: 5, label: "已退款" }
 ];
 
-const payStatus = [
-  { value: 0, label: "未支付" },
-  { value: 1, label: "部分支付" },
-  { value: 2, label: "全部付清" },
-  { value: 3, label: "部分退款" },
-  { value: 4, label: "全部退款" }
-];
-
 export default {
   name: "OrderDetail",
   props: {
@@ -113,10 +100,8 @@ export default {
   data() {
     return {
       orderStatus,
-      payStatus,
       form: {
         order_status: 0,
-        pay_status: 0,
         adult_quantity: undefined,
         adult_price: undefined,
         child_quantity: undefined,
@@ -202,9 +187,6 @@ export default {
     },
     handleOrderStatusChange(value) {
       this.form.order_status = value
-    },
-    handlePayStatusChange(value) {
-      this.form.pay_status = value
     },
     handleSubmit() {
       if (this.isEdit) {

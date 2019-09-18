@@ -34,6 +34,8 @@ INSTALLED_APPS = [
     'rest_framework_jwt',
     'versatileimagefield',
 
+    'app.payment',
+
     'app.authorization',
     'app.product',
     'app.order',

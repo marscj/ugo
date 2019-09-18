@@ -13,7 +13,6 @@ from app.authorization.models import CustomUser
 
 class OrderFilter(django_filters.FilterSet):
     order_status = django_filters.NumberFilter('order_status')
-    pay_status = django_filters.NumberFilter('pay_status')
     start_day = django_filters.DateFilter('day',lookup_expr=('gte'),) 
     end_day = django_filters.DateFilter('day',lookup_expr=('lte'))
     
@@ -23,6 +22,9 @@ class OrderFilter(django_filters.FilterSet):
     customer = django_filters.CharFilter('customer')
     operator = django_filters.CharFilter('operator')
 
+    customer_id = django_filters.NumberFilter('customer_id')
+    customer = django_filters.CharFilter('customer')
+
 class OrderView(CustomModelViewSet):
     serializer_class = OrderCreateSerializer
     permission_classes = [BackendPermission]
@@ -30,7 +32,7 @@ class OrderView(CustomModelViewSet):
 
     permissionId = Order.__name__
  
-    filterset_fields = ('day', 'order_status', 'pay_status', 'orderID', 'variant', 'product', 'customer', 'operator')
+    filterset_fields = ('day', 'order_status', 'orderID', 'variant', 'product', 'customer', 'operator', 'customer_id', 'customer')
     filter_class = OrderFilter
 
     def get_serializer_class(self):

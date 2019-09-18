@@ -134,14 +134,6 @@ const orderStatus = [
   { value: 5, label: "已退款" }
 ];
 
-const payStatus = [
-  { value: 0, label: "未支付" },
-  { value: 1, label: "部分支付" },
-  { value: 2, label: "全部付清" },
-  { value: 3, label: "部分退款" },
-  { value: 4, label: "全部退款" }
-];
-
 const categoryData = [
   { value: 1, label: "美食", type: "iconf-30" },
   { value: 2, label: "门票", type: "iconticket" },
@@ -169,11 +161,9 @@ export default {
   data() {
     return {
       orderStatus,
-      payStatus,
       categoryData,
       form: {
         order_status: 0,
-        pay_status: 0,
         adult_quantity: undefined,
         adult_price: undefined,
         child_quantity: undefined,
