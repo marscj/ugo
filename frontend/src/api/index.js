@@ -10,6 +10,7 @@ const api = {
 
   product: '/product/',
   variant: '/variant/',
+  coupon: '/coupon/',
 
   checkout: '/order/checkout/',
 

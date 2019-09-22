@@ -307,8 +307,6 @@ export default {
     },
     updateProduct(data, enable) {
       var _data = Object.assign({}, data, { status: enable });
-      console.log(_data, '=====')
-      console.log(data, '----')
       this.$refs.table.localLoading = true;
       updateProduct(data.id, _data)
         .then(res => {

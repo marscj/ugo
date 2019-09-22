@@ -3,6 +3,8 @@ from rest_framework import  serializers
 
 from .models import Coupon
 from app.authorization.models import CustomUser
+from app.product.serializers import ProductVariantSerializer
+from app.authorization.serializers import UserSimpleSerializer
 
 class CouponSerializer(serializers.ModelSerializer):
 
@@ -15,6 +17,10 @@ class CouponSerializer(serializers.ModelSerializer):
     exp_date = serializers.DateField()
 
     description = serializers.CharField(default='', max_length=128)
+
+    variant = ProductVariantSerializer(read_only=True, many=False)
+
+    customer = UserSimpleSerializer(read_only=True, many=True)
 
     variant_id = serializers.IntegerField()
 

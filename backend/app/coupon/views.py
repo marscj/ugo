@@ -16,4 +16,4 @@ class CouponView(CustomModelViewSet):
 
     permissionId = Product.__name__
  
-    filterset_fields = ('couponID')
+    filterset_fields = ('couponID', )

@@ -91,7 +91,6 @@ export const asyncRouterMap = [{
             },
             hidden: true
           },
-
           {
             path: 'variantList',
             name: 'VariantList',
@@ -123,6 +122,16 @@ export const asyncRouterMap = [{
               permission: ['Product']
             },
             hidden: true
+          },
+          {
+            path: 'couponList',
+            name: 'CouponList',
+            component: () => import('@/views/admin/coupon/list'),
+            meta: {
+              title: 'Coupon',
+              keepAlive: false,
+              permission: ['Product']
+            },
           },
         ]
       },
