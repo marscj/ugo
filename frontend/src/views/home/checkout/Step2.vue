@@ -62,6 +62,13 @@
         v-if="form.child_quantity > 0"
       ><span class="bold">{{ form.child_price }} $</span></a-form-item>
       <a-form-item
+        label="优惠金额"
+        :labelCol="labelCol"
+        :wrapperCol="wrapperCol"
+        :required="true"
+        class="stepFormText"
+      ><span class="bold">{{ form.offer }} $</span></a-form-item>
+      <a-form-item
         label="总金额"
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
@@ -69,11 +76,17 @@
         class="stepFormText"
       ><span class="bold">{{ form.total }} $</span></a-form-item>
       <a-form-item
-        label="关联单号"
+        label="UGO关联单号"
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
         class="stepFormText"
       ><span class="bold">{{ form.relatedID }}</span></a-form-item>
+      <a-form-item
+        label="客户关联单号"
+        :labelCol="labelCol"
+        :wrapperCol="wrapperCol"
+        class="stepFormText"
+      ><span class="bold">{{ form.guest_relatedID }}</span></a-form-item>
       <a-form-item
         label="联系人信息"
         :labelCol="labelCol"

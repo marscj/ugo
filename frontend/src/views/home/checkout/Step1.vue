@@ -70,6 +70,14 @@
         <a-input suffix="$" v-model="form.child_price" disabled/>
       </a-form-item>
       <a-form-item
+        label="优惠金额"
+        :labelCol="labelCol"
+        :wrapperCol="wrapperCol"
+        :required="true"
+      >
+        <a-input suffix="$" v-model="form.offer" disabled/>
+      </a-form-item>
+      <a-form-item
         label="总金额"
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
@@ -78,11 +86,18 @@
         <a-input suffix="$" v-model="form.total" disabled/>
       </a-form-item>
       <a-form-item
-        label="关联单号"
+        label="UGO关联单号"
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
       >
         <a-input v-model="form.relatedID"/>
+      </a-form-item>
+      <a-form-item
+        label="客户关联单号"
+        :labelCol="labelCol"
+        :wrapperCol="wrapperCol"
+      >
+        <a-input v-model="form.guest_relatedID"/>
       </a-form-item>
       <a-form-item
         label="联系人信息"

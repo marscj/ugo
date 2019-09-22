@@ -101,6 +101,12 @@ class Order(models.Model):
     #关联订单号
     relatedID = models.CharField(blank=True, null=True, max_length=64)
 
+    #优惠
+    offer = models.DecimalField(default=0.0, max_digits=10, decimal_places=2, validators=[MinValueValidator(0.0)])
+
+    #客户关联单号
+    guest_relatedID = models.CharField(blank=True, null=True, max_length=64)
+
     class Meta:
         db_table = 'order'
         ordering = ['-id', 'relatedID']

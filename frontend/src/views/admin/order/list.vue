@@ -124,6 +124,10 @@
             <span class="bold">{{data['child_price']}}$</span>
           </p>
           <p class="order-info">
+            优惠：
+            <span class="bold">{{data['offer']}}$</span>
+          </p>
+          <p class="order-info">
             总价：
             <span class="bold">{{data['total']}}$</span>
           </p>
@@ -305,6 +309,7 @@ export default {
       loadData: parameter => {
         return getOrderList(Object.assign(parameter, this.queryParam)).then(
           res => {
+            console.log(res)
             this.listData = res.result;
             return res.result;
           }

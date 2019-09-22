@@ -28,6 +28,8 @@ class CheckoutSerializer(serializers.ModelSerializer):
 
     child_price = serializers.SerializerMethodField()
 
+    offer = serializers.SerializerMethodField()
+
     total = serializers.SerializerMethodField()
 
     product = serializers.SerializerMethodField(method_name='get_product_name')
@@ -37,7 +39,7 @@ class CheckoutSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order 
         fields = (
-            'day', 'time', 'adult_quantity', 'child_quantity', 'variantID', 'adult_price', 'child_price', 'total', 'product', 'variant'
+            'day', 'time', 'adult_quantity', 'child_quantity', 'variantID', 'adult_price', 'child_price', 'offer', 'total', 'product', 'variant'
         )
 
     def get_user(self):
@@ -70,8 +72,11 @@ class CheckoutSerializer(serializers.ModelSerializer):
             return variant.child_price[self.get_price_lelve()]
         return Decimal(0.0)
 
+    def get_offer(self, obj):
+        return Decimal(0.0)
+
     def get_total(self, obj):
-        return Decimal(self.get_adult_price(obj)) + Decimal(self.get_child_price(obj))
+        return Decimal(self.get_adult_price(obj)) + Decimal(self.get_child_price(obj)) - Decimal(self.get_offer(obj))
 
     def get_product_name(self, obj):
         return self.get_product(obj).title
@@ -138,6 +143,8 @@ class OrderCreateSerializer(CheckoutSerializer):
 
     child_unit_price = serializers.ReadOnlyField()
 
+    offer = serializers.ReadOnlyField()
+
     total = serializers.ReadOnlyField()
 
     remark = serializers.ReadOnlyField()
@@ -172,6 +179,8 @@ class OrderCreateSerializer(CheckoutSerializer):
 
     relatedID = serializers.CharField(required=False, allow_null=True, allow_blank=True, max_length=64)
 
+    guest_relatedID = serializers.CharField(required=False, allow_null=True, allow_blank=True, max_length=64)
+
     class Meta:
         model = Order 
         fields = '__all__'
@@ -179,7 +188,7 @@ class OrderCreateSerializer(CheckoutSerializer):
     def validate_relatedID(self, value):
         if value is not None:
             if not Order.objects.filter(orderID=value).exists():
-                raise serializers.ValidationError('关联单号不存在')
+                raise serializers.ValidationError('UGO关联单号不存在')
         return value
 
     def payment(self, total):
@@ -193,6 +202,7 @@ class OrderCreateSerializer(CheckoutSerializer):
         adult_unit_price = self.get_adult_unit_price(validate_data)
         child_price = self.get_child_price(validate_data)
         child_unit_price = self.get_child_unit_price(validate_data)
+        offer = self.get_offer(validate_data)
         total = self.get_total(validate_data)
         product = self.get_product(validate_data)
         productID = product.productID
@@ -207,6 +217,7 @@ class OrderCreateSerializer(CheckoutSerializer):
             adult_unit_price=adult_unit_price,
             child_price=child_price,
             child_unit_price=child_unit_price,
+            offer=offer,
             total=total,
             product=product.title,
             productID=productID,
@@ -232,6 +243,8 @@ class OrderUpdateSerializer(OrderCreateSerializer):
     order_from = serializers.ReadOnlyField()
 
     relatedID = serializers.ReadOnlyField()
+
+    guest_relatedID = serializers.ReadOnlyField()
 
     is_delete = serializers.BooleanField(required=False, default=False)
 

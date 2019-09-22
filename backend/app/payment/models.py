@@ -6,13 +6,13 @@ from app.order.models import Order
 
 class Payment(models.Model):
     total = models.DecimalField(max_digits=9, decimal_places=2, default='0.0')
+    captured = models.DecimalField(max_digits=9, decimal_places=2, default='0.0')
     currency = models.CharField(max_length=10, default='USD')
     status = models.CharField(max_length=10, choices=PaymentStatus.CHOICES, default=PaymentStatus.FULLY_PAID)
     extra_data = models.TextField(blank=True, default='')
     create_at = models.DateTimeField(auto_now_add=True)
     change_at = models.DateTimeField(auto_now=True)
     description = models.TextField(blank=True, default='')
-
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, related_name='payment', blank=True, null=True)
 
     class Meta:
