@@ -5,8 +5,8 @@ from .import PaymentStatus
 from app.order.models import Order
 
 class Payment(models.Model):
-    total = models.DecimalField(max_digits=9, decimal_places=2, default='0.0')
-    captured = models.DecimalField(max_digits=9, decimal_places=2, default='0.0')
+    total = models.DecimalField(max_digits=10, decimal_places=2, default='0.0')
+    captured = models.DecimalField(max_digits=10, decimal_places=2, default='0.0')
     currency = models.CharField(max_length=10, default='USD')
     status = models.CharField(max_length=10, choices=PaymentStatus.CHOICES, default=PaymentStatus.FULLY_PAID)
     extra_data = models.TextField(blank=True, default='')

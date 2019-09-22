@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'api/', include('app.order.urls')),
     url(r'api/', include('app.source.urls')),
     url(r'api/', include('app.notice.urls')),
+    url(r'api/', include('app.coupon.urls')),
     url(r'api-auth/', include('rest_framework.urls'))
 ]
  

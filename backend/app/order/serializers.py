@@ -118,13 +118,13 @@ class CheckoutSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('产品不存在')
 
     def validate_relatedID(self, value):
-        if value is not None:
+        if value:
             if not Order.objects.filter(orderID=value).exists():
                 raise serializers.ValidationError('UGO关联单号不存在')
         return value
 
     def validate_couponID(self, value):
-        if value is not None:
+        if value:
             raise serializers.ValidationError('优惠券不存在')
                 
         return value
