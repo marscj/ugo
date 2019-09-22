@@ -174,11 +174,12 @@ export default {
       },
       variant: null,
       day: moment(new Date(), "YYYY-MM-DD"),
-      time: moment("12:00:00", "HH:mm:ss"),
+      time: moment("12:00", "HH:mm"),
       adult_quantity: 0,
       adult_price: 0.0,
       child_quantity: 0,
       child_price: 0.0,
+      offer: 0.0,
       total: 0.0,
       canbook: false
     };
@@ -231,26 +232,43 @@ export default {
       }
     },
     handleBook() {
-      this.spinning = true
-      checkout({
+      const result = {
         day: this.day.format("YYYY-MM-DD"),
-        time: this.time.format("HH:mm:ss"),
+        time: this.time.format("HH:mm"),
         adult_quantity: this.adult_quantity,
         child_quantity: this.child_quantity,
         variantID: this.variant.variantID,
-      }).then(res => {
-        const { result } = res
-        this.$router.push({name: 'Checkout', query: result})
-      }).catch((error) => {
-        this.checkError(error)
-        if (error && error.response) {
-          if (error.response.status == 401) {
-            // this.$router.push({name: 'UserLogin'})
-          }
-        }
-      }).finally(() => {
-        this.spinning = false
-      });
+        adult_price: this.adult_price,
+        child_price: this.child_price,
+        offer: this.offer,
+        total: this.total,
+        product: this.data.title,
+        variant: this.variant.name
+      }
+
+      console.log(this.data)
+
+      this.$router.push({name: 'Checkout', query: result})
+      // this.spinning = true
+      // checkout({
+      //   day: this.day.format("YYYY-MM-DD"),
+      //   time: this.time.format("HH:mm:ss"),
+      //   adult_quantity: this.adult_quantity,
+      //   child_quantity: this.child_quantity,
+      //   variantID: this.variant.variantID,
+      // }).then(res => {
+      //   const { result } = res
+      //   this.$router.push({name: 'Checkout', query: result})
+      // }).catch((error) => {
+      //   this.checkError(error)
+      //   if (error && error.response) {
+      //     if (error.response.status == 401) {
+      //       // this.$router.push({name: 'UserLogin'})
+      //     }
+      //   }
+      // }).finally(() => {
+      //   this.spinning = false
+      // });
     },
     checkError(error) {
       var errors = checkError(

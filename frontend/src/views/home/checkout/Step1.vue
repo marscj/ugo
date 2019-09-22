@@ -86,6 +86,13 @@
         <a-input suffix="$" v-model="form.total" disabled/>
       </a-form-item>
       <a-form-item
+        label="优惠券序列号"
+        :labelCol="labelCol"
+        :wrapperCol="wrapperCol"
+      >
+        <a-input v-model="form.couponID"/>
+      </a-form-item>
+      <a-form-item
         label="UGO关联单号"
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
@@ -121,7 +128,7 @@
         <a-textarea v-model="form.guest_remark"/>
       </a-form-item>
       <a-form-item :wrapperCol="{span: 19, offset: 5}">
-        <a-button type="primary" @click="nextStep">下一步</a-button>
+        <a-button type="primary" :loading="loading" @click="handleBook">下一步</a-button>
       </a-form-item>
     </a-form>
     <a-divider />
@@ -129,6 +136,9 @@
 </template>
 
 <script>
+import { checkout } from "@/api/order";
+import { checkError } from "@/views/utils/error";
+
 export default {
   name: 'Step1',
   props: {
@@ -145,9 +155,54 @@ export default {
     return {
       labelCol: { lg: { span: 5 }, sm: { span: 5 } },
       wrapperCol: { lg: { span: 19 }, sm: { span: 19 } },
+      loading:false
     }
   },
   methods: {
+    handleBook() {
+      this.spinning = true
+      checkout({
+        day: this.form.day,
+        time: this.form.time,
+        adult_quantity: this.form.adult_quantity,
+        child_quantity: this.form.child_quantity,
+        variantID: this.form.variantID,
+        relatedID: this.form.relatedID,
+        couponID: this.form.couponID
+      }).then(res => {
+        const { result } = res
+        this.$emit('nextStep')
+      }).catch((error) => {
+        this.checkError(error)
+        if (error && error.response) {
+          if (error.response.status == 401) {
+            // this.$router.push({name: 'UserLogin'})
+          }
+        }
+      }).finally(() => {
+        this.spinning = false
+      });
+    },
+    checkError(error) {
+      var errors = checkError(
+        error,
+        "customer",
+        "adult_quantity",
+        "child_quantity",
+        "variant",
+        "relatedID",
+        "couponID"
+      );
+
+      for (var key in errors) {
+        if (errors[key]) {
+          this.$notification["error"]({
+            message: errors[key],
+            duration: 4
+          });
+        }
+      }
+    },
     nextStep () {
       this.$emit('nextStep')
     }

@@ -24,6 +24,10 @@ class CheckoutSerializer(serializers.ModelSerializer):
 
     variantID = serializers.CharField(max_length=16)
 
+    relatedID = serializers.CharField(required=False, allow_null=True, allow_blank=True, max_length=64)
+
+    couponID = serializers.CharField(required=False, allow_null=True, allow_blank=True, max_length=128)
+
     adult_price = serializers.SerializerMethodField()
 
     child_price = serializers.SerializerMethodField()
@@ -39,7 +43,7 @@ class CheckoutSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order 
         fields = (
-            'day', 'time', 'adult_quantity', 'child_quantity', 'variantID', 'adult_price', 'child_price', 'offer', 'total', 'product', 'variant'
+            'day', 'time', 'adult_quantity', 'child_quantity', 'variantID', 'relatedID', 'couponID', 'adult_price', 'child_price', 'offer', 'total', 'product', 'variant'
         )
 
     def get_user(self):
@@ -113,6 +117,18 @@ class CheckoutSerializer(serializers.ModelSerializer):
         except ProductVariant.DoesNotExist:
             raise serializers.ValidationError('产品不存在')
 
+    def validate_relatedID(self, value):
+        if value is not None:
+            if not Order.objects.filter(orderID=value).exists():
+                raise serializers.ValidationError('UGO关联单号不存在')
+        return value
+
+    def validate_couponID(self, value):
+        if value is not None:
+            raise serializers.ValidationError('优惠券不存在')
+                
+        return value
+
     def validate(self, validate_data):
         balance = self.get_balance()
         adult_price = self.get_adult_price(validate_data)
@@ -177,19 +193,11 @@ class OrderCreateSerializer(CheckoutSerializer):
 
     order_from = serializers.CharField(default='ugodubai')
 
-    relatedID = serializers.CharField(required=False, allow_null=True, allow_blank=True, max_length=64)
-
     guest_relatedID = serializers.CharField(required=False, allow_null=True, allow_blank=True, max_length=64)
 
     class Meta:
         model = Order 
         fields = '__all__'
-
-    def validate_relatedID(self, value):
-        if value is not None:
-            if not Order.objects.filter(orderID=value).exists():
-                raise serializers.ValidationError('UGO关联单号不存在')
-        return value
 
     def payment(self, total):
         customer = self.get_user()
