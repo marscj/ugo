@@ -36,6 +36,14 @@
         </template>
       </span>
 
+      <span slot="customer" slot-scope="text">
+        <template>
+          <span v-for="(list, index) in text" :key="index">
+            <span>{{list.username}}</span><span v-if="index+1 < text.length">, </span>
+          </span>
+        </template>
+      </span>
+
       <span slot="status" slot-scope="text">
         <a-checkbox :checked="text" disabled />
       </span>
@@ -45,7 +53,9 @@
       </span>
 
       <span slot="action" slot-scope="text, data">
-        <a v-action:edit @click="handleEdit(data)">Edit</a>
+        <template>
+          <router-link v-action:edit :to="{ name: 'CouponEdit', params: { id: data.id } }">Edit</router-link>
+        </template>
       </span>
     </s-table>
   </a-card>
@@ -66,8 +76,15 @@ export default {
   },
   data() {
     return {
-      queryParam: {},
+      queryParam: {
+        search: ''
+      },
       columns: [
+        {
+          title: "CouponID",
+          dataIndex: "couponID",
+          width: '100px'
+        },
         {
           title: "Product",
           dataIndex: "variant.product",
@@ -77,6 +94,11 @@ export default {
           title: "Variant",
           dataIndex: "variant.name",
           scopedSlots: { customRender: "variant" },
+        },
+        {
+          title: "Customer",
+          dataIndex: "customer",
+          scopedSlots: { customRender: "customer" },
         },
         {
           title: "Description",
@@ -91,7 +113,7 @@ export default {
           title: "Status",
           dataIndex: "enable",
           scopedSlots: { customRender: "status" },
-          width: '100px',
+          width: '40px',
         },
         {
           title: "ExpDate",
@@ -102,13 +124,10 @@ export default {
         {
           title: "Action",
           dataIndex: "action",
-          width: '10%',
+          width: '50px',
           scopedSlots: { customRender: "action" }
         }
       ],
-      formModal: {
-        
-      },
       loadData: parameter => {
         return getCouponList(Object.assign(parameter, this.queryParam)).then(
           res => {

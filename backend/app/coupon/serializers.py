@@ -32,11 +32,9 @@ class CouponSerializer(serializers.ModelSerializer):
            'id', 'couponID', 'enable', 'amount', 'exp_date', 'description', 'variant_id', 'customer_id', 'variant', 'customer'
         )
 
-
     def create(self, validated_data):
         customer = validated_data.pop('customer_id', None)
-        variant = validated_data.pop('variant_id', None)
-        coupon = Coupon.objects.create(**validated_data, variant_id=variant)
+        coupon = Coupon.objects.create(**validated_data)
         
         if customer is not None:
             for data in customer:
@@ -46,7 +44,6 @@ class CouponSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         customer = validated_data.pop('customer_id', None)
-        variant = validated_data.pop('variant_id', None)
 
         if customer is not None:
             for data in instance.customer.all():
@@ -54,9 +51,6 @@ class CouponSerializer(serializers.ModelSerializer):
 
             for data in customer:
                 instance.customer.add(data)
-
-        if variant is not None:
-            instance.variant_id = variant
 
         super().update(instance, validated_data)
 
