@@ -39,7 +39,7 @@ class CouponSerializer(serializers.ModelSerializer):
         if customer is not None:
             for data in customer:
                 coupon.customer.add(data)
-
+    
         return coupon
 
     def update(self, instance, validated_data):

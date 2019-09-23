@@ -2,6 +2,8 @@ from django.db import models
 from django.utils.crypto import get_random_string
 from django.core.validators import MinValueValidator
 
+from django.utils import timezone
+
 from app.product.models import ProductVariant
 from app.authorization.models import CustomUser
 
@@ -18,6 +20,9 @@ class Coupon(models.Model):
     class Meta:
         db_table = 'coupon'
         ordering = ['-id']
+
+    def validate_exp(self):
+        return self.exp_date.strftime('%Y-%m-%d') >= timezone.now().strftime('%Y-%m-%d')
 
     def save(self, *args, **kwargs):
         if not self.couponID:

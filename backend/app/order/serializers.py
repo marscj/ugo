@@ -11,6 +11,7 @@ from app.authorization.models import CustomUser
 from app.product.models import ProductVariant, Product
 from app.product.serializers import ProductVariantSerializer
 from app.authorization.serializers import UserSimpleSerializer, UserSerializer
+from app.coupon.models import Coupon
 
 class CheckoutSerializer(serializers.ModelSerializer):
 
@@ -77,10 +78,17 @@ class CheckoutSerializer(serializers.ModelSerializer):
         return Decimal(0.0)
 
     def get_offer(self, obj):
+        coupon = self.get_coupon(obj)
+        if coupon:
+            return coupon.amount * obj['adult_quantity']
+
         return Decimal(0.0)
 
     def get_total(self, obj):
-        return Decimal(self.get_adult_price(obj)) + Decimal(self.get_child_price(obj)) - Decimal(self.get_offer(obj))
+        total = Decimal(self.get_adult_price(obj)) + Decimal(self.get_child_price(obj)) - Decimal(self.get_offer(obj))
+        if total < 0 :
+            return Decimal(0.0)
+        return total
 
     def get_product_name(self, obj):
         return self.get_product(obj).title
@@ -89,10 +97,24 @@ class CheckoutSerializer(serializers.ModelSerializer):
         return self.get_variant(obj).name
 
     def get_variant(self, validate_data):
-        return ProductVariant.objects.get(variantID=validate_data['variantID'])
+        try:
+            return ProductVariant.objects.get(variantID=validate_data['variantID'])
+        except ProductVariant.DoesNotExist:
+            return None
 
     def get_product(self, validate_data):
-        return ProductVariant.objects.get(variantID=validate_data['variantID']).product
+        return self.get_variant(validate_data).product
+
+    def get_coupon(self, validate_data):
+        couponID = validate_data.get('couponID', None)
+
+        if couponID:
+            try:
+                return Coupon.objects.get(couponID=validate_data['couponID'])
+            except Coupon.DoesNotExist:
+                return None
+        
+        return None
 
     def validate_day(self, value):
         return value
@@ -113,9 +135,10 @@ class CheckoutSerializer(serializers.ModelSerializer):
             variant = ProductVariant.objects.get(variantID=value)
             if not variant.status or not variant.product.status:
                 raise serializers.ValidationError('此产品已下架')
-            return value
         except ProductVariant.DoesNotExist:
             raise serializers.ValidationError('产品不存在')
+
+        return value
 
     def validate_relatedID(self, value):
         if value:
@@ -125,7 +148,19 @@ class CheckoutSerializer(serializers.ModelSerializer):
 
     def validate_couponID(self, value):
         if value:
-            raise serializers.ValidationError('优惠券不存在')
+            try:
+                coupon = Coupon.objects.get(couponID=value)
+                if not coupon.enable:
+                    raise serializers.ValidationError('优惠券已失效')
+                
+                if not coupon.validate_exp():
+                    raise serializers.ValidationError('优惠券已过期')
+
+                if not coupon.customer.filter(id=self.get_user().id).exists():
+                    raise serializers.ValidationError('优惠券非法')
+
+            except Coupon.DoesNotExist:
+                raise serializers.ValidationError('优惠券不存在')
                 
         return value
 
@@ -217,6 +252,8 @@ class OrderCreateSerializer(CheckoutSerializer):
         variant = self.get_variant(validate_data)
         customer=self.get_user().username
         customer_id=self.get_user().id
+
+        couponID = validate_data.pop('couponID')
 
         self.payment(total)
 

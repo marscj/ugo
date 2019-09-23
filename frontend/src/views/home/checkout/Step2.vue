@@ -139,7 +139,7 @@ export default {
   methods: {
     nextStep() {
       this.loading = true;
-      createOrder(this.form)
+      createOrder(Object.assign({}, this.form))
         .then(res => {
           const { result } = res;
           this.result.data = result;

@@ -232,43 +232,40 @@ export default {
       }
     },
     handleBook() {
-      const result = {
-        day: this.day.format("YYYY-MM-DD"),
-        time: this.time.format("HH:mm"),
-        adult_quantity: this.adult_quantity,
-        child_quantity: this.child_quantity,
-        variantID: this.variant.variantID,
-        adult_price: this.adult_price,
-        child_price: this.child_price,
-        offer: this.offer,
-        total: this.total,
-        product: this.data.title,
-        variant: this.variant.name
-      }
-
-      console.log(this.data)
-
-      this.$router.push({name: 'Checkout', query: result})
-      // this.spinning = true
-      // checkout({
+      // const result = {
       //   day: this.day.format("YYYY-MM-DD"),
-      //   time: this.time.format("HH:mm:ss"),
+      //   time: this.time.format("HH:mm"),
       //   adult_quantity: this.adult_quantity,
       //   child_quantity: this.child_quantity,
       //   variantID: this.variant.variantID,
-      // }).then(res => {
-      //   const { result } = res
-      //   this.$router.push({name: 'Checkout', query: result})
-      // }).catch((error) => {
-      //   this.checkError(error)
-      //   if (error && error.response) {
-      //     if (error.response.status == 401) {
-      //       // this.$router.push({name: 'UserLogin'})
-      //     }
-      //   }
-      // }).finally(() => {
-      //   this.spinning = false
-      // });
+      //   adult_price: this.adult_price,
+      //   child_price: this.child_price,
+      //   offer: this.offer,
+      //   total: this.total,
+      //   product: this.data.title,
+      //   variant: this.variant.name
+      // }
+      // this.$router.push({name: 'Checkout', query: result})
+
+      this.spinning = true
+      checkout({
+        day: this.day.format("YYYY-MM-DD"),
+        time: this.time.format("HH:mm:ss"),
+        adult_quantity: this.adult_quantity,
+        child_quantity: this.child_quantity,
+        variantID: this.variant.variantID,
+      }).then(res => {
+        const { result } = res
+        this.$router.push({name: 'Checkout', query: result})
+      }).catch((error) => {
+        this.checkError(error)
+        if (error && error.response) {
+          if (error.response.status == 401) {
+          }
+        }
+      }).finally(() => {
+        this.spinning = false
+      });
     },
     checkError(error) {
       var errors = checkError(
