@@ -12,6 +12,7 @@ from app.product.models import ProductVariant, Product
 from app.product.serializers import ProductVariantSerializer
 from app.authorization.serializers import UserSimpleSerializer, UserSerializer
 from app.coupon.models import Coupon
+from app.payment.models import Payment
 
 class CheckoutSerializer(serializers.ModelSerializer):
 
@@ -233,12 +234,7 @@ class OrderCreateSerializer(CheckoutSerializer):
     class Meta:
         model = Order 
         fields = '__all__'
-
-    def payment(self, total):
-        customer = self.get_user()
-        customer.balance -= total
-        customer.save()
-
+        
     @transaction.atomic
     def create(self, validate_data):
         adult_price = self.get_adult_price(validate_data)
@@ -250,14 +246,11 @@ class OrderCreateSerializer(CheckoutSerializer):
         product = self.get_product(validate_data)
         productID = product.productID
         variant = self.get_variant(validate_data)
-        customer=self.get_user().username
-        customer_id=self.get_user().id
+        customer=self.get_user()
 
         couponID = validate_data.pop('couponID')
 
-        self.payment(total)
-
-        return Order.objects.create(**validate_data,
+        order = Order.objects.create(**validate_data,
             adult_price=adult_price,
             adult_unit_price=adult_unit_price,
             child_price=child_price,
@@ -269,9 +262,21 @@ class OrderCreateSerializer(CheckoutSerializer):
             variant=variant.name,
             category=product.category,
             sku=variant.sku,
-            customer=customer,
-            customer_id=customer_id
+            customer=customer.username,
+            customer_id=customer.id
         )
+
+        payment = Payment.objects.create(
+            total = total,
+            order_id = order.id,
+            customer=customer.username,
+            customer_id=customer.id,
+            customer_balance=customer.balance
+        )
+
+        payment.capture(self.get_user(), total)
+
+        return order
 
 class OrderUpdateSerializer(OrderCreateSerializer):
 
