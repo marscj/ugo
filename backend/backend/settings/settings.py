@@ -34,13 +34,13 @@ INSTALLED_APPS = [
     'rest_framework_jwt',
     'versatileimagefield',
 
-    'app.payment',
     'app.authorization',
     'app.product',
     'app.coupon',
     'app.order',
     'app.source',
-    'app.notice'
+    'app.notice',
+    'app.payment',
 ]
 
 MIDDLEWARE = [

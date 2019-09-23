@@ -1,5 +1,4 @@
 default_app_config = 'app.payment.apps.PaymentConfig'
-
 class PaymentStatus:
     UNPAID = 0
     PARTIALLY_PAID = 1
