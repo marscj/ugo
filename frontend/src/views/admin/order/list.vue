@@ -143,9 +143,34 @@
         </template>
       </span>
 
+      <span slot="payment" slot-scope="data">
+        <div v-for="pay in data.payment" :key="pay.id">
+           <p class="order-info">
+            金额：
+            <span class="bold">{{pay.total}}$</span>
+          </p>
+          <p class="order-info">
+            捕捉金额：
+            <span class="bold">{{pay.captured}}$</span>
+          </p>
+          <p class="order-info">
+            状态：
+            <span class="bold">{{payStatus[pay.status].label}}</span>
+          </p>
+          <p class="order-info">
+            动作：
+            <span class="bold">{{payActions[pay.action].label}}</span>
+          </p>
+          <p class="order-info">
+            客户余额：
+            <span class="bold">{{pay.customer_balance}}$</span>
+          </p>
+        </div>
+      </span>
+
       <span slot="create_at" slot-scope="text">
         <template>
-          <span>{{text | moment('YYYY-MM-DD HH:mm')}}</span>
+          <span>{{text | moment('MM-DD HH:mm')}}</span>
         </template>
       </span>
       <span slot="action" slot-scope="text, data">
@@ -169,6 +194,21 @@ const orderStatus = [
   { value: 3, label: "订单已取消" },
   { value: 4, label: "退款中" },
   { value: 5, label: "已退款" }
+];
+
+const payStatus = [
+  { value: 0, label: "未支付" },
+  { value: 1, label: "部分支付" },
+  { value: 2, label: "全部付清" },
+  { value: 3, label: "退款中" },
+  { value: 4, label: "部分退款" },
+  { value: 5, label: "全部退款" },
+];
+
+const payActions = [
+  { value: 0, label: "捕捉" },
+  { value: 1, label: "退款" },
+  { value: 2, label: "充值" },
 ];
 
 const formFiled = [
@@ -244,6 +284,8 @@ export default {
   data() {
     return {
       orderStatus,
+      payStatus,
+      payActions,
       formFiled,
       formFiledValue: [],
       day: undefined,
@@ -271,45 +313,48 @@ export default {
         {
           title: "OrderID",
           dataIndex: "orderID",
-          width: 50
+          width: '50px'
         },
         {
           title: "RelatedID",
           dataIndex: "relatedID",
-          width: 50
+          width: '50px'
         },
         {
           title: "Customer",
           dataIndex: "customer",
-          width: 120
+          width: '100px'
         },
         {
           title: "Order Info",
           scopedSlots: { customRender: "info" }
         },
         {
-          title: "Price",
-          scopedSlots: { customRender: "price" },
-          width: 160
+          title: "Payment",
+          scopedSlots: { customRender: "payment" }
         },
         {
-          title: "Create at",
+          title: "Price",
+          scopedSlots: { customRender: "price" },
+          width: '160px'
+        },
+        {
+          title: "Create",
           dataIndex: "create_at",
           scopedSlots: { customRender: "create_at" },
-          width: 162
+          width: '50px'
         },
         {
           title: "Action",
           dataIndex: "action",
           scopedSlots: { customRender: "action" },
-          width: 100,
+          width: '50px',
           fixed: "right"
         }
       ],
       loadData: parameter => {
         return getOrderList(Object.assign(parameter, this.queryParam)).then(
           res => {
-            console.log(res)
             this.listData = res.result;
             return res.result;
           }

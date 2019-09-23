@@ -50,17 +50,16 @@ class Payment(models.Model):
         db_table = 'payment'
         ordering = ['-id']
 
-    def capture(self, customer, capture):
-        
-        customer.balance -= capture
+    def capture(self, customer, amount):
+        customer.balance -= amount
         customer.save()
 
-        if capture >= self.total:
+        if amount >= self.total:
             self.status = PaymentStatus.FULLY_PAID
         else:
             self.status = PaymentStatus.PARTIALLY_PAID
 
-        self.capture = capture
+        self.captured = amount
         self.action = PaymentAction.CAPTURE
         self.customer_balance = customer.balance
         self.save()

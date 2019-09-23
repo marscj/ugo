@@ -13,6 +13,7 @@ from app.product.serializers import ProductVariantSerializer
 from app.authorization.serializers import UserSimpleSerializer, UserSerializer
 from app.coupon.models import Coupon
 from app.payment.models import Payment
+from app.payment.serializers import PaymentSerializer
 
 class CheckoutSerializer(serializers.ModelSerializer):
 
@@ -234,7 +235,7 @@ class OrderCreateSerializer(CheckoutSerializer):
     class Meta:
         model = Order 
         fields = '__all__'
-        
+
     @transaction.atomic
     def create(self, validate_data):
         adult_price = self.get_adult_price(validate_data)
@@ -246,7 +247,7 @@ class OrderCreateSerializer(CheckoutSerializer):
         product = self.get_product(validate_data)
         productID = product.productID
         variant = self.get_variant(validate_data)
-        customer=self.get_user()
+        customer = self.get_user()
 
         couponID = validate_data.pop('couponID')
 
@@ -267,8 +268,9 @@ class OrderCreateSerializer(CheckoutSerializer):
         )
 
         payment = Payment.objects.create(
-            total = total,
-            order_id = order.id,
+            total=total,
+            captured=total,
+            order_id=order.id,
             customer=customer.username,
             customer_id=customer.id,
             customer_balance=customer.balance
@@ -302,12 +304,19 @@ class OrderUpdateSerializer(OrderCreateSerializer):
 
     order_status = serializers.IntegerField(required=False)
 
+    payment = serializers.SerializerMethodField()
+
     class Meta:
         model = Order 
         fields = '__all__'
 
     def validate(self, validate_data):
         return validate_data
+
+    def get_payment(self, obj):
+        query = Payment.objects.filter(order_id=obj.id)
+        serializer = PaymentSerializer(instance=query, many=True, context=self.context)
+        return serializer.data
         
     @transaction.atomic
     def update(self, instance, validated_data):

@@ -12,7 +12,6 @@ class ModelViewSetMixin(object):
         return response
 
     def create(self, request, *args, **kwargs):
-        print(request.data, '====')
         response = super().create(request, *args, **kwargs)
         response.data = {
             'result': response.data
