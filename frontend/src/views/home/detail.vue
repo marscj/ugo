@@ -228,7 +228,7 @@ export default {
       if (value) {
         this.time = value;
       } else {
-        this.time = moment("12:00:00", "HH:mm:ss");
+        this.time = moment("12:00:00", "HH:mm");
       }
     },
     handleBook() {

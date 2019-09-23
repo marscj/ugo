@@ -49,6 +49,10 @@ class UserView(CustomModelViewSet):
     permission_classes = [BackendPermission]
     queryset = CustomUser.objects.all().cache()
 
+    filterset_fields = ('is_active', 'is_staff')
+    search_fields = ('username',)
+    ordering_fields = ('id',)
+
     permissionId = CustomUser.__name__
     
     def get_serializer_class(self):
@@ -59,8 +63,6 @@ class UserView(CustomModelViewSet):
 
     def get_current_user(self):
         return self.request.user
-
-    
 
     @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated])
     def info(self, request):

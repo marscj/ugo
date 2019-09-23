@@ -160,20 +160,6 @@ export default {
   data() {
     return {
       categoryData,
-      labelCol: {
-        xs: { span: 24 },
-        sm: { span: 2 }
-      },
-      wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 15 }
-      },
-      buttonCol: {
-        wrapperCol: {
-          xs: { span: 24 },
-          sm: { span: 6 }
-        }
-      },
       form: this.$form.createForm(this),
       status: true,
       category: {

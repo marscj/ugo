@@ -14,11 +14,11 @@ class ProductView(CustomModelViewSet):
     serializer_class = ProductSerializer
     permission_classes = [BackendOrSafePermission]
 
-    permissionId = Product.__name__
-
     filterset_fields = ('category', 'status')
     search_fields = ('title', 'productID')
     ordering_fields = ('id', 'sort_by')
+
+    permissionId = Product.__name__
 
     def get_serializer_class(self):
         if self.action == 'list':

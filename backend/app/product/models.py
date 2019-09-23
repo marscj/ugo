@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator
-from django.contrib.postgres.fields import ArrayField, DecimalRangeField
+from django.contrib.postgres.fields import ArrayField
 
 from app.source.models import ProductImage
 

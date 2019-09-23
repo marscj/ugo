@@ -133,6 +133,28 @@ export const asyncRouterMap = [{
               permission: ['Product']
             },
           },
+          {
+            path: 'couponEdit/:id(\\d+)',
+            name: 'CouponEdit',
+            component: () => import('@/views/admin/coupon/edit'),
+            meta: {
+              title: 'Edit',
+              keepAlive: false,
+              permission: ['Product']
+            },
+            hidden: true
+          },
+          {
+            path: 'couponCreate',
+            name: 'CouponCreate',
+            component: () => import('@/views/admin/coupon/create'),
+            meta: {
+              title: 'Create',
+              keepAlive: false,
+              permission: ['Product']
+            },
+            hidden: true
+          },
         ]
       },
       // product variant
