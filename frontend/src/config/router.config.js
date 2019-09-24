@@ -57,7 +57,7 @@ export const asyncRouterMap = [{
         component: PageView,
         meta: {
           title: 'Product',
-          permission: ['Product']
+          permission: ['Product', 'Coupon']
         },
         children: [{
             path: 'productList',
@@ -130,7 +130,7 @@ export const asyncRouterMap = [{
             meta: {
               title: 'Coupon',
               keepAlive: false,
-              permission: ['Product']
+              permission: ['Coupon']
             },
           },
           {
@@ -140,7 +140,7 @@ export const asyncRouterMap = [{
             meta: {
               title: 'Edit',
               keepAlive: false,
-              permission: ['Product']
+              permission: ['Coupon']
             },
             hidden: true
           },
@@ -151,7 +151,7 @@ export const asyncRouterMap = [{
             meta: {
               title: 'Create',
               keepAlive: false,
-              permission: ['Product']
+              permission: ['Coupon']
             },
             hidden: true
           },
