@@ -65,6 +65,8 @@ const user = {
         getInfo().then(response => {
           const result = response.result
 
+          console.log(result, '-----')
+
           if (result.role && result.role.permissions.length > 0) {
             const role = result.role
             role.permissions = result.role.permissions

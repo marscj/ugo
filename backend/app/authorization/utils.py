@@ -89,3 +89,118 @@ def create_permission(instance):
             'label': '删除'
         }
     ], instance)
+
+    per_create_permission('Coupon', 'Coupon', [
+        {
+            'action': 'query',
+            'label': '查询'
+        },
+        {
+            'action': 'add',
+            'label': '新增'
+        },
+        {
+            'action': 'edit',
+            'label': '编辑'
+        },
+        {
+            'action': 'delete',
+            'label': '删除'
+        }
+    ], instance)
+
+    per_create_permission('Booking', 'Booking', [
+        {
+            'action': 'query',
+            'label': '查询'
+        },
+        {
+            'action': 'add',
+            'label': '新增'
+        },
+        {
+            'action': 'edit',
+            'label': '编辑'
+        },
+        {
+            'action': 'delete',
+            'label': '删除'
+        }
+    ], instance)
+
+    per_create_permission('Payment', 'Payment', [
+        {
+            'action': 'query',
+            'label': '查询'
+        },
+        {
+            'action': 'add',
+            'label': '新增'
+        },
+        {
+            'action': 'edit',
+            'label': '编辑'
+        },
+        {
+            'action': 'delete',
+            'label': '删除'
+        }
+    ], instance)
+
+def create_permission_9_24(instance):
+    per_create_permission('Coupon', 'Coupon', [
+        {
+            'action': 'query',
+            'label': '查询'
+        },
+        {
+            'action': 'add',
+            'label': '新增'
+        },
+        {
+            'action': 'edit',
+            'label': '编辑'
+        },
+        {
+            'action': 'delete',
+            'label': '删除'
+        }
+    ], instance)
+
+    per_create_permission('Booking', 'Booking', [
+        {
+            'action': 'query',
+            'label': '查询'
+        },
+        {
+            'action': 'add',
+            'label': '新增'
+        },
+        {
+            'action': 'edit',
+            'label': '编辑'
+        },
+        {
+            'action': 'delete',
+            'label': '删除'
+        }
+    ], instance)
+
+    per_create_permission('Payment', 'Payment', [
+        {
+            'action': 'query',
+            'label': '查询'
+        },
+        {
+            'action': 'add',
+            'label': '新增'
+        },
+        {
+            'action': 'edit',
+            'label': '编辑'
+        },
+        {
+            'action': 'delete',
+            'label': '删除'
+        }
+    ], instance)

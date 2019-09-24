@@ -48,6 +48,27 @@
     permissionName: Notice
     role: 1
 
+- model: authorization.permission
+  pk: 7
+  fields:
+    permissionId: Coupon
+    permissionName: Coupon
+    role: 1
+
+- model: authorization.permission
+  pk: 8
+  fields:
+    permissionId: Booking
+    permissionName: Booking
+    role: 1
+
+- model: authorization.permission
+  pk: 9
+  fields:
+    permissionId: Payment
+    permissionName: Payment
+    role: 1
+
 ###################################### actionentity ############################################
 # 'add': { key: 'add', label: '新增' },
 # 'delete': { key: 'delete', label: '删除' },
@@ -69,7 +90,7 @@
     enable: true
     permission: 1
 
-#CustomUser
+# CustomUser
 - model: authorization.actionentity
   pk: 2
   fields:
@@ -102,7 +123,7 @@
     enable: true
     permission: 2
 
-#Role
+# Role
 - model: authorization.actionentity
   pk: 6
   fields:
@@ -135,7 +156,7 @@
     enable: true
     permission: 3
 
-#Product
+# Product
 - model: authorization.actionentity
   pk: 10
   fields:
@@ -168,7 +189,7 @@
     enable: true
     permission: 4
 
-#Order
+# Order
 - model: authorization.actionentity
   pk: 14
   fields:
@@ -201,7 +222,7 @@
     enable: true
     permission: 5
 
-#Notice
+# Notice
 - model: authorization.actionentity
   pk: 18
   fields:
@@ -233,3 +254,102 @@
     label: 删除
     enable: true
     permission: 6
+
+# Coupon
+- model: authorization.actionentity
+  pk: 22
+  fields:
+    action: query
+    label: 查询
+    enable: true
+    permission: 7
+
+- model: authorization.actionentity
+  pk: 23
+  fields:
+    action: add
+    label: 新增
+    enable: true
+    permission: 7
+
+- model: authorization.actionentity
+  pk: 24
+  fields:
+    action: edit
+    label: 编辑
+    enable: true
+    permission: 7
+
+- model: authorization.actionentity
+  pk: 25
+  fields:
+    action: delete
+    label: 删除
+    enable: true
+    permission: 7
+
+# Booking 8
+- model: authorization.actionentity
+  pk: 26
+  fields:
+    action: query
+    label: 查询
+    enable: true
+    permission: 8
+
+- model: authorization.actionentity
+  pk: 27
+  fields:
+    action: add
+    label: 新增
+    enable: true
+    permission: 8
+
+- model: authorization.actionentity
+  pk: 28
+  fields:
+    action: edit
+    label: 编辑
+    enable: true
+    permission: 8
+
+- model: authorization.actionentity
+  pk: 29
+  fields:
+    action: delete
+    label: 删除
+    enable: true
+    permission: 8
+
+# Payment 9
+- model: authorization.actionentity
+  pk: 30
+  fields:
+    action: query
+    label: 查询
+    enable: true
+    permission: 9
+
+- model: authorization.actionentity
+  pk: 31
+  fields:
+    action: add
+    label: 新增
+    enable: true
+    permission: 9
+
+- model: authorization.actionentity
+  pk: 32
+  fields:
+    action: edit
+    label: 编辑
+    enable: true
+    permission: 9
+
+- model: authorization.actionentity
+  pk: 33
+  fields:
+    action: delete
+    label: 删除
+    enable: true
+    permission: 9

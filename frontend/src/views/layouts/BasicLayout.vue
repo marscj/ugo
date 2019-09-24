@@ -1,7 +1,7 @@
 <template>
   <a-layout :class="['layout', device]">
     <a-layout
-      :class="[layoutMode, `content-width-${'fixed'}`]"
+      :class="[layoutMode, `content-width-${'Fixed'}`]"
       :style="{ paddingLeft: contentPaddingLeft, minHeight: '100vh' }"
     >
       <!-- layout header -->

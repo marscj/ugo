@@ -83,61 +83,61 @@
       <span slot="info" slot-scope="text, data">
         <template>
           <p class="order-info">
-            产品名称：
-            <span class="bold ligth-blue">{{data['product']}} - {{data['variant']}}</span>
+            产品名称:
+            <span class="bold ligth-blue">【{{data['product']}} - {{data['variant']}}】</span>
           </p>
           <p class="order-info">
-            执行日期：
+            执行日期:
             <span class="bold">{{data['day']}} {{data['time']}}</span>
           </p>
           <p class="order-info">
-            成人数量：
+            成人数量:
             <span class="bold">{{data['adult_quantity']}}</span>
           </p>
           <p class="order-info" v-if="data['child_quantity'] > 0">
-            儿童数量：
+            儿童数量:
             <span class="bold">{{data['adult_quantity']}}</span>
           </p>
           <p class="order-info">
-            客人信息：
+            客人信息:
             <span class="bold">{{data['guest_info']}} {{data['guest_contact']}}</span>
           </p>
           <p class="order-info">
-            客户备注：
+            客户备注:
             <span class="bold">{{data['guest_remark']}}</span>
           </p>
           <p
             class="order-info"
             v-if="data['remark'] != null && data['remark'].length > 0"
-          >订单备注：{{data['remark']}}</p>
+          >订单备注:{{data['remark']}}</p>
         </template>
       </span>
 
       <span slot="price" slot-scope="text, data">
         <template>
           <p class="order-info">
-            成人：
+            成人:
             <span class="bold">{{data['adult_price']}}$</span>
           </p>
           <p class="order-info" v-if="data['child_quantity'] > 0">
-            儿童：
+            儿童:
             <span class="bold">{{data['child_price']}}$</span>
           </p>
           <p class="order-info">
-            优惠：
+            优惠:
             <span class="bold">{{data['offer']}}$</span>
           </p>
           <p class="order-info">
-            总价：
+            总价:
             <span class="bold">{{data['total']}}$</span>
           </p>
           <br />
           <p class="order-info">
-            成人单价：
+            成人单价:
             <span class="bold">{{data['adult_unit_price']}}$</span>
           </p>
           <p class="order-info" v-if="data['child_quantity'] > 0">
-            儿童单价：
+            儿童单价:
             <span class="bold">{{data['child_unit_price']}}$</span>
           </p>
         </template>
@@ -146,23 +146,23 @@
       <span slot="payment" slot-scope="data">
         <div v-for="pay in data.payment" :key="pay.id">
            <p class="order-info">
-            金额：
+            金额:
             <span class="bold">{{pay.total}}$</span>
           </p>
           <p class="order-info">
-            捕捉金额：
+            捕捉金额:
             <span class="bold">{{pay.captured}}$</span>
           </p>
           <p class="order-info">
-            状态：
+            状态:
             <span class="bold">{{payStatus[pay.status].label}}</span>
           </p>
           <p class="order-info">
-            动作：
+            动作:
             <span class="bold">{{payActions[pay.action].label}}</span>
           </p>
           <p class="order-info">
-            客户余额：
+            客户余额:
             <span class="bold">{{pay.customer_balance}}$</span>
           </p>
         </div>
@@ -331,12 +331,13 @@ export default {
         },
         {
           title: "Payment",
-          scopedSlots: { customRender: "payment" }
+          scopedSlots: { customRender: "payment" },
+          width: '180px'
         },
         {
           title: "Price",
           scopedSlots: { customRender: "price" },
-          width: '160px'
+          width: '140px'
         },
         {
           title: "Create",
@@ -413,6 +414,10 @@ export default {
 
 .bold {
   font-weight: bold;
+}
+
+.ligth-blue {
+  color: #2F54EB
 }
 
 .ant-collapse > .ant-collapse-item > .ant-collapse-header {
