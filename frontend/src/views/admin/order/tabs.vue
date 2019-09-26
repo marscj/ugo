@@ -200,6 +200,10 @@ export default {
   margin-left: 0;
 }
 
+.ant-card-wider-padding .ant-card-body {
+    padding: 24px 12px;
+}
+
 .buttonStyle {
   margin: 0px 8px;
 }

@@ -1,5 +1,5 @@
 <template>
-  <div v-action:query>
+  <a-spin v-action:query :spinning="loading">
     <s-table
       ref="table"
       size="default"
@@ -9,7 +9,7 @@
       bordered
       fixed
     >
-      <span slot="info" slot-scope="text, data">
+      <span slot="order" slot-scope="text, data">
         <template>
           <p class="order-info">
             产品名称:
@@ -17,7 +17,9 @@
           </p>
           <p class="order-info">
             执行日期:
-            <span class="bold">{{data['day'] + ' ' + data['time'] | moment('YYYY-MM-DD HH:mm')}}</span>
+            <span
+              class="bold"
+            >{{data['day'] + ' ' + data['time'] | moment('YYYY-MM-DD HH:mm')}}</span>
           </p>
           <p class="order-info">
             成人数量:
@@ -74,7 +76,7 @@
 
       <span slot="payment" slot-scope="data">
         <div v-for="pay in data.payment" :key="pay.id">
-           <p class="order-info">
+          <p class="order-info">
             金额:
             <span class="bold">{{pay.total}}$</span>
           </p>
@@ -103,17 +105,42 @@
         </template>
       </span>
       <span slot="action" slot-scope="text, data">
-        <div v-action:edit>
-          <router-link :to="{ name: 'OrderEdit', params: { id: data.id } }">Edit</router-link>
-        </div>
+        <template v-action:edit>
+          <div v-if="status == 0">
+            <a v-if="$auth('Order.edit')" href="javascript:;" @click="changeOrderStatus(data, 1)">接单</a>
+            <br />
+            <a-popconfirm
+              title="确认拒单？"
+              @confirm="changeOrderStatus(data, 3)"
+              okText="Yes"
+              cancelText="No"
+              v-if="$auth('Order.edit')"
+            >
+              <a href="javascript:;">拒单</a>
+            </a-popconfirm>
+          </div>
+          <div v-if="status == 1">
+            <a v-if="$auth('Booking.add')" href="javascript:;">添加预定</a>
+            <br />
+            <a v-if="$auth('Order.edit')" href="javascript:;" @click="changeOrderStatus(data, 2)">出票完成</a>
+          </div>
+          <div v-if="status == 2"></div>
+          <div v-if="status == 3">
+            <a v-if="$auth('Payment.add')" href="javascript:;">申请退款</a>
+          </div>
+          <div v-if="status == 4" >
+            <a v-if="$auth('Payment.edit')" href="javascript:;" @click="changeOrderStatus(data, 5)">审核通过</a>
+          </div>
+          <div v-if="status == 5"></div>
+        </template>
       </span>
     </s-table>
-  </div>
+  </a-spin>
 </template>
 
 <script>
 import { STable, Ellipsis } from "@/components";
-import { getOrderList } from "@/api/order";
+import { getOrderList, updateOrder } from "@/api/order";
 
 const payStatus = [
   { value: 0, label: "未支付" },
@@ -121,13 +148,13 @@ const payStatus = [
   { value: 2, label: "全部付清" },
   { value: 3, label: "退款中" },
   { value: 4, label: "部分退款" },
-  { value: 5, label: "全部退款" },
+  { value: 5, label: "全部退款" }
 ];
 
 const payActions = [
   { value: 0, label: "捕捉" },
   { value: 1, label: "退款" },
-  { value: 2, label: "充值" },
+  { value: 2, label: "充值" }
 ];
 
 export default {
@@ -155,43 +182,52 @@ export default {
         {
           title: "OrderID",
           dataIndex: "orderID",
-          width: '50px'
+          width: "50px"
         },
         {
           title: "RelatedID",
           dataIndex: "relatedID",
-          width: '50px'
+          width: "50px"
         },
         {
           title: "Customer",
           dataIndex: "customer",
-          width: '100px'
+          width: "100px"
         },
         {
           title: "Order Info",
-          scopedSlots: { customRender: "info" }
+          scopedSlots: { customRender: "order" }
+        },
+        {
+          title: "Booking Info",
+          scopedSlots: { customRender: "booking" }
         },
         {
           title: "Payment",
           scopedSlots: { customRender: "payment" },
-          width: '180px'
+          width: "180px"
         },
         {
           title: "Price",
           scopedSlots: { customRender: "price" },
-          width: '140px'
+          width: "140px"
+        },
+        {
+          title: "Operator",
+          dataIndex: "operator",
+          width: "50px"
         },
         {
           title: "Create",
           dataIndex: "create_at",
           scopedSlots: { customRender: "create_at" },
-          width: '50px'
+          width: "40px"
         },
         {
           title: "Action",
           dataIndex: "action",
           scopedSlots: { customRender: "action" },
-          width: '50px',
+          width: "90px",
           fixed: "right"
         }
       ],
@@ -203,17 +239,23 @@ export default {
           }
         );
       },
-      listData: []
+      listData: [],
+      loading: false
     };
   },
   methods: {
-    handleCreate(data) {
-      this.$router.push({
-        name: "OrderCreate"
-      });
-    },
     refresh() {
-      this.$refs.table.refresh()
+      this.$refs.table.refresh(true);
+    },
+    changeOrderStatus(data, status) {
+      this.loading = true;
+      updateOrder(data.id, Object.assign({}, data, { order_status: status }))
+        .then(res => {
+          return this.refresh()
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     }
   }
 };
@@ -229,7 +271,7 @@ export default {
 }
 
 .ligth-blue {
-  color: #2F54EB
+  color: #2f54eb;
 }
 
 .ant-collapse > .ant-collapse-item > .ant-collapse-header {
