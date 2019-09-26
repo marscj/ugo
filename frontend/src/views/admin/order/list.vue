@@ -139,34 +139,17 @@ export default {
   props: {
     queryParam: {
       type: Object,
-      default: {
-        orderID: undefined,
-        relatedID: undefined,
-        order_status: undefined,
-        start_day: undefined,
-        end_day: undefined,
-        variant: undefined,
-        product: undefined,
-        customer: undefined,
-        operator: undefined
-      }
+      default: undefined
+    },
+    status: {
+      type: Number,
+      default: 0
     }
   },
   data() {
     return {
       payStatus,
       payActions,
-      queryParam: {
-        orderID: undefined,
-        relatedID: undefined,
-        order_status: undefined,
-        start_day: undefined,
-        end_day: undefined,
-        variant: undefined,
-        product: undefined,
-        customer: undefined,
-        operator: undefined
-      },
       // 表头
       book_columns: [
         {
@@ -228,6 +211,9 @@ export default {
       this.$router.push({
         name: "OrderCreate"
       });
+    },
+    refresh() {
+      this.$refs.table.refresh()
     }
   }
 };

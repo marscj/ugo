@@ -52,32 +52,21 @@
               </a-form-item>
             </a-col>
           </a-row>
-          <a-button type="primary" @click="activeKey = '2'">Search</a-button>
+          
+          <a-button type="primary" @click="hanldeSearch">Search & Refresh</a-button>
+          <a-button class="buttonStyle" type="primary" @click="hanldeClean">Clean</a-button>
           <a-button class="buttonStyle" type="primary" @click="exportModal.visible = true">Export</a-button>
         </a-form>
       </template>
 
-      <a-tabs defaultActiveKey="3" :activeKey="activeKey" @change="handleTableChange" >
-        <a-tab-pane tab="待处理" :key="0">
-          <order-list :queryParam="queryParam"/>
-        </a-tab-pane>
-        <a-tab-pane tab="已确认" :key="1">
-          <order-list />
-        </a-tab-pane>
-        <a-tab-pane tab="出票完成" :key="2">
-          <order-list />
-        </a-tab-pane>
-        <a-tab-pane tab="已取消" :key="3">
-          <order-list />
-        </a-tab-pane>
-        <a-tab-pane tab="退款中" :key="4">
-          <order-list />
-        </a-tab-pane>
-        <a-tab-pane tab="已退款" :key="5">
-          <order-list />
-        </a-tab-pane>
-        <a-tab-pane tab="全部" :key="-1">
-          <order-list />
+      <a-tabs
+        :defaultActiveKey="0"
+        :activeKey="activeKey"
+        @change="handleTableChange"
+        :animated="false"
+      >
+        <a-tab-pane v-for="tab in orderStatus" :tab="tab.label" :key="tab.value">
+          <order-list :queryParam="queryParam" :status="tab.value" ref="orders" />
         </a-tab-pane>
       </a-tabs>
     </a-card>
@@ -88,13 +77,13 @@
 import OrderList from "./list";
 
 const orderStatus = [
-  { value: -1, label: "全部" },
   { value: 0, label: "待处理" },
   { value: 1, label: "已确认" },
   { value: 2, label: "出票完成" },
   { value: 3, label: "已取消" },
   { value: 4, label: "退款中" },
-  { value: 5, label: "已退款" }
+  { value: 5, label: "已退款" },
+  { value: -1, label: "全部" }
 ];
 
 export default {
@@ -121,6 +110,13 @@ export default {
         this.queryParam.start_day = undefined;
         this.queryParam.end_day = undefined;
       }
+    },
+    activeKey: function(newQuestion, oldQuestion) {
+      if (newQuestion == -1) {
+        this.queryParam.order_status = undefined;
+      } else {
+        this.queryParam.order_status = newQuestion;
+      }
     }
   },
   data() {
@@ -130,7 +126,7 @@ export default {
       queryParam: {
         orderID: undefined,
         relatedID: undefined,
-        order_status: undefined,
+        order_status: 0,
         start_day: undefined,
         end_day: undefined,
         variant: undefined,
@@ -139,12 +135,41 @@ export default {
         operator: undefined
       },
       day: undefined,
-      order_status: -1,
+      order_status: -1
     };
   },
   methods: {
+    refresh() {
+      this.$refs.orders.find(f => f.status == this.activeKey).refresh();
+    },
     handleTableChange(value) {
-      this.activeKey = value
+      this.activeKey = value;
+      if (this.$refs.orders.find(f => f.status == this.activeKey)) {
+        this.$nextTick(() =>
+          this.refresh()
+        );
+      } else {
+        this.hanldeClean()
+      }
+    },
+    hanldeClean() {
+      this.queryParam = {
+        orderID: undefined,
+        relatedID: undefined,
+        order_status: this.activeKey,
+        start_day: undefined,
+        end_day: undefined,
+        variant: undefined,
+        product: undefined,
+        customer: undefined,
+        operator: undefined
+      },
+      this.$nextTick(() =>
+        this.refresh()
+      );
+    },
+    hanldeSearch() {
+      this.refresh();
     }
   }
 };
