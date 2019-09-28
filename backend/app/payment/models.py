@@ -1,9 +1,6 @@
-from django.db import models
-import uuid
+from django.db import models, transaction
 
 from .import PaymentStatus, PaymentAction
-from app.order.models import Order
-from app.authorization.models import CustomUser
 
 class Payment(models.Model):
    
@@ -32,7 +29,7 @@ class Payment(models.Model):
     change_at = models.DateTimeField(auto_now=True)
 
     #说明
-    description = models.TextField(blank=True, default='')
+    description = models.TextField(blank=True, null=True)
 
     #订单id
     order_id = models.IntegerField(blank=True, null=True)
@@ -50,18 +47,17 @@ class Payment(models.Model):
         db_table = 'payment'
         ordering = ['-id']
 
-    def capture(self, customer, amount):
-        customer.balance -= amount
-        customer.save()
+    @transaction.atomic
+    def refund(self):
+        customer = CustomUser.objects.get(pk=self.customer_id)
+        customer.recharge(self.total)
 
-        if amount >= self.total:
-            self.status = PaymentStatus.FULLY_PAID
-        else:
-            self.status = PaymentStatus.PARTIALLY_PAID
-
-        self.captured = amount
-        self.action = PaymentAction.CAPTURE
+        self.captured = self.total
+        self.status = PaymentStatus.FULLY_REFUNDED
         self.customer_balance = customer.balance
-        self.save()
 
+        self.save()
+        
+
+           
         

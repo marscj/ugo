@@ -267,16 +267,7 @@ class OrderCreateSerializer(CheckoutSerializer):
             customer_id=customer.id
         )
 
-        payment = Payment.objects.create(
-            total=total,
-            captured=total,
-            order_id=order.id,
-            customer=customer.username,
-            customer_id=customer.id,
-            customer_balance=customer.balance
-        )
-
-        payment.capture(self.get_user(), total)
+        order.payment(total)
 
         return order
 

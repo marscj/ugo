@@ -176,20 +176,6 @@ export default {
 </script>
 
 <style >
-.ant-collapse > .ant-collapse-item > .ant-collapse-header {
-  line-height: 22px;
-  padding: 12px 0 12px 40px;
-  color: #000000d9;
-  cursor: pointer;
-  position: relative;
-  float: right;
-  -webkit-transition: all 0.3s;
-  transition: all 0.3s;
-}
-
-.ant-collapse-content > .ant-collapse-content-box {
-  padding: 0px;
-}
 
 .ant-card-extra {
   width: 100%;

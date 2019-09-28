@@ -1,7 +1,9 @@
 import api from './index'
-import { axios } from '@/utils/request'
+import {
+  axios
+} from '@/utils/request'
 
-export function checkout (data) {
+export function checkout(data) {
   return axios({
     url: api.checkout,
     method: 'post',
@@ -9,7 +11,7 @@ export function checkout (data) {
   })
 }
 
-export function getOrderList (parameter) {
+export function getOrderList(parameter) {
   return axios({
     url: api.order,
     method: 'get',
@@ -17,14 +19,14 @@ export function getOrderList (parameter) {
   })
 }
 
-export function getOrder (pk) {
+export function getOrder(pk) {
   return axios({
     url: api.order + `${pk}/`,
     method: 'get',
   })
 }
 
-export function updateOrder (pk, data) {
+export function updateOrder(pk, data) {
   return axios({
     url: api.order + `${pk}/`,
     method: 'put',
@@ -32,7 +34,7 @@ export function updateOrder (pk, data) {
   })
 }
 
-export function createOrder (data) {
+export function createOrder(data) {
   return axios({
     url: api.order,
     method: 'post',
@@ -40,9 +42,17 @@ export function createOrder (data) {
   })
 }
 
-export function deleteOrder (pk) {
+export function deleteOrder(pk) {
   return axios({
     url: api.order + `${pk}/`,
     method: 'delete',
+  })
+}
+
+export function orderRefund(pk, data) {
+  return axios({
+    url: api.order + `${pk}/` + 'refund/',
+    method: 'put',
+    data: data
   })
 }

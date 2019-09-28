@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import models, transaction
 from django.utils import timezone
 from django.contrib.auth.models import AbstractBaseUser, UserManager, AbstractUser
 from django.contrib.auth.validators import UnicodeUsernameValidator
@@ -43,6 +43,16 @@ class CustomUser(AbstractBaseUser):
     def clean(self):
         super().clean()
         self.email = self.__class__.objects.normalize_email(self.email)
+
+    @transaction.atomic
+    def recharge(self, amount):
+        self.balance += amount
+        self.save()
+
+    @transaction.atomic
+    def charge(self, amount):
+        self.balance -= amount
+        self.save()
 
 class Role(models.Model):
     name = models.CharField(max_length=32)

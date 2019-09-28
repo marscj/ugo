@@ -1,10 +1,13 @@
 import uuid
 import hashlib
-from django.db import models
+from django.db import models, transaction
 from django.core.validators import MinValueValidator
 
 from .import OrderStatus
 from app.product import Category
+from app.payment.models import Payment
+from app.authorization.models import CustomUser
+from app.payment import PaymentAction, PaymentStatus
 
 def create_uuid():
     return '%019d' % uuid.uuid4().__hash__()
@@ -114,6 +117,36 @@ class Order(models.Model):
     def __str__(self):
         return self.orderID
 
+    @transaction.atomic
+    def payment(self, total):
+        customer = CustomUser.objects.get(pk=self.customer_id)
+        customer.charge(total)
+
+        Payment.objects.create(
+            total=total,
+            captured=total,
+            status=PaymentStatus.FULLY_PAID,
+            action=PaymentAction.CAPTURE,
+            order_id=self.id,
+            customer=customer.username,
+            customer_id=customer.id,
+            customer_balance=customer.balance
+        )
+
+    @transaction.atomic
+    def refund(self, amount, description):
+        customer = CustomUser.objects.get(pk=self.customer_id)
         
+        Payment.objects.create(
+            total=amount,
+            captured=0,
+            description=description,
+            status=PaymentStatus.REFUNDING,
+            action=PaymentAction.REFUNDED,
+            order_id=self.id,
+            customer=customer.username,
+            customer_id=customer.id,
+            customer_balance=customer.balance
+        )
             
         
