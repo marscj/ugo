@@ -107,13 +107,13 @@
             </p>
             <p>
               <a-popconfirm
-                title="确定通过退款审核？"
+                title="Are you sure to do this?"
                 @confirm="paymentRefund(pay)"
                 okText="Yes"
                 cancelText="No"
                 v-if="$auth('Payment.edit') && pay.status == 3"
               >
-                <a href="javascript:;">审核通过</a>
+                <a href="javascript:;">Confrim</a>
               </a-popconfirm>
             </p>
             <br />
@@ -133,41 +133,43 @@
                 v-if="$auth('Order.edit')"
                 href="javascript:;"
                 @click="changeOrderStatus(data, 1)"
-              >接单</a>
+              >confirm</a>
               <br />
               <a-popconfirm
-                title="确认拒单？"
+                title="Are you sure cancel?"
                 @confirm="changeOrderStatus(data, 3)"
                 okText="Yes"
                 cancelText="No"
                 v-if="$auth('Order.edit')"
               >
-                <a href="javascript:;">拒单</a>
+                <a href="javascript:;">cancel</a>
               </a-popconfirm>
             </div>
             <div v-if="status == 1">
-              <a v-if="$auth('Booking.add')" href="javascript:;">Add Booking</a>
+              <a v-if="$auth('Booking.add')" href="javascript:;">add booking</a>
               <br />
               <a
                 v-if="$auth('Order.edit')"
                 href="javascript:;"
                 @click="changeOrderStatus(data, 2)"
-              >出票完成</a>
+              >complete</a>
             </div>
             <div v-if="status == 2"></div>
             <div v-if="status == 3">
-              <a v-if="$auth('Payment.add')" href="javascript:;" @click="refund.handle(data)">Refund</a>
+              <a v-if="$auth('Payment.add')" href="javascript:;" @click="refund.handle(data)">add refund</a>
+              <br />
+              <a v-if="$auth('Payment.add')" href="javascript:;" @click="changeOrderStatus(data, 5)">complete</a>
             </div>
-            <div v-if="status == 4">
+            <!-- <div v-if="status == 4">
               <a
                 v-if="$auth('Payment.edit')"
                 href="javascript:;"
                 @click="changeOrderStatus(data, 5)"
               >已退款</a>
-            </div>
+            </div> -->
             <div v-if="status == 5"></div>
             <div>
-              <a href="javascript:;">Remark</a>
+              <a href="javascript:;">remark</a>
             </div>
           </template>
         </span>

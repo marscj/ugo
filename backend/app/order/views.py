@@ -77,7 +77,9 @@ class OrderView(CustomModelViewSet):
                 }, status=400)
 
             total = Payment.objects.filter(
-                Q(order_id=order.id) & Q(status=PaymentStatus.REFUNDING) & Q(action=PaymentAction.REFUNDED)
+                Q(order_id=order.id) & 
+                (Q(status=PaymentStatus.REFUNDING) | Q(status=PaymentStatus.PARTIALLY_REFUNDED) | Q(status=PaymentStatus.FULLY_REFUNDED)) & 
+                Q(action=PaymentAction.REFUNDED)
             ).aggregate(sum=Sum('total'))['sum'] or 0.0
 
             if amount > order.total - Decimal(total):

@@ -77,13 +77,13 @@
 import OrderList from "./list";
 
 const orderStatus = [
-  { value: 0, label: "待处理" },
-  { value: 1, label: "已确认" },
-  { value: 2, label: "出票完成" },
-  { value: 3, label: "已取消" },
-  { value: 4, label: "退款中" },
-  { value: 5, label: "已退款" },
-  { value: -1, label: "全部" }
+  { value: 0, label: "New" },
+  { value: 1, label: "Confirm" },
+  { value: 2, label: "Complete" },
+  { value: 3, label: "Cancel" },
+  // { value: 4, label: "退款中" },
+  { value: 5, label: "Refund" },
+  { value: -1, label: "All" }
 ];
 
 export default {
