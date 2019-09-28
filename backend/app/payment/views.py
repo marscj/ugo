@@ -5,6 +5,8 @@ from django.db import transaction
 
 from middleware.viewsets import CustomModelViewSet
 from middleware.permissions import BackendPermission
+
+from .import PaymentStatus, PaymentAction
 from app.payment.models import Payment
 from app.payment.serializers import PaymentSerializer
     
@@ -18,10 +20,10 @@ class PaymentView(CustomModelViewSet):
     @transaction.atomic
     @action(detail=True, methods=['put'], permission_classes=[BackendPermission])
     def refund(self, request, pk=None):
-        print('refund', pk, '------')
-        for payment in Payment.objects.all():
-            print(payment.id, '------=====')
+
         payment = self.get_object()
-        payment.refund()
+        
+        if payment.status == PaymentStatus.REFUNDING and payment.action == PaymentAction.REFUNDED:
+            payment.refund()
 
         return Response({'result': 'ok'})

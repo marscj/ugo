@@ -158,7 +158,7 @@
             <div v-if="status == 3">
               <a v-if="$auth('Payment.add')" href="javascript:;" @click="refund.handle(data)">add refund</a>
               <br />
-              <a v-if="$auth('Payment.add')" href="javascript:;" @click="changeOrderStatus(data, 5)">complete</a>
+              <a v-if="$auth('Order.edit') | $auth('Payment.edit')" href="javascript:;" @click="changeOrderStatus(data, 5)">complete</a>
             </div>
             <!-- <div v-if="status == 4">
               <a
