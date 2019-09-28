@@ -17,6 +17,8 @@ const api = {
   order: '/order/',
   source: '/source/',
 
+  payment: '/payment/',
+
   notice: '/notice/',
 }
 export default api

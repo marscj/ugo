@@ -1,7 +1,7 @@
 from django.db import models, transaction
 
 from .import PaymentStatus, PaymentAction
-
+from app.authorization.models import CustomUser
 class Payment(models.Model):
    
     #金额

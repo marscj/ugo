@@ -18,6 +18,9 @@ class PaymentView(CustomModelViewSet):
     @transaction.atomic
     @action(detail=True, methods=['put'], permission_classes=[BackendPermission])
     def refund(self, request, pk=None):
+        print('refund', pk, '------')
+        for payment in Payment.objects.all():
+            print(payment.id, '------=====')
         payment = self.get_object()
         payment.refund()
 

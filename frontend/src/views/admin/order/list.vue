@@ -98,8 +98,8 @@
               <span class="bold">{{pay.customer_balance}}$</span>
             </p>
             <p class="order-info">
-              创建:
-              <span class="bold">{{pay.create_at | moment('YYYY-MM-DD HH:mm')}}</span>
+              修改:
+              <span class="bold">{{pay.change_at | moment('YYYY-MM-DD HH:mm')}}</span>
             </p>
             <p class="order-info">
               说明:
@@ -108,7 +108,7 @@
             <p>
               <a-popconfirm
                 title="确定通过退款审核？"
-                @confirm="refunded(data)"
+                @confirm="paymentRefund(pay)"
                 okText="Yes"
                 cancelText="No"
                 v-if="$auth('Payment.edit') && pay.status == 3"
@@ -207,6 +207,7 @@
 <script>
 import { STable, Ellipsis } from "@/components";
 import { getOrderList, updateOrder, orderRefund } from "@/api/order";
+import { paymentRefund } from "@/api/payment";
 import { checkError } from "@/views/utils/error";
 
 const payStatus = [
@@ -333,7 +334,7 @@ export default {
           this.refund.loading = true;
           orderRefund(this.refund.data.id, this.refund.form)
             .then(res => {
-              return this.refresh();
+              return this.refresh(false);
             })
             .catch(error => this.checkError(error))
             .finally(() => {
@@ -345,21 +346,24 @@ export default {
     };
   },
   methods: {
-    refresh() {
-      this.$refs.table.refresh(true);
+    refresh(value=true) {
+      this.$refs.table.refresh(value);
     },
     changeOrderStatus(data, status) {
       this.loading = true;
       updateOrder(data.id, Object.assign({}, data, { order_status: status }))
         .then(res => {
-          return this.refresh();
+          return this.refresh(false);
         })
         .finally(() => {
           this.loading = false;
         });
     },
-    refunded(data) {
-
+    paymentRefund(data) {
+      this.loading = true
+      paymentRefund(data.id).then((res) => {
+        return this.refresh(false)
+      }).finally(() => this.loading = false)
     },
     checkError(error) {
       var errors = checkError(error, "amount");
