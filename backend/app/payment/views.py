@@ -23,7 +23,9 @@ class PaymentView(CustomModelViewSet):
 
         payment = self.get_object()
         
+        print(payment.status, payment.action, PaymentStatus.REFUNDING, PaymentAction.REFUNDED, payment.status == PaymentStatus.REFUNDING, payment.action == PaymentAction.REFUNDED, '---====')
         if payment.status == PaymentStatus.REFUNDING and payment.action == PaymentAction.REFUNDED:
+            print('-------')
             payment.refund()
 
         return Response({'result': 'ok'})

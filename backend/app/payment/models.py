@@ -14,10 +14,10 @@ class Payment(models.Model):
     currency = models.CharField(max_length=10, default='USD')
 
     #状态
-    status = models.CharField(max_length=10, choices=PaymentStatus.CHOICES, default=PaymentStatus.UNPAID)
+    status = models.IntegerField(choices=PaymentStatus.CHOICES, default=PaymentStatus.UNPAID)
 
     #订单类型
-    action = models.CharField(max_length=10, choices=PaymentAction.CHOICES, default=PaymentAction.CAPTURE)
+    action = models.IntegerField(choices=PaymentAction.CHOICES, default=PaymentAction.CAPTURE)
 
     #附加数据
     extra_data = models.TextField(blank=True, default='')
