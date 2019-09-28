@@ -28,7 +28,7 @@
             </p>
             <p class="order-info" v-if="data['child_quantity'] > 0">
               儿童数量:
-              <span class="bold">{{data['adult_quantity']}}</span>
+              <span class="bold">{{data['child_quantity']}}</span>
             </p>
             <p class="order-info">
               客人信息:
