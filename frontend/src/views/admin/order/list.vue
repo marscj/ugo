@@ -116,7 +116,6 @@
                 <a href="javascript:;">Confrim</a>
               </a-popconfirm>
             </p>
-            <br />
           </div>
         </span>
 
@@ -169,7 +168,7 @@
             </div> -->
             <div v-if="status == 5"></div>
             <div>
-              <a href="javascript:;">remark</a>
+              <a href="javascript:;" @click="remark.handle(data)">remark</a>
             </div>
           </template>
         </span>
@@ -200,6 +199,23 @@
           type="primary"
           :loading="refund.loading"
           @click="refund.submit"
+        >Submit</a-button>
+      </template>
+    </a-modal>
+
+    <a-modal v-model="remark.visible" title="Remark">
+      <a-form>
+        <a-form-item>
+          <a-textarea v-model="remark.data.remark" :autosize="{minRows: 5}"></a-textarea>
+        </a-form-item>
+      </a-form>
+      <template slot="footer">
+        <a-button key="back" @click="remark.visible=false">Return</a-button>
+        <a-button
+          key="submit"
+          type="primary"
+          :loading="remark.loading"
+          @click="remark.submit"
         >Submit</a-button>
       </template>
     </a-modal>
@@ -342,6 +358,31 @@ export default {
             .finally(() => {
               this.refund.loading = false;
               this.refund.visible = false;
+            });
+        }
+      },
+      remark: {
+        loading: false,
+        visible: false,
+
+        handle: data => {
+          this.remark.visible = true;
+          this.remark.data = Object.assign({}, data);
+        },
+
+        data: {
+          id: undefined,
+          remark: undefined
+        },
+        
+        submit: () => {
+          this.remark.loading = true;
+          updateOrder(this.remark.data.id, this.remark.data).then(res => {
+              return this.refresh(false);
+            })
+            .finally(() => {
+              this.remark.visible = false;
+              this.remark.loading = false;
             });
         }
       }
