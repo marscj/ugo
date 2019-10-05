@@ -7,8 +7,8 @@ from middleware.viewsets import CustomModelViewSet
 from middleware.permissions import BackendPermission
 
 from .import PaymentStatus, PaymentAction
-from app.payment.models import Payment
-from app.payment.serializers import PaymentSerializer
+from .models import Payment
+from .serializers import PaymentSerializer
     
 class PaymentView(CustomModelViewSet):
     serializer_class = PaymentSerializer
@@ -22,10 +22,8 @@ class PaymentView(CustomModelViewSet):
     def refund(self, request, pk=None):
 
         payment = self.get_object()
-        
-        print(payment.status, payment.action, PaymentStatus.REFUNDING, PaymentAction.REFUNDED, payment.status == PaymentStatus.REFUNDING, payment.action == PaymentAction.REFUNDED, '---====')
+
         if payment.status == PaymentStatus.REFUNDING and payment.action == PaymentAction.REFUNDED:
-            print('-------')
             payment.refund()
 
         return Response({'result': 'ok'})

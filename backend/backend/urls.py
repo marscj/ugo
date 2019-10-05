@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'api/', include('app.authorization.urls')),
     url(r'api/', include('app.product.urls')),
     url(r'api/', include('app.order.urls')),
+    url(r'api/', include('app.booking.urls')),
     url(r'api/', include('app.source.urls')),
     url(r'api/', include('app.notice.urls')),
     url(r'api/', include('app.coupon.urls')),
