@@ -232,6 +232,51 @@ export const asyncRouterMap = [{
 
         ]
       },
+      // booking
+      {
+        path: 'booking',
+        name: 'Booking',
+        redirect: '/admin/booking/bookingList',
+        component: PageView,
+        meta: {
+          title: 'Booking',
+          permission: ['Booking']
+        },
+        children: [{
+            path: 'bookingList',
+            name: 'BookingList',
+            component: () => import('@/views/admin/booking/list'),
+            meta: {
+              title: 'Booking',
+              keepAlive: false,
+              permission: ['Booking']
+            },
+          },
+          {
+            path: 'bookingEdit/:id(\\d+)',
+            name: 'BookingEdit',
+            component: () => import('@/views/admin/booking/edit'),
+            meta: {
+              title: 'Edit',
+              keepAlive: false,
+              permission: ['Booking']
+            },
+            hidden: true
+          },
+          {
+            path: 'bookingCreate',
+            name: 'BookingCreate',
+            component: () => import('@/views/admin/booking/create'),
+            meta: {
+              title: 'Create',
+              keepAlive: false,
+              permission: ['Booking']
+            },
+            hidden: true
+          },
+
+        ]
+      },
       // notice
       {
         path: 'notice',

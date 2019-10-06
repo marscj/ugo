@@ -64,6 +64,9 @@ class Booking(models.Model):
     #税务 AED
     vat = models.DecimalField(default=0.0, max_digits=10, decimal_places=2, validators=[MinValueValidator(0.0)])
 
+    #确认好
+    ref = models.TextField(blank=True, null=True)
+
     #接送时间
     pick_up_time = models.DateTimeField(blank=True, null=True)
 
