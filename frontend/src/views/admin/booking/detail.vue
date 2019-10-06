@@ -1,22 +1,42 @@
 <template>
   <a-spin :spinning="loading">
-    <a-card title="Base">
+    <a-card >
+      <template slot="title">
+        <a-button type="primary">Create</a-button>
+      </template>
+      <template slot="extra">
+        <a-button-group>
+          <a-dropdown>
+            <a-menu slot="overlay" @click="handleMenuClick">
+              <a-menu-item v-for="data in Category" :key="data.value">
+                <icon-font :type="data.type" />
+                {{data.label}}
+              </a-menu-item>
+            </a-menu>
+            <a-button style="margin-left: 8px">
+              {{Category[form.category - 1].label}}
+              <a-icon type="down" />
+            </a-button>
+          </a-dropdown>
+        </a-button-group>
+      </template>
+
       <a-form :form="form">
         <a-row :gutter="18">
-          <a-col :span="6" :offset="3">
+          <a-col :span="form.category == 1 ? 6 : 9" :offset="3">
             <a-form-item class="form-item" label="Product">
               <a-input v-model="form.product" placeholder="Product"></a-input>
             </a-form-item>
           </a-col>
-          <a-col :span="6">
+          <a-col :span="form.category == 1 ? 6 : 9">
             <a-form-item class="form-item" label="Variant">
               <a-input v-model="form.variant" placeholder="Variant"></a-input>
             </a-form-item>
           </a-col>
-          <a-col :span="6">
-            <a-form-item class="form-item" label="Category">
-              <a-select v-model="form.category" :filterOption="false">
-                <a-select-option v-for="data in Category" :key="data.value">{{data.label}}</a-select-option>
+          <a-col :span="6" v-if="form.category == 1">
+            <a-form-item class="form-item" label="Meal">
+              <a-select v-model="form.meal" :filterOption="false">
+                <a-select-option v-for="data in MealPeriod" :key="data.value">{{data.label}}</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
@@ -30,7 +50,7 @@
           </a-col>
           <a-col :span="9">
             <a-form-item class="form-item" label="Action Time">
-              <a-time-picker v-model="form.action_time" style="width: 100%" />
+              <a-time-picker v-model="form.action_time" style="width: 100%" format="HH:mm" />
             </a-form-item>
           </a-col>
         </a-row>
@@ -41,8 +61,8 @@
               <a-date-picker
                 v-model="form.booking_date"
                 style="width: 100%"
-                format="YYYY-MM-DD HH:mm:ss"
-                showTime
+                format="YYYY-MM-DD HH:mm"
+                :showTime="{ format: 'HH:mm' }"
               />
             </a-form-item>
           </a-col>
@@ -131,7 +151,7 @@
         </a-row>
 
         <a-row :gutter="18">
-          <a-col :span="4" :offset="3">
+          <a-col :span="6" :offset="3">
             <a-form-item class="form-item" label="Adult Cost Price">
               <a-input-number
                 v-model="form.adult_cost_price"
@@ -143,7 +163,7 @@
               />
             </a-form-item>
           </a-col>
-          <a-col :span="4">
+          <a-col :span="6">
             <a-form-item class="form-item" label="Child Cost Price">
               <a-input-number
                 v-model="form.child_cost_price"
@@ -167,7 +187,7 @@
               />
             </a-form-item>
           </a-col>
-          <a-col :span="6">
+          <a-col :span="2">
             <a-form-item class="form-item" label="Vat">
               <a-input-number
                 v-model="form.vat"
@@ -274,8 +294,13 @@
 </template>
 
 <script>
-import moment from "moment";
+import { Icon } from "ant-design-vue";
 import { createBooking } from "@/api/booking";
+import moment from "moment";
+
+const IconFont = Icon.createFromIconfontCN({
+  scriptUrl: "//at.alicdn.com/t/font_1402881_gsh78a0lnya.js"
+});
 
 const BookingStatus = [
   { value: 1, label: "Inquiry" },
@@ -287,12 +312,19 @@ const BookingStatus = [
 ];
 
 const Category = [
-  { value: 1, label: "Food" },
-  { value: 2, label: "Ticket" },
-  { value: 3, label: "Trip" },
-  { value: 4, label: "Car" },
-  { value: 5, label: "Hotel" },
-  { value: 6, label: "Gift" }
+  { value: 1, label: "Food", type: "iconf-30" },
+  { value: 2, label: "Ticket", type: "iconticket" },
+  { value: 3, label: "Trip", type: "iconlvyou" },
+  { value: 4, label: "Car", type: "iconche" },
+  { value: 5, label: "Hotel", type: "iconhotel" },
+  { value: 6, label: "Gift", type: "iconliwu1" }
+];
+
+const MealPeriod = [
+  { value: 1, label: "Breakfast" },
+  { value: 2, label: "Lunch" },
+  { value: 3, label: "Dinner" },
+  { value: 4, label: "Afternoon Tea" }
 ];
 
 export default {
@@ -301,6 +333,9 @@ export default {
       type: Boolean,
       default: false
     }
+  },
+  components: {
+    IconFont
   },
   created() {
     if (!this.isEdit) {
@@ -311,6 +346,7 @@ export default {
     return {
       BookingStatus,
       Category,
+      MealPeriod,
       loading: false,
       form: {
         id: undefined,
@@ -318,6 +354,7 @@ export default {
         variant: undefined,
         status: 1,
         category: 1,
+        meal: 1,
         action_day: moment(new Date(), "YYYY-MM-DD"),
         action_time: moment(new Date(), "HH:mm:ss"),
         booking_date: moment(new Date(), "YYYY-MM-DD HH:mm:ss"),
@@ -356,8 +393,8 @@ export default {
         variant: data.variant,
         category: Number(data.category),
         action_day: moment(data.day, "YYYY-MM-DD"),
-        action_time: moment(data.time, "HH:mm:ss"),
-        booking_date: moment(data.create_at, "YYYY-MM-DD HH:mm:ss"),
+        action_time: moment(data.time, "HH:mm"),
+        booking_date: moment(data.create_at, "YYYY-MM-DD HH:mm"),
         adult_quantity: Number(data.adult_quantity),
         child_quantity: Number(data.child_quantity),
         adult_price: Number(data.adult_price),
@@ -365,15 +402,13 @@ export default {
         total_price: Number(data.total),
         order_id: Number(data.id)
       });
-
-      console.log(this.form, "=====");
     },
     create() {
       var form = Object.assign({}, this.form, {
         action_day: this.form.action_day.format("YYYY-MM-DD"),
-        action_time: this.form.action_time.format("HH:mm:ss"),
-        booking_date: this.form.booking_date.format("YYYY-MM-DD HH:mm:ss"),
-        pick_up_time: this.form.pick_up_time.format("YYYY-MM-DD HH:mm:ss")
+        action_time: this.form.action_time.format("HH:mm"),
+        booking_date: this.form.booking_date.format("YYYY-MM-DD HH:mm"),
+        pick_up_time: this.form.pick_up_time.format("YYYY-MM-DD HH:mm")
       });
 
       createBooking(form)
@@ -384,6 +419,9 @@ export default {
           this.visible = false;
           this.loading = false;
         });
+    },
+    handleMenuClick(e) {
+      this.form.category = e.key;
     }
   }
 };
