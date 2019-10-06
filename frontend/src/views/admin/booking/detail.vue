@@ -1,16 +1,23 @@
 <template>
   <a-spin :spinning="loading">
     <a-card title="Base">
-      <a-form :form="data">
+      <a-form :form="form">
         <a-row :gutter="18">
-          <a-col :span="9" :offset="3">
+          <a-col :span="6" :offset="3">
             <a-form-item class="form-item" label="Product">
               <a-input v-model="form.product" placeholder="Product"></a-input>
             </a-form-item>
           </a-col>
-          <a-col :span="9">
+          <a-col :span="6">
             <a-form-item class="form-item" label="Variant">
               <a-input v-model="form.variant" placeholder="Variant"></a-input>
+            </a-form-item>
+          </a-col>
+          <a-col :span="6">
+            <a-form-item class="form-item" label="Category">
+              <a-select v-model="form.category" :filterOption="false">
+                <a-select-option v-for="data in Category" :key="data.value">{{data.label}}</a-select-option>
+              </a-select>
             </a-form-item>
           </a-col>
         </a-row>
@@ -40,8 +47,10 @@
             </a-form-item>
           </a-col>
           <a-col :span="9">
-            <a-form-item class="form-item" label="Status">
-              <a-time-picker v-model="form.status" style="width: 100%" />
+            <a-form-item class="form-item" label="Status" @change="() => {}">
+              <a-select v-model="form.status" :filterOption="false">
+                <a-select-option v-for="data in BookingStatus" :key="data.value">{{data.label}}</a-select-option>
+              </a-select>
             </a-form-item>
           </a-col>
         </a-row>
@@ -172,7 +181,7 @@
           </a-col>
         </a-row>
 
-        <a-row :gutter="18">
+        <a-row :gutter="18" v-if="form.category == 2">
           <a-col :span="6" :offset="3">
             <a-form-item class="form-item" label="Pickup Time">
               <a-date-picker
@@ -197,7 +206,7 @@
           </a-col>
         </a-row>
 
-        <a-row :gutter="18">
+        <a-row :gutter="18" v-if="form.category == 2">
           <a-col :span="9" :offset="3">
             <a-form-item class="form-item" label="Vehicle">
               <a-input v-model="form.vehicle_model" placeholder="Model"></a-input>
@@ -211,7 +220,7 @@
           </a-col>
         </a-row>
 
-        <a-row :gutter="18">
+        <a-row :gutter="18" v-if="form.category == 2">
           <a-col :span="9" :offset="3">
             <a-form-item class="form-item" label="Driver">
               <a-input v-model="form.dirver" placeholder="Name" :min="1" />
@@ -239,7 +248,13 @@
           </a-col>
         </a-row>
 
-        <a-row></a-row>
+        <a-row>
+          <a-col :span="18" offset="3">
+            <a-form-item class="form-item" label="Supplier">
+              <a-input v-model="form.supplier"></a-input>
+            </a-form-item>
+          </a-col>
+        </a-row>
 
         <a-row :gutter="18">
           <a-col :span="9" :offset="3">
@@ -260,6 +275,25 @@
 
 <script>
 import moment from "moment";
+import { createBooking } from "@/api/booking";
+
+const BookingStatus = [
+  { value: 1, label: "Inquiry" },
+  { value: 2, label: "Confirm" },
+  { value: 3, label: "Padding" },
+  { value: 4, label: "Sent-Email" },
+  { value: 5, label: "OP-Cancel" },
+  { value: 6, label: "OP_Approved" }
+];
+
+const Category = [
+  { value: 1, label: "Food" },
+  { value: 2, label: "Ticket" },
+  { value: 3, label: "Trip" },
+  { value: 4, label: "Car" },
+  { value: 5, label: "Hotel" },
+  { value: 6, label: "Gift" }
+];
 
 export default {
   props: {
@@ -275,11 +309,15 @@ export default {
   },
   data() {
     return {
+      BookingStatus,
+      Category,
       loading: false,
       form: {
         id: undefined,
         product: undefined,
         variant: undefined,
+        status: 1,
+        category: 1,
         action_day: moment(new Date(), "YYYY-MM-DD"),
         action_time: moment(new Date(), "HH:mm:ss"),
         booking_date: moment(new Date(), "YYYY-MM-DD HH:mm:ss"),
@@ -289,7 +327,7 @@ export default {
         adult_price: 0.0,
         child_price: 0.0,
         total_price: 0.0,
-        adult_cost_pirce: 0.0,
+        adult_cost_price: 0.0,
         child_cost_price: 0.0,
         total_cost_price: 0.0,
         vat: 0.0,
@@ -304,6 +342,7 @@ export default {
         guide_mobile: "",
         remark: "",
         ref: "",
+        supplier: "",
         order_id: undefined
       }
     };
@@ -312,20 +351,22 @@ export default {
     initData() {
       var data = this.$route.query;
 
-      this.form = {
+      this.form = Object.assign(this.form, {
         product: data.product,
         variant: data.variant,
-        category: data.category,
+        category: Number(data.category),
         action_day: moment(data.day, "YYYY-MM-DD"),
         action_time: moment(data.time, "HH:mm:ss"),
         booking_date: moment(data.create_at, "YYYY-MM-DD HH:mm:ss"),
-        adult_quantity: data.adult_quantity,
-        child_quantity: data.child_quantity,
-        adult_price: data.adult_price,
-        child_price: data.child_price,
-        total_price: data.total,
-        order_id: data.id
-      };
+        adult_quantity: Number(data.adult_quantity),
+        child_quantity: Number(data.child_quantity),
+        adult_price: Number(data.adult_price),
+        child_price: Number(data.child_price),
+        total_price: Number(data.total),
+        order_id: Number(data.id)
+      });
+
+      console.log(this.form, "=====");
     },
     create() {
       var form = Object.assign({}, this.form, {
@@ -368,6 +409,6 @@ export default {
 }
 
 .form-item {
-  margin-bottom: 15px;
+  margin-bottom: 16px;
 }
 </style>
