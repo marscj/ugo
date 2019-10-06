@@ -17,10 +17,10 @@ class Booking(models.Model):
     booking_date = models.DateField(blank=True, null=True)
 
     #执行日期
-    action_date = models.DateField(blank=True, null=True)
+    action_day = models.DateField(blank=True, null=True)
 
     #执行时间
-    action_time = models.DateTimeField(blank=True, null=True)
+    action_time = models.TimeField(blank=True, null=True)
 
     #产品
     product = models.CharField(blank=True, null=True, max_length=128)

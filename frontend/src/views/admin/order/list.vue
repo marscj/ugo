@@ -228,7 +228,7 @@
       </template>
     </a-modal>
 
-    <a-modal v-model="booking.visible" width="800px" style="top: 0px">
+    <a-modal v-model="booking.visible" width="800px" >
       <template slot="title">
         <div>
           <p class="order-info">
@@ -306,7 +306,7 @@
             :style="{ display: 'inline-block', width: 'calc(50% - 12px)' }"
           >
             <a-date-picker
-              v-model="booking.form.action_date"
+              v-model="booking.form.action_day"
               style="width: 100%"
               placeholder="Day"
             />
@@ -429,7 +429,7 @@
             sm: { span: 19 },
           }"
         >
-          <a-date-picker v-model="booking.form.pick_up_time" placeholder="Pickup Time"></a-date-picker>
+          <a-date-picker v-model="booking.form.pick_up_time" format="YYYY-MM-DD HH:mm:ss" showTime placeholder="Pickup Time"></a-date-picker>
         </a-form-item>
 
         <a-form-item
@@ -614,10 +614,6 @@ export default {
           scopedSlots: { customRender: "order" }
         },
         {
-          title: "Booking Info",
-          scopedSlots: { customRender: "booking" }
-        },
-        {
           title: "Payment",
           scopedSlots: { customRender: "payment" },
           width: "180px"
@@ -721,46 +717,63 @@ export default {
               product: data.product,
               variant: data.variant,
               category: data.category,
-              action_date: moment(data.day, "YYYY-MM-DD"),
-              action_time: moment(data.time, "HH:mm"),
+              action_day: moment(data.day, "YYYY-MM-DD"),
+              action_time: moment(data.time, "HH:mm:ss"),
+              pick_up_time: moment(data.create_at, "YYYY-MM-DD HH:mm:ss"),
               adult_quantity: data.adult_quantity,
               child_quantity: data.child_quantity,
               adult_price: data.adult_price,
               child_price: data.child_price,
-              total_price: data.total
+              total_price: data.total,
+              order_id: data.id
             }
           );
         },
 
         data: {
-          id: undefined
+          id: undefined,
+          product: '',
+          variant: '',
+          day: '2019-01-01',
+          time: '12:00:00',
+          adult_quantity: 0,
+          child_quantity: 0,
+          guest_info: '',
+          guest_remark: '',
+          remark: '',
         },
 
         form: {
           id: undefined,
           product: undefined,
           variant: undefined,
-          action_date: "",
-          action_time: "",
+          action_day: moment(new Date(), "YYYY-MM-DD"),
+          action_time: moment(new Date(), "HH:mm:ss"),
           adult_quantity: 0,
           child_quantity: 0,
           free_quantity: 0,
           adult_price: 0,
           child_price: 0,
           total_price: 0,
-          pick_up_time: moment(new Date(), "YYYY-MM-DD HH:mm"),
+          pick_up_time: moment(new Date(), "YYYY-MM-DD HH:mm:ss"),
           pick_up_address: "",
           drop_off_address: "",
           driver: "",
           driver_mobile: "",
           guide: "",
           guide_mobile: "",
-
-          remark: ""
+          remark: "",
+          order_id: undefined
         },
 
         create: () => {
-          createBooking(this.booking.form)
+          var form = Object.assign({}, this.booking.form, {
+            action_day: this.booking.form.action_day.format("YYYY-MM-DD"),
+            action_time: this.booking.form.action_time.format("HH:mm:ss"),
+            pick_up_time: this.booking.form.pick_up_time.format("YYYY-MM-DD HH:mm:ss"),
+          })
+
+          createBooking(form)
             .then(res => {
               return this.refresh(false);
             })
