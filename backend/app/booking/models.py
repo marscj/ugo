@@ -20,7 +20,7 @@ class Booking(models.Model):
     action_date = models.DateField(blank=True, null=True)
 
     #执行时间
-    action_time = models.TimeField(blank=True, null=True)
+    action_time = models.DateTimeField(blank=True, null=True)
 
     #产品
     product = models.CharField(blank=True, null=True, max_length=128)
@@ -35,7 +35,7 @@ class Booking(models.Model):
     category = models.IntegerField(default=Category.Food, choices=Category.CHOISE)
 
     #成人数量
-    child_quantity = models.IntegerField(default=0, validators=[MinValueValidator(0)])
+    adult_quantity = models.IntegerField(default=0, validators=[MinValueValidator(0)])
 
     #儿童数量
     child_quantity = models.IntegerField(default=0, validators=[MinValueValidator(0)])
@@ -63,6 +63,9 @@ class Booking(models.Model):
 
     #税务 AED
     vat = models.DecimalField(default=0.0, max_digits=10, decimal_places=2, validators=[MinValueValidator(0.0)])
+
+    #接送时间
+    pick_up_time = models.DateTimeField(blank=True, null=True)
 
     #接送地址
     pick_up_address = models.CharField(blank=True, null=True, max_length=256)

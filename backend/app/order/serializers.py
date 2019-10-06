@@ -14,6 +14,8 @@ from app.authorization.serializers import UserSimpleSerializer, UserSerializer
 from app.coupon.models import Coupon
 from app.payment.models import Payment
 from app.payment.serializers import PaymentSerializer
+from app.booking.models import Booking
+from app.booking.serializers import BookingSerializer
 
 class CheckoutSerializer(serializers.ModelSerializer):
 
@@ -297,6 +299,8 @@ class OrderUpdateSerializer(OrderCreateSerializer):
 
     payment = serializers.SerializerMethodField()
 
+    booking = serializers.SerializerMethodField()
+
     class Meta:
         model = Order 
         fields = '__all__'
@@ -307,6 +311,11 @@ class OrderUpdateSerializer(OrderCreateSerializer):
     def get_payment(self, obj):
         query = Payment.objects.filter(order_id=obj.id)
         serializer = PaymentSerializer(instance=query, many=True, context=self.context)
+        return serializer.data
+
+    def get_booking(self, obj):
+        query = Booking.objects.filter(order_id=obj.id)
+        serializer = BookingSerializer(instance=query, many=True, context=self.context)
         return serializer.data
         
     @transaction.atomic

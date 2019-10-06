@@ -17,6 +17,8 @@ const api = {
   order: '/order/',
   source: '/source/',
 
+  booking: '/booking/',
+
   payment: '/payment/',
 
   notice: '/notice/',

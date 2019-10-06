@@ -145,7 +145,11 @@
               </a-popconfirm>
             </div>
             <div v-if="status == 1">
-              <a v-if="$auth('Booking.add')" href="javascript:;">add booking</a>
+              <a
+                v-if="$auth('Booking.add')"
+                href="javascript:;"
+                @click="booking.handle(data)"
+              >booking</a>
               <br />
               <a
                 v-if="$auth('Order.edit')"
@@ -155,9 +159,13 @@
             </div>
             <div v-if="status == 2"></div>
             <div v-if="status == 3">
-              <a v-if="$auth('Payment.add')" href="javascript:;" @click="refund.handle(data)">add refund</a>
+              <a v-if="$auth('Payment.add')" href="javascript:;" @click="refund.handle(data)">refund</a>
               <br />
-              <a v-if="$auth('Order.edit') | $auth('Payment.edit')" href="javascript:;" @click="changeOrderStatus(data, 5)">complete</a>
+              <a
+                v-if="$auth('Order.edit') | $auth('Payment.edit')"
+                href="javascript:;"
+                @click="changeOrderStatus(data, 5)"
+              >complete</a>
             </div>
             <!-- <div v-if="status == 4">
               <a
@@ -165,7 +173,7 @@
                 href="javascript:;"
                 @click="changeOrderStatus(data, 5)"
               >已退款</a>
-            </div> -->
+            </div>-->
             <div v-if="status == 5"></div>
             <div>
               <a href="javascript:;" @click="remark.handle(data)">remark</a>
@@ -219,14 +227,327 @@
         >Submit</a-button>
       </template>
     </a-modal>
+
+    <a-modal v-model="booking.visible" width="800px" style="top: 0px">
+      <template slot="title">
+        <div>
+          <p class="order-info">
+            产品名称:
+            <span
+              class="bold ligth-blue"
+            >【{{booking.data['product']}} - {{booking.data['variant']}}】</span>
+          </p>
+          <p class="order-info">
+            执行日期:
+            <span
+              class="bold"
+            >{{booking.data['day'] + ' ' + booking.data['time'] | moment('YYYY-MM-DD HH:mm')}}</span>
+          </p>
+          <p class="order-info">
+            成人数量:
+            <span class="bold">{{booking.data['adult_quantity']}}</span>
+          </p>
+          <p class="order-info" v-if="booking.data['child_quantity'] > 0">
+            儿童数量:
+            <span class="bold">{{booking.data['child_quantity']}}</span>
+          </p>
+          <p class="order-info">
+            客人信息:
+            <span class="bold">{{booking.data['guest_info']}} {{booking.data['guest_contact']}}</span>
+          </p>
+          <p class="order-info">
+            客户备注:
+            <span class="bold">{{booking.data['guest_remark']}}</span>
+          </p>
+          <p
+            class="order-info"
+            v-if="booking.data['remark'] != null && booking.data['remark'].length > 0"
+          >订单备注:{{booking.data['remark']}}</p>
+        </div>
+      </template>
+
+      <a-form :form="booking.data">
+        <a-form-item
+          label="Product"
+          :labelCol="{
+            sm: { span: 3 },
+          }"
+          :wrapperCol="{
+            sm: { span: 19 },
+          }"
+          class="form-item"
+        >
+          <a-form-item
+            :style="{ display: 'inline-block', width: 'calc(50% - 12px)' }" 
+          >
+            <a-input v-model="booking.form.product" placeholder="Product"></a-input>
+          </a-form-item>
+          <span
+            :style="{ display: 'inline-block', width: '24px', textAlign: 'center' }"
+          >-</span>
+          <a-form-item
+            :style="{ display: 'inline-block', width: 'calc(50% - 12px)' }" 
+          >
+            <a-input v-model="booking.form.variant" placeholder="Variant"></a-input>
+          </a-form-item>
+        </a-form-item>
+
+        <a-form-item
+          label="Action"
+          :labelCol="{
+            sm: { span: 3 },
+          }"
+          :wrapperCol="{
+            sm: { span: 19 },
+          }"
+          class="form-item"
+        >
+          <a-form-item
+            :style="{ display: 'inline-block', width: 'calc(50% - 12px)' }"
+          >
+            <a-date-picker
+              v-model="booking.form.action_date"
+              style="width: 100%"
+              placeholder="Day"
+            />
+          </a-form-item>
+          <span :style="{ display: 'inline-block', width: '24px', textAlign: 'center' }">-</span>
+          <a-form-item
+            :style="{ display: 'inline-block', width: 'calc(50% - 12px)' }"
+          >
+            <a-time-picker
+              v-model="booking.form.action_time"
+              style="width: 100%"
+              placeholder="Time"
+            />
+          </a-form-item>
+        </a-form-item>
+
+        <a-form-item
+          label="Quantity"
+          :labelCol="{
+            sm: { span: 3 },
+          }"
+          :wrapperCol="{
+            sm: { span: 19 },
+          }"
+          class="form-item"
+        >
+          <a-row :gutter="18">
+            <a-col :span="8">
+              <a-form-item label="Adult" validate-status="warning" >
+                <a-input-number
+                  v-model="booking.form.adult_quantity"
+                  style="width: 100%"
+                  placeholder="Adult"
+                  :min="1"
+                />
+              </a-form-item>
+            </a-col>
+            <a-col :span="8">
+              <a-form-item label="Child" validate-status="warning" >
+                <a-input-number
+                  v-model="booking.form.child_quantity"
+                  style="width: 100%"
+                  placeholder="Child"
+                  :min="0"
+                />
+              </a-form-item>
+            </a-col>
+            <a-col :span="8">
+              <a-form-item label="Free" validate-status="warning" >
+                <a-input-number
+                  v-model="booking.form.free_quantity"
+                  style="width: 100%"
+                  placeholder="Free"
+                  :min="0"
+                />
+              </a-form-item>
+            </a-col>
+          </a-row>
+        </a-form-item>
+
+        <a-form-item
+          label="Sele Price"
+          :labelCol="{
+            sm: { span: 3 },
+          }"
+          :wrapperCol="{
+            sm: { span: 19 },
+          }"
+          class="form-item"
+        >
+          <a-row :gutter="18">
+            <a-col :span="8">
+              <a-form-item label="Adult" validate-status="warning" >
+                <a-input-number
+                  v-model="booking.form.adult_price"
+                  style="width: 100%"
+                  placeholder="Adult"
+                  :min="0.0"
+                  :defaultValue="0.0"
+                  :precision="2"
+                  :step="0.5"
+                />
+              </a-form-item>
+            </a-col>
+            <a-col :span="8">
+              <a-form-item label="Child" validate-status="warning" >
+                <a-input-number
+                  v-model="booking.form.child_price"
+                  style="width: 100%"
+                  placeholder="Child"
+                  :min="0.0"
+                  :defaultValue="0.0"
+                  :precision="2"
+                  :step="0.5"
+                />
+              </a-form-item>
+            </a-col>
+            <a-col :span="8">
+              <a-form-item label="Total" validate-status="warning" >
+                <a-input-number
+                  v-model="booking.form.total_price"
+                  style="width: 100%"
+                  placeholder="Free"
+                  :min="0.0"
+                  :defaultValue="0.0"
+                  :precision="2"
+                  :step="0.5"
+                />
+              </a-form-item>
+            </a-col>
+          </a-row>
+        </a-form-item>
+
+        <a-form-item
+          label="Pickup Time"
+          :labelCol="{
+            sm: { span: 3 },
+          }"
+          :wrapperCol="{
+            sm: { span: 19 },
+          }"
+        >
+          <a-date-picker v-model="booking.form.pick_up_time" placeholder="Pickup Time"></a-date-picker>
+        </a-form-item>
+
+        <a-form-item
+          label="Pickup Addr"
+          :labelCol="{
+            sm: { span: 3 },
+          }"
+          :wrapperCol="{
+            sm: { span: 19 },
+          }"
+        >
+          <a-input v-model="booking.form.pick_up_address" placeholder="Pickup Address"></a-input>
+        </a-form-item>
+
+        <a-form-item
+          label="Dropoff Addr"
+          :labelCol="{
+            sm: { span: 3 },
+          }"
+          :wrapperCol="{
+            sm: { span: 19 },
+          }"
+        >
+          <a-input v-model="booking.form.drop_off_address" placeholder="Dropoff Address"></a-input>
+        </a-form-item>
+
+        <!-- 
+        <a-form-item
+          label="Driver"
+          :labelCol="{
+            sm: { span: 3 },
+          }"
+          :wrapperCol="{
+            sm: { span: 19 },
+          }"
+          class="form-item"
+        >
+          <a-form-item :style="{ display: 'inline-block', width:'50%' }" class="form-item">
+            <a-input
+              v-model="booking.form.dirver"
+              style="width: calc(100% - 12px); margin: 0px 12px 0px 0px"
+              placeholder="Name"
+              :min="1"
+            />
+          </a-form-item>
+
+          <a-form-item :style="{ display: 'inline-block', width:'50%' }" class="form-item">
+            <a-input
+              v-model="booking.form.driver_mobile"
+              style="width: calc(100% - 12px); margin: 0px 0px 0px 12px"
+              placeholder="Moblie"
+              :min="0"
+            />
+          </a-form-item>
+        </a-form-item>
+
+        <a-form-item
+          label="Tour Guide"
+          :labelCol="{
+            sm: { span: 3 },
+          }"
+          :wrapperCol="{
+            sm: { span: 19 },
+          }"
+          class="form-item"
+        >
+          <a-form-item :style="{ display: 'inline-block', width:'50%' }" class="form-item">
+            <a-input
+              v-model="booking.form.guide"
+              style="width: calc(100% - 12px); margin: 0px 12px 0px 0px"
+              placeholder="Name"
+              :min="1"
+            />
+          </a-form-item>
+
+          <a-form-item :style="{ display: 'inline-block', width:'50%' }" class="form-item">
+            <a-input
+              v-model="booking.form.guide_mobile"
+              style="width: calc(100% - 12px); margin: 0px 0px 0px 12px"
+              placeholder="Moblie"
+              :min="0"
+            />
+          </a-form-item>
+        </a-form-item>-->
+
+        <a-form-item
+          label="Remark"
+          :labelCol="{
+            sm: { span: 3 },
+          }"
+          :wrapperCol="{
+            sm: { span: 19 },
+          }"
+          class="form-item"
+        >
+          <a-textarea v-model="booking.form.remark" :autosize="{minRows: 5}"></a-textarea>
+        </a-form-item>
+      </a-form>
+      <template slot="footer">
+        <a-button key="back" @click="booking.visible=false">Return</a-button>
+        <a-button
+          key="submit"
+          type="primary"
+          :loading="booking.loading"
+          @click="booking.create"
+        >Create</a-button>
+      </template>
+    </a-modal>
   </div>
 </template>
 
 <script>
 import { STable, Ellipsis } from "@/components";
 import { getOrderList, updateOrder, orderRefund } from "@/api/order";
+import { createBooking } from "@/api/booking";
 import { paymentRefund } from "@/api/payment";
 import { checkError } from "@/views/utils/error";
+import moment from "moment";
 
 const payStatus = [
   { value: 0, label: "未支付" },
@@ -374,10 +695,11 @@ export default {
           id: undefined,
           remark: undefined
         },
-        
+
         submit: () => {
           this.remark.loading = true;
-          updateOrder(this.remark.data.id, this.remark.data).then(res => {
+          updateOrder(this.remark.data.id, this.remark.data)
+            .then(res => {
               return this.refresh(false);
             })
             .finally(() => {
@@ -385,11 +707,73 @@ export default {
               this.remark.loading = false;
             });
         }
+      },
+      booking: {
+        loading: false,
+        visible: false,
+
+        handle: data => {
+          this.booking.visible = true;
+          this.booking.data = Object.assign({}, data);
+          this.booking.form = Object.assign(
+            {},
+            {
+              product: data.product,
+              variant: data.variant,
+              category: data.category,
+              action_date: moment(data.day, "YYYY-MM-DD"),
+              action_time: moment(data.time, "HH:mm"),
+              adult_quantity: data.adult_quantity,
+              child_quantity: data.child_quantity,
+              adult_price: data.adult_price,
+              child_price: data.child_price,
+              total_price: data.total
+            }
+          );
+        },
+
+        data: {
+          id: undefined
+        },
+
+        form: {
+          id: undefined,
+          product: undefined,
+          variant: undefined,
+          action_date: "",
+          action_time: "",
+          adult_quantity: 0,
+          child_quantity: 0,
+          free_quantity: 0,
+          adult_price: 0,
+          child_price: 0,
+          total_price: 0,
+          pick_up_time: moment(new Date(), "YYYY-MM-DD HH:mm"),
+          pick_up_address: "",
+          drop_off_address: "",
+          driver: "",
+          driver_mobile: "",
+          guide: "",
+          guide_mobile: "",
+
+          remark: ""
+        },
+
+        create: () => {
+          createBooking(this.booking.form)
+            .then(res => {
+              return this.refresh(false);
+            })
+            .finally(() => {
+              this.booking.visible = false;
+              this.booking.loading = false;
+            });
+        }
       }
     };
   },
   methods: {
-    refresh(value=true) {
+    refresh(value = true) {
       this.$refs.table.refresh(value);
     },
     changeOrderStatus(data, status) {
@@ -403,10 +787,12 @@ export default {
         });
     },
     paymentRefund(data) {
-      this.loading = true
-      paymentRefund(data.id).then((res) => {
-        return this.refresh(false)
-      }).finally(() => this.loading = false)
+      this.loading = true;
+      paymentRefund(data.id)
+        .then(res => {
+          return this.refresh(false);
+        })
+        .finally(() => (this.loading = false));
     },
     checkError(error) {
       var errors = checkError(error, "amount");
@@ -443,4 +829,9 @@ export default {
   padding: 12px 8px;
   font-size: 12px;
 }
+
+.form-item {
+  margin-bottom: 0px
+}
+
 </style>
