@@ -14,7 +14,7 @@ class Booking(models.Model):
     groupID = models.CharField(blank=True, null=True, max_length=64)
     
     #下单日期
-    booking_date = models.DateField(blank=True, null=True)
+    booking_day = models.DateField(blank=True, null=True)
 
     #执行日期
     action_day = models.DateField(blank=True, null=True)

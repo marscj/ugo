@@ -1,8 +1,9 @@
 <template>
   <a-spin :spinning="loading">
-    <a-card >
+    <a-card>
       <template slot="title">
-        <a-button type="primary">Create</a-button>
+        <a-button v-if="isEdit" type="primary" @click="update">Update</a-button>
+        <a-button v-else type="primary" @click="create">Create</a-button>
       </template>
       <template slot="extra">
         <a-button-group>
@@ -21,7 +22,7 @@
         </a-button-group>
       </template>
 
-      <a-form :form="form">
+      <a-form :form="form" >
         <a-row :gutter="18">
           <a-col :span="form.category == 1 ? 6 : 9" :offset="3">
             <a-form-item class="form-item" label="Product">
@@ -58,12 +59,7 @@
         <a-row :gutter="18">
           <a-col :span="9" :offset="3">
             <a-form-item class="form-item" label="Booking Date">
-              <a-date-picker
-                v-model="form.booking_date"
-                style="width: 100%"
-                format="YYYY-MM-DD HH:mm"
-                :showTime="{ format: 'HH:mm' }"
-              />
+              <a-date-picker v-model="form.booking_day" style="width: 100%" format="YYYY-MM-DD" />
             </a-form-item>
           </a-col>
           <a-col :span="9">
@@ -108,7 +104,7 @@
           </a-col>
         </a-row>
 
-        <a-row :gutter="18">
+        <a-row :gutter="18" >
           <a-col :span="6" :offset="3">
             <a-form-item class="form-item" label="Adult Price">
               <a-input-number
@@ -150,7 +146,7 @@
           </a-col>
         </a-row>
 
-        <a-row :gutter="18">
+        <a-row :gutter="18" v-if="isEdit">
           <a-col :span="6" :offset="3">
             <a-form-item class="form-item" label="Adult Cost Price">
               <a-input-number
@@ -295,7 +291,7 @@
 
 <script>
 import { Icon } from "ant-design-vue";
-import { createBooking } from "@/api/booking";
+import { createBooking, updateBooking } from "@/api/booking";
 import moment from "moment";
 
 const IconFont = Icon.createFromIconfontCN({
@@ -339,7 +335,7 @@ export default {
   },
   created() {
     if (!this.isEdit) {
-      this.initData();
+      this.initData(this.$route.query);
     }
   },
   data() {
@@ -357,7 +353,7 @@ export default {
         meal: 1,
         action_day: moment(new Date(), "YYYY-MM-DD"),
         action_time: moment(new Date(), "HH:mm:ss"),
-        booking_date: moment(new Date(), "YYYY-MM-DD HH:mm:ss"),
+        booking_day: moment(new Date(), "YYYY-MM-DD"),
         adult_quantity: 0,
         child_quantity: 0,
         free_quantity: 0,
@@ -385,16 +381,14 @@ export default {
     };
   },
   methods: {
-    initData() {
-      var data = this.$route.query;
-
+    initData(data) {
       this.form = Object.assign(this.form, {
         product: data.product,
         variant: data.variant,
         category: Number(data.category),
         action_day: moment(data.day, "YYYY-MM-DD"),
-        action_time: moment(data.time, "HH:mm"),
-        booking_date: moment(data.create_at, "YYYY-MM-DD HH:mm"),
+        action_time: moment(data.time, "HH:mm:ss"),
+        booking_day: moment(data.create_at, "YYYY-MM-DD"),
         adult_quantity: Number(data.adult_quantity),
         child_quantity: Number(data.child_quantity),
         adult_price: Number(data.adult_price),
@@ -403,20 +397,50 @@ export default {
         order_id: Number(data.id)
       });
     },
+    updateDateTime(data) {
+      return {
+        action_day: moment(data.action_day, "YYYY-MM-DD"),
+        action_time: moment(data.action_time, "HH:mm:ss"),
+        booking_day: moment(data.booking_day, "YYYY-MM-DD"),
+        pick_up_time: moment(data.pick_up_time, "YYYY-MM-DD")
+      };
+    },
     create() {
       var form = Object.assign({}, this.form, {
         action_day: this.form.action_day.format("YYYY-MM-DD"),
-        action_time: this.form.action_time.format("HH:mm"),
-        booking_date: this.form.booking_date.format("YYYY-MM-DD HH:mm"),
-        pick_up_time: this.form.pick_up_time.format("YYYY-MM-DD HH:mm")
+        action_time: this.form.action_time.format("HH:mm:ss"),
+        booking_day: this.form.booking_day.format("YYYY-MM-DD"),
+        pick_up_time: this.form.pick_up_time.format("YYYY-MM-DD HH:mm:ss")
       });
+
+      this.loading = true;
 
       createBooking(form)
         .then(res => {
-          return this.refresh(false);
+          const { result } = res;
+          this.isEdit = true;
+          this.form = Object.assign(result, this.updateDateTime(result));
         })
         .finally(() => {
-          this.visible = false;
+          this.loading = false;
+        });
+    },
+    update() {
+      var form = Object.assign({}, this.form, {
+        action_day: this.form.action_day.format("YYYY-MM-DD"),
+        action_time: this.form.action_time.format("HH:mm:ss"),
+        booking_day: this.form.booking_day.format("YYYY-MM-DD"),
+        pick_up_time: this.form.pick_up_time.format("YYYY-MM-DD HH:mm:ss")
+      });
+
+      this.loading = true;
+
+      updateBooking(this.form.id, form)
+        .then(res => {
+          this.isEdit = true;
+          this.form = Object.assign(result, this.updateDateTime(result));
+        })
+        .finally(() => {
           this.loading = false;
         });
     },
@@ -428,25 +452,8 @@ export default {
 </script>
 
 <style >
-.order-info {
-  margin: 0;
-}
-
-.bold {
-  font-weight: bold;
-}
-
-.ligth-blue {
-  color: #2f54eb;
-}
-
-.ant-table-tbody > tr > td,
-.ant-table-thead > tr > th {
-  padding: 12px 8px;
-  font-size: 12px;
-}
-
 .form-item {
   margin-bottom: 16px;
+  color: red
 }
 </style>
