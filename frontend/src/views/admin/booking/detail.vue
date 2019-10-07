@@ -30,12 +30,38 @@
           </a-col>
           <a-col :span="9">
             <a-form-item class="form-item" :label="variantLabel">
-              <a-input v-model="form.variant" placeholder="Variant"></a-input>
+              <a-input v-model="form.variant" ></a-input>
             </a-form-item>
           </a-col>
         </a-row>
 
-        <a-row :gutter="18">
+        <a-row :gutter="18" v-if="form.category == 3">
+          <a-col :span="9" :offset="3">
+            <a-form-item class="form-item" label="Start Date">
+              <a-date-picker v-model="form.start_date" style="width: 100%" />
+            </a-form-item>
+          </a-col>
+          <a-col :span="9">
+            <a-form-item class="form-item" label="End Date">
+              <a-date-picker v-model="form.end_date" style="width: 100%" />
+            </a-form-item>
+          </a-col>
+        </a-row>
+
+        <a-row :gutter="18" v-else-if="form.category == 5">
+          <a-col :span="9" :offset="3">
+            <a-form-item class="form-item" label="CheckIn Date">
+              <a-date-picker v-model="form.start_date" style="width: 100%" />
+            </a-form-item>
+          </a-col>
+          <a-col :span="9">
+            <a-form-item class="form-item" label="CheckOut Date">
+              <a-date-picker v-model="form.end_date" style="width: 100%" />
+            </a-form-item>
+          </a-col>
+        </a-row>
+
+        <a-row :gutter="18" v-else>
           <a-col :span="9" :offset="3">
             <a-form-item class="form-item" label="Action Day">
               <a-date-picker v-model="form.action_day" style="width: 100%" />
@@ -63,13 +89,12 @@
           </a-col>
         </a-row>
 
-        <a-row :gutter="18">
+        <a-row :gutter="18" v-if="form.category == 1 || form.category == 2">
           <a-col :span="6" :offset="3">
             <a-form-item class="form-item" label="Adult Quantity">
               <a-input-number
-                v-model="form.adult_quantity"
+                v-model="form.quantity"
                 style="width: 100%"
-                placeholder="Adult"
                 :min="1"
               />
             </a-form-item>
@@ -96,13 +121,12 @@
           </a-col>
         </a-row>
 
-        <a-row :gutter="18">
+        <a-row :gutter="18" v-if="form.category == 1 || form.category == 2">
           <a-col :span="6" :offset="3">
             <a-form-item class="form-item" label="Adult Price">
               <a-input-number
-                v-model="form.adult_price"
+                v-model="form.price"
                 style="width: 100%"
-                placeholder="Adult"
                 :min="0.0"
                 :defaultValue="0.0"
                 :precision="2"
@@ -138,11 +162,11 @@
           </a-col>
         </a-row>
 
-        <a-row :gutter="18" v-if="isEdit">
+        <a-row :gutter="18" v-if="form.category == 1 || form.category == 2">
           <a-col :span="6" :offset="3">
             <a-form-item class="form-item" label="Adult Cost Price">
               <a-input-number
-                v-model="form.adult_cost_price"
+                v-model="form.cost_price"
                 style="width: 100%"
                 :min="0.0"
                 :defaultValue="0.0"
@@ -189,7 +213,43 @@
           </a-col>
         </a-row>
 
-        <a-row :gutter="18" v-if="form.category == 1">
+        <a-row :gutter="18" v-else-if="form.category == 3 || form.category == 4">
+          <a-col :span="6" :offset="3">
+            <a-form-item class="form-item" label="Quantity">
+              <a-input-number
+                v-model="form.quantity"
+                style="width: 100%"
+                :min="1"
+              />
+            </a-form-item>
+          </a-col>
+          <a-col :span="6">
+            <a-form-item class="form-item" label="Price">
+              <a-input-number
+                v-model="form.price"
+                style="width: 100%"
+                :min="0.0"
+                :defaultValue="0.0"
+                :precision="2"
+                :step="0.5"
+              />
+            </a-form-item>
+          </a-col>
+          <a-col :span="6">
+            <a-form-item class="form-item" label="Cost Price">
+              <a-input-number
+                v-model="form.cost_price"
+                style="width: 100%"
+                :min="0.0"
+                :defaultValue="0.0"
+                :precision="2"
+                :step="0.5"
+              />
+            </a-form-item>
+          </a-col>
+        </a-row>
+
+        <a-row :gutter="18" v-if="form.category == 2 || form.category == 4">
           <a-col :span="6" :offset="3">
             <a-form-item class="form-item" label="Pickup Time">
               <a-date-picker
@@ -214,9 +274,9 @@
           </a-col>
         </a-row>
 
-        <a-row :gutter="18" v-if="form.category == 1 && isEdit">
+        <a-row :gutter="18" v-if="form.category == 2 || form.category == 3 || form.category == 4">
           <a-col :span="9" :offset="3">
-            <a-form-item class="form-item" label="Vehicle">
+            <a-form-item class="form-item" label="Vehicle Model">
               <a-input v-model="form.vehicle_model" placeholder="Model"></a-input>
             </a-form-item>
           </a-col>
@@ -228,7 +288,7 @@
           </a-col>
         </a-row>
 
-        <a-row :gutter="18" v-if="form.category == 1 && isEdit">
+        <a-row :gutter="18" v-if="form.category == 2 || form.category == 3 || form.category == 2 || form.category == 4">
           <a-col :span="9" :offset="3">
             <a-form-item class="form-item" label="Driver">
               <a-input v-model="form.dirver" placeholder="Name" :min="1" />
@@ -242,7 +302,7 @@
           </a-col>
         </a-row>
 
-        <a-row :gutter="18" v-if="isEdit">
+        <a-row :gutter="18" v-if="form.category == 3">
           <a-col :span="9" :offset="3">
             <a-form-item class="form-item" label="Tourguide">
               <a-input v-model="form.guide" placeholder="Name" :min="1" />
@@ -256,8 +316,8 @@
           </a-col>
         </a-row>
 
-        <a-row v-if="isEdit">
-          <a-col :span="18" offset="3">
+        <a-row v-if="form.category == 2">
+          <a-col :span="18" offset="3" >
             <a-form-item class="form-item" label="Supplier">
               <a-input v-model="form.supplier"></a-input>
             </a-form-item>
@@ -270,7 +330,12 @@
               <a-textarea v-model="form.remark" :autosize="{minRows: 5}"></a-textarea>
             </a-form-item>
           </a-col>
-          <a-col :span="9" v-if="isEdit">
+          <a-col :span="9" v-if="form.category == 3">
+            <a-form-item class="form-item" label="Itinerary">
+              <a-textarea v-model="form.ref" :autosize="{minRows: 5}"></a-textarea>
+            </a-form-item>
+          </a-col>
+          <a-col :span="9" v-else>
             <a-form-item class="form-item" label="Ref">
               <a-textarea v-model="form.ref" :autosize="{minRows: 5}"></a-textarea>
             </a-form-item>
@@ -300,11 +365,12 @@ const BookingStatus = [
 ];
 
 const Category = [
-  { value: 1, label: "Tour", type: "iconticket" },
-  { value: 2, label: "Restaurant", type: "iconf-30" },
-  { value: 3, label: "Hotel", type: "iconhotel" },
+  { value: 1, label: "Restaurant", type: "iconf-30" },
+  { value: 2, label: "Tour", type: "iconticket" },
+  { value: 3, label: "Transport", type: "iconche" },
   { value: 4, label: "Car", type: "iconche" },
-  { value: 5, label: "Gift", type: "iconliwu1" }
+  { value: 5, label: "Hotel", type: "iconhotel" },
+  { value: 6, label: "Gift", type: "iconliwu1" }
 ];
 
 export default {
@@ -317,7 +383,7 @@ export default {
   components: {
     IconFont
   },
-  created() {
+  mounted() {
     if (!this.isEdit) {
       this.initData(this.$route.query);
     } else {
@@ -326,22 +392,7 @@ export default {
   },
   watch: {
     "form.category": function(newValue, oldValue) {
-      if (newValue == 1) {
-        this.productLabel = "Product";
-        this.variantLabel = "Variant";
-      } else if (newValue == 2) {
-        this.productLabel = "Restaurant";
-        this.variantLabel = "Meal";
-      } else if (newValue == 3) {
-        this.productLabel = "Hotel";
-        this.variantLabel = "Room";
-      } else if (newValue == 4) {
-        this.productLabel = "Itinerary";
-        this.variantLabel = "Vehicle Model";
-      } else if (newValue == 5) {
-        this.productLabel = "Product";
-        this.variantLabel = "Variant";
-      }
+      this.updateLabel(newValue)
     }
   },
   data() {
@@ -357,20 +408,22 @@ export default {
         variant: undefined,
         status: 1,
         category: 1,
-        action_day: moment(new Date(), "YYYY-MM-DD"),
-        action_time: moment(new Date(), "HH:mm:ss"),
-        booking_day: moment(new Date(), "YYYY-MM-DD"),
-        adult_quantity: 0,
+        action_day: undefined,
+        action_time: undefined,
+        booking_day: undefined,
+        start_date: undefined,
+        end_date: undefined,
+        quantity: 0,
         child_quantity: 0,
         free_quantity: 0,
-        adult_price: 0.0,
+        price: 0.0,
         child_price: 0.0,
         total_price: 0.0,
-        adult_cost_price: 0.0,
+        cost_price: 0.0,
         child_cost_price: 0.0,
         total_cost_price: 0.0,
         vat: 0.0,
-        pick_up_time: moment(new Date(), "YYYY-MM-DD HH:mm:ss"),
+        pick_up_time: undefined,
         pick_up_address: "",
         drop_off_address: "",
         vehicle: "",
@@ -388,44 +441,56 @@ export default {
   },
   methods: {
     initData(data) {
-      var category = Number(data.category);
-
-      if (data.category == 1) {
-        category = 2
-      } else if (data.category == 2) {
-        category = 1
-      } else if (date.category == 3) {
-        category = 1
-      } else if (data.category == 4) {
-        category = 4
-      } else if (data.category == 5) {
-        category = 3
-      } else if (data.category == 6) {
-        category = 5
-      }
-
       this.form = Object.assign(this.form, {
         product: data.product,
         variant: data.variant,
-        category: category,
+        category: Number(data.category),
         action_day: moment(data.day, "YYYY-MM-DD"),
         action_time: moment(data.time, "HH:mm:ss"),
         booking_day: moment(data.create_at, "YYYY-MM-DD"),
-        adult_quantity: Number(data.adult_quantity),
+        start_date: moment(data.day),
+        end_date: moment(data.day),
+        quantity: Number(data.adult_quantity),
         child_quantity: Number(data.child_quantity),
-        adult_price: Number(data.adult_price),
+        price: Number(data.adult_price),
         child_price: Number(data.child_price),
         total_price: Number(data.total),
         order_id: Number(data.id)
       });
+      this.$nextTick(() => {
+        this.updateLabel(Number(data.category))
+      })
     },
     updateDateTime(data) {
       return {
         action_day: moment(data.action_day, "YYYY-MM-DD"),
         action_time: moment(data.action_time, "HH:mm:ss"),
         booking_day: moment(data.booking_day, "YYYY-MM-DD"),
-        pick_up_time: moment(data.pick_up_time, "YYYY-MM-DD")
+        pick_up_time: moment(data.pick_up_time, "YYYY-MM-DD"),
+        start_date: moment(data.pick_up_time, "YYYY-MM-DD"),
+        end_date: moment(data.pick_up_time, "YYYY-MM-DD"),
       };
+    },
+    updateLabel(newValue) {
+      if (newValue == 1) {
+        this.productLabel = "Restaurant";
+        this.variantLabel = "Meal";
+      } else if (newValue == 2) {
+        this.productLabel = "Product";
+        this.variantLabel = "Variant";
+      } else if (newValue == 3) {
+        this.productLabel = "Trip";
+        this.variantLabel = "Line";
+      } else if (newValue == 4) {
+        this.productLabel = "Itinerary";
+        this.variantLabel = "Vehicle Model";
+      } else if (newValue == 5) {
+        this.productLabel = "Hotel";
+        this.variantLabel = "Used Rooms";
+      } else if (newValue == 6) {
+        this.productLabel = "Product";
+        this.variantLabel = "Variant";
+      }
     },
     fetch(id) {
       this.loading = true;
@@ -451,7 +516,13 @@ export default {
           : undefined,
         pick_up_time: this.form.pick_up_time
           ? this.form.pick_up_time.format("YYYY-MM-DD HH:mm:ss")
-          : undefined
+          : undefined,
+        start_date: this.form.start_date
+          ? this.form.start_date.format("YYYY-MM-DD")
+          : undefined,
+        end_date: this.form.end_date
+          ? this.form.end_date.format("YYYY-MM-DD")
+          : undefined,
       });
 
       this.loading = true;
@@ -478,7 +549,13 @@ export default {
           : undefined,
         pick_up_time: this.form.pick_up_time
           ? this.form.pick_up_time.format("YYYY-MM-DD HH:mm:ss")
-          : undefined
+          : undefined,
+        start_date: this.form.start_date
+          ? this.form.start_date.format("YYYY-MM-DD")
+          : undefined,
+        end_date: this.form.end_date
+          ? this.form.end_date.format("YYYY-MM-DD")
+          : undefined,
       });
 
       this.loading = true;
