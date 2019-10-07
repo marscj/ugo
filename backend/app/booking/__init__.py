@@ -16,16 +16,3 @@ class BookingStatus:
         (OP_CANCELLED, '操作取消'),
         (OP_APPROVED, '操作通过')
     )
-
-class MealPeriod:
-    BREAKFAST = 1
-    LUNCH = 2
-    DINNER = 3
-    AFTERNOON_TEA = 4
-
-    CHOICE = (
-        (BREAKFAST, '早餐'),
-        (LUNCH, '午餐'),
-        (DINNER, '晚餐'),
-        (AFTERNOON_TEA, '下午茶'),
-    )

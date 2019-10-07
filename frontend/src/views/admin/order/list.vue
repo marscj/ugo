@@ -150,7 +150,7 @@
                 href="javascript:;"
                 @click="booking.handle(data)"
               >booking</a> -->
-              <router-link v-if="$auth('Booking.add')" :to="{name: 'BookingCreate', query:data}">booking</router-link>
+              <router-link v-if="$auth('Booking.add')" :to="{name: 'BookingCreate', query:data}" target='_blank'>booking</router-link>
               <br />
               <a
                 v-if="$auth('Order.edit')"
