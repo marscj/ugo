@@ -1,9 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator
 
-from app.product.models import Category
-
-from . import BookingStatus
+from . import BookingStatus, BookingCategory
 
 class Booking(models.Model):
 
@@ -29,7 +27,7 @@ class Booking(models.Model):
     variant = models.CharField(blank=True, null=True, max_length=64)
 
     #产品类型
-    category = models.IntegerField(default=Category.Food, choices=Category.CHOISE)
+    category = models.IntegerField(default=BookingCategory.Tour, choices=BookingCategory.CHOICE)
 
     #成人数量
     adult_quantity = models.IntegerField(default=0, validators=[MinValueValidator(0)])

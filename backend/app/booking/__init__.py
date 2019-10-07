@@ -16,3 +16,18 @@ class BookingStatus:
         (OP_CANCELLED, '操作取消'),
         (OP_APPROVED, '操作通过')
     )
+
+class BookingCategory:
+    Tour = 1
+    Restaurant = 2
+    Hotel = 3
+    Car = 4
+    Gift = 5
+
+    CHOICE = (
+        (Tour, '旅游'),
+        (Restaurant, '餐厅'),
+        (Hotel, '酒店'),
+        (Car, '车'),
+        (Gift, '礼物'),
+    )

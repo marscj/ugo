@@ -2,11 +2,6 @@
   <a-spin :spinning="loading">
     <a-card>
       <div slot="title">
-        <a-button v-if="isEdit" type="primary" @click="update">Update</a-button>
-        <a-button v-else type="primary" @click="create">Create</a-button>
-      </div>
-
-      <div slot="extra">
         <a-dropdown :disabled="isEdit">
           <a-menu slot="overlay" @click="handleMenuClick">
             <a-menu-item v-for="data in Category" :key="data.value">
@@ -19,6 +14,11 @@
             <a-icon type="down" />
           </a-button>
         </a-dropdown>
+      </div>
+
+      <div slot="extra">
+        <a-button v-if="isEdit" type="primary" @click="update">Update</a-button>
+        <a-button v-else type="primary" @click="create">Create</a-button>
       </div>
 
       <a-form :form="form">
@@ -189,7 +189,7 @@
           </a-col>
         </a-row>
 
-        <a-row :gutter="18" v-if="form.category == 2">
+        <a-row :gutter="18" v-if="form.category == 1">
           <a-col :span="6" :offset="3">
             <a-form-item class="form-item" label="Pickup Time">
               <a-date-picker
@@ -214,7 +214,7 @@
           </a-col>
         </a-row>
 
-        <a-row :gutter="18" v-if="form.category == 2 && isEdit">
+        <a-row :gutter="18" v-if="form.category == 1 && isEdit">
           <a-col :span="9" :offset="3">
             <a-form-item class="form-item" label="Vehicle">
               <a-input v-model="form.vehicle_model" placeholder="Model"></a-input>
@@ -228,7 +228,7 @@
           </a-col>
         </a-row>
 
-        <a-row :gutter="18" v-if="form.category == 2 && isEdit">
+        <a-row :gutter="18" v-if="form.category == 1 && isEdit">
           <a-col :span="9" :offset="3">
             <a-form-item class="form-item" label="Driver">
               <a-input v-model="form.dirver" placeholder="Name" :min="1" />
@@ -325,22 +325,22 @@ export default {
     }
   },
   watch: {
-    'form.category': function (newValue, oldValue) {
-      if(newValue == 1) {
-        this.productLabel = 'Product';
-        this.variantLabel = 'Variant';
+    "form.category": function(newValue, oldValue) {
+      if (newValue == 1) {
+        this.productLabel = "Product";
+        this.variantLabel = "Variant";
       } else if (newValue == 2) {
-        this.productLabel = 'Restaurant';
-        this.variantLabel = 'Meal';
+        this.productLabel = "Restaurant";
+        this.variantLabel = "Meal";
       } else if (newValue == 3) {
-        this.productLabel = 'Hotel';
-        this.variantLabel = 'Room';
+        this.productLabel = "Hotel";
+        this.variantLabel = "Room";
       } else if (newValue == 4) {
-        this.productLabel = 'Itinerary';
-        this.variantLabel = 'Vehicle Model'
+        this.productLabel = "Itinerary";
+        this.variantLabel = "Vehicle Model";
       } else if (newValue == 5) {
-        this.productLabel = 'Product';
-        this.variantLabel = 'Variant';
+        this.productLabel = "Product";
+        this.variantLabel = "Variant";
       }
     }
   },
@@ -349,8 +349,8 @@ export default {
       BookingStatus,
       Category,
       loading: false,
-      productLabel: 'Product',
-      variantLabel: 'Variant',
+      productLabel: "Product",
+      variantLabel: "Variant",
       form: {
         id: undefined,
         product: undefined,
@@ -388,10 +388,26 @@ export default {
   },
   methods: {
     initData(data) {
+      var category = Number(data.category);
+
+      if (data.category == 1) {
+        category = 2
+      } else if (data.category == 2) {
+        category = 1
+      } else if (date.category == 3) {
+        category = 1
+      } else if (data.category == 4) {
+        category = 4
+      } else if (data.category == 5) {
+        category = 3
+      } else if (data.category == 6) {
+        category = 5
+      }
+
       this.form = Object.assign(this.form, {
         product: data.product,
         variant: data.variant,
-        category: Number(data.category),
+        category: category,
         action_day: moment(data.day, "YYYY-MM-DD"),
         action_time: moment(data.time, "HH:mm:ss"),
         booking_day: moment(data.create_at, "YYYY-MM-DD"),
