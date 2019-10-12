@@ -8,6 +8,6 @@ from .models import Booking
 def booking_model_post_save(sender, instance, created, **kwargs):
     if created:
         if instance.bookingID is None or instance.bookingID == '':
-            instance.bookingID = str(instance.id + 1000000000)
+            instance.bookingID = 'B%s' % str(instance.id + 1000000000)
             instance.save()
         

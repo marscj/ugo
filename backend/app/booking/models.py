@@ -13,10 +13,10 @@ class Booking(models.Model):
     groupID = models.CharField(blank=True, null=True, max_length=64)
     
     #下单日期
-    booking_day = models.DateField(blank=True, null=True)
+    booking_date = models.DateField(blank=True, null=True)
 
     #执行日期
-    action_day = models.DateField(blank=True, null=True)
+    action_date = models.DateField(blank=True, null=True)
 
     #执行时间
     action_time = models.TimeField(blank=True, null=True)
@@ -28,10 +28,7 @@ class Booking(models.Model):
     end_date = models.DateField(blank=True, null=True)
     
     #产品
-    product = models.CharField(blank=True, null=True, max_length=128)
-    
-    #子产品
-    variant = models.CharField(blank=True, null=True, max_length=64)
+    product = models.CharField(blank=True, null=True, max_length=256)
 
     #行程
     itinerary = models.TextField(blank=True, null=True)
@@ -118,15 +115,13 @@ class Booking(models.Model):
 
     cancel_date = models.DateField(blank=True, null=True)
 
-    
-
     nights = models.IntegerField(blank=True, null=True, default=0)
 
     rooms = models.IntegerField(blank=True, null=True, default=0)
 
-    pyament_due_date = models.DateField(blank=True, null=True)
+    payment_due_date = models.DateField(blank=True, null=True)
     # --------------------------------------------------  end  --------------------------------------------------
-
+    
     #确认号
     ref = models.TextField(blank=True, null=True)
 
@@ -145,11 +140,11 @@ class Booking(models.Model):
     #司机电话
     driver_mobile = models.CharField(blank=True, null=True, max_length=150)
 
+    #车牌号
+    vehicle = models.CharField(blank=True, null=True, max_length=64)
+
     #车型
     vehicle_model = models.CharField(blank=True, null=True, max_length=64)
-
-    #车牌号
-    vehicle_number = models.CharField(blank=True, null=True, max_length=64)
 
     #导游
     guide = models.CharField(blank=True, null=True, max_length=150)

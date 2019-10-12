@@ -1,9 +1,10 @@
 <template>
-  <a-form :form="form">
+  <a-spin :spinning="spinning">
+    <a-form :form="form">
     <a-row :gutter="18">
       <a-col :span="6" :offset="3">
         <a-form-item class="form-item" label="Hotel">
-          <a-input v-model="form.product"></a-input>
+          <a-input v-model="form.product" placeholder="Hotel Name"></a-input>
         </a-form-item>
       </a-col>
       <a-col :span="6">
@@ -21,12 +22,12 @@
     <a-row :gutter="18">
       <a-col :span="6" :offset="3">
         <a-form-item class="form-item" label="Booking Date">
-          <a-date-picker v-model="form.booking_day" style="width: 100%" format="YYYY-MM-DD" />
+          <a-date-picker v-model="form.booking_date" style="width: 100%" format="YYYY-MM-DD" />
         </a-form-item>
       </a-col>
       <a-col :span="6">
-        <a-form-item class="form-item" label="Pyament Due Date">
-          <a-date-picker v-model="form.pyament_due_date" style="width: 100%" format="YYYY-MM-DD" />
+        <a-form-item class="form-item" label="Payment Due Date">
+          <a-date-picker v-model="form.payment_due_date" style="width: 100%" format="YYYY-MM-DD" />
         </a-form-item>
       </a-col>
       <a-col :span="6">
@@ -39,12 +40,12 @@
     <a-row :gutter="18">
       <a-col :span="6" :offset="3">
         <a-form-item class="form-item" label="Emailed">
-          <a-date-picker v-model="form.pyament_due_date" style="width: 100%" format="YYYY-MM-DD" />
+          <a-date-picker v-model="form.emailed" style="width: 100%" format="YYYY-MM-DD" />
         </a-form-item>
       </a-col>
       <a-col :span="6">
         <a-form-item class="form-item" label="Cancel Date">
-          <a-date-picker v-model="form.room_update" style="width: 100%" format="YYYY-MM-DD" />
+          <a-date-picker v-model="form.cancel_date" style="width: 100%" format="YYYY-MM-DD" />
         </a-form-item>
       </a-col>
 
@@ -314,7 +315,17 @@
         </a-form-item>
       </a-col>
     </a-row>
+
+    <a-row :gutter="18">
+      <a-col :span="9" :offset="3">
+        <a-button v-if="isEdit" type="primary" @click="update" :loading="loading">Update</a-button>
+        <a-button v-else type="primary" @click="create" :loading="loading">Create</a-button>
+      </a-col>
+    </a-row>
   </a-form>
+  </a-spin>
+
+  
 </template>
 
 <script>
@@ -375,19 +386,21 @@ export default {
     return {
       RoomStatus,
       loading: false,
+      spinning: false,
       form: {
         id: undefined,
         product: "",
+        category: 5,
         start_date: null,
         end_date: null,
-        booking_day: null,
-        pyament_due_date: null,
+        booking_date: null,
+        payment_due_date: null,
         room_update: null,
         emailed: null,
         cancel_date: null,
         status: 1,
-        rooms: 1,
-        nights: 1,
+        rooms: 0,
+        nights: 0,
         
         blocked_room: "",
         used_room: "",
@@ -413,8 +426,6 @@ export default {
         total_cost_price: 0.0,
         conf_list: null,
         room_list: null,
-        rate_room: null,
-        child_breakfast: null,
         remark: "",
         ref: "",
         order_id: undefined
@@ -443,97 +454,73 @@ export default {
     },
     initData(data) {
       this.form = Object.assign(this.form, {
-        product: data.product,
-        variant: data.variant,
-        category: Number(data.category),
-        action_day: moment(data.day, "YYYY-MM-DD"),
-        action_time: moment(data.time, "HH:mm:ss"),
-        booking_day: moment(data.create_at, "YYYY-MM-DD"),
-        start_date: moment(data.day),
-        end_date: moment(data.day),
-        quantity: Number(data.adult_quantity),
-        child_quantity: Number(data.child_quantity),
-        price: Number(data.adult_price),
-        child_price: Number(data.child_price),
-        total_price: Number(data.total),
         order_id: Number(data.id)
       });
     },
     updateDateTime(data) {
       return {
-        action_day: moment(data.action_day, "YYYY-MM-DD"),
-        action_time: moment(data.action_time, "HH:mm:ss"),
-        booking_day: moment(data.booking_day, "YYYY-MM-DD"),
-        pick_up_time: moment(data.pick_up_time, "YYYY-MM-DD"),
-        start_date: moment(data.pick_up_time, "YYYY-MM-DD"),
-        end_date: moment(data.pick_up_time, "YYYY-MM-DD")
+        start_date: data.start_date ? moment(data.start_date, "YYYY-MM-DD") : null,
+        end_date: data.end_date ? moment(data.end_date, "YYYY-MM-DD") : null,
+        booking_date: data.booking_date ? moment(data.booking_date, "YYYY-MM-DD") : null,
+        payment_due_date: data.payment_due_date ? moment(data.payment_due_date, "YYYY-MM-DD") : null,
+        room_update: data.room_update ? moment(data.room_update, "YYYY-MM-DD") : null,
+        emailed: data.emailed ? moment(data.emailed, "YYYY-MM-DD") : null,
+        cancel_date: data.cancel_date ? moment(data.cancel_date, "YYYY-MM-DD") : null
       };
     },
+    translateDate(data) {
+      return {
+        start_date: data.start_date
+          ? data.start_date.format("YYYY-MM-DD")
+          : null,
+        end_date: data.end_date
+          ? data.end_date.format("YYYY-MM-DD")
+          : null,
+        booking_date: data.booking_date
+          ? data.booking_date.format("YYYY-MM-DD")
+          : null,
+        payment_due_date: data.payment_due_date
+          ? data.payment_due_date.format("YYYY-MM-DD")
+          : null,
+        room_update: data.room_update
+          ? data.room_update.format("YYYY-MM-DD")
+          : null,
+        emailed: data.emailed
+          ? data.emailed.format("YYYY-MM-DD")
+          : null,
+        cancel_date: data.cancel_date
+          ? data.cancel_date.format("YYYY-MM-DD")
+          : null
+      }
+    },
     fetch(id) {
-      this.loading = true;
+      this.spinning = true;
       getBooking(id)
         .then(res => {
           const { result } = res;
           this.form = Object.assign(result, this.updateDateTime(result));
+          this.$emit('onTitle', this.form)
         })
         .finally(() => {
-          this.loading = false;
+          this.spinning = false;
         });
     },
     create() {
-      var form = Object.assign({}, this.form, {
-        action_day: this.form.action_day
-          ? this.form.action_day.format("YYYY-MM-DD")
-          : undefined,
-        action_time: this.form.action_time
-          ? this.form.action_time.format("HH:mm:ss")
-          : undefined,
-        booking_day: this.form.booking_day
-          ? this.form.booking_day.format("YYYY-MM-DD")
-          : undefined,
-        pick_up_time: this.form.pick_up_time
-          ? this.form.pick_up_time.format("YYYY-MM-DD HH:mm:ss")
-          : undefined,
-        start_date: this.form.start_date
-          ? this.form.start_date.format("YYYY-MM-DD")
-          : undefined,
-        end_date: this.form.end_date
-          ? this.form.end_date.format("YYYY-MM-DD")
-          : undefined
-      });
+      var form = Object.assign({}, this.form, this.translateDate(this.form));
 
       this.loading = true;
 
       createBooking(form)
         .then(res => {
           const { id } = res.result;
-          this.$router.replace({ name: "BookingEdit", params: { id } });
+          this.$router.replace({ name: "BookingEdit", params: { id }, query: {category: 5}});
         })
         .finally(() => {
           this.loading = false;
         });
     },
     update() {
-      var form = Object.assign({}, this.form, {
-        action_day: this.form.action_day
-          ? this.form.action_day.format("YYYY-MM-DD")
-          : undefined,
-        action_time: this.form.action_time
-          ? this.form.action_time.format("HH:mm:ss")
-          : undefined,
-        booking_day: this.form.booking_day
-          ? this.form.booking_day.format("YYYY-MM-DD")
-          : undefined,
-        pick_up_time: this.form.pick_up_time
-          ? this.form.pick_up_time.format("YYYY-MM-DD HH:mm:ss")
-          : undefined,
-        start_date: this.form.start_date
-          ? this.form.start_date.format("YYYY-MM-DD")
-          : undefined,
-        end_date: this.form.end_date
-          ? this.form.end_date.format("YYYY-MM-DD")
-          : undefined
-      });
+      var form = Object.assign({}, this.form, this.translateDate(this.form));
 
       this.loading = true;
 
