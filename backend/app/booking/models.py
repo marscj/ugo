@@ -1,7 +1,8 @@
 from django.db import models
 from django.core.validators import MinValueValidator
+from django.contrib.postgres.fields import ArrayField
 
-from . import BookingStatus, BookingCategory
+from . import BookingStatus, BookingCategory, RoomStatus
 
 class Booking(models.Model):
 
@@ -68,6 +69,64 @@ class Booking(models.Model):
     #税务 AED
     vat = models.DecimalField(default=0.0, max_digits=10, decimal_places=2, validators=[MinValueValidator(0.0)])
 
+    # --------------------------------------------------酒店相关--------------------------------------------------
+    blocked_room = models.CharField(blank=True, null=True, max_length=128)
+
+    sgl = models.IntegerField(blank=True, null=True, default=0)
+
+    sgl_price = models.DecimalField(default=0.0, max_digits=10, decimal_places=2, validators=[MinValueValidator(0.0)])
+
+    sgl_cost_price = models.DecimalField(default=0.0, max_digits=10, decimal_places=2, validators=[MinValueValidator(0.0)])
+
+    dbl = models.IntegerField(blank=True, null=True, default=0)
+
+    dbl_price = models.DecimalField(default=0.0, max_digits=10, decimal_places=2, validators=[MinValueValidator(0.0)])
+
+    dbl_cost_price = models.DecimalField(default=0.0, max_digits=10, decimal_places=2, validators=[MinValueValidator(0.0)])
+
+    twn = models.IntegerField(blank=True, null=True, default=0)
+
+    twn_price = models.DecimalField(default=0.0, max_digits=10, decimal_places=2, validators=[MinValueValidator(0.0)])
+
+    twn_cost_price = models.DecimalField(default=0.0, max_digits=10, decimal_places=2, validators=[MinValueValidator(0.0)])
+
+    tpl = models.IntegerField(blank=True, null=True, default=0)
+
+    tpl_price = models.DecimalField(default=0.0, max_digits=10, decimal_places=2, validators=[MinValueValidator(0.0)])
+
+    tpl_cost_price = models.DecimalField(default=0.0, max_digits=10, decimal_places=2, validators=[MinValueValidator(0.0)])
+
+    exb = models.IntegerField(blank=True, null=True, default=0)
+
+    exb_price = models.DecimalField(default=0.0, max_digits=10, decimal_places=2, validators=[MinValueValidator(0.0)])
+
+    exb_cost_price = models.DecimalField(default=0.0, max_digits=10, decimal_places=2, validators=[MinValueValidator(0.0)])
+
+    tourism_fees = models.DecimalField(default=0.0, max_digits=10, decimal_places=2, validators=[MinValueValidator(0.0)])
+
+    rate_room = models.CharField(blank=True, null=True, max_length=128)
+
+    conf_list = models.FileField(blank=True, null=True, upload_to='conf')
+
+    room_list = models.FileField(blank=True, null=True, upload_to='room')
+
+    room_update = models.DateField(blank=True, null=True)
+
+    emailed = models.DateField(blank=True, null=True)
+
+    cancel_policy = models.TextField(blank=True, null=True)
+
+    cancel_date = models.DateField(blank=True, null=True)
+
+    
+
+    nights = models.IntegerField(blank=True, null=True, default=0)
+
+    rooms = models.IntegerField(blank=True, null=True, default=0)
+
+    pyament_due_date = models.DateField(blank=True, null=True)
+    # --------------------------------------------------  end  --------------------------------------------------
+
     #确认号
     ref = models.TextField(blank=True, null=True)
 
@@ -105,7 +164,7 @@ class Booking(models.Model):
     officer = models.CharField(blank=True, null=True, max_length=150)
 
     #状态
-    status = models.IntegerField(default=BookingStatus.INQUIRY, choices=BookingStatus.CHOICE)
+    status = models.IntegerField(default=BookingStatus.Inquiry, choices=BookingStatus.CHOICE)
 
     #备注
     remark = models.TextField(blank=True, null=True)

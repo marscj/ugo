@@ -1,5 +1,7 @@
 <template>
-  <detail :isEdit="false" />
+  <div>
+    <detail :isEdit="false" />
+  </div>
 </template>
 
 <script>
@@ -9,7 +11,7 @@ import Detail from "./detail";
 export default {
   name: "BookingCreate",
   components: {
-    Detail
+    Detail,
   },
 };
 </script>
