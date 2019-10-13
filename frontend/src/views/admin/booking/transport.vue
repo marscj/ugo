@@ -3,7 +3,7 @@
     <a-form :form="form">
       <a-row :gutter="18">
         <a-col :span="6" :offset="3">
-          <a-form-item class="form-item" label="Restaurant&Meal">
+          <a-form-item class="form-item" label="Product">
             <a-input v-model="form.product" placeholder="Product Name"></a-input>
           </a-form-item>
         </a-col>
@@ -36,25 +36,12 @@
 
       <a-row :gutter="18">
         <a-col :span="6" :offset="3">
-          <a-form-item class="form-item" label="Adult/Pax">
+          <a-form-item class="form-item" label="Pax">
             <a-input-number v-model="form.quantity" style="width: 100%" :min="1" />
           </a-form-item>
         </a-col>
-        <a-col :span="6">
-          <a-form-item class="form-item" label="Child/Pax">
-            <a-input-number v-model="form.child_quantity" style="width: 100%" :min="0" />
-          </a-form-item>
-        </a-col>
-        <a-col :span="6">
-          <a-form-item class="form-item" label="Free/Pax">
-            <a-input-number v-model="form.free_quantity" style="width: 100%" :min="0" />
-          </a-form-item>
-        </a-col>
-      </a-row>
-
-      <a-row :gutter="18">
-        <a-col :span="6" :offset="3">
-          <a-form-item class="form-item" label="Adult/SP">
+        <a-col :span="6" >
+          <a-form-item class="form-item" label="Pax/SP">
             <a-input-number
               v-model="form.price"
               style="width: 100%"
@@ -66,9 +53,9 @@
           </a-form-item>
         </a-col>
         <a-col :span="6">
-          <a-form-item class="form-item" label="Child/SP">
+          <a-form-item class="form-item" label="Pax/CP">
             <a-input-number
-              v-model="form.child_price"
+              v-model="form.cost_price"
               style="width: 100%"
               :min="0.0"
               :defaultValue="0.0"
@@ -77,7 +64,10 @@
             />
           </a-form-item>
         </a-col>
-        <a-col :span="6">
+      </a-row>
+
+      <a-row :gutter="18">
+        <a-col :span="9" :offset="3">
           <a-form-item class="form-item" label="Total/SP">
             <a-input-number
               v-model="form.total_price"
@@ -90,46 +80,7 @@
             />
           </a-form-item>
         </a-col>
-      </a-row>
-
-      <a-row :gutter="18">
-        <a-col :span="4" :offset="3">
-          <a-form-item class="form-item" label="Adult/CP">
-            <a-input-number
-              v-model="form.cost_price"
-              style="width: 100%"
-              :min="0.0"
-              :defaultValue="0.0"
-              :precision="2"
-              :step="0.5"
-            />
-          </a-form-item>
-        </a-col>
-        <a-col :span="4">
-          <a-form-item class="form-item" label="Child/CP">
-            <a-input-number
-              v-model="form.child_cost_price"
-              style="width: 100%"
-              :min="0.0"
-              :defaultValue="0.0"
-              :precision="2"
-              :step="0.5"
-            />
-          </a-form-item>
-        </a-col>
-        <a-col :span="4">
-          <a-form-item class="form-item" label="Vat">
-            <a-input-number
-              v-model="form.vat"
-              style="width: 100%"
-              :min="0.0"
-              :defaultValue="0.0"
-              :precision="2"
-              :step="0.5"
-            />
-          </a-form-item>
-        </a-col>
-        <a-col :span="6">
+        <a-col :span="9" >
           <a-form-item class="form-item" label="Total/CP">
             <a-input-number
               v-model="form.total_cost_price"
@@ -140,6 +91,34 @@
               :precision="2"
               :step="0.5"
             />
+          </a-form-item>
+        </a-col>
+      </a-row>
+
+      <a-row :gutter="18">
+        <a-col :span="9" :offset="3">
+          <a-form-item class="form-item" label="Vehicle ">
+            <a-input v-model="form.vehicle" placeholder="Traffic Plate No."></a-input>
+          </a-form-item>
+        </a-col>
+
+        <a-col :span="9">
+          <a-form-item class="form-item" label="Model">
+            <a-input v-model="form.vehicle_model" placeholder="Model Name"></a-input>
+          </a-form-item>
+        </a-col>
+      </a-row>
+
+      <a-row :gutter="18">
+        <a-col :span="9" :offset="3">
+          <a-form-item class="form-item" label="Driver">
+            <a-input v-model="form.driver" placeholder="Name" :min="1" />
+          </a-form-item>
+        </a-col>
+
+        <a-col :span="9">
+          <a-form-item class="form-item" label="Mobile">
+            <a-input v-model="form.driver_mobile" placeholder="Moblie" :min="0" />
           </a-form-item>
         </a-col>
       </a-row>
@@ -160,8 +139,8 @@
 
       <a-row :gutter="18">
         <a-col :span="9" :offset="3">
-          <a-form-item class="form-item" label="Ref">
-            <a-textarea v-model="form.ref" :autosize="{minRows: 5}"></a-textarea>
+          <a-form-item class="form-item" label="Itinerary">
+            <a-textarea v-model="form.itinerary" :autosize="{minRows: 5}"></a-textarea>
           </a-form-item>
         </a-col>
         <a-col :span="9">
@@ -213,13 +192,10 @@ export default {
       deep: true,
       handler: function(newValue, oldValue) {
         this.form.total_price =
-          Number(this.form.quantity | 0) * Number(this.form.price | 0) +
-          Number(this.form.child_quantity | 0) * Number(this.form.child_price | 0);
+          Number(this.form.quantity | 0) * Number(this.form.price | 0);
 
         this.form.total_cost_price =
-          Number(this.form.quantity | 0) * Number(this.form.cost_price | 0) +
-          Number(this.form.child_quantity | 0) * Number(this.form.child_cost_price | 0) +
-          Number(this.form.vat | 0);
+          Number(this.form.quantity | 0) * Number(this.form.cost_price | 0);
       }
     }
   },
@@ -231,21 +207,21 @@ export default {
       form: {
         id: undefined,
         product: "",
-        category: 1,
+        category: 3,
         action_date: null,
         action_time: null,
         booking_date: null,
+        supplier: "",
         status: 1,
         quantity: 0,
-        child_quantity: 0,
-        free_quantity: 0,
         price: 0.0,
-        child_price: 0.0,
-        total_price: 0.0,
         cost_price: 0.0,
-        child_cost_price: 0.0,
+        total_price: 0.0,
         total_cost_price: 0.0,
-        vat: 0.0,
+        vehicle_model: null,
+        vehicle_no: null,
+        driver: null,
+        driver_mobile: null,
         guide: null,
         guide_mobile: null,
         remark: "",
@@ -279,7 +255,7 @@ export default {
           : null,
         booking_date: data.booking_date
           ? moment(data.booking_date, "YYYY-MM-DD")
-          : null
+          : null,
       };
     },
     translateDate(data) {
@@ -312,7 +288,7 @@ export default {
           this.$router.replace({
             name: "BookingEdit",
             params: { id },
-            query: { category: 1 }
+            query: { category: 3 }
           });
         })
         .finally(() => {

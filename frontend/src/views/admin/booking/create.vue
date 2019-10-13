@@ -16,9 +16,11 @@
       </a-dropdown>
     </div>
 
-    <hotel v-if="category == 5" :isEdit="isEdit" />
-    <tour v-if="category == 2" :isEdit="isEdit" />
     <restaurant v-if="category == 1" :isEdit="isEdit" />
+    <tour v-if="category == 2" :isEdit="isEdit" />
+    <transport v-if="category == 3" :isEdit="isEdit" />
+    <hotel v-if="category == 5" :isEdit="isEdit" />
+    
   </a-card>
 </template>
 
@@ -32,6 +34,7 @@ const IconFont = Icon.createFromIconfontCN({
 import Hotel from "./hotel";
 import Tour from "./tour";
 import Restaurant from "./restaurant";
+import Transport from "./transport";
 
 const Category = [
   { value: 1, label: "Restaurant", type: "iconf-30" },
@@ -53,7 +56,8 @@ export default {
     IconFont,
     Hotel,
     Tour,
-    Restaurant
+    Restaurant,
+    Transport
   },
   data() {
     return {
