@@ -390,7 +390,7 @@ export default {
       form: {
         id: undefined,
         product: "",
-        category: 5,
+        category: 4,
         start_date: null,
         end_date: null,
         booking_date: null,
@@ -513,7 +513,7 @@ export default {
       createBooking(form)
         .then(res => {
           const { id } = res.result;
-          this.$router.replace({ name: "BookingEdit", params: { id }, query: {category: 5}});
+          this.$router.replace({ name: "BookingEdit", params: { id }, query: {category: 4}});
         })
         .finally(() => {
           this.loading = false;

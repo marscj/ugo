@@ -19,7 +19,7 @@
     <restaurant v-if="category == 1" :isEdit="isEdit" />
     <tour v-if="category == 2" :isEdit="isEdit" />
     <transport v-if="category == 3" :isEdit="isEdit" />
-    <hotel v-if="category == 5" :isEdit="isEdit" />
+    <hotel v-if="category == 4" :isEdit="isEdit" />
     
   </a-card>
 </template>
@@ -40,9 +40,7 @@ const Category = [
   { value: 1, label: "Restaurant", type: "iconf-30" },
   { value: 2, label: "Tour", type: "iconticket" },
   { value: 3, label: "Transport", type: "iconche" },
-  { value: 4, label: "Car", type: "iconche" },
-  { value: 5, label: "Hotel", type: "iconhotel" },
-  { value: 6, label: "Gift", type: "iconliwu1" }
+  { value: 4, label: "Hotel", type: "iconhotel" },
 ];
 
 export default {

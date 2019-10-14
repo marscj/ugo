@@ -21,17 +21,13 @@ class BookingCategory:
     Restaurant = 1
     Tour = 2
     Transport = 3
-    Car = 4
-    Hotel = 5
-    Gift = 6
+    Hotel = 4
 
     CHOICE = (
         (Restaurant, '餐厅'),
         (Tour, '旅游'),
         (Transport, '交通'),
-        (Car, '租车'),
         (Hotel, '酒店'),
-        (Gift, '礼物'),
     )
 
 class RoomStatus:
