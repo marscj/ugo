@@ -2,8 +2,8 @@
   <a-form :form="form">
     <a-row :gutter="18">
       <a-col :span="6" :offset="3">
-        <a-form-item class="form-item" label="Product">
-          <a-input v-model="form.product" placeholder="Product Name"></a-input>
+        <a-form-item class="form-item" label="Itinerary & Vehicle">
+          <a-input v-model="form.product" placeholder="Itinerary"></a-input>
         </a-form-item>
       </a-col>
       <a-col :span="6">
@@ -226,7 +226,7 @@ export default {
   methods: {
     initData(data) {
       this.form = Object.assign(this.form, {
-        product: data.product,
+        product: data.product + ' - ' + data.variant,
         action_date: data.day ? moment(data.day, "YYYY-MM-DD") : null,
         action_time: data.time ? moment(data.time, "HH:mm") : null,
         booking_date: data.create_at

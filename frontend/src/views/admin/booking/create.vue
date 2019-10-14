@@ -2,8 +2,8 @@
   <a-spin :spinning="loading">
     <a-card>
       <template slot="title">
-        <icon-font :type="Category[$route.query['type']].type" />
-        {{Category[$route.query['type']].label}}
+        <icon-font :type="Category[$route.query.type].type" />
+        {{Category[$route.query.type].label}}
       </template>
       <restaurant v-if="$route.query['type'] == 1" :isEdit="false" @create="create" />
       <tour v-if="$route.query['type'] == 2" :isEdit="false" @create="create" />
@@ -27,6 +27,7 @@ const IconFont = Icon.createFromIconfontCN({
 });
 
 const Category = [
+  { value: 0, label: "All", type: "iconf-30" },
   { value: 1, label: "Restaurant", type: "iconf-30" },
   { value: 2, label: "Tour", type: "iconticket" },
   { value: 3, label: "Transport", type: "iconche" },

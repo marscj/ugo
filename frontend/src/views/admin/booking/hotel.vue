@@ -317,8 +317,8 @@
 
     <a-row :gutter="18">
       <a-col :span="9" :offset="3">
-        <a-button v-if="isEdit" type="primary" @click="update" >Update</a-button>
-        <a-button v-else type="primary" @click="create" >Create</a-button>
+        <a-button v-if="isEdit" type="primary" @click="update">Update</a-button>
+        <a-button v-else type="primary" @click="create">Create</a-button>
       </a-col>
     </a-row>
   </a-form>
@@ -448,6 +448,10 @@ export default {
     },
     initData(data) {
       this.form = Object.assign(this.form, {
+        product: data.product + " - " + data.variant,
+        booking_date: data.create_at
+          ? moment(data.create_at, "YYYY-MM-DD")
+          : null,
         order_id: Number(data.id)
       });
     },

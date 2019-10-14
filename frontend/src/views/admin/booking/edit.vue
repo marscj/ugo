@@ -51,6 +51,7 @@ const IconFont = Icon.createFromIconfontCN({
 });
 
 const Category = [
+  { value: 0, label: "All", type: "iconf-30" },
   { value: 1, label: "Restaurant", type: "iconf-30" },
   { value: 2, label: "Tour", type: "iconticket" },
   { value: 3, label: "Transport", type: "iconche" },

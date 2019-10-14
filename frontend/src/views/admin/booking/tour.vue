@@ -319,7 +319,7 @@ export default {
   methods: {
     initData(data) {
       this.form = Object.assign(this.form, {
-        product: data.product + '-' + data.variant,
+        product: data.product + ' - ' + data.variant,
         action_date: data.day ? moment(data.day, "YYYY-MM-DD") : null,
         action_time: data.time ? moment(data.time, "HH:mm") : null,
         booking_date: data.create_at
