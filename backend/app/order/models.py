@@ -143,7 +143,7 @@ class Order(models.Model):
             description=description,
             status=PaymentStatus.REFUNDING,
             action=PaymentAction.REFUNDED,
-            order_id=self.id,
+            order_id=self.orderID,
             customer=customer.username,
             customer_id=customer.id,
             customer_balance=customer.balance

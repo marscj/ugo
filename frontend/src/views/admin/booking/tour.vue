@@ -330,7 +330,7 @@ export default {
         price: data.adult_price,
         child_price: data.child_price,
         total_price: data.total,
-        order_id: Number(data.id)
+        order_id: Number(data.orderID)
       });
     },
     updateDateTime(data) {

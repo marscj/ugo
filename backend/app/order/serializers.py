@@ -309,12 +309,12 @@ class OrderUpdateSerializer(OrderCreateSerializer):
         return validate_data
 
     def get_payment(self, obj):
-        query = Payment.objects.filter(order_id=obj.id)
+        query = Payment.objects.filter(order_id=obj.orderID)
         serializer = PaymentSerializer(instance=query, many=True, context=self.context)
         return serializer.data
 
     def get_booking(self, obj):
-        query = Booking.objects.filter(order_id=obj.id)
+        query = Booking.objects.filter(order_id=obj.orderID)
         serializer = BookingSerializer(instance=query, many=True, context=self.context)
         return serializer.data
         

@@ -1,34 +1,34 @@
 <template>
   <a-spin :spinning="loading">
-    <a-card>
-      <template slot="title" v-if="form">
+    <a-card v-if="form">
+      <template slot="title" >
         <icon-font :type="Category[form.category].type" />
         {{Category[form.category].label}}
       </template>
       <restaurant
         ref="form"
-        v-if="form && form.category == 1"
+        v-if="form.category == 1"
         :isEdit="true"
         @onTitle="onTitle"
         @update="update"
       />
       <tour
         ref="form"
-        v-if="form && form.category == 2"
+        v-if="form.category == 2"
         :isEdit="true"
         @onTitle="onTitle"
         @update="update"
       />
       <transport
         ref="form"
-        v-if="form && form.category == 3"
+        v-if="form.category == 3"
         :isEdit="true"
         @onTitle="onTitle"
         @update="update"
       />
       <hotel
         ref="form"
-        v-if="form && form.category == 4"
+        v-if="form.category == 4"
         :isEdit="true"
         @onTitle="onTitle"
         @update="update"
