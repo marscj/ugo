@@ -1,6 +1,6 @@
 <template >
   <a-card class="table-page-search-wrapper" :bordered="false">
-    <template slot="extra">
+    <!-- <template slot="extra">
       <a-form layout="inline">
         <a-row :gutter="48">
           <a-col :xs="6" :md="6" :sm="24">
@@ -56,7 +56,7 @@
         <a-button class="buttonStyle" type="primary" @click="hanldeClean">Clean</a-button>
         <a-button class="buttonStyle" type="primary" @click="exportModal.visible = true">Export</a-button>
       </a-form>
-    </template>
+    </template>-->
 
     <s-table
       ref="table"
@@ -67,9 +67,15 @@
       bordered
       fixed
     >
+      <span slot="booking_date" slot-scope="text, data">
+        <template>
+          <span>{{data.booking_date | moment('YYYY-MM-DD')}}</span>
+        </template>
+      </span>
+
       <span slot="action_date" slot-scope="text, data">
         <template>
-          <span>{{data['action_date'] + ' ' + data['action_time'] | moment('YYYY-MM-DD HH:mm')}}</span>
+          <span>{{data.action_date + ' ' + data.action_time | moment('YYYY-MM-DD HH:mm')}}</span>
         </template>
       </span>
 
@@ -181,9 +187,15 @@
         </template>
       </span>
 
+      <span slot="status" slot-scope="text, data">
+        <template v-action:edit>
+          <span>{{BookingStatus[data.status].label}}</span>
+        </template>
+      </span>
+
       <span slot="action" slot-scope="text, data">
         <template v-action:edit>
-          <router-link :to="{name: 'BookingEdit', params: {id: data.id}}" target="_blank" > detail</router-link>
+          <router-link :to="{name: 'BookingEdit', params: {id: data.id}}" target="_blank">detail</router-link>
         </template>
       </span>
     </s-table>
@@ -194,6 +206,17 @@
 import { STable, Ellipsis } from "@/components";
 import { getBookingList } from "@/api/booking";
 import moment from "moment";
+
+const BookingStatus = [
+  { value: 0, label: "All" },
+  { value: 1, label: "Inquiry" },
+  { value: 2, label: "Confirm" },
+  { value: 3, label: "Padding" },
+  { value: 4, label: "Email-Sent" },
+  { value: 5, label: "OP-Cancelled" },
+  { value: 6, label: "OP-Approved" }
+];
+
 
 export default {
   name: "BookingList",
@@ -219,7 +242,12 @@ export default {
         width: "180px"
       },
       {
-        title: "Action Date",
+        title: "Booking Date",
+        scopedSlots: { customRender: "booking_date" },
+        width: "100px"
+      },
+      {
+        title: "Action DateTime",
         scopedSlots: { customRender: "action_date" },
         width: "130px"
       },
@@ -258,8 +286,8 @@ export default {
         dataIndex: "remark"
       },
       {
-        title: "Offer",
-        dataIndex: "offer",
+        title: "Officer",
+        dataIndex: "officer",
         width: "50px"
       },
       {
@@ -274,6 +302,12 @@ export default {
         width: "40px"
       },
       {
+        title: "Status",
+        dataIndex: "status",
+        scopedSlots: { customRender: "status" },
+        width: "40px"
+      },
+      {
         title: "Action",
         dataIndex: "action",
         scopedSlots: { customRender: "action" },
@@ -283,7 +317,17 @@ export default {
     ];
 
     return {
-      queryParam: {},
+      BookingStatus,
+      queryParam: {
+        bookingID: undefined,
+        orderID: undefined,
+        status: undefined,
+        guide: undefined,
+        driver: undefined,
+        vehicle: undefined,
+        officer: undefined,
+        operator: undefined,
+      },
       columns: RestaurantColumns,
       loadData: parameter => {
         return getBookingList(Object.assign(parameter, this.queryParam)).then(
@@ -314,5 +358,22 @@ export default {
 .ant-table-thead > tr > th {
   padding: 12px 8px;
   font-size: 12px;
+}
+
+.ant-card-extra {
+  width: 100%;
+  padding: 16px 0;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.65);
+  font-weight: normal;
+  margin-left: 0;
+}
+
+.ant-card-wider-padding .ant-card-body {
+  padding: 24px 12px;
+}
+
+.buttonStyle {
+  margin: 0px 8px;
 }
 </style>

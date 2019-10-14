@@ -330,6 +330,7 @@ export default {
         price: data.adult_price,
         child_price: data.child_price,
         total_price: data.total,
+        operator: data.operator,
         order_id: Number(data.orderID)
       });
     },

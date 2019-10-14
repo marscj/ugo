@@ -119,6 +119,15 @@
           </div>
         </span>
 
+        <span slot="booking" slot-scope="data">
+          <div v-for="booking in data.booking" :key="booking.id">
+            <router-link
+              :to="{name: 'BookingEdit', params: {id: booking.id}}"
+              target="_blank"
+            >{{booking.bookingID}}</router-link>
+          </div>
+        </span>
+
         <span slot="create_at" slot-scope="text">
           <template>
             <span>{{text | moment('MM-DD HH:mm')}}</span>
@@ -146,7 +155,7 @@
             </div>
             <div v-if="status == 1">
               <a-dropdown v-if="$auth('Booking.add')">
-                <a-menu slot="overlay" >
+                <a-menu slot="overlay">
                   <a-menu-item v-for="category in Category" :key="category.value">
                     <a href="javascript:;" @click="hanldeBooking(category.value, data)">
                       <icon-font :type="category.type" />
@@ -317,14 +326,19 @@ export default {
           scopedSlots: { customRender: "order" }
         },
         {
+          title: "Price",
+          scopedSlots: { customRender: "price" },
+          width: "140px"
+        },
+        {
           title: "Payment",
           scopedSlots: { customRender: "payment" },
           width: "180px"
         },
         {
-          title: "Price",
-          scopedSlots: { customRender: "price" },
-          width: "140px"
+          title: "Booking",
+          scopedSlots: { customRender: "booking" },
+          width: "110px"
         },
         {
           title: "Operator",
@@ -446,10 +460,10 @@ export default {
     },
     hanldeBooking(value, data) {
       let routeUrl = this.$router.resolve({
-          name: "BookingCreate",
-          query: Object.assign({type: value}, data)
-     });
-     window.open(routeUrl .href, '_blank');
+        name: "BookingCreate",
+        query: Object.assign({ type: value }, data)
+      });
+      window.open(routeUrl.href, "_blank");
     }
   }
 };

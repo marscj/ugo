@@ -452,6 +452,7 @@ export default {
         booking_date: data.create_at
           ? moment(data.create_at, "YYYY-MM-DD")
           : null,
+        operator: data.operator,
         order_id: Number(data.orderID)
       });
     },
