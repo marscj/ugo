@@ -1,14 +1,41 @@
 <template>
-  <a-card>
-    
-    <restaurant v-if="$route.query['category'] == 1" :isEdit="true" @onTitle="onTitle"/>
-    <tour v-if="$route.query['category'] == 2" :isEdit="true" @onTitle="onTitle"/>
-    <transport v-if="$route.query['category'] == 3" :isEdit="true" @onTitle="onTitle"/>
-    <hotel v-if="$route.query['category'] == 5" :isEdit="true" @onTitle="onTitle"/>
-  </a-card>
+  <a-spin :spinning="loading">
+    <a-card>
+      <restaurant
+        ref="form"
+        v-if="form && form.category == 1"
+        :isEdit="true"
+        @onTitle="onTitle"
+        @update="update"
+      />
+      <tour
+        ref="form"
+        v-if="form && form.category == 2"
+        :isEdit="true"
+        @onTitle="onTitle"
+        @update="update"
+      />
+      <transport
+        ref="form"
+        v-if="form && form.category == 3"
+        :isEdit="true"
+        @onTitle="onTitle"
+        @update="update"
+      />
+      <hotel
+        ref="form"
+        v-if="form && form.category == 4"
+        :isEdit="true"
+        @onTitle="onTitle"
+        @update="update"
+      />
+    </a-card>
+  </a-spin>
 </template>
 
 <script>
+import { getBooking, updateBooking } from "@/api/booking";
+
 import Hotel from "./hotel";
 import Tour from "./tour";
 import Restaurant from "./restaurant";
@@ -17,13 +44,54 @@ import Transport from "./transport";
 export default {
   name: "BookingCreate",
   components: {
-    Hotel, Tour , Restaurant, Transport
+    Hotel,
+    Tour,
+    Restaurant,
+    Transport
+  },
+  mounted() {
+    this.fetch(this.$route.params.id);
+  },
+  data() {
+    return {
+      form: null,
+      loading: false
+    };
   },
   methods: {
     onTitle(data) {
-      this.$route.meta.title = data.bookingID
-      this.$parent.getPageMeta()
+      this.$route.meta.title = data.bookingID;
+      this.$parent.getPageMeta();
+    },
+    fetch(id) {
+      this.loading = true;
+      getBooking(id)
+        .then(res => {
+          const { result } = res;
+          this.form = result;
+          this.onTitle(this.form);
+
+          this.$nextTick(() => {
+            this.$refs.form.onFetch(this.form);
+          });
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
+    update(data) {
+      this.loading = true;
+      updateBooking(data.id, data)
+        .then(res => {
+          const { result } = res;
+          this.$nextTick(() => {
+            this.$refs.form.onUpdate(this.form);
+          });
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     }
-  },
+  }
 };
 </script>

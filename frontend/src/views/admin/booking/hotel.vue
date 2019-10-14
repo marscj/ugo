@@ -1,6 +1,5 @@
 <template>
-  <a-spin :spinning="spinning">
-    <a-form :form="form">
+  <a-form :form="form">
     <a-row :gutter="18">
       <a-col :span="6" :offset="3">
         <a-form-item class="form-item" label="Hotel">
@@ -61,18 +60,18 @@
     <a-row :gutter="18">
       <a-col :span="6" :offset="3">
         <a-form-item class="form-item" label="Rooms">
-          <a-input-number v-model="form.rooms" :min="0.0" style="width: 100%;"/>
+          <a-input-number v-model="form.rooms" :min="0.0" style="width: 100%;" />
         </a-form-item>
       </a-col>
       <a-col :span="6">
         <a-form-item class="form-item" label="Nights">
-          <a-input-number v-model="form.nights" :min="0.0" style="width: 100%;"/>
+          <a-input-number v-model="form.nights" :min="0.0" style="width: 100%;" />
         </a-form-item>
       </a-col>
 
       <a-col :span="6">
         <a-form-item class="form-item" label="Blocked Rooms">
-          <a-input v-model="form.blocked_room" disabled/>
+          <a-input v-model="form.blocked_room" disabled />
         </a-form-item>
       </a-col>
     </a-row>
@@ -80,7 +79,7 @@
     <a-row :gutter="18">
       <a-col :span="1" :offset="3">
         <a-form-item class="form-item" label="SGL">
-          <a-input-number v-model="form.sgl" :min="0" style="width: 100%;"/>
+          <a-input-number v-model="form.sgl" :min="0" style="width: 100%;" />
         </a-form-item>
       </a-col>
       <a-col :span="2">
@@ -98,7 +97,7 @@
 
       <a-col :span="1">
         <a-form-item class="form-item" label="DBL">
-          <a-input-number v-model="form.dbl" :min="0" style="width: 100%;"/>
+          <a-input-number v-model="form.dbl" :min="0" style="width: 100%;" />
         </a-form-item>
       </a-col>
       <a-col :span="2">
@@ -116,7 +115,7 @@
 
       <a-col :span="1">
         <a-form-item class="form-item" label="TWN">
-          <a-input-number v-model="form.twn" :min="0" style="width: 100%;"/>
+          <a-input-number v-model="form.twn" :min="0" style="width: 100%;" />
         </a-form-item>
       </a-col>
       <a-col :span="2">
@@ -134,7 +133,7 @@
 
       <a-col :span="1">
         <a-form-item class="form-item" label="TPL">
-          <a-input-number v-model="form.tpl" :min="0" style="width: 100%;"/>
+          <a-input-number v-model="form.tpl" :min="0" style="width: 100%;" />
         </a-form-item>
       </a-col>
       <a-col :span="2">
@@ -152,7 +151,7 @@
 
       <a-col :span="1">
         <a-form-item class="form-item" label="EXB">
-          <a-input-number v-model="form.exb" :min="0" style="width: 100%;"/>
+          <a-input-number v-model="form.exb" :min="0" style="width: 100%;" />
         </a-form-item>
       </a-col>
       <a-col :span="2">
@@ -318,14 +317,11 @@
 
     <a-row :gutter="18">
       <a-col :span="9" :offset="3">
-        <a-button v-if="isEdit" type="primary" @click="update" :loading="loading">Update</a-button>
-        <a-button v-else type="primary" @click="create" :loading="loading">Create</a-button>
+        <a-button v-if="isEdit" type="primary" @click="update" >Update</a-button>
+        <a-button v-else type="primary" @click="create" >Create</a-button>
       </a-col>
     </a-row>
   </a-form>
-  </a-spin>
-
-  
 </template>
 
 <script>
@@ -354,8 +350,6 @@ export default {
   mounted() {
     if (!this.isEdit) {
       this.initData(this.$route.query);
-    } else {
-      this.fetch(this.$route.params.id);
     }
   },
   watch: {
@@ -369,7 +363,7 @@ export default {
           Number(this.form.twn | 0) * Number(this.form.twn_price | 0) +
           Number(this.form.tpl | 0) * Number(this.form.tpl_price | 0) +
           Number(this.form.exb | 0) * Number(this.form.exb_price | 0);
-        
+
         this.form.total_cost_price =
           Number(this.form.sgl | 0) * Number(this.form.sgl_cost_price | 0) +
           Number(this.form.dbl | 0) * Number(this.form.dbl_cost_price | 0) +
@@ -378,7 +372,7 @@ export default {
           Number(this.form.exb | 0) * Number(this.form.exb_cost_price | 0) +
           Number(this.form.child_cost_price | 0) +
           Number(this.form.tourism_fees | 0) +
-          Number(this.form.vat | 0) ;
+          Number(this.form.vat | 0);
       }
     }
   },
@@ -401,7 +395,7 @@ export default {
         status: 1,
         rooms: 0,
         nights: 0,
-        
+
         blocked_room: "",
         used_room: "",
         sgl: 0,
@@ -459,13 +453,23 @@ export default {
     },
     updateDateTime(data) {
       return {
-        start_date: data.start_date ? moment(data.start_date, "YYYY-MM-DD") : null,
+        start_date: data.start_date
+          ? moment(data.start_date, "YYYY-MM-DD")
+          : null,
         end_date: data.end_date ? moment(data.end_date, "YYYY-MM-DD") : null,
-        booking_date: data.booking_date ? moment(data.booking_date, "YYYY-MM-DD") : null,
-        payment_due_date: data.payment_due_date ? moment(data.payment_due_date, "YYYY-MM-DD") : null,
-        room_update: data.room_update ? moment(data.room_update, "YYYY-MM-DD") : null,
+        booking_date: data.booking_date
+          ? moment(data.booking_date, "YYYY-MM-DD")
+          : null,
+        payment_due_date: data.payment_due_date
+          ? moment(data.payment_due_date, "YYYY-MM-DD")
+          : null,
+        room_update: data.room_update
+          ? moment(data.room_update, "YYYY-MM-DD")
+          : null,
         emailed: data.emailed ? moment(data.emailed, "YYYY-MM-DD") : null,
-        cancel_date: data.cancel_date ? moment(data.cancel_date, "YYYY-MM-DD") : null
+        cancel_date: data.cancel_date
+          ? moment(data.cancel_date, "YYYY-MM-DD")
+          : null
       };
     },
     translateDate(data) {
@@ -473,9 +477,7 @@ export default {
         start_date: data.start_date
           ? data.start_date.format("YYYY-MM-DD")
           : null,
-        end_date: data.end_date
-          ? data.end_date.format("YYYY-MM-DD")
-          : null,
+        end_date: data.end_date ? data.end_date.format("YYYY-MM-DD") : null,
         booking_date: data.booking_date
           ? data.booking_date.format("YYYY-MM-DD")
           : null,
@@ -485,52 +487,25 @@ export default {
         room_update: data.room_update
           ? data.room_update.format("YYYY-MM-DD")
           : null,
-        emailed: data.emailed
-          ? data.emailed.format("YYYY-MM-DD")
-          : null,
+        emailed: data.emailed ? data.emailed.format("YYYY-MM-DD") : null,
         cancel_date: data.cancel_date
           ? data.cancel_date.format("YYYY-MM-DD")
           : null
-      }
+      };
     },
-    fetch(id) {
-      this.spinning = true;
-      getBooking(id)
-        .then(res => {
-          const { result } = res;
-          this.form = Object.assign(result, this.updateDateTime(result));
-          this.$emit('onTitle', this.form)
-        })
-        .finally(() => {
-          this.spinning = false;
-        });
+    onFetch(data) {
+      this.form = Object.assign(data, this.updateDateTime(data));
     },
     create() {
       var form = Object.assign({}, this.form, this.translateDate(this.form));
-
-      this.loading = true;
-
-      createBooking(form)
-        .then(res => {
-          const { id } = res.result;
-          this.$router.replace({ name: "BookingEdit", params: { id }, query: {category: 4}});
-        })
-        .finally(() => {
-          this.loading = false;
-        });
+      this.$emit("create", form);
     },
     update() {
       var form = Object.assign({}, this.form, this.translateDate(this.form));
-
-      this.loading = true;
-
-      updateBooking(this.form.id, form)
-        .then(res => {
-          this.form = Object.assign(result, this.updateDateTime(result));
-        })
-        .finally(() => {
-          this.loading = false;
-        });
+      this.$emit("update", form);
+    },
+    onUpdate(data) {
+      this.form = Object.assign(data, this.updateDateTime(data));
     }
   }
 };

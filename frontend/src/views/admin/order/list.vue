@@ -145,12 +145,17 @@
               </a-popconfirm>
             </div>
             <div v-if="status == 1">
-              <!-- <a
-                v-if="$auth('Booking.add')"
-                href="javascript:;"
-                @click="booking.handle(data)"
-              >booking</a> -->
-              <router-link v-if="$auth('Booking.add')" :to="{name: 'BookingCreate', query:data}" target='_blank'>booking</router-link>
+              <a-dropdown v-if="$auth('Booking.add')">
+                <a-menu slot="overlay" >
+                  <a-menu-item v-for="category in Category" :key="category.value">
+                    <a href="javascript:;" @click="hanldeBooking(category.value, data)">
+                      <icon-font :type="category.type" />
+                      {{category.label}}
+                    </a>
+                  </a-menu-item>
+                </a-menu>
+                <a href="javascript:;">booking</a>
+              </a-dropdown>
               <br />
               <a
                 v-if="$auth('Order.edit')"
@@ -168,13 +173,6 @@
                 @click="changeOrderStatus(data, 5)"
               >complete</a>
             </div>
-            <!-- <div v-if="status == 4">
-              <a
-                v-if="$auth('Payment.edit')"
-                href="javascript:;"
-                @click="changeOrderStatus(data, 5)"
-              >已退款</a>
-            </div>-->
             <div v-if="status == 5"></div>
             <div>
               <a href="javascript:;" @click="remark.handle(data)">remark</a>
@@ -228,7 +226,6 @@
         >Submit</a-button>
       </template>
     </a-modal>
-
   </div>
 </template>
 
@@ -238,7 +235,13 @@ import { getOrderList, updateOrder, orderRefund } from "@/api/order";
 
 import { paymentRefund } from "@/api/payment";
 import { checkError } from "@/views/utils/error";
+
 import moment from "moment";
+
+import { Icon } from "ant-design-vue";
+const IconFont = Icon.createFromIconfontCN({
+  scriptUrl: "//at.alicdn.com/t/font_1402881_gsh78a0lnya.js"
+});
 
 const payStatus = [
   { value: 0, label: "未支付" },
@@ -255,11 +258,19 @@ const payActions = [
   { value: 2, label: "充值" }
 ];
 
+const Category = [
+  { value: 1, label: "Restaurant", type: "iconf-30" },
+  { value: 2, label: "Tour", type: "iconticket" },
+  { value: 3, label: "Transport", type: "iconche" },
+  { value: 4, label: "Hotel", type: "iconhotel" }
+];
+
 export default {
   name: "OrderList",
   components: {
     STable,
-    Ellipsis
+    Ellipsis,
+    IconFont
   },
   props: {
     queryParam: {
@@ -274,6 +285,7 @@ export default {
   data() {
     return {
       loading: false,
+      Category,
       payStatus,
       payActions,
       labelCol: {
@@ -431,6 +443,13 @@ export default {
           });
         }
       }
+    },
+    hanldeBooking(value, data) {
+      let routeUrl = this.$router.resolve({
+          name: "BookingCreate",
+          query: Object.assign({type: value}, data)
+     });
+     window.open(routeUrl .href, '_blank');
     }
   }
 };
@@ -456,7 +475,6 @@ export default {
 }
 
 .form-item {
-  margin-bottom: 0px
+  margin-bottom: 0px;
 }
-
 </style>

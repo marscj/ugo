@@ -1,47 +1,21 @@
 <template>
-  <a-card>
-    <div slot="title">
-      <a-dropdown>
-        <a-menu slot="overlay" @click="handleMenuClick">
-          <a-menu-item v-for="data in Category" :key="data.value">
-            <icon-font :type="data.type" />
-            {{data.label}}
-          </a-menu-item>
-        </a-menu>
-        <a-button style="margin-left: 8px">
-          <icon-font :type="Category[category - 1].type" />
-          {{Category[category - 1].label}}
-          <a-icon type="down" />
-        </a-button>
-      </a-dropdown>
-    </div>
-
-    <restaurant v-if="category == 1" :isEdit="isEdit" />
-    <tour v-if="category == 2" :isEdit="isEdit" />
-    <transport v-if="category == 3" :isEdit="isEdit" />
-    <hotel v-if="category == 4" :isEdit="isEdit" />
-    
-  </a-card>
+  <a-spin :spinning="loading">
+    <a-card>
+      <restaurant v-if="$route.query['type'] == 1" :isEdit="false" @create="create" />
+      <tour v-if="$route.query['type'] == 2" :isEdit="false" @create="create" />
+      <transport v-if="$route.query['type'] == 3" :isEdit="false" @create="create" />
+      <hotel v-if="$route.query['type'] == 4" :isEdit="false" @create="create" />
+    </a-card>
+  </a-spin>
 </template>
 
 <script>
-import { Icon } from "ant-design-vue";
-
-const IconFont = Icon.createFromIconfontCN({
-  scriptUrl: "//at.alicdn.com/t/font_1402881_gsh78a0lnya.js"
-});
+import { createBooking } from "@/api/booking";
 
 import Hotel from "./hotel";
 import Tour from "./tour";
 import Restaurant from "./restaurant";
 import Transport from "./transport";
-
-const Category = [
-  { value: 1, label: "Restaurant", type: "iconf-30" },
-  { value: 2, label: "Tour", type: "iconticket" },
-  { value: 3, label: "Transport", type: "iconche" },
-  { value: 4, label: "Hotel", type: "iconhotel" },
-];
 
 export default {
   props: {
@@ -51,7 +25,6 @@ export default {
     }
   },
   components: {
-    IconFont,
     Hotel,
     Tour,
     Restaurant,
@@ -59,30 +32,24 @@ export default {
   },
   data() {
     return {
-      Category,
-      loading: false,
-      category: 1
+      loading: false
     };
   },
   methods: {
-    handleMenuClick(e) {
-      this.category = e.key;
-    },
-
     create(data) {
-      console.log("create");
-    },
-
-    update(data) {
-      console.log("update");
+      this.loading = true;
+      createBooking(data)
+        .then(res => {
+          const { id } = res.result;
+          this.$router.replace({
+            name: "BookingEdit",
+            params: { id }
+          });
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     }
   }
 };
 </script>
-
-<style >
-.form-item {
-  margin-bottom: 16px;
-  color: red;
-}
-</style>
