@@ -1,6 +1,10 @@
 <template>
   <a-spin :spinning="loading">
     <a-card>
+      <template slot="title" v-if="form">
+        <icon-font :type="Category[form.category].type" />
+        {{Category[form.category].label}}
+      </template>
       <restaurant
         ref="form"
         v-if="form && form.category == 1"
@@ -41,9 +45,22 @@ import Tour from "./tour";
 import Restaurant from "./restaurant";
 import Transport from "./transport";
 
+import { Icon } from "ant-design-vue";
+const IconFont = Icon.createFromIconfontCN({
+  scriptUrl: "//at.alicdn.com/t/font_1402881_gsh78a0lnya.js"
+});
+
+const Category = [
+  { value: 1, label: "Restaurant", type: "iconf-30" },
+  { value: 2, label: "Tour", type: "iconticket" },
+  { value: 3, label: "Transport", type: "iconche" },
+  { value: 4, label: "Hotel", type: "iconhotel" }
+];
+
 export default {
   name: "BookingCreate",
   components: {
+    IconFont,
     Hotel,
     Tour,
     Restaurant,
@@ -54,6 +71,7 @@ export default {
   },
   data() {
     return {
+      Category,
       form: null,
       loading: false
     };
