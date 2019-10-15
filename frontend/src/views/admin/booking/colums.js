@@ -11,13 +11,11 @@ export const RestaurantColumns = [{
     {
         title: "Restaurant & Meal",
         dataIndex: "product",
-        width: "180px"
+        width: "140px"
     },
     {
         title: "Booking Date",
-        scopedSlots: {
-            customRender: "booking_date"
-        },
+        dataIndex: "booking_date",
         width: "100px"
     },
     {
@@ -123,13 +121,11 @@ export const TourColumns = [{
     {
         title: "Product",
         dataIndex: "product",
-        width: "180px"
+        width: "140px"
     },
     {
         title: "Booking Date",
-        scopedSlots: {
-            customRender: "booking_date"
-        },
+        dataIndex: "booking_date",
         width: "100px"
     },
     {
@@ -235,21 +231,22 @@ export const TransportColumns = [{
     {
         title: "Itinerary",
         dataIndex: "product",
-        width: "180px"
+        width: "140px"
     },
     {
         title: "Booking Date",
-        scopedSlots: {
-            customRender: "booking_date"
-        },
+        dataIndex: "booking_date",
         width: "100px"
     },
     {
-        title: "Action DateTime",
-        scopedSlots: {
-            customRender: "action_date"
-        },
-        width: "130px"
+        title: "Start Date",
+        dataIndex: "start_date",
+        width: "100px"
+    },
+    {
+        title: "End Date",
+        dataIndex: "end_date",
+        width: "100px"
     },
     {
         title: "Pax",
@@ -347,49 +344,51 @@ export const HotelColumns = [{
     {
         title: "Hotel",
         dataIndex: "product",
-        width: "180px"
+        width: "140px"
     },
     {
         title: "Booking Date",
-        scopedSlots: {
-            customRender: "booking_date"
-        },
+        dataIndex: "booking_date",
         width: "100px"
     },
     {
-        title: "Action DateTime",
-        scopedSlots: {
-            customRender: "action_date"
-        },
-        width: "130px"
+        title: "CheckIn",
+        dataIndex: "start_date",
+        width: "100px"
     },
     {
-        title: "Pax",
-        scopedSlots: {
-            customRender: "pax"
-        },
-        width: "80px"
+        title: "CheckOut",
+        dataIndex: "end_date",
+        width: "100px"
+    },
+    {
+        title: "Rooms",
+        dataIndex: "rooms",
+        width: "40px"
+    },
+    {
+        title: "Night",
+        dataIndex: "nights",
+        width: "40px"
+    },
+    {
+        title: "Blocked",
+        dataIndex: 'blocked_room',
+        width: "60px"
     },
     {
         title: "SP",
         scopedSlots: {
-            customRender: "sp"
+            customRender: "hotel_sp"
         },
         width: "110px"
     },
     {
         title: "CP",
         scopedSlots: {
-            customRender: "cp"
+            customRender: "hotel_cp"
         },
         width: "110px"
-    },
-    {
-        title: "Vat",
-        scopedSlots: {
-            customRender: "vat"
-        },
-        width: "80px"
     },
     {
         title: "Total",
@@ -397,13 +396,6 @@ export const HotelColumns = [{
             customRender: "total"
         },
         width: "110px"
-    },
-    {
-        title: "Source",
-        scopedSlots: {
-            customRender: "source"
-        },
-        width: "120px"
     },
     {
         title: "Remarks",

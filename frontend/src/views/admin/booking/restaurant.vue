@@ -208,15 +208,15 @@ export default {
       deep: true,
       handler: function(newValue, oldValue) {
         this.form.total_price =
-          Number(this.form.quantity | 0) * Number(this.form.price | 0) +
-          Number(this.form.child_quantity | 0) *
-            Number(this.form.child_price | 0);
+          Number(this.form.quantity || 0) * Number(this.form.price || 0) +
+          Number(this.form.child_quantity || 0) *
+            Number(this.form.child_price || 0);
 
         this.form.total_cost_price =
-          Number(this.form.quantity | 0) * Number(this.form.cost_price | 0) +
-          Number(this.form.child_quantity | 0) *
-            Number(this.form.child_cost_price | 0) +
-          Number(this.form.vat | 0);
+          Number(this.form.quantity || 0) * Number(this.form.cost_price || 0) +
+          Number(this.form.child_quantity || 0) *
+            Number(this.form.child_cost_price || 0) +
+          Number(this.form.vat || 0);
       }
     }
   },

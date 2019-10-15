@@ -358,21 +358,21 @@ export default {
       handler: function(newValue, oldValue) {
         this.formatBlockedRooms();
         this.form.total_price =
-          Number(this.form.sgl | 0) * Number(this.form.sgl_price | 0) +
-          Number(this.form.dbl | 0) * Number(this.form.dbl_price | 0) +
-          Number(this.form.twn | 0) * Number(this.form.twn_price | 0) +
-          Number(this.form.tpl | 0) * Number(this.form.tpl_price | 0) +
-          Number(this.form.exb | 0) * Number(this.form.exb_price | 0);
+          Number(this.form.sgl || 0) * Number(this.form.sgl_price || 0) +
+          Number(this.form.dbl || 0) * Number(this.form.dbl_price || 0) +
+          Number(this.form.twn || 0) * Number(this.form.twn_price || 0) +
+          Number(this.form.tpl || 0) * Number(this.form.tpl_price || 0) +
+          Number(this.form.exb || 0) * Number(this.form.exb_price || 0);
 
         this.form.total_cost_price =
-          Number(this.form.sgl | 0) * Number(this.form.sgl_cost_price | 0) +
-          Number(this.form.dbl | 0) * Number(this.form.dbl_cost_price | 0) +
-          Number(this.form.twn | 0) * Number(this.form.twn_cost_price | 0) +
-          Number(this.form.tpl | 0) * Number(this.form.tpl_cost_price | 0) +
-          Number(this.form.exb | 0) * Number(this.form.exb_cost_price | 0) +
-          Number(this.form.child_cost_price | 0) +
-          Number(this.form.tourism_fees | 0) +
-          Number(this.form.vat | 0);
+          Number(this.form.sgl || 0) * Number(this.form.sgl_cost_price || 0) +
+          Number(this.form.dbl || 0) * Number(this.form.dbl_cost_price || 0) +
+          Number(this.form.twn || 0) * Number(this.form.twn_cost_price || 0) +
+          Number(this.form.tpl || 0) * Number(this.form.tpl_cost_price || 0) +
+          Number(this.form.exb || 0) * Number(this.form.exb_cost_price || 0) +
+          Number(this.form.child_cost_price || 0) +
+          Number(this.form.tourism_fees || 0) +
+          Number(this.form.vat || 0);
       }
     }
   },

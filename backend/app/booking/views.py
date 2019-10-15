@@ -17,6 +17,12 @@ class OrderFilter(django_filters.FilterSet):
     booking_end_day = django_filters.DateFilter('booking_date',lookup_expr=('lte'))
     action_start_day = django_filters.DateFilter('action_date',lookup_expr=('gte'),) 
     action_end_day = django_filters.DateFilter('action_date',lookup_expr=('lte'))
+
+    start_start_day = django_filters.DateFilter('start_date',lookup_expr=('gte'),) 
+    start_end_day = django_filters.DateFilter('start_date',lookup_expr=('lte'))
+    end_start_day = django_filters.DateFilter('end_date',lookup_expr=('gte'),) 
+    end_end_day = django_filters.DateFilter('end_date',lookup_expr=('lte'))
+
     guide = django_filters.CharFilter('guide')
     driver = django_filters.CharFilter('driver')
     vehicle = django_filters.CharFilter('vehicle')
@@ -32,7 +38,9 @@ class BookingView(CustomModelViewSet):
 
     permissionId = Booking.__name__
 
-    filterset_fields = ('bookingID', 'orderID', 'booking_start_day', 'booking_end_day',
-     'action_start_day', 'action_end_day', 'guide', 'driver', 'vehicle',  'officer', 'operator', 'status', 'category')
+    filterset_fields = (
+        'bookingID', 'orderID', 'booking_start_day', 'booking_end_day', 'start_start_day', 'start_end_day','end_start_day', 'end_end_day', 
+        'action_start_day', 'action_end_day', 'guide', 'driver', 'vehicle',  'officer', 'operator', 'status', 'category'
+    )
     filter_class = OrderFilter
     search_fields = ('product', )

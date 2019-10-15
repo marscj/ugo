@@ -18,11 +18,40 @@
               <a-range-picker :value="booking_date" @change="(value) => booking_date = value"></a-range-picker>
             </a-form-item>
           </a-col>
-          <a-col :span="6">
+          <div v-if="queryParam.category == 4">
+            <a-col :span="6">
+              <a-form-item label="CheckIn">
+                <a-range-picker :value="start_date" @change="(value) => start_date = value"></a-range-picker>
+              </a-form-item>
+            </a-col>
+
+            <a-col :span="6">
+              <a-form-item label="CheckOut">
+                <a-range-picker :value="end_date" @change="(value) => end_date = value"></a-range-picker>
+              </a-form-item>
+            </a-col>
+          </div>
+
+          <div v-else-if="queryParam.category == 3">
+            <a-col :span="6">
+              <a-form-item label="Start Date">
+                <a-range-picker :value="start_date" @change="(value) => start_date = value"></a-range-picker>
+              </a-form-item>
+            </a-col>
+
+            <a-col :span="6">
+              <a-form-item label="End Date">
+                <a-range-picker :value="end_date" @change="(value) => end_date = value"></a-range-picker>
+              </a-form-item>
+            </a-col>
+          </div>
+
+          <a-col :span="6" v-else>
             <a-form-item label="Action Date">
               <a-range-picker :value="action_date" @change="(value) => action_date = value"></a-range-picker>
             </a-form-item>
           </a-col>
+          
           <a-col :span="6">
             <a-form-item label="Product">
               <a-input v-model="queryParam.search" />
@@ -80,15 +109,71 @@
       bordered
       fixed
     >
-      <span slot="booking_date" slot-scope="text, data">
-        <template>
-          <span>{{data.booking_date | moment('YYYY-MM-DD')}}</span>
-        </template>
-      </span>
-
       <span slot="action_date" slot-scope="text, data">
         <template>
           <span>{{data.action_date + ' ' + data.action_time | moment('YYYY-MM-DD HH:mm')}}</span>
+        </template>
+      </span>
+
+      <span slot="hotel_sp" slot-scope="text, data">
+        <template>
+          <p class="booking-info" v-if="data.sgl">
+            SGL:
+            <span class="bold ligth-blue">{{data.sgl_price}}</span>
+          </p>
+          <p class="booking-info" v-if="data.dbl">
+            DBL:
+            <span class="bold ligth-blue">{{data.dbl_price}}</span>
+          </p>
+          <p class="booking-info" v-if="data.twn">
+            TWN:
+            <span class="bold ligth-blue">{{data.twn_price}}</span>
+          </p>
+          <p class="booking-info" v-if="data.tpl">
+            TPL:
+            <span class="bold ligth-blue">{{data.tpl_price}}</span>
+          </p>
+          <p class="booking-info" v-if="data.exb">
+            EXB:
+            <span class="bold ligth-blue">{{data.exb_price}}</span>
+          </p>
+        </template>
+      </span>
+
+      <span slot="hotel_cp" slot-scope="text, data">
+        <template>
+          <p class="booking-info" v-if="data.sgl">
+            SGL:
+            <span class="bold ligth-blue">{{data.sgl_cost_price}}</span>
+          </p>
+          <p class="booking-info" v-if="data.dbl">
+            DBL:
+            <span class="bold ligth-blue">{{data.dbl_cost_price}}</span>
+          </p>
+          <p class="booking-info" v-if="data.twn">
+            TWN:
+            <span class="bold ligth-blue">{{data.twn_cost_price}}</span>
+          </p>
+          <p class="booking-info" v-if="data.tpl">
+            TPL:
+            <span class="bold ligth-blue">{{data.tpl_cost_price}}</span>
+          </p>
+          <p class="booking-info" v-if="data.exb">
+            EXB:
+            <span class="bold ligth-blue">{{data.exb_cost_price}}</span>
+          </p>
+          <p class="booking-info" v-if="data.child_cost_price > 0">
+            Child:
+            <span class="bold ligth-blue">{{data.child_cost_price}}</span>
+          </p>
+          <p class="booking-info" v-if="data.tourism_fees > 0">
+            Tourism fees:
+            <span class="bold ligth-blue">{{data.tourism_fees}}</span>
+          </p>
+          <p class="booking-info" v-if="data.vat > 0">
+            VAT:
+            <span class="bold ligth-blue">{{data.vat}}</span>
+          </p>
         </template>
       </span>
 
@@ -143,11 +228,11 @@
 
       <span slot="total" slot-scope="text, data">
         <template>
-          <p class="booking-info">
+          <p class="booking-info" v-if="data.total_price > 0">
             SP:
             <span class="bold ligth-blue">{{data.total_price}}</span>
           </p>
-          <p class="booking-info">
+          <p class="booking-info" v-if="data.total_cost_price > 0">
             CP:
             <span class="bold ligth-blue">{{data.total_cost_price}}</span>
           </p>
@@ -275,19 +360,47 @@ export default {
         this.queryParam.booking_end_day = undefined;
       }
     },
+    start_date: function(newQuestion, oldQuestion) {
+      if (
+        newQuestion != null &&
+        newQuestion != undefined &&
+        newQuestion.length > 0
+      ) {
+        this.queryParam.start_start_day = newQuestion[0].format("YYYY-MM-DD");
+        this.queryParam.start_end_day = newQuestion[1].format("YYYY-MM-DD");
+      } else {
+        this.queryParam.start_start_day = undefined;
+        this.queryParam.start_end_day = undefined;
+      }
+    },
+    end_date: function(newQuestion, oldQuestion) {
+      if (
+        newQuestion != null &&
+        newQuestion != undefined &&
+        newQuestion.length > 0
+      ) {
+        this.queryParam.end_start_day = newQuestion[0].format("YYYY-MM-DD");
+        this.queryParam.end_end_day = newQuestion[1].format("YYYY-MM-DD");
+      } else {
+        this.queryParam.end_start_day = undefined;
+        this.queryParam.end_end_day = undefined;
+      }
+    },
     $route: function(to, from) {
-      this.initColunm(to)
+      this.initColunm(to);
       this.$refs.table.refresh();
     }
   },
-  mounted() {
-    this.initColunm(this.$route)
+  created() {
+    this.initColunm(this.$route);
   },
   data() {
     return {
       BookingStatus,
       action_date: null,
       booking_date: null,
+      start_date: null,
+      end_date: null,
       columns: RestaurantColumns,
       queryParam: {
         category: 1,
@@ -302,16 +415,20 @@ export default {
         vehicle: undefined,
         booking_start_day: undefined,
         booking_end_day: undefined,
+        start_start_day: undefined,
+        start_end_day: undefined,
+        end_start_day: undefined,
+        end_end_day: undefined,
         action_start_day: undefined,
         action_end_day: undefined
       },
       columns: RestaurantColumns,
       loadData: parameter => {
-        return getBookingList(
-          Object.assign(parameter, this.queryParam)
-        ).then(res => {
-          return res.result;
-        });
+        return getBookingList(Object.assign(parameter, this.queryParam)).then(
+          res => {
+            return res.result;
+          }
+        );
       }
     };
   },
@@ -323,19 +440,13 @@ export default {
       if (router.name === "Restaurant") {
         this.columns = RestaurantColumns;
         this.queryParam.category = 1;
-      }
-
-      if (router.name === "Tour") {
+      } else if (router.name === "Tour") {
         this.columns = TourColumns;
         this.queryParam.category = 2;
-      }
-
-      if (router.name === "Transport") {
+      } else if (router.name === "Transport") {
         this.columns = TransportColumns;
         this.queryParam.category = 3;
-      }
-
-      if (router.name === "Hotels") {
+      } else if (router.name === "Hotels") {
         this.columns = HotelColumns;
         this.queryParam.category = 4;
       }
