@@ -242,16 +242,7 @@ export const asyncRouterMap = [{
           title: 'Booking',
           permission: ['Booking']
         },
-        children: [{
-            path: 'bookingList',
-            name: 'BookingList',
-            component: () => import('@/views/admin/booking/list'),
-            meta: {
-              title: 'Booking',
-              keepAlive: false,
-              permission: ['Booking']
-            },
-          },
+        children: [
           {
             path: 'bookingEdit/:id(\\d+)',
             name: 'BookingEdit',
@@ -274,7 +265,46 @@ export const asyncRouterMap = [{
             },
             hidden: true
           },
-
+          {
+            path: 'restaurant',
+            name: 'Restaurant',
+            component: () => import('@/views/admin/booking/list'),
+            meta: {
+              title: 'Restaurant',
+              keepAlive: false,
+              permission: ['Booking']
+            },
+          },
+          {
+            path: 'tour',
+            name: 'Tour',
+            component: () => import('@/views/admin/booking/list'),
+            meta: {
+              title: 'Tour',
+              keepAlive: false,
+              permission: ['Booking']
+            },
+          },
+          {
+            path: 'transport',
+            name: 'Transport',
+            component: () => import('@/views/admin/booking/list'),
+            meta: {
+              title: 'Transport',
+              keepAlive: false,
+              permission: ['Booking']
+            },
+          },
+          {
+            path: 'hotel',
+            name: 'Hotels',
+            component: () => import('@/views/admin/booking/list'),
+            meta: {
+              title: 'Hotel',
+              keepAlive: false,
+              permission: ['Booking']
+            },
+          },
         ]
       },
       // notice

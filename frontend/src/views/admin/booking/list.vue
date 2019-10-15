@@ -1,62 +1,75 @@
 <template >
   <a-card class="table-page-search-wrapper" :bordered="false">
-    <!-- <template slot="extra">
+    <template slot="extra">
       <a-form layout="inline">
-        <a-row :gutter="48">
-          <a-col :xs="6" :md="6" :sm="24">
+        <a-row :gutter="16">
+          <a-col :span="6">
+            <a-form-item label="BookingID">
+              <a-input v-model="queryParam.bookingID" placeholder />
+            </a-form-item>
+          </a-col>
+          <a-col :span="6">
             <a-form-item label="OrderID">
-              <a-input v-model="queryParam.orderID" placeholder />
+              <a-input v-model="queryParam.orderID" />
             </a-form-item>
           </a-col>
-          <a-col :xs="6" :md="6" :sm="24">
-            <a-form-item label="Customer">
-              <a-input v-model="queryParam.customer" placeholder />
+          <a-col :span="6">
+            <a-form-item label="Booking Date">
+              <a-range-picker :value="booking_date" @change="(value) => booking_date = value"></a-range-picker>
             </a-form-item>
           </a-col>
-          <a-col :xs="6" :md="6" :sm="24">
-            <a-form-item label="Operator">
-              <a-input v-model="queryParam.operator" placeholder />
+          <a-col :span="6">
+            <a-form-item label="Action Date">
+              <a-range-picker :value="action_date" @change="(value) => action_date = value"></a-range-picker>
             </a-form-item>
           </a-col>
-          <a-col :xs="6" :md="6" :sm="24">
-            <a-form-item label="Action Day">
-              <a-range-picker :value="day" @change="(value) => day = value"></a-range-picker>
-            </a-form-item>
-          </a-col>
-
-          <a-col :xs="6" :md="6" :sm="24">
-            <a-form-item label="RelatedID">
-              <a-input v-model="queryParam.relatedID" placeholder />
-            </a-form-item>
-          </a-col>
-          <a-col :xs="8" :md="6" :sm="24">
+          <a-col :span="6">
             <a-form-item label="Product">
-              <a-input v-model="queryParam.product" placeholder />
+              <a-input v-model="queryParam.search" />
             </a-form-item>
           </a-col>
-          <a-col :xs="8" :md="6" :sm="24">
-            <a-form-item label="Variant">
-              <a-input v-model="queryParam.variant" placeholder />
+          <a-col :span="6">
+            <a-form-item label="Guide">
+              <a-input v-model="queryParam.guide" />
             </a-form-item>
           </a-col>
-          <a-col :xs="8" :md="6" :sm="24">
+          <a-col :span="6">
+            <a-form-item label="Driver">
+              <a-input v-model="queryParam.driver" />
+            </a-form-item>
+          </a-col>
+          <a-col :span="6">
+            <a-form-item label="Vehicle">
+              <a-input v-model="queryParam.vehicle" />
+            </a-form-item>
+          </a-col>
+          <a-col :span="6">
+            <a-form-item label="Officer">
+              <a-input v-model="queryParam.officer" />
+            </a-form-item>
+          </a-col>
+          <a-col :span="6">
+            <a-form-item label="Operator">
+              <a-input v-model="queryParam.operator" />
+            </a-form-item>
+          </a-col>
+          <a-col :span="6">
             <a-form-item label="Status">
               <a-select
-                :value="order_status"
-                @change="(value) => order_status = value"
+                :value="queryParam.status"
+                @change="(value) => queryParam.status = value"
                 :filterOption="false"
               >
-                <a-select-option v-for="d in orderStatus" :key="d.value">{{d.label}}</a-select-option>
+                <a-select-option v-for="d in BookingStatus" :key="d.value">{{d.label}}</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
         </a-row>
 
         <a-button type="primary" @click="hanldeSearch">Search & Refresh</a-button>
-        <a-button class="buttonStyle" type="primary" @click="hanldeClean">Clean</a-button>
         <a-button class="buttonStyle" type="primary" @click="exportModal.visible = true">Export</a-button>
       </a-form>
-    </template>-->
+    </template>
 
     <s-table
       ref="table"
@@ -205,6 +218,12 @@
 <script>
 import { STable, Ellipsis } from "@/components";
 import { getBookingList } from "@/api/booking";
+import {
+  RestaurantColumns,
+  TourColumns,
+  TransportColumns,
+  HotelColumns
+} from "./colums";
 import moment from "moment";
 
 const BookingStatus = [
@@ -217,126 +236,110 @@ const BookingStatus = [
   { value: 6, label: "OP-Approved" }
 ];
 
-
 export default {
   name: "BookingList",
   components: {
     STable,
     Ellipsis
   },
-  data() {
-    const RestaurantColumns = [
-      {
-        title: "BookingID",
-        dataIndex: "bookingID",
-        width: "100px"
-      },
-      {
-        title: "OrderID",
-        dataIndex: "order_id",
-        width: "100px"
-      },
-      {
-        title: "Restaurant & Meal",
-        dataIndex: "product",
-        width: "180px"
-      },
-      {
-        title: "Booking Date",
-        scopedSlots: { customRender: "booking_date" },
-        width: "100px"
-      },
-      {
-        title: "Action DateTime",
-        scopedSlots: { customRender: "action_date" },
-        width: "130px"
-      },
-      {
-        title: "Pax",
-        scopedSlots: { customRender: "pax" },
-        width: "80px"
-      },
-      {
-        title: "SP",
-        scopedSlots: { customRender: "sp" },
-        width: "110px"
-      },
-      {
-        title: "CP",
-        scopedSlots: { customRender: "cp" },
-        width: "110px"
-      },
-      {
-        title: "Vat",
-        scopedSlots: { customRender: "vat" },
-        width: "80px"
-      },
-      {
-        title: "Total",
-        scopedSlots: { customRender: "total" },
-        width: "110px"
-      },
-      {
-        title: "Source",
-        scopedSlots: { customRender: "source" },
-        width: "120px"
-      },
-      {
-        title: "Remarks",
-        dataIndex: "remark"
-      },
-      {
-        title: "Officer",
-        dataIndex: "officer",
-        width: "50px"
-      },
-      {
-        title: "Operator",
-        dataIndex: "operator",
-        width: "50px"
-      },
-      {
-        title: "Create",
-        dataIndex: "create_at",
-        scopedSlots: { customRender: "create_at" },
-        width: "40px"
-      },
-      {
-        title: "Status",
-        dataIndex: "status",
-        scopedSlots: { customRender: "status" },
-        width: "40px"
-      },
-      {
-        title: "Action",
-        dataIndex: "action",
-        scopedSlots: { customRender: "action" },
-        width: "60px",
-        fixed: "right"
+  props: {
+    category: {
+      type: Number,
+      default: 1
+    }
+  },
+  watch: {
+    action_date: function(newQuestion, oldQuestion) {
+      if (
+        newQuestion != null &&
+        newQuestion != undefined &&
+        newQuestion.length > 0
+      ) {
+        this.queryParam.action_start_day = newQuestion[0].format("YYYY-MM-DD");
+        this.queryParam.action_end_day = newQuestion[1].format("YYYY-MM-DD");
+      } else {
+        this.queryParam.action_start_day = undefined;
+        this.queryParam.action_end_day = undefined;
       }
-    ];
-
+    },
+    booking_date: function(newQuestion, oldQuestion) {
+      if (
+        newQuestion != null &&
+        newQuestion != undefined &&
+        newQuestion.length > 0
+      ) {
+        this.queryParam.booking_start_day = newQuestion[0].format("YYYY-MM-DD");
+        this.queryParam.booking_end_day = newQuestion[1].format("YYYY-MM-DD");
+      } else {
+        this.queryParam.booking_start_day = undefined;
+        this.queryParam.booking_end_day = undefined;
+      }
+    },
+    $route: function(to, from) {
+      this.initColunm(to)
+      this.$refs.table.refresh();
+    }
+  },
+  mounted() {
+    this.initColunm(this.$route)
+  },
+  data() {
     return {
       BookingStatus,
+      action_date: null,
+      booking_date: null,
+      columns: RestaurantColumns,
       queryParam: {
+        category: 1,
+        search: undefined,
         bookingID: undefined,
         orderID: undefined,
-        status: undefined,
-        guide: undefined,
-        driver: undefined,
-        vehicle: undefined,
         officer: undefined,
         operator: undefined,
+        guide: undefined,
+        driver: undefined,
+        status: undefined,
+        vehicle: undefined,
+        booking_start_day: undefined,
+        booking_end_day: undefined,
+        action_start_day: undefined,
+        action_end_day: undefined
       },
       columns: RestaurantColumns,
       loadData: parameter => {
-        return getBookingList(Object.assign(parameter, this.queryParam)).then(
-          res => {
-            return res.result;
-          }
-        );
+        return getBookingList(
+          Object.assign(parameter, this.queryParam)
+        ).then(res => {
+          return res.result;
+        });
       }
     };
+  },
+  methods: {
+    hanldeSearch() {
+      this.$refs.table.refresh();
+    },
+    initColunm(router) {
+      if (router.name === "Restaurant") {
+        this.columns = RestaurantColumns;
+        this.queryParam.category = 1;
+      }
+
+      if (router.name === "Tour") {
+        this.columns = TourColumns;
+        this.queryParam.category = 2;
+      }
+
+      if (router.name === "Transport") {
+        this.columns = TransportColumns;
+        this.queryParam.category = 3;
+      }
+
+      if (router.name === "Hotels") {
+        this.columns = HotelColumns;
+        this.queryParam.category = 4;
+      }
+    }
   }
 };
 </script>

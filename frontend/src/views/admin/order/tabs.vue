@@ -54,7 +54,6 @@
           </a-row>
           
           <a-button type="primary" @click="hanldeSearch">Search & Refresh</a-button>
-          <a-button class="buttonStyle" type="primary" @click="hanldeClean">Clean</a-button>
           <a-button class="buttonStyle" type="primary" @click="exportModal.visible = true">Export</a-button>
         </a-form>
       </template>
