@@ -154,17 +154,9 @@
               </a-popconfirm>
             </div>
             <div v-if="status == 1">
-              <a-dropdown v-if="$auth('Booking.add')">
-                <a-menu slot="overlay">
-                  <a-menu-item v-for="category in Category" :key="category.value">
-                    <a href="javascript:;" @click="hanldeBooking(category.value, data)">
-                      <icon-font :type="category.type" />
-                      {{category.label}}
-                    </a>
-                  </a-menu-item>
-                </a-menu>
-                <a href="javascript:;">booking</a>
-              </a-dropdown>
+              <a href="javascript:;" @click="hanldeBooking(data)">
+                booking
+              </a>
               <br />
               <a
                 v-if="$auth('Order.edit')"
@@ -247,11 +239,6 @@ import { checkError } from "@/views/utils/error";
 
 import moment from "moment";
 
-import { Icon } from "ant-design-vue";
-const IconFont = Icon.createFromIconfontCN({
-  scriptUrl: "//at.alicdn.com/t/font_1402881_gsh78a0lnya.js"
-});
-
 const payStatus = [
   { value: 0, label: "未支付" },
   { value: 1, label: "部分支付" },
@@ -267,19 +254,11 @@ const payActions = [
   { value: 2, label: "充值" }
 ];
 
-const Category = [
-  { value: 1, label: "Restaurant", type: "iconf-30" },
-  { value: 2, label: "Tour", type: "iconticket" },
-  { value: 3, label: "Transport", type: "iconche" },
-  { value: 4, label: "Hotel", type: "iconhotel" }
-];
-
 export default {
   name: "OrderList",
   components: {
     STable,
     Ellipsis,
-    IconFont
   },
   props: {
     queryParam: {
@@ -294,7 +273,6 @@ export default {
   data() {
     return {
       loading: false,
-      Category,
       payStatus,
       payActions,
       labelCol: {
@@ -463,7 +441,19 @@ export default {
         }
       }
     },
-    hanldeBooking(value, data) {
+    hanldeBooking(data) {
+      var value = 1;
+
+      if (data.category === 1) {
+        value = 1;
+      } else if(data.category === 2 || data.category === 6) {
+        value = 2
+      } else if(data.category === 3 || data.category === 4) {
+        value = 3
+      } else if(data.category === 5) {
+        value = 4
+      }
+      
       let routeUrl = this.$router.resolve({
         name: "BookingCreate",
         query: Object.assign({ type: value }, data)

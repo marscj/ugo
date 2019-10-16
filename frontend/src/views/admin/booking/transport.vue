@@ -150,9 +150,22 @@
     </a-row>
 
     <a-row :gutter="18">
-      <a-col :span="9" :offset="3">
-        <a-button v-if="isEdit" type="primary" @click="update" >Update</a-button>
-        <a-button v-else type="primary" @click="create" >Create</a-button>
+      <a-col :span="2" :offset="3">
+        <a-button v-if="isEdit" type="primary" @click="update">Update</a-button>
+        <a-button v-else type="primary" @click="create">Create</a-button>
+      </a-col>
+      <a-col :span="2" v-if="isEdit">
+        <a-dropdown v-if="$auth('Booking.add')">
+          <a-menu slot="overlay">
+            <a-menu-item v-for="category in Category" :key="category.value">
+              <a href="javascript:;" @click="hanldeBooking(category.value)">
+                <icon-font :type="category.type" />
+                {{category.label}}
+              </a>
+            </a-menu-item>
+          </a-menu>
+          <a-button type="primary">Add Related Booking</a-button>
+        </a-dropdown>
       </a-col>
     </a-row>
   </a-form>
@@ -170,12 +183,27 @@ const BookingStatus = [
   { value: 6, label: "OP-Approved" }
 ];
 
+import { Icon } from "ant-design-vue";
+const IconFont = Icon.createFromIconfontCN({
+  scriptUrl: "//at.alicdn.com/t/font_1402881_gsh78a0lnya.js"
+});
+
+const Category = [
+  { value: 1, label: "Restaurant", type: "iconf-30" },
+  { value: 2, label: "Tour", type: "iconticket" },
+  // { value: 3, label: "Transport", type: "iconche" },
+  { value: 4, label: "Hotel", type: "iconhotel" }
+];
+
 export default {
   props: {
     isEdit: {
       type: Boolean,
       default: false
     }
+  },
+  components : {
+    IconFont
   },
   mounted() {
     if (!this.isEdit) {
@@ -197,6 +225,7 @@ export default {
   data() {
     return {
       BookingStatus,
+      Category,
       form: {
         id: undefined,
         product: "",
@@ -226,9 +255,11 @@ export default {
   methods: {
     initData(data) {
       this.form = Object.assign(this.form, {
-        product: data.product + ' - ' + data.variant,
+        product: data.product + " - " + data.variant,
         start_date: data.day ? moment(data.day, "YYYY-MM-DD") : null,
-        booking_date: data.create_at ? moment(data.create_at, "YYYY-MM-DD") : null,
+        booking_date: data.create_at
+          ? moment(data.create_at, "YYYY-MM-DD")
+          : null,
         quantity: Number(data.adult_quantity),
         price: Number(data.adult_price),
         total_price: Number(data.total),
@@ -241,9 +272,7 @@ export default {
         start_date: data.start_date
           ? moment(data.start_date, "YYYY-MM-DD")
           : null,
-        end_date: data.end_date
-          ? moment(data.end_date, "YYYY-MM-DD")
-          : null,
+        end_date: data.end_date ? moment(data.end_date, "YYYY-MM-DD") : null,
         booking_date: data.booking_date
           ? moment(data.booking_date, "YYYY-MM-DD")
           : null
@@ -273,6 +302,24 @@ export default {
     },
     onUpdate(data) {
       this.form = Object.assign(data, this.updateDateTime(data));
+    },
+    hanldeBooking(value) {
+      let routeUrl = this.$router.resolve({
+        name: "BookingCreate",
+        query: Object.assign({ type: value }, {
+          product: '',
+          variant: '',
+          create_at: this.form.booking_date ? this.form.booking_date.format("YYYY-MM-DD") : null,
+          adult_quantity: this.form.quantity,
+          child_quantity: 0,
+          adult_price: 0.0,
+          child_price: 0.0,
+          total: 0.0,
+          operator: this.form.operator,
+          orderID: this.form.order_id
+        })
+      });
+      window.open(routeUrl.href, "_blank");
     }
   }
 };
