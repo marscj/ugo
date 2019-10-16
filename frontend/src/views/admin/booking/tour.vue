@@ -325,11 +325,11 @@ export default {
         booking_date: data.create_at
           ? moment(data.create_at, "YYYY-MM-DD")
           : null,
-        quantity: data.adult_quantity,
-        child_quantity: data.child_quantity,
-        price: data.adult_price,
-        child_price: data.child_price,
-        total_price: data.total,
+        quantity: Number(data.adult_quantity),
+        child_quantity: Number(data.child_quantity),
+        price: Number(data.adult_price),
+        child_price: Number(data.child_price),
+        total_price: Number(data.total),
         operator: data.operator,
         order_id: Number(data.orderID)
       });
