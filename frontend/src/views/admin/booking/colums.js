@@ -250,31 +250,18 @@ export const TransportColumns = [{
     },
     {
         title: "Pax",
-        scopedSlots: {
-            customRender: "pax"
-        },
-        width: "80px"
+        dataIndex: "quantity",
+        width: "40px"
     },
     {
         title: "SP",
-        scopedSlots: {
-            customRender: "sp"
-        },
-        width: "110px"
+        dataIndex: "price",
+        width: "70px"
     },
     {
         title: "CP",
-        scopedSlots: {
-            customRender: "cp"
-        },
-        width: "110px"
-    },
-    {
-        title: "Vat",
-        scopedSlots: {
-            customRender: "vat"
-        },
-        width: "80px"
+        dataIndex: "cost_price",
+        width: "70px"
     },
     {
         title: "Total",
@@ -389,6 +376,16 @@ export const HotelColumns = [{
             customRender: "hotel_cp"
         },
         width: "110px"
+    },
+    {
+        title: "Tourism fees",
+        dataIndex: "tourism_fees",
+        width: "70px"
+    },
+    {
+        title: "Vat",
+        dataIndex: "vat",
+        width: "70px"
     },
     {
         title: "Total",

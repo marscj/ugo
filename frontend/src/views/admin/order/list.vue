@@ -309,12 +309,17 @@ export default {
         {
           title: "OrderID",
           dataIndex: "orderID",
-          width: "50px"
+          width: "100px"
         },
         {
           title: "RelatedID",
           dataIndex: "relatedID",
-          width: "50px"
+          width: "100px"
+        },
+        {
+          title: "CRelatedID",
+          dataIndex: "guest_relatedID",
+          width: "100px"
         },
         {
           title: "Customer",
@@ -328,7 +333,7 @@ export default {
         {
           title: "Price",
           scopedSlots: { customRender: "price" },
-          width: "140px"
+          width: "180px"
         },
         {
           title: "Payment",
@@ -338,7 +343,7 @@ export default {
         {
           title: "Booking",
           scopedSlots: { customRender: "booking" },
-          width: "110px"
+          width: "180px"
         },
         {
           title: "Operator",
