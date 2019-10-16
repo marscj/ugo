@@ -154,7 +154,7 @@
               </a-popconfirm>
             </div>
             <div v-if="status == 1">
-              <a href="javascript:;" @click="hanldeBooking(data)">
+              <a href="javascript:;" v-if="$auth('Booking.add')" @click="hanldeBooking(data)">
                 booking
               </a>
               <br />
@@ -163,8 +163,23 @@
                 href="javascript:;"
                 @click="changeOrderStatus(data, 2)"
               >complete</a>
+              <br />
+              <a-popconfirm
+                title="Are you sure cancel?"
+                @confirm="changeOrderStatus(data, 3)"
+                okText="Yes"
+                cancelText="No"
+                v-if="$auth('Order.edit')"
+              >
+                <a href="javascript:;">cancel</a>
+              </a-popconfirm>
             </div>
-            <div v-if="status == 2"></div>
+            <div v-if="status == 2">
+               <a href="javascript:;" v-if="$auth('Booking.add')" @click="hanldeBooking(data)">
+                booking
+              </a>
+              <br />
+            </div>
             <div v-if="status == 3">
               <a v-if="$auth('Payment.add')" href="javascript:;" @click="refund.handle(data)">refund</a>
               <br />
