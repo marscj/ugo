@@ -7,13 +7,13 @@
         </a-form-item>
       </a-col>
       <a-col :span="6">
-        <a-form-item class="form-item" label="Action Date">
-          <a-date-picker v-model="form.action_date" style="width: 100%" />
+        <a-form-item class="form-item" label="Start Date">
+          <a-date-picker v-model="form.start_date" style="width: 100%" />
         </a-form-item>
       </a-col>
       <a-col :span="6">
-        <a-form-item class="form-item" label="Action Time">
-          <a-time-picker v-model="form.action_time" style="width: 100%" format="HH:mm" />
+        <a-form-item class="form-item" label="End Date">
+          <a-date-picker v-model="form.end_date" style="width: 100%" />
         </a-form-item>
       </a-col>
     </a-row>
@@ -201,8 +201,8 @@ export default {
         id: undefined,
         product: "",
         category: 3,
-        action_date: null,
-        action_time: null,
+        start_date: null,
+        end_date: null,
         booking_date: null,
         supplier: "",
         status: 1,
@@ -227,11 +227,8 @@ export default {
     initData(data) {
       this.form = Object.assign(this.form, {
         product: data.product + ' - ' + data.variant,
-        action_date: data.day ? moment(data.day, "YYYY-MM-DD") : null,
-        action_time: data.time ? moment(data.time, "HH:mm") : null,
-        booking_date: data.create_at
-          ? moment(data.create_at, "YYYY-MM-DD")
-          : null,
+        start_date: data.day ? moment(data.day, "YYYY-MM-DD") : null,
+        booking_date: data.create_at ? moment(data.create_at, "YYYY-MM-DD") : null,
         quantity: data.adult_quantity,
         child_quantity: data.child_quantity,
         price: data.adult_price,
@@ -243,11 +240,11 @@ export default {
     },
     updateDateTime(data) {
       return {
-        action_date: data.action_date
-          ? moment(data.action_date, "YYYY-MM-DD")
+        start_date: data.start_date
+          ? moment(data.start_date, "YYYY-MM-DD")
           : null,
-        action_time: data.action_time
-          ? moment(data.action_time, "HH:mm")
+        end_date: data.end_date
+          ? moment(data.end_date, "YYYY-MM-DD")
           : null,
         booking_date: data.booking_date
           ? moment(data.booking_date, "YYYY-MM-DD")
@@ -256,10 +253,10 @@ export default {
     },
     translateDate(data) {
       return {
-        action_date: data.action_date
-          ? data.action_date.format("YYYY-MM-DD")
+        start_date: data.start_date
+          ? data.start_date.format("YYYY-MM-DD")
           : null,
-        action_time: data.action_time ? data.action_time.format("HH:mm") : null,
+        end_date: data.end_date ? data.end_date.format("YYYY-MM-DD") : null,
         booking_date: data.booking_date
           ? data.booking_date.format("YYYY-MM-DD")
           : null
