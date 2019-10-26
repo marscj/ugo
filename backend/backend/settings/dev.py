@@ -4,7 +4,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['ugodubai.com', '*']
 
-SESSION_COOKIE_DOMAIN = 'ugodubai.com'
+# SESSION_COOKIE_DOMAIN = 'ugodubai.com'
 
 CACHEOPS_REDIS = "redis://127.0.0.1:6379/0"
 

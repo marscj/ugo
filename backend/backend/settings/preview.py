@@ -4,7 +4,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['ugodubai.com', '*']
 
-SESSION_COOKIE_DOMAIN = 'ugodubai.com'
+# SESSION_COOKIE_DOMAIN = 'ugodubai.com'
 
 CORS_ORIGIN_ALLOW_ALL = False
 
