@@ -15,8 +15,9 @@ module.exports = {
   lintOnSave: false,
   productionSourceMap: false,
   transpileDependencies: [],
+  
   devServer: {
-    port: 8001,
+    port: 8080,
     open: true,
     overlay: {
       warnings: false,
@@ -24,7 +25,7 @@ module.exports = {
     },
     proxy: {
       '/api': {
-        target: 'http://0.0.0.0:8000',
+        target: 'http://193.112.55.69:8080',
         ws: false,
         changeOrigin: true
       }
