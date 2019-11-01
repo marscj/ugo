@@ -20,8 +20,18 @@ DATABASES = {
         'PASSWORD': 'password123',
         'HOST': 'db',
         'PORT': 5432,
+    },
+    'slave': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'password123',
+        'HOST': 'localhost',
+        'PORT': 5432,
     }
 }
+
+DATABASE_ROUTERS = ['middleware.Router',]
 
 JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=30),
