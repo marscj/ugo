@@ -45,7 +45,7 @@ services:
       container_name: backend
       build: 
         context: ./backend
-        dockerfile: ./backend/Master
+        dockerfile: ./backend/master.Dockerfile
       restart: always
       volumes:
         - .:/backend
