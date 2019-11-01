@@ -8,8 +8,6 @@ services:
     environment:
       POSTGRES_PASSWORD: password123
     restart: always
-    ports:
-      - 5432:5432
     volumes:
       - pgdata:/var/lib/postgresql/data/
     networks:
@@ -45,7 +43,9 @@ services:
 
   backend:
       container_name: backend
-      build: ./backend
+      build: 
+        context: ./backend
+        dockerfile: ./backend/Dockerfile_Slave
       restart: always
       volumes:
         - .:/backend
