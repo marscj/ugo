@@ -32,7 +32,7 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - ./nginx/conf.d/master.conf:/etc/nginx/conf.d/master.conf
+      - ./nginx/conf.d/master.conf:/etc/nginx/conf.d/default.conf:rw
       - ./frontend/dist:/frontend/dist/
       - static_volume:/backend/static
       - media_volume:/backend/media
@@ -43,7 +43,9 @@ services:
 
   backend:
       container_name: backend
-      build: ./backend
+      build: 
+        context: ./backend
+        dockerfile: ./backend/Slave
       restart: always
       volumes:
         - .:/backend
