@@ -32,7 +32,7 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d/:rw
+      - ./nginx/conf.d/master.conf:/etc/nginx/conf.d/master.conf
       - ./frontend/dist:/frontend/dist/
       - static_volume:/backend/static
       - media_volume:/backend/media
