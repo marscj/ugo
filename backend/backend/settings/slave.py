@@ -20,7 +20,7 @@ DATABASES = {
         'PASSWORD': 'password123',
         'HOST': '193.112.55.69',
         'PORT': '5433',
-    }
+    },
     'slave': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'postgres',
