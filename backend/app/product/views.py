@@ -10,7 +10,7 @@ from .models import Category, Product, ProductVariant
 from .serializers import ProductListSerializer, ProductSerializer, ProductVariantSerializer, VariantSerializer
 
 class ProductView(CustomModelViewSet):
-    queryset = Product.objects.all().cache()
+    queryset = Product.objects.all()
     serializer_class = ProductSerializer
     permission_classes = [BackendOrSafePermission]
 
@@ -30,9 +30,9 @@ class ProductView(CustomModelViewSet):
         backend = self.request.query_params.get('backend')
 
         if backend is not None:
-            return Product.objects.all().cache()
+            return Product.objects.all()
         
-        return Product.objects.filter(status=True).cache()
+        return Product.objects.filter(status=True)
 
     @action(methods=['delete'], detail=False, permission_classes=[BackendOrSafePermission])
     def delete(self, request,  *args, **kwargs):
@@ -70,7 +70,7 @@ class ProductView(CustomModelViewSet):
         return Response({'result': 'ok'})
  
 class VariantView(CustomModelViewSet): 
-    queryset = ProductVariant.objects.all().cache()
+    queryset = ProductVariant.objects.all()
     serializer_class = VariantSerializer
     permission_classes = [BackendPermission]
 
@@ -84,9 +84,9 @@ class VariantView(CustomModelViewSet):
         backend = self.request.query_params.get('backend')
 
         if backend is not None:
-            return ProductVariant.objects.all().cache()
+            return ProductVariant.objects.all()
         
-        return ProductVariant.objects.filter(status=True).cache()
+        return ProductVariant.objects.filter(status=True)
 
     @action(methods=['delete'], detail=False, permission_classes=[BackendPermission])
     def delete(self, request,  *args, **kwargs):

@@ -47,7 +47,7 @@ class LogoutJwtTokenView(APIView):
 class UserView(CustomModelViewSet):
     serializer_class = UserSerializer
     permission_classes = [BackendPermission]
-    queryset = CustomUser.objects.all().cache()
+    queryset = CustomUser.objects.all()
 
     filterset_fields = ('is_active', 'is_staff')
     search_fields = ('username',)
@@ -92,20 +92,20 @@ class UserView(CustomModelViewSet):
 class RoleView(CustomModelViewSet):
     serializer_class = RoleSerializer
     permission_classes = [BackendPermission]
-    queryset = Role.objects.all().cache()
+    queryset = Role.objects.all()
 
     permissionId = Role.__name__
 
 class PermissionView(CustomModelViewSet):
     serializer_class = PermissionSerializer
     permission_classes = [BackendPermission]
-    queryset = Permission.objects.all().cache()
+    queryset = Permission.objects.all()
 
     permissionId = Role.__name__
 
 class ActionEntityView(CustomModelViewSet):
     serializer_class = ActionEntitySerializer
     permission_classes = [BackendPermission]
-    queryset = ActionEntity.objects.all().cache()
+    queryset = ActionEntity.objects.all()
 
     permissionId = Role.__name__
