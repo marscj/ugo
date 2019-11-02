@@ -4,7 +4,7 @@ RUN mkdir /backend
 WORKDIR /backend
 COPY . /backend
 
-RUN pip install --upgrade pip && pip install -r requirements.txt
+RUN pip install --upgrade pip && pip install -r requirements.txt -i http://mirror.youweb.com/pypi/simple
 
 EXPOSE 8000
 
