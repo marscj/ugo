@@ -4,8 +4,7 @@ RUN mkdir /backend
 WORKDIR /backend
 COPY . /backend
 
-RUN pip install --upgrade -i http://pypi.douban.com/simple/
-RUN pip install -r requirement.txt -i http://pypi.douban.com/simple/
+RUN pip install --upgrade && pip install -r requirements.txt
 
 EXPOSE 8000
 
