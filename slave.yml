@@ -44,7 +44,7 @@ services:
   backend:
       container_name: backend
       build: ./backend
-      # command: "gunicorn --chdir backend --bind :8000 backend.slave:application"
+      command: "gunicorn --chdir backend --bind :8000 backend.slave:application"
       restart: always
       volumes:
         - .:/backend

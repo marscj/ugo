@@ -8,4 +8,4 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 
 EXPOSE 8000
 
-# CMD ["gunicorn", "--chdir", "backend", "--bind", ":8000", "backend.slave:application"]
+CMD ["gunicorn", "--chdir", "backend", "--bind", ":8000", "backend.slave:application"]
