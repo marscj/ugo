@@ -130,18 +130,17 @@ MEDIA_URL = '/media/'
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_ROOT = os.path.join(os.path.dirname(os.path.dirname(BASE_DIR)), 'media')
 
+# #缓存
+# CACHEOPS_DEFAULTS = {
+#     'timeout': 60*60
+# }
 
-#缓存
-CACHEOPS_DEFAULTS = {
-    'timeout': 60*60
-}
-
-CACHEOPS = {
-    'auth.user': {'ops': 'get', 'timeout': 60*15},
-    'auth.*': {'ops': ('fetch', 'get')},
-    'auth.permission': {'ops': 'all'},
-    '*.*': {},
-}
+# CACHEOPS = {
+#     'auth.user': {'ops': 'get', 'timeout': 60*15},
+#     'auth.*': {'ops': ('fetch', 'get')},
+#     'auth.permission': {'ops': 'all'},
+#     '*.*': {},
+# }
 
 # 跨域
 CORS_ALLOW_CREDENTIALS = True

@@ -8,7 +8,7 @@ ALLOWED_HOSTS = ['ugodubai.com', '*']
 
 CORS_ORIGIN_ALLOW_ALL = False
 
-CACHEOPS_REDIS = "redis://redis:6379/0"
+# CACHEOPS_REDIS = "redis://redis:6379/0"
 
 DATABASES = {
     'default': {

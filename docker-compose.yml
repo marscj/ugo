@@ -15,17 +15,17 @@ services:
     networks:
       - database_network
   
-  redis:
-    image: redis
-    container_name: redis
-    hostname: redis
-    restart: always
-    ports: 
-      - "6380:6379"
-    volumes:
-      - redisdata:/data
-    networks:
-      - redis_network
+  # redis:
+  #   image: redis
+  #   container_name: redis
+  #   hostname: redis
+  #   restart: always
+  #   ports: 
+  #     - "6380:6379"
+  #   volumes:
+  #     - redisdata:/data
+  #   networks:
+  #     - redis_network
 
   nginx:
     container_name: nginx
@@ -57,25 +57,25 @@ services:
         - media_volume:/backend/media
       links:
         - db
-        - redis
+        # - redis
       depends_on:
         - db
-        - redis
+        # - redis
       networks:
         - nginx_network
         - database_network
-        - redis_network
+        # - redis_network
 
 networks:
   nginx_network:
     driver: bridge
   database_network:
     driver: bridge
-  redis_network:
-    driver: bridge
+  # redis_network:
+  #   driver: bridge
 
 volumes:
   pgdata:
-  redisdata:
+  # redisdata:
   static_volume:
   media_volume:
