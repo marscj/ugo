@@ -8,7 +8,7 @@ ALLOWED_HOSTS = ['ugodubai.com', '*']
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-# CACHEOPS_REDIS = "redis://redis:6379/0"
+CACHEOPS_REDIS = "redis://redis:6379/0"
 
 DATABASES = {
     'default': {
@@ -29,7 +29,7 @@ DATABASES = {
     }
 }
 
-DATABASE_ROUTERS = ['middleware.router.Router',]
+# DATABASE_ROUTERS = ['middleware.router.Router',]
 
 JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=30),
