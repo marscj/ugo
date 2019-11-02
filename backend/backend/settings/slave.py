@@ -6,11 +6,9 @@ ALLOWED_HOSTS = ['ugodubai.com', '*']
 
 # SESSION_COOKIE_DOMAIN = 'ugodubai.com'
 
-SLAVE_MODLE = True
+CORS_ORIGIN_ALLOW_ALL = True
 
-CORS_ORIGIN_ALLOW_ALL = False
-
-CACHEOPS_REDIS = "redis://redis:6379/0"
+# CACHEOPS_REDIS = "redis://redis:6379/0"
 
 DATABASES = {
     'default': {
@@ -21,14 +19,14 @@ DATABASES = {
         'HOST': '193.112.55.69',
         'PORT': '5433',
     },
-    'slave': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'password123',
-        'HOST': 'localhost',
-        'PORT': 5432,
-    }
+    # 'slave': {
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'NAME': 'postgres',
+    #     'USER': 'postgres',
+    #     'PASSWORD': 'password123',
+    #     'HOST': 'localhost',
+    #     'PORT': 5432,
+    # }
 }
 
 # DATABASE_ROUTERS = ['middleware.Router',]
