@@ -31,7 +31,7 @@ DATABASES = {
     }
 }
 
-DATABASE_ROUTERS = ['middleware.Router',]
+# DATABASE_ROUTERS = ['middleware.Router',]
 
 JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=30),
