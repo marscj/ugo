@@ -2,7 +2,7 @@ FROM python:latest
 
 RUN mkdir /backend
 WORKDIR /backend
-COPY . /backend
+COPY ../backend /backend
 
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
