@@ -18,9 +18,9 @@ DATABASES = {
         'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'password123',
-        'HOST': 'db',
-        'PORT': 5432,
-    },
+        'HOST': '193.112.55.69',
+        'PORT': '5433',
+    }
     'slave': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'postgres',
