@@ -43,9 +43,8 @@ services:
 
   backend:
       container_name: backend
-      build: 
-        context: ./backend
-        dockerfile: ./backend/slave/Dockerfile
+      build: ./backend
+      command: "gunicorn --chdir backend --bind :8000 backend.slave:application"
       restart: always
       volumes:
         - .:/backend
