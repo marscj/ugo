@@ -3,7 +3,7 @@ services:
 
   db:
     container_name: postgres
-    image: postgres:11
+    image: postgres
     hostname: db
     environment:
       POSTGRES_PASSWORD: password123
