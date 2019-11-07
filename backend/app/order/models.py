@@ -127,7 +127,7 @@ class Order(models.Model):
             captured=total,
             status=PaymentStatus.FULLY_PAID,
             action=PaymentAction.CAPTURE,
-            order_id=self.id,
+            order_id=self.orderID,
             customer=customer.username,
             customer_id=customer.id,
             customer_balance=customer.balance
