@@ -12,5 +12,3 @@ logfile
 .db.sqlite3
 log
 .DS_Store
-/media
-/static
